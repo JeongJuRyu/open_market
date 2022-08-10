@@ -1,0 +1,40 @@
+server:
+  port: 8080
+  address: 0.0.0.0
+  servlet:
+    context-path: /superstore
+
+spring:
+  config:
+    activate:
+      on-profile: develop
+  output:
+    ansi:
+      enabled: always
+  jpa:
+    generate-ddl: true
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    # database-platform: org.hibernate.spatial.dialect.mysql.MySQL56InnoDBSpatialDialect
+    # hibernate:
+    #   ddl-auto: create
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/superstore
+    username: tmax
+    password: tmax
+
+logging:
+  level:
+    # root: trace
+    org:
+      hibernate:
+        sql: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE

@@ -1,0 +1,8 @@
+spring:
+  config:
+    import:
+    - classpath:application-develop.yml
+  profiles:
+    group:
+      develop: develop
+    active: develop # 실행 원하는 spring.profiles.group 지정
