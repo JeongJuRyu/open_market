@@ -34,7 +34,6 @@ public class Review {
 	@JoinColumn(name = "ORDER_ITEM_ID")
 	private OrderItem orderItem;*/
 
-
 	@Column(nullable = false)
 	private String title;
 
