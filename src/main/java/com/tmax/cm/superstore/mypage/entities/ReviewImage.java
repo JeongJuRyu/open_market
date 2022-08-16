@@ -49,20 +49,18 @@ public class ReviewImage {
 	@JoinColumn(name = "USER_ID")
 	private User user;
 
-	@OneToMany(mappedBy = "review")
-	private List<ReviewImage> reviewImages = new ArrayList<>();
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "REIVEW_ID")
+	private Review review;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "REVIEW_REPLY_ID")
-	private ReviewReply reviewReply;
 
 	public static ReviewImageBuilder builder(/*OrderItem orderItem, */String title,
-									String content, User user, List<ReviewImage> reviewImages){
+									String content, User user, Review review){
 		return ReviewImageBuilder()
 			//.orderItem(orderItem)
 			.title(title)
 			.content(content)
 			.user(user)
-			.reviewImages(reviewImages);
+			.review(review);
 	}
 }

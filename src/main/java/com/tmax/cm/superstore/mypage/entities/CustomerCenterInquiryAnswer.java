@@ -4,32 +4,36 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class ItemsInquiry {
-	@Id
-	@GeneratedValue(generator = "UUID")
+@Entity
+public class CustomerCenterInquiryAnswer {
+	@Id @GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+	@Column(name = "CUSTOMER_CENTER_INQUIRY_ANSWER_ID")
 	private UUID id;
 
-	@Column (nullable = false)
-	private String title;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "CUSTOMER_CENTER_INQUIRY")
+	private CustomerCenterInquiry customerCenterInquiry;
 
 	@Column(nullable = false)
 	private String content;
+
+
 }

@@ -1,6 +1,8 @@
 package com.tmax.cm.superstore.mypage.entities;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,7 +33,7 @@ public class Review {
 	@GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
 	@Column(name = "REVIEW_ID")
-	private Long id;
+	private UUID id;
 
 	/*@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ORDER_ITEM_ID")
@@ -47,8 +49,8 @@ public class Review {
 	@JoinColumn(name = "USER_ID")
 	private User user;*/
 
-	/*@OneToMany(mappedBy = "review")
-	private List<ReviewImage> reviewImages = new ArrayList<>();*/
+	@OneToMany(mappedBy = "review")
+	private List<ReviewImage> reviewImages = new ArrayList<>();
 
 	/*@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "REVIEW_REPLY_ID")

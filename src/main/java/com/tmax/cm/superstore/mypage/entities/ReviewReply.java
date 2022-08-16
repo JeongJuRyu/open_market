@@ -26,6 +26,7 @@ import lombok.NoArgsConstructor;
 public class ReviewReply {
 	@Id @GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+	@Column(name = "REVIEW_REPLY_ID")
 	private UUID id;
 
 	@OneToOne(fetch = FetchType.LAZY)
