@@ -26,6 +26,7 @@ public class ItemInquiry {
 	@Id
 	@GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+	@Column(name = "ITEM_INQUIRY_ID")
 	private UUID id;
 
 	@Column (nullable = false)
@@ -34,9 +35,9 @@ public class ItemInquiry {
 	@Column(nullable = false)
 	private String content;
 
-	@OneToMany(mappedBy = "itemsInquiry")
-	private List<ItemInquiryImage> itemsInquiryImages;
+	@OneToMany(mappedBy = "itemInquiry")
+	private List<ItemInquiryImage> itemInquiryImages;
 
-	@OneToMany(mappedBy = "itemsInquiryAnswer")
+	@OneToMany(mappedBy = "itemInquiry")
 	private List<ItemInquiryAnswer> itemInquiryAnswers;
 }

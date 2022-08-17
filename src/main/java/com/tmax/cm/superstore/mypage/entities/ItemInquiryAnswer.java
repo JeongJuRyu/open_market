@@ -25,14 +25,14 @@ import lombok.NoArgsConstructor;
 public class ItemInquiryAnswer {
 	@Id @GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-	@Column(name = "ITEMS_INQUIRY_ANSWER_ID")
+	@Column(name = "ITEM_INQUIRY_ANSWER_ID")
 	private UUID id;
 
 	@Column(nullable = false)
 	private String content;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ITEMS_INQUIRY_ID")
+	@JoinColumn(name = "ITEM_INQUIRY_ID")
 	private ItemInquiry itemInquiry;
 
 }

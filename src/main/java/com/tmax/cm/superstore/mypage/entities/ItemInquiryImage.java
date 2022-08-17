@@ -26,11 +26,11 @@ import lombok.NoArgsConstructor;
 public class ItemInquiryImage {
 	@Id @GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-	@Column(name = "ITEMS_INQUIRY_IMAGE_ID")
+	@Column(name = "ITEM_INQUIRY_IMAGE_ID")
 	private UUID id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ITEMS_INQUIRY_ID")
+	@JoinColumn(name = "ITEM_INQUIRY_ID")
 	private ItemInquiry itemInquiry;
 
 	private String url;
