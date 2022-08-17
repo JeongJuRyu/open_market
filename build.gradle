@@ -24,6 +24,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'mysql:mysql-connector-java:8.0.30'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 	/**
 	* NOTE: mapstruct가 lombok보다 먼저 위치해야 한다
 	* LINK: https://github.com/mapstruct/mapstruct-examples
