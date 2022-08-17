@@ -1,43 +1,38 @@
 package com.tmax.cm.superstore.mypage.entities;
 
-import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Builder
-public class ItemsInquiry {
-	@Id
-	@GeneratedValue(generator = "UUID")
+@NoArgsConstructor
+@Builder(builderMethodName = "itemsInquiryAnswerBuilder")
+@Entity
+public class ItemInquiryAnswer {
+	@Id @GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+	@Column(name = "ITEMS_INQUIRY_ANSWER_ID")
 	private UUID id;
-
-	@Column (nullable = false)
-	private String title;
 
 	@Column(nullable = false)
 	private String content;
 
-	@OneToMany(mappedBy = "itemsInquiry")
-	private List<ItemsInquiryImage> itemsInquiryImages;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ITEMS_INQUIRY_ID")
+	private ItemInquiry itemInquiry;
 
-	@OneToMany(mappedBy = "itemsInquiryAnswer")
-	private List<ItemsInquiryAnswer> itemsInquiryAnswers;
 }
