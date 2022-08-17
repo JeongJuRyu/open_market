@@ -38,3 +38,17 @@ logging:
           descriptor:
             sql:
               BasicBinder: TRACE
+
+---
+# 한상준's profile
+server:
+  port: 8081
+
+spring:
+  config:
+    activate:
+      on-profile: develop-hsj
+  datasource:
+    url: jdbc:mysql://localhost:3307/superstore
+    username: tmax
+    password: tmax
