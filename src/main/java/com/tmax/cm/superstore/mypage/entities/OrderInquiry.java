@@ -9,24 +9,27 @@ import javax.persistence.Id;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@NoArgsConstructor
-@Builder(builderMethodName = "itemsInquiryAnswerBuilder")
 @Entity
-public class ItemsInquiryAnswer {
+public class OrderInquiry {
 	@Id @GeneratedValue(generator = "UUID")
-	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-	@Column(name = "ITEMS_INQUIRY_ANSWER_ID")
+	@GenericGenerator(name ="UUID", strategy = "org.hibernate.id.UUIDGenerator")
+	@Column(name = "ORDER_INQUIRY_ID")
 	private UUID id;
 
 	@Column(nullable = false)
-	private String content;
+	private String title;
 
+	@Column(nullable = false)
+	private String content;
 
 }

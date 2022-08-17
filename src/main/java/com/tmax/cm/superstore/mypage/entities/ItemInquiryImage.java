@@ -4,8 +4,11 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -16,20 +19,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@Builder
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder(builderMethodName = "itemsInquiryImageBuilder")
 @AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Inquiry {
+public class ItemInquiryImage {
 	@Id @GeneratedValue(generator = "UUID")
-	@GenericGenerator(name ="UUID", strategy = "org.hibernate.id.UUIDGenerator")
-	@Column(name = "INQUIRY_ID")
+	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+	@Column(name = "ITEMS_INQUIRY_IMAGE_ID")
 	private UUID id;
 
-	@Column(nullable = false)
-	private String title;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ITEMS_INQUIRY_ID")
+	private ItemInquiry itemInquiry;
 
-	@Column(nullable = false)
-	private String content;
-
+	private String url;
 }
