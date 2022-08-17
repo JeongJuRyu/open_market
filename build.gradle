@@ -40,6 +40,10 @@ dependencies {
 
 	// https://mvnrepository.com/artifact/org.projectlombok/lombok-mapstruct-binding
 	annotationProcessor group: 'org.projectlombok', name: 'lombok-mapstruct-binding', version: '0.2.0'
+
+	// https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator
+	// https://docs.jboss.org/hibernate/validator/7.0/reference/en-US/html_single/#section-builtin-constraints
+	implementation group: 'org.hibernate.validator', name: 'hibernate-validator'
 }
 
 tasks.named('test') {

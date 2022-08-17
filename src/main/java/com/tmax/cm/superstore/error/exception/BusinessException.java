@@ -1,15 +1,15 @@
 package com.tmax.cm.superstore.error.exception;
 
-import com.tmax.cm.superstore.code.ErrorCode;
+import com.tmax.cm.superstore.code.ResponseCode;
 
 import lombok.Getter;
 
 @Getter
 public class BusinessException extends RuntimeException {
 
-    private ErrorCode errorCode;
+    private ResponseCode errorCode;
 
-    public BusinessException(ErrorCode errorCode) {
+    public BusinessException(ResponseCode errorCode) {
         super(errorCode.getDescription());
 
         this.errorCode = errorCode;
