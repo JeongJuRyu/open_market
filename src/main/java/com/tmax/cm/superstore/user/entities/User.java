@@ -17,5 +17,4 @@ public class User {
 	@Column(name = "USER_ID")
 	private Long id;
 
-
 }

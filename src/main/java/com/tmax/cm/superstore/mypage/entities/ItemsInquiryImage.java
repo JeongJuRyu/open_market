@@ -12,27 +12,26 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
+@Builder(builderMethodName = "itemsInquiryImageBuilder")
 @AllArgsConstructor
-@NoArgsConstructor
-@Builder(builderMethodName = "itemsInquiryAnswerBuilder")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class ItemsInquiryAnswer {
+public class ItemsInquiryImage {
 	@Id @GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-	@Column(name = "ITEMS_INQUIRY_ANSWER_ID")
+	@Column(name = "ITEMS_INQUIRY_IMAGE_ID")
 	private UUID id;
-
-	@Column(nullable = false)
-	private String content;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ITEMS_INQUIRY_ID")
 	private ItemsInquiry itemsInquiry;
 
+	private String url;
 }
