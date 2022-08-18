@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.tmax.cm.superstore.item.entity.OptionGroup;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,6 +36,10 @@ public class CartOptionGroup {
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "FK_cart_option_group_selected_option_id"), name = "selectedOptionId", nullable = false)
     private SelectedOption selectedOption;
+
+    @ManyToOne
+    @JoinColumn(foreignKey = @ForeignKey(name = "FK_cart_option_group_option_group_id"), name = "optionGroupId", nullable = false)
+    private OptionGroup optionGroup;
 
     @OneToMany(mappedBy = "cartOptionGroup", cascade = {CascadeType.PERSIST})
 	private List<CartOption> cartOptions;

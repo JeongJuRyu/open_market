@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.tmax.cm.superstore.item.entity.Option;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,6 +33,10 @@ public class CartOption {
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "FK_cart_option_cart_option_group_id"), name = "cartOptionGroupId", nullable = false)
     private CartOptionGroup cartOptionGroup;
+
+    @ManyToOne
+    @JoinColumn(foreignKey = @ForeignKey(name = "FK_cart_option_cart_option_id"), name = "optionId", nullable = false)
+    private Option option;
 
     @Column(nullable = false)
     @Builder.Default
