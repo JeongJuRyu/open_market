@@ -24,9 +24,9 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
-@Entity
+@Entity(name = "option")
 @Where(clause = "is_deleted = false")
-@SQLDelete(sql = "UPDATE option SET is_deleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE item_option SET is_deleted = true WHERE id = ?")
 public class Option {
     @Id
     @GeneratedValue
@@ -34,7 +34,7 @@ public class Option {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_option_option_group_id"), name = "optionGroupId", nullable = false)
+    @JoinColumn(foreignKey = @ForeignKey(name = "FK_item_option_option_group_id"), name = "optionGroupId", nullable = false)
     private OptionGroup optionGroup;
 
     @Column(nullable = false)
