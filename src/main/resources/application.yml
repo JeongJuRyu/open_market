@@ -6,4 +6,4 @@ spring:
     group:
       develop: develop
       develop-hsj: develop, develop-hsj
-    active: develop # 실행 원하는 spring.profiles.group 지정
+    active: develop-hsj # 실행 원하는 spring.profiles.group 지정

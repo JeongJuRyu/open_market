@@ -3,6 +3,12 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.12.RELEASE'
 	id 'java'
 	id 'jacoco'
+	id 'org.asciidoctor.jvm.convert' version '3.3.2'
+	id 'com.epages.restdocs-api-spec' version '0.16.0'
+}
+
+ext { 
+	snippetsDir = file('build/generated-snippets')
 }
 
 group = 'com.tmax.cm'
@@ -13,6 +19,7 @@ configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
+	asciidoctorExt
 }
 
 repositories {
@@ -44,8 +51,48 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator
 	// https://docs.jboss.org/hibernate/validator/7.0/reference/en-US/html_single/#section-builtin-constraints
 	implementation group: 'org.hibernate.validator', name: 'hibernate-validator'
+
+	// https://mvnrepository.com/artifact/com.h2database/h2
+	testImplementation group: 'com.h2database', name: 'h2', version: '2.1.214'
+
+	/**
+	 * For Documentation
+	 * LINK: https://docs.spring.io/spring-restdocs/docs/current/reference/html5/#getting-started
+	 */
+	asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc' 
+	testImplementation 'com.epages:restdocs-api-spec-mockmvc:0.16.0'
+
+
+}
+
+test { 
+	outputs.dir snippetsDir
+}
+
+asciidoctor { 
+	inputs.dir snippetsDir 
+	configurations 'asciidoctorExt' 
+	dependsOn test 
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+openapi3 {
+    servers = [
+            {
+                url = 'http://192.168.155.43:8080/superstore'
+                description = 'Development server'
+            },
+            {
+                url = 'http://localhost:8080/superstore'
+                description = 'Local server'
+            }
+    ]
+    title = 'SuperStore API'
+    description = 'SuperStore API 명세입니다'
+    version = '0.1.0'
+    format = 'yaml'
 }
