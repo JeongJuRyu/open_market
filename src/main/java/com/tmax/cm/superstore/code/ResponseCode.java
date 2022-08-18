@@ -1,10 +1,14 @@
 package com.tmax.cm.superstore.code;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ResponseCode implements Code {
 
     // Item
@@ -17,5 +21,6 @@ public enum ResponseCode implements Code {
     private String status; // API response
     private String code; // API response
     private String message; // API response
+    @JsonIgnore
     private String description; // 개발 편의를 위한 description
 }
