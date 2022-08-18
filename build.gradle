@@ -26,6 +26,10 @@ repositories {
 	mavenCentral()
 }
 
+sourceSets {
+	test.java.srcDirs += ["$buildDir/generated/sources/annotationProcessor/java/main"] // test환경에서 mapstruct injection을 하기 위함
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
