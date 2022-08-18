@@ -38,3 +38,38 @@ logging:
           descriptor:
             sql:
               BasicBinder: TRACE
+
+---
+# integration test profile
+spring:
+  config:
+    activate:
+      on-profile: develop-integration-test
+  datasource:
+    url: jdbc:h2:mem:mydb
+    username: tmax
+    password: tmax
+    driverClassName: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    generate-ddl: true
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+
+---
+# 한상준's profile
+server:
+  port: 8081
+
+spring:
+  config:
+    activate:
+      on-profile: develop-hsj
+  datasource:
+    url: jdbc:mysql://localhost:3307/superstore
+    username: tmax
+    password: tmax
