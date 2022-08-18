@@ -1,19 +1,23 @@
 package com.tmax.cm.superstore.item.service;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
+import com.tmax.cm.superstore.code.SendType;
+import com.tmax.cm.superstore.error.exception.ItemNotFoundException;
 import com.tmax.cm.superstore.item.dto.PostItemDto;
-import com.tmax.cm.superstore.item.dto.mapper.PostItemDtoMapper;
 import com.tmax.cm.superstore.item.entity.Item;
+import com.tmax.cm.superstore.item.entity.ItemSendType;
 import com.tmax.cm.superstore.item.entity.Option;
 import com.tmax.cm.superstore.item.entity.OptionGroup;
 import com.tmax.cm.superstore.item.repository.ItemRepository;
-import com.tmax.cm.superstore.item.repository.OptionGroupRepository;
-import com.tmax.cm.superstore.item.repository.OptionRepository;
+import com.tmax.cm.superstore.shop.entity.Shop;
+import com.tmax.cm.superstore.shop.repository.ShopRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,16 +26,33 @@ import lombok.RequiredArgsConstructor;
 public class ItemService {
 
     private final ItemRepository itemRepository;
-    private final OptionGroupRepository optionGroupRepository;
-    private final OptionRepository optionRepository;
+    private final ShopRepository shopRepository;
 
     @Transactional
     public Item createItem(PostItemDto.Request postItemDto) {
 
-        Item item = Item.builder().name(postItemDto.getName())
+        Shop shop = Shop.builder()
+                .name(postItemDto.getShopName())
+                .build();
+        
+        this.shopRepository.save(shop);
+
+        Item item = Item.builder()
+                .shop(shop)
+                .name(postItemDto.getName())
                 .price(postItemDto.getPrice())
                 .optionGroups(new ArrayList<>())
+                .itemSendTypes(new ArrayList<>())
                 .build();
+
+        for (SendType sendType : postItemDto.getPossibleSendType()) {
+            ItemSendType itemSendType = ItemSendType.builder()
+                    .SendType(sendType)
+                    .item(item)
+                    .build();
+
+            item.getItemSendTypes().add(itemSendType);
+        }
 
         for (PostItemDto.Request.PostOptionGroupDto postOptionGroupDto : postItemDto.getOptionGroups()) {
             OptionGroup optionGroup = OptionGroup.builder()
@@ -57,5 +78,21 @@ public class ItemService {
         this.itemRepository.save(item);
 
         return item;
+    }
+
+    @Transactional
+    public Item readItem(UUID itemId) {
+
+        Item item = this.itemRepository.findById(itemId).orElseThrow(ItemNotFoundException::new);
+
+        return item;
+    }
+
+    @Transactional
+    public List<Item> readItems() {
+
+        List<Item> items = this.itemRepository.findAll();
+
+        return items;
     }
 }

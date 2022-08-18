@@ -8,10 +8,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+
+import com.tmax.cm.superstore.shop.entity.Shop;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,6 +38,12 @@ public class Item {
 
     @OneToMany(mappedBy = "item", cascade = {CascadeType.PERSIST})
 	private List<OptionGroup> optionGroups;
+
+    @OneToMany(mappedBy = "item", cascade = {CascadeType.PERSIST})
+	private List<ItemSendType> itemSendTypes;
+
+    @ManyToOne
+    private Shop shop;
 
     @Column(nullable = false)
     private String name;

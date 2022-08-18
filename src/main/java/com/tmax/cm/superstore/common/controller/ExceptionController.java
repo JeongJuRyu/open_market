@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.tmax.cm.superstore.code.ResponseCode;
 import com.tmax.cm.superstore.common.ResponseDto;
+import com.tmax.cm.superstore.error.exception.BusinessException;
 
 @RestControllerAdvice
 public class ExceptionController {
@@ -16,5 +17,12 @@ public class ExceptionController {
     public ResponseDto<String> responseRuntimeException(RuntimeException runtimeException) {
 
         return new ResponseDto<String>(ResponseCode.ERROR_COMMON_RUNTIME, runtimeException.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(BusinessException.class)
+    public ResponseDto<Void> responseRuntimeException(BusinessException businessException) {
+
+        return new ResponseDto<Void>(businessException.getErrorCode(), null);
     }
 }

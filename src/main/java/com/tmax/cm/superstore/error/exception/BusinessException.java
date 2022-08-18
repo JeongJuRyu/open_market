@@ -5,7 +5,7 @@ import com.tmax.cm.superstore.code.ResponseCode;
 import lombok.Getter;
 
 @Getter
-public class BusinessException extends RuntimeException {
+public abstract class BusinessException extends RuntimeException {
 
     private ResponseCode errorCode;
 

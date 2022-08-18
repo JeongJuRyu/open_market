@@ -24,7 +24,7 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
-@Entity(name = "option")
+@Entity(name = "item_option")
 @Where(clause = "is_deleted = false")
 @SQLDelete(sql = "UPDATE item_option SET is_deleted = true WHERE id = ?")
 public class Option {
