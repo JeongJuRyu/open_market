@@ -33,3 +33,7 @@ public class OrderInquiry {
 	private String content;
 
 }
+
+
+
+
