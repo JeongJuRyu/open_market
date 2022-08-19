@@ -1,0 +1,34 @@
+pipeline {
+    agent any
+    parameters {
+        string(name: 'BRANCH', defaultValue: '*/master', description: 'checkout branch')
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                echo "current branch: ${params.BRANCH}"
+                checkout([$class: 'GitSCM', branches: [[name: "${params.BRANCH}"]], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins-ssh', url: 'git@192.168.155.43:tmax-am/superstore-backend.git']]])
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh './gradlew clean test'
+            }
+        }
+
+        stage('Gradle Build') {
+            steps {
+                sh './gradlew openapi3'
+                sh './gradlew build'
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                sh 'docker-compose -f deploy/docker-compose.yml down --rmi all'
+                sh 'docker-compose -f deploy/docker-compose.yml up -d'
+            }
+        }
+    }
+}

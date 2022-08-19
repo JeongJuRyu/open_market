@@ -12,7 +12,8 @@ ext {
 }
 
 group = 'com.tmax.cm'
-version = '0.0.1-SNAPSHOT'
+// TODO git version과 맞추기 (외부 플러그인 사용)
+// version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
 configurations {
@@ -93,7 +94,7 @@ tasks.named('test') {
 openapi3 {
     servers = [
             {
-                url = 'http://192.168.155.43:8080/superstore'
+                url = 'http://192.168.159.41:18080/superstore'
                 description = 'Development server'
             },
             {

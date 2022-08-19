@@ -1,0 +1,3 @@
+FROM swaggerapi/swagger-ui
+COPY build/api-spec/openapi3.yaml /openapi3.yaml 
+ENV SWAGGER_JSON=/openapi3.yaml

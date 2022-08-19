@@ -1,0 +1,49 @@
+version: "3.9"
+services:
+  database:
+    image: mysql
+    container_name: superstore-db
+    environment:
+      MYSQL_USER: "${MYSQL_USER}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+    ports:
+      - "${EXPOSE_DB_PORT}:3306"
+    command:
+      --default-authentication-plugin=mysql_native_password
+      --default-time-zone=+09:00
+    networks:
+      superstore_network:
+
+  app:
+    depends_on:
+      - database
+    image: superstore-spring
+    build:
+      context: ../
+      dockerfile: deploy/Dockerfile-spring
+    container_name: superstore-spring
+    environment:
+      DATABASE_HOST: database
+    ports:
+      - "${EXPOSE_SPRING_PORT}:8080"
+    command: ["dockerize", "-wait", "tcp://database:3306", "-timeout", "120s", "java", "-Dspring.profiles.active=${APPLICATION_PROFILE}", "-jar", "app.jar"]
+    networks:
+      superstore_network:
+
+  swagger:
+    depends_on:
+      - app
+    image: superstore-swagger
+    build:
+      context: ../
+      dockerfile: deploy/Dockerfile-swagger
+    container_name: superstore-swagger
+    ports:
+      - "${EXPOSE_SWAGGER_PORT}:8080"
+    networks:
+      superstore_network:
+
+networks:
+  superstore_network:

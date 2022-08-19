@@ -39,6 +39,11 @@ logging:
             sql:
               BasicBinder: TRACE
 
+jwt:
+  header: Authorization
+  secret: Z3VuLWpvby1haG4tand0LXNlY3JldC1ndW4tam9vLWFobi1qd3Qtc2VjcmV0LWd1bi1qb28tYWhuLWp3dC1zZWNyZXQtZ3VuLWpvby1haG4tand0LXNlY3JldC1oZWxsbw==
+  token-validity-in-seconds: 86400
+
 ---
 # integration test profile
 spring:
@@ -59,6 +64,18 @@ spring:
         format_sql: true
     hibernate:
       ddl-auto: update
+
+---
+# develop server profile
+spring:
+  config:
+    activate:
+      on-profile: develop-server
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DATABASE_HOST:localhost}:3306/superstore
+    username: tmax
+    password: tmax
 
 ---
 # 한상준's profile
