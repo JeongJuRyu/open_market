@@ -65,8 +65,9 @@ public class TokenProvider implements InitializingBean {
 			.compact();
 	}
 
-	// 토큰을 받아서 Authentication 메서드 추가
+	// 토큰을 받아서 Authentication 객체 추가
 	public Authentication getAuthentication(String token){
+		//claim에 username을 담는다고 가정(subject 필드에)
 		Claims claims = Jwts
 			.parserBuilder()
 			.setSigningKey(key)
@@ -78,7 +79,7 @@ public class TokenProvider implements InitializingBean {
 			.map(SimpleGrantedAuthority::new)
 			.collect(Collectors.toList());
 
-		User principal = new org.springframework.security.core.userdetails.User(claims.getSubject(), "", authorities);
+		User principal = new User(claims.getSubject(), "", authorities);
 		return new UsernamePasswordAuthenticationToken(principal, token, authorities);
 	}
 
