@@ -17,16 +17,15 @@ public class SecurityConfig {
 	private final TokenProvider tokenProvider;
 	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 	private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
-	private final JwtLoginFilter jwtLoginFilter;
 
 	public SecurityConfig(TokenProvider tokenProvider,
 		JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
-		JwtAccessDeniedHandler jwtAccessDeniedHandler,
-		JwtLoginFilter jwtLoginFilter) {
+		JwtAccessDeniedHandler jwtAccessDeniedHandler
+		//JwtLoginFilter jwtLoginFilter
+		) {
 		this.tokenProvider = tokenProvider;
 		this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
 		this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
-		this.jwtLoginFilter = jwtLoginFilter;
 	}
 
 	@Bean
