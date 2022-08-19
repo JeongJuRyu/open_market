@@ -26,8 +26,15 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                sh 'docker-compose -f deploy/docker-compose.yml down --rmi all'
-                sh 'docker-compose -f deploy/docker-compose.yml up -d'
+                script{
+                    try {
+                        sh 'docker-compose --env-file ./deploy/.env -f ./deploy/docker-compose.yml down --rmi all'
+                    } catch (err) {
+                        echo "failed to remove docker-compose: ${err}"
+                    } finally {
+                        sh 'docker-compose --env-file ./deploy/.env -f ./deploy/docker-compose.yml up -d'
+                    }
+                }
             }
         }
     }
