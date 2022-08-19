@@ -1,12 +1,16 @@
 package com.tmax.cm.superstore.user.entities;
 
 import java.util.Collection;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -31,6 +35,24 @@ public class User implements UserDetails {
 	@Column(unique = true, nullable = false)
 	private String email;
 
+	@Column(nullable = false)
+	private String password;
+	@Column(unique = true, nullable = false)
+	private String phoneNum;
+
+	@Column(nullable = false)
+	private String address;
+
+	@ManyToMany
+	@JoinTable(
+		name = "user_authority",
+		joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID")},
+		inverseJoinColumns = {@JoinColumn(name = "AUTHORITY_NAME", referencedColumnName = "AUTHORITY_NAME")}
+	)
+	private Set<Authority> authorities;
+
+
+	@Column()
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return null;

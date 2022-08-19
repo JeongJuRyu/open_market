@@ -20,6 +20,10 @@ import lombok.RequiredArgsConstructor;
 public class CustomerCenterInquiryController {
 	private final CustomerCenterInquiryService customerCenterInquiryService;
 
+	@GetMapping
+	public String test(){
+		return "hello";
+	}
 	@Transactional(readOnly = true)
 	@GetMapping("/{userId}")
 	public ResponseEntity<GetAlICustomerCenterInquiryResponseDto> getAllInquiry(@PathVariable UUID userId){
