@@ -46,7 +46,7 @@ public class JwtRefreshTokenFilter extends UsernamePasswordAuthenticationFilter 
 			throw new AuthenticationException("Need Credential Information") {
 			};
 		}
-		String jwtToken = JWTUtil.resolveToken(request);
+		String jwtToken = JwtUtil.resolveToken(request);
 		if(tokenRequestDto.getRefreshToken() == null && jwtToken == null){
 			log.error("Need Access Token");
 			throw new AuthenticationException("Need Access Token") {
@@ -65,7 +65,7 @@ public class JwtRefreshTokenFilter extends UsernamePasswordAuthenticationFilter 
 		DecodedJWT expiredAccessToken = JWT.decode(forDeleteAccessToken);
 
 		User user = (User)userDetailsService.loadUserByUsername(expiredAccessToken.getSubject());
-		boolean verifyResult = JWTUtil.validateToken(tokenRequestDto.getRefreshToken());
+		boolean verifyResult = JwtUtil.validateToken(tokenRequestDto.getRefreshToken());
 
 	}
 }

@@ -41,6 +41,7 @@ public class User implements UserDetails {
 
 	@Column(nullable = false)
 	private String password;
+
 	@Column(unique = true, nullable = false)
 	private String phoneNum;
 
@@ -63,13 +64,8 @@ public class User implements UserDetails {
 	}
 
 	@Override
-	public String getPassword() {
-		return null;
-	}
-
-	@Override
 	public String getUsername() {
-		return null;
+		return email;
 	}
 
 	@Override

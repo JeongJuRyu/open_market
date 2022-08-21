@@ -9,23 +9,21 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@EnableWebSecurity(debug = true)
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableWebSecurity//(debug = true)
 public class SecurityConfig {
 	private final TokenProvider tokenProvider;
 	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 	private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
-
+	private final CustomDsl customDsl;
 	public SecurityConfig(TokenProvider tokenProvider,
 		JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
-		JwtAccessDeniedHandler jwtAccessDeniedHandler
-		//JwtLoginFilter jwtLoginFilter
-		) {
+		JwtAccessDeniedHandler jwtAccessDeniedHandler,
+		CustomDsl customDsl) {
 		this.tokenProvider = tokenProvider;
 		this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
 		this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
+		this.customDsl = customDsl;
 	}
 
 	@Bean
@@ -38,23 +36,23 @@ public class SecurityConfig {
 		//JwtLoginFilter jwtLoginFilter = new JwtLoginFilter(authen)
 		return httpSecurity
 			.csrf().disable()
-			.exceptionHandling()
-			.authenticationEntryPoint(jwtAuthenticationEntryPoint)
-			.accessDeniedHandler(jwtAccessDeniedHandler)
 
+			.authorizeRequests()
+			.antMatchers("/v1/auth/test").authenticated()
+			.anyRequest().permitAll()
+			//.exceptionHandling()
+			//.authenticationEntryPoint(jwtAuthenticationEntryPoint)
+			//.accessDeniedHandler(jwtAccessDeniedHandler)
 			.and()
 			.sessionManagement()
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
-			.and()
-			.authorizeRequests()
-			.antMatchers("/test").authenticated()
-			.anyRequest().permitAll()
 
 			.and()
-			//.addFilterAt(jwtLoginFilter, UsernamePasswordAuthenticationFilter.class)
-			.apply(new JwtSecurityConfig(tokenProvider))
-			.and().build();
+			.apply(customDsl)
+			.and()
+			//.apply(new JwtSecurityConfig(tokenProvider))
+			.build();
 	}
 
 	@Bean

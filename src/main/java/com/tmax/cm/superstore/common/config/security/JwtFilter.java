@@ -31,10 +31,10 @@ public class JwtFilter extends GenericFilterBean {
 		IOException,
 		ServletException {
 		HttpServletRequest httpServletRequest = (HttpServletRequest)request;
-		String jwt = JWTUtil.resolveToken(httpServletRequest);
+		String jwt = JwtUtil.resolveToken(httpServletRequest);
 		String requestURI = httpServletRequest.getRequestURI();
 		// authentication을 jwt로부터 얻어내고, 그것을 SecurityContextHolder의 context의 authentication에 저장한다.
-		if(StringUtils.hasText(jwt) && JWTUtil.validateToken(jwt)){
+		if(StringUtils.hasText(jwt) && JwtUtil.validateToken(jwt)){
 			Authentication authentication = tokenProvider.getAuthentication(jwt);
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 			logger.debug("Security Context에 '{}' 인증 정보를 저장했습니다. uri: {}", authentication.getName(), requestURI);
