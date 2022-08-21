@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.tmax.cm.superstore.mypage.entities.OrderInquiry;
+import com.tmax.cm.superstore.mypage.entity.OrderInquiry;
 
 public interface OrderInquiryRepository extends JpaRepository<OrderInquiry, UUID> {
 }

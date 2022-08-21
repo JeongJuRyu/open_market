@@ -9,4 +9,5 @@ import com.tmax.cm.superstore.user.entities.User;
 
 public interface UserRepository extends JpaRepository<User, UUID> {
 	Optional<User> findUserByEmail(String email);
+	boolean existsByEmail(String email);
 }

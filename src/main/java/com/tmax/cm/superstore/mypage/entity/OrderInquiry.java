@@ -1,14 +1,11 @@
-package com.tmax.cm.superstore.mypage.entities;
+package com.tmax.cm.superstore.mypage.entity;
 
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -19,21 +16,24 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@Entity
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Builder(builderMethodName = "ReviewReplyBuilder")
-public class ReviewReply {
+@Entity
+public class OrderInquiry {
 	@Id @GeneratedValue(generator = "UUID")
-	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-	@Column(name = "REVIEW_REPLY_ID")
+	@GenericGenerator(name ="UUID", strategy = "org.hibernate.id.UUIDGenerator")
+	@Column(name = "ORDER_INQUIRY_ID")
 	private UUID id;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "REIVEW_ID")
-	private Review review;
+	@Column(nullable = false)
+	private String title;
 
 	@Column(nullable = false)
 	private String content;
 
 }
+
+
+
+

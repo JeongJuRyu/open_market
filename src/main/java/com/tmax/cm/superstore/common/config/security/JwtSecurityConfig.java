@@ -1,4 +1,4 @@
-package com.tmax.cm.superstore.common.config.security;
+/*package com.tmax.cm.superstore.common.config.security;
 
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,3 +18,4 @@ public class JwtSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurity
 		builder.addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 }
+*/

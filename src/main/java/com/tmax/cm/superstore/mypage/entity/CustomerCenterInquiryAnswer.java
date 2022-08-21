@@ -1,4 +1,4 @@
-package com.tmax.cm.superstore.mypage.entities;
+package com.tmax.cm.superstore.mypage.entity;
 
 import java.util.UUID;
 

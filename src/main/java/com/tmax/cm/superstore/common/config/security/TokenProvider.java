@@ -19,11 +19,8 @@ import org.springframework.stereotype.Component;
 
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
@@ -65,8 +62,9 @@ public class TokenProvider implements InitializingBean {
 			.compact();
 	}
 
-	// 토큰을 받아서 Authentication 메서드 추가
+	// 토큰을 받아서 Authentication 객체 리턴
 	public Authentication getAuthentication(String token){
+		//claim에 username을 담는다고 가정(subject 필드에)
 		Claims claims = Jwts
 			.parserBuilder()
 			.setSigningKey(key)
@@ -78,23 +76,9 @@ public class TokenProvider implements InitializingBean {
 			.map(SimpleGrantedAuthority::new)
 			.collect(Collectors.toList());
 
-		User principal = new org.springframework.security.core.userdetails.User(claims.getSubject(), "", authorities);
+		User principal = new User(claims.getSubject(), "", authorities);
 		return new UsernamePasswordAuthenticationToken(principal, token, authorities);
 	}
 
-	public boolean validateToken(String token){
-		try{
-			Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
-			return true;
-		} catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e){
-			logger.info("잘못된 JWT 서명입니다.");
-		} catch (ExpiredJwtException e){
-			logger.info("만료된 JWT 토큰입니다.");
-		} catch (UnsupportedJwtException e){
-			logger.info("지원되지 않는 JWT 토큰입니다.");
-		} catch(IllegalArgumentException e) {
-			logger.info("JWT 토큰이 잘못되었습니다.");
-		}
-		return false;
-	}
+
 }
