@@ -11,5 +11,4 @@ class SuperstoreApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }
