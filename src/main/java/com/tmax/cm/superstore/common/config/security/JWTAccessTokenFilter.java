@@ -1,4 +1,4 @@
-/*package com.tmax.cm.superstore.common.config.security;
+package com.tmax.cm.superstore.common.config.security;
 
 import java.io.IOException;
 
@@ -20,4 +20,4 @@ public class JWTAccessTokenFilter extends BasicAuthenticationFilter {
 		ServletException {
 		super.doFilterInternal(request, response, chain);
 	}
-}*/
+}

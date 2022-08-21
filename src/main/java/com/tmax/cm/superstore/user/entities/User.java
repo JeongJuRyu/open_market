@@ -2,6 +2,7 @@ package com.tmax.cm.superstore.user.entities;
 
 import java.util.Collection;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -23,20 +25,23 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Builder(builderMethodName = "UserBuilder")
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name="users")
 public class User implements UserDetails {
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(generator = "UUID")
+	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
 	@Column(name = "USER_ID")
-	private Long id;
+	private UUID id;
 
 	@Column(unique = true, nullable = false)
 	private String email;
 
 	@Column(nullable = false)
 	private String password;
+
 	@Column(unique = true, nullable = false)
 	private String phoneNum;
 
@@ -59,13 +64,8 @@ public class User implements UserDetails {
 	}
 
 	@Override
-	public String getPassword() {
-		return null;
-	}
-
-	@Override
 	public String getUsername() {
-		return null;
+		return email;
 	}
 
 	@Override
@@ -87,4 +87,5 @@ public class User implements UserDetails {
 	public boolean isEnabled() {
 		return false;
 	}
+
 }
