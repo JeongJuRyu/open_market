@@ -1,4 +1,4 @@
-package com.tmax.cm.superstore.common.config.security;
+/*package com.tmax.cm.superstore.common.config.security;
 
 import java.io.IOException;
 
@@ -19,7 +19,6 @@ import org.springframework.web.filter.GenericFilterBean;
 public class JwtFilter extends GenericFilterBean {
 	private final Logger logger = LoggerFactory.getLogger(JwtFilter.class);
 
-	private static final String AUTHORIZATION_HEADER = "Authorization";
 
 	private TokenProvider tokenProvider;
 
@@ -32,10 +31,10 @@ public class JwtFilter extends GenericFilterBean {
 		IOException,
 		ServletException {
 		HttpServletRequest httpServletRequest = (HttpServletRequest)request;
-		String jwt = resolveToken(httpServletRequest);
+		String jwt = JWTUtil.resolveToken(httpServletRequest);
 		String requestURI = httpServletRequest.getRequestURI();
 		// authentication을 jwt로부터 얻어내고, 그것을 SecurityContextHolder의 context의 authentication에 저장한다.
-		if(StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)){
+		if(StringUtils.hasText(jwt) && JWTUtil.validateToken(jwt)){
 			Authentication authentication = tokenProvider.getAuthentication(jwt);
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 			logger.debug("Security Context에 '{}' 인증 정보를 저장했습니다. uri: {}", authentication.getName(), requestURI);
@@ -45,11 +44,6 @@ public class JwtFilter extends GenericFilterBean {
 		chain.doFilter(request, response);
 	}
 
-	private String resolveToken(HttpServletRequest request){
-		String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
-		if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")){
-			return bearerToken.substring(7);
-		}
-		return null;
-	}
+
 }
+*/
