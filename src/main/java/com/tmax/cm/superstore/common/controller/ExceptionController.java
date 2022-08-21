@@ -23,6 +23,6 @@ public class ExceptionController {
     @ExceptionHandler(BusinessException.class)
     public ResponseDto<Void> responseRuntimeException(BusinessException businessException) {
 
-        return new ResponseDto<Void>(businessException.getErrorCode(), null);
+        return new ResponseDto<Void>(businessException.getResponseCode(), null);
     }
 }

@@ -57,7 +57,7 @@ public class ItemControllerIntegrationTest {
                     put("price", 82000);
                     put("possibleSendType", new JSONArray() {
                         {
-                            put("SHIPPING");
+                            put("shipping");
                         }
                     });
                     put("optionGroups", new JSONArray() {
@@ -140,7 +140,7 @@ public class ItemControllerIntegrationTest {
                 put("price", 82000);
                 put("possibleSendType", new JSONArray() {
                     {
-                        put("SHIPPING");
+                        put("shipping");
                     }
                 });
                 put("optionGroups", new JSONArray() {
