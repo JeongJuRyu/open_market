@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+import com.tmax.cm.superstore.code.SendType;
 import com.tmax.cm.superstore.item.entity.Item;
 
 import lombok.AllArgsConstructor;
@@ -48,6 +49,8 @@ public class CartItem {
 
     @OneToMany(mappedBy = "cartItem", cascade = { CascadeType.PERSIST })
     private List<SelectedOption> selectedOptions;
+
+    private SendType sendType;
 
     @Column(nullable = false)
     @Builder.Default

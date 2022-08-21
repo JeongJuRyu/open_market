@@ -7,11 +7,11 @@ import lombok.Getter;
 @Getter
 public abstract class BusinessException extends RuntimeException {
 
-    private ResponseCode errorCode;
+    private ResponseCode responseCode;
 
-    public BusinessException(ResponseCode errorCode) {
-        super(errorCode.getDescription());
+    public BusinessException(ResponseCode responseCode) {
+        super(responseCode.getDescription());
 
-        this.errorCode = errorCode;
+        this.responseCode = responseCode;
     }
 }
