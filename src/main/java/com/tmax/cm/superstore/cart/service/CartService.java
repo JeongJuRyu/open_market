@@ -126,4 +126,10 @@ public class CartService {
 
         return cartItem;
     }
+
+    @Transactional
+    public Cart readCart(CartType cartType) {
+
+        return this.cartRepository.findTopByCartType(cartType);
+    }
 }
