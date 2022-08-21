@@ -7,7 +7,7 @@ spring:
       develop: develop
       develop-server: develop, develop-server
       develop-hsj: develop, develop-hsj
-    active: develop-hsj # 실행 원하는 spring.profiles.group 지정
+    active: develop # 실행 원하는 spring.profiles.group 지정
 
 jwt:
   header: Authorization

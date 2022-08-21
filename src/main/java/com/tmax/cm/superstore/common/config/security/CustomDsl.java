@@ -7,7 +7,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.stereotype.Component;
 
 import com.tmax.cm.superstore.user.repository.UserLoginInfoRepository;
-import com.tmax.cm.superstore.user.service.CustomUserDetailsService;
+// import com.tmax.cm.superstore.user.service.CustomUserDetailsService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 @Component
 public class CustomDsl extends AbstractHttpConfigurer<CustomDsl, HttpSecurity> {
 	private final UserLoginInfoRepository userLoginInfoRepository;
-	private final CustomUserDetailsService userDetailsService;
+	// private final CustomUserDetailsService userDetailsService;
 
 	@Override
 	public void configure(HttpSecurity http) {
