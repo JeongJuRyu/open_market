@@ -1,4 +1,4 @@
-package com.tmax.cm.superstore.mypage.entities;
+package com.tmax.cm.superstore.mypage.entity;
 
 import java.util.UUID;
 
@@ -12,30 +12,28 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.tmax.cm.superstore.user.entities.User;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@Entity
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CustomerCenterInquiry {
+@Builder
+@Entity
+public class CustomerCenterInquiryAnswer {
 	@Id @GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+	@Column(name = "CUSTOMER_CENTER_INQUIRY_ANSWER_ID")
 	private UUID id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "USER_ID")
-	private User user;
-
-	@Column(nullable = false)
-	private String title;
+	@JoinColumn(name = "CUSTOMER_CENTER_INQUIRY")
+	private CustomerCenterInquiry customerCenterInquiry;
 
 	@Column(nullable = false)
 	private String content;
+
+
 }
