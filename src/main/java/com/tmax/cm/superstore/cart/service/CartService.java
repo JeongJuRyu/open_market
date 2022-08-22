@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
+import com.tmax.cm.superstore.cart.dto.DeleteCartItemsDto;
 import com.tmax.cm.superstore.cart.dto.PostCartItemDto;
 import com.tmax.cm.superstore.cart.entity.Cart;
 import com.tmax.cm.superstore.cart.entity.CartItem;
@@ -143,5 +144,14 @@ public class CartService {
     public CartItem readCartItem(UUID cartItemId) {
         
         return this.cartItemRepository.findById(cartItemId).orElseThrow(CartItemNotFoundException::new);
+    }
+
+    @Transactional
+    public void deleteCartItems(DeleteCartItemsDto.Request request) {
+        for (UUID cartItemId : request.getCartItemIds()) {
+            CartItem cartItem = this.cartItemRepository.findById(cartItemId).orElseThrow(CartItemNotFoundException::new);
+
+            this.cartItemRepository.delete(cartItem);
+        }
     }
 }

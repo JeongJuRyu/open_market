@@ -125,4 +125,29 @@ public class CartControllerIntegrationTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(EasyRestDocumentation.document("getCartItem", "카트 상품 조회", this.tag));
     }
+
+    @Test
+    void testDeleteCartItems() throws Exception {
+        // given
+        JSONObject request = new JSONObject() {
+            {
+                put("cartItemIds", new JSONArray() {
+                    {
+                        put("b735da9e-b59a-4caf-80a9-2c894773e447");
+                    }
+                });
+            }
+        };
+
+        // when
+        ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
+                .delete("/v1/cart/cartItem")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(request.toString()));
+
+        // then
+        result.andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(EasyRestDocumentation.document("deleteCartItem", "카트 상품 대량 삭제", this.tag));
+    }
 }
