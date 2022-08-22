@@ -124,6 +124,8 @@ public class CartService {
             }
         }
 
+        this.cartRepository.save(cart);
+
         return cartItem;
     }
 

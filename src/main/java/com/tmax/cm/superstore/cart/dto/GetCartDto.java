@@ -3,6 +3,8 @@ package com.tmax.cm.superstore.cart.dto;
 import java.util.List;
 import java.util.UUID;
 
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tmax.cm.superstore.code.SendType;
 
@@ -28,12 +30,16 @@ public class GetCartDto {
         @Getter
         public static class GetCartItemDto {
 
+            @NotNull
             private UUID shopId;
 
+            @NotNull
             private String shopName;
 
+            @NotNull
             private SendType sendType;
-
+            
+            @NotNull
             private UUID itemId;
 
             @Builder.Default
@@ -67,6 +73,8 @@ public class GetCartDto {
                 @Getter
                 public static class GetCartOptionGroupDto {
 
+                    private UUID cartOptionGroupId;
+
                     private UUID optionGroupId;
 
                     private String optionGroupName;
@@ -78,6 +86,8 @@ public class GetCartDto {
                     @Builder
                     @Getter
                     public static class GetCartOptionDto {
+
+                        private UUID cartOptionId;
 
                         private UUID optionId;
 
