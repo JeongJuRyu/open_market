@@ -22,11 +22,17 @@ spring:
     # database-platform: org.hibernate.spatial.dialect.mysql.MySQL56InnoDBSpatialDialect
     # hibernate:
     #   ddl-auto: create
+    defer-datasource-initialization: true
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/superstore
     username: tmax
     password: tmax
+  sql:
+    init:
+      platform: develop
+      mode: always
+      continue-on-error: true
 
 logging:
   level:
@@ -59,6 +65,10 @@ spring:
         format_sql: true
     hibernate:
       ddl-auto: update
+    defer-datasource-initialization: true
+  sql:
+    init:
+      platform: integration-test-h2
 
 ---
 # develop server profile
@@ -85,3 +95,11 @@ spring:
     url: jdbc:mysql://localhost:3307/superstore
     username: tmax
     password: tmax
+  # https://docs.spring.io/spring-boot/docs/2.7.2/reference/htmlsingle/#howto.data-initialization.using-basic-sql-scripts
+  jpa:
+    defer-datasource-initialization: true
+  sql:
+    init:
+      platform: develop
+      mode: always
+      continue-on-error: true

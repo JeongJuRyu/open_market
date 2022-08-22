@@ -2,6 +2,8 @@ package com.tmax.cm.superstore.item.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -34,5 +36,6 @@ public class ItemSendType {
     private Item item;
     
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private SendType SendType;
 }
