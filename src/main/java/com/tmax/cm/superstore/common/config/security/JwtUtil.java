@@ -14,9 +14,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import com.auth0.jwt.JWT;
 import com.tmax.cm.superstore.user.entities.User;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -25,9 +28,9 @@ import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtUtil implements InitializingBean{
-	private final static Logger logger = LoggerFactory.getLogger(JwtUtil.class);
-	private static long AUTH_TIME = 10;
-	private static long REFRESH_TIME = 60 * 60 * 24 * 7;
+	private static final Logger logger = LoggerFactory.getLogger(JwtUtil.class);
+	private static final long AUTH_TIME = 10;
+	private static final long REFRESH_TIME = 60 * 60 * 24 * 7;
 
 	private static Key key;
 
@@ -45,7 +48,7 @@ public class JwtUtil implements InitializingBean{
 	}
 
 	@Override
-	public void afterPropertiesSet() throws Exception {
+	public void afterPropertiesSet() {
 		byte[] keyBytes = Base64.getDecoder().decode(secret);
 		this.key = Keys.hmacShaKeyFor(keyBytes);
 	}
@@ -62,6 +65,16 @@ public class JwtUtil implements InitializingBean{
 			.setExpiration(validity)
 			.compact();
 	}
+	public static String createRefreshToken(User user){
+		long now = (new Date()).getTime();
+		Date validity = new Date(now + JwtUtil.tokenValidityInMilliseconds);
+		return Jwts.builder().setSubject(user.getUsername())
+			.claim("exp", Instant.now().getEpochSecond() + REFRESH_TIME)
+			.signWith(key, getAlgorithm())
+			.setExpiration(validity)
+			.compact();
+	}
+
 	public static String resolveToken(HttpServletRequest request){
 		String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
 		if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")){
@@ -70,10 +83,10 @@ public class JwtUtil implements InitializingBean{
 		return null;
 	}
 
-	public static boolean validateToken(String token){
+	public static VerifyResult validateToken(String token){
 		try{
-			Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
-			return true;
+			Jws<Claims> claimsJws = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+			return VerifyResult.builder().success(true).username(claimsJws.getBody().getSubject()).build();
 		} catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e){
 			logger.info("잘못된 JWT 서명입니다.");
 		} catch (ExpiredJwtException e){
@@ -83,7 +96,7 @@ public class JwtUtil implements InitializingBean{
 		} catch(IllegalArgumentException e) {
 			logger.info("JWT 토큰이 잘못되었습니다.");
 		}
-		return false;
+		return VerifyResult.builder().success(false).username(null).build();
 	}
 
 }
