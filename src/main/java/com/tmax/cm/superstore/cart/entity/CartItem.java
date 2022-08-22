@@ -6,6 +6,8 @@ import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -50,6 +52,7 @@ public class CartItem {
     @OneToMany(mappedBy = "cartItem", cascade = { CascadeType.PERSIST })
     private List<SelectedOption> selectedOptions;
 
+    @Enumerated(EnumType.STRING)
     private SendType sendType;
 
     @Column(nullable = false)
