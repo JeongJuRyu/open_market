@@ -72,12 +72,14 @@ public class ItemControllerIntegrationTest {
                                                 {
                                                     put("name", "블랙");
                                                     put("price", 0);
+                                                    put("description", "참을 수 없는 옵션의 유혹");
                                                 }
                                             });
                                             put(new JSONObject() {
                                                 {
                                                     put("name", "화이트");
                                                     put("price", 0);
+                                                    put("description", "참을 수 없는 옵션의 유혹");
                                                 }
                                             });
                                         }
@@ -94,12 +96,14 @@ public class ItemControllerIntegrationTest {
                                                 {
                                                     put("name", "3cm");
                                                     put("price", 1000);
+                                                    put("description", "참을 수 없는 옵션의 유혹");
                                                 }
                                             });
                                             put(new JSONObject() {
                                                 {
                                                     put("name", "5cm");
                                                     put("price", 0);
+                                                    put("description", "참을 수 없는 옵션의 유혹");
                                                 }
                                             });
                                         }
@@ -155,12 +159,14 @@ public class ItemControllerIntegrationTest {
                                             {
                                                 put("name", "블랙");
                                                 put("price", 0);
+                                                put("description", "참을 수 없는 옵션의 유혹");
                                             }
                                         });
                                         put(new JSONObject() {
                                             {
                                                 put("name", "화이트");
                                                 put("price", 0);
+                                                put("description", "참을 수 없는 옵션의 유혹");
                                             }
                                         });
                                     }
@@ -177,12 +183,14 @@ public class ItemControllerIntegrationTest {
                                             {
                                                 put("name", "3cm");
                                                 put("price", 1000);
+                                                put("description", "참을 수 없는 옵션의 유혹");
                                             }
                                         });
                                         put(new JSONObject() {
                                             {
                                                 put("name", "5cm");
                                                 put("price", 0);
+                                                put("description", "참을 수 없는 옵션의 유혹");
                                             }
                                         });
                                     }

@@ -44,8 +44,10 @@ public class PostItemDto {
             public static class PostOptionDto {
 
                 private String name;
-
+                
                 private Integer price;
+
+                private String description;
             }
         }
     }

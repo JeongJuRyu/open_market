@@ -75,6 +75,7 @@ public class IntegrationTestDataLoader {
         Option option1 = Option.builder()
                 .name("블랙")
                 .price(0)
+                .description("참을 수 없는 옵션의 유혹")
                 .optionGroup(optionGroup1)
                 .build();
 
@@ -83,6 +84,7 @@ public class IntegrationTestDataLoader {
         Option option2 = Option.builder()
                 .name("화이트")
                 .price(0)
+                .description("참을 수 없는 옵션의 유혹")
                 .optionGroup(optionGroup1)
                 .build();
 
@@ -100,6 +102,7 @@ public class IntegrationTestDataLoader {
         Option option3 = Option.builder()
                 .name("3cm")
                 .price(1000)
+                .description("참을 수 없는 옵션의 유혹")
                 .optionGroup(optionGroup2)
                 .build();
 
@@ -109,6 +112,7 @@ public class IntegrationTestDataLoader {
         Option option4 = Option.builder()
                 .name("5cm")
                 .price(0)
+                .description("참을 수 없는 옵션의 유혹")
                 .optionGroup(optionGroup2)
                 .build();
 
