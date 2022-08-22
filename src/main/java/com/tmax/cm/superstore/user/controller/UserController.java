@@ -12,6 +12,8 @@ import com.tmax.cm.superstore.user.dto.CreateUserRequestDto;
 import com.tmax.cm.superstore.user.dto.CreateUserResponseDto;
 import com.tmax.cm.superstore.user.dto.EmailAuthRequestDto;
 import com.tmax.cm.superstore.user.dto.EmailAuthResponseDto;
+import com.tmax.cm.superstore.user.dto.UpdateDeliveryRequestDto;
+import com.tmax.cm.superstore.user.dto.UpdateDeliveryResponseDto;
 import com.tmax.cm.superstore.user.dto.UpdateEmailRequestDto;
 import com.tmax.cm.superstore.user.dto.UpdateEmailResponseDto;
 import com.tmax.cm.superstore.user.dto.UpdatePasswordRequestDto;
@@ -35,7 +37,7 @@ public class UserController {
 	@PostMapping("/email")
 	public ResponseEntity<UpdateEmailResponseDto> updateEmail(
 		@RequestBody UpdateEmailRequestDto updateEmailRequestDto){
-		return ResponseEntity.ok().body(userService.modifyEmail(updateEmailRequestDto));
+		return ResponseEntity.ok().body(userService.updateEmail(updateEmailRequestDto));
 	}
 
 	@PostMapping("/email/auth")
@@ -48,5 +50,11 @@ public class UserController {
 	public ResponseEntity<UpdatePasswordResponseDto> updatePassword(@RequestBody
 		UpdatePasswordRequestDto updatePasswordRequestDto){
 		return ResponseEntity.ok().body(userService.updatePassword(updatePasswordRequestDto));
+	}
+
+	@PostMapping("/delivery")
+	public ResponseEntity<UpdateDeliveryResponseDto> updateDeliveryInfo(
+		@RequestBody UpdateDeliveryRequestDto updateDeliveryRequestDto){
+		return ResponseEntity.ok().body(userService.updateDeliveryInfo(updateDeliveryRequestDto));
 	}
 }

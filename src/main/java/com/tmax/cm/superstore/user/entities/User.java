@@ -22,6 +22,8 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.tmax.cm.superstore.user.dto.UpdateDeliveryRequestDto;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -66,8 +68,24 @@ public class User implements UserDetails {
 	public void updateEmail(String email){
 		this.email = email;
 	}
+
 	public void updatePassword(String newPassword){
 		this.password = newPassword;
+	}
+
+	public void updateDeliveryAddress(UpdateDeliveryRequestDto updateDeliveryRequestDto){
+		this.getDeliveryAddresses().clear();
+		List<UpdateDeliveryRequestDto.DeliveryAddress> deliveryAddresses = updateDeliveryRequestDto
+			.getDeliveryAddresses();
+		for(UpdateDeliveryRequestDto.DeliveryAddress newDeliveryAddress : deliveryAddresses){
+			DeliveryAddress newAddress = DeliveryAddress.builder()
+				.address(newDeliveryAddress.getAddress())
+				.user(this)
+				.name(newDeliveryAddress.getName())
+				.phoneNum(newDeliveryAddress.getPhoneNum())
+				.build();
+			this.getDeliveryAddresses().add(newAddress);
+		}
 	}
 	@Column()
 	@Override

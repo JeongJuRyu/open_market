@@ -30,7 +30,9 @@ public enum ResponseCode implements Code {
     ERROR_COMMON_CONCURRENCY("ERROR","EC001", "Request occured simultaneously", "동시 요청으로 인한 오류"),
 
     // User
-    ERROR_EMAIL_NOT_FOUND("ERROR", "EU001", "Email not found", "존재하지 않는 이메일");
+    ERROR_EMAIL_NOT_FOUND("ERROR", "EU001", "Email not found", "존재하지 않는 이메일"),
+    ERROR_EMAIL_ALREADY_EXIST("ERROR", "EU002", "Already existed email", "이미 존재하는 이메일");
+
     private String status; // API response
     private String code; // API response
     private String message; // API response
