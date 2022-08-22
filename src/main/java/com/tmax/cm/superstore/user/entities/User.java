@@ -1,6 +1,8 @@
 package com.tmax.cm.superstore.user.entities;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -12,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -48,6 +52,9 @@ public class User implements UserDetails {
 	@Column(nullable = false)
 	private String address;
 
+	@OneToMany(mappedBy = "user")
+	private List<DeliveryAddress> deliveryAddresses = new ArrayList<>();
+
 	@ManyToMany
 	@JoinTable(
 		name = "user_authority",
@@ -56,7 +63,12 @@ public class User implements UserDetails {
 	)
 	private Set<Authority> authorities;
 
-
+	public void updateEmail(String email){
+		this.email = email;
+	}
+	public void updatePassword(String newPassword){
+		this.password = newPassword;
+	}
 	@Column()
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
