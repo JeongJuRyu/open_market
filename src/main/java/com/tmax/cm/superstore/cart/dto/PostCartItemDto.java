@@ -23,6 +23,8 @@ public class PostCartItemDto {
 
             private List<PostCartOptionGroupDto> cartOptionGroups;
 
+            private Integer count;
+
             @Getter
             public static class PostCartOptionGroupDto {
 
@@ -38,8 +40,6 @@ public class PostCartItemDto {
                     private Integer count;
                 }
             }
-
-            private Integer count;
         }
     }
 }
