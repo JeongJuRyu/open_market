@@ -25,7 +25,6 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import com.tmax.cm.superstore.EasyRestDocumentation;
-import com.tmax.cm.superstore.code.SendType;
 import com.tmax.cm.superstore.integrationtest.data.IntegrationTestData;
 import com.tmax.cm.superstore.integrationtest.data.IntegrationTestDataLoader;
 
