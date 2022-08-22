@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tmax.cm.superstore.cart.dto.DeleteCartItemsDto;
 import com.tmax.cm.superstore.cart.dto.GetCartDto;
 import com.tmax.cm.superstore.cart.dto.GetCartItemDto;
 import com.tmax.cm.superstore.cart.dto.PostCartItemDto;
@@ -71,5 +73,13 @@ public class CartController {
         CartItem cartItem = this.cartService.readCartItem(cartItemId);
 
         return new ResponseDto<>(ResponseCode.CART_ITEM_READ, this.getCartItemDtoMapper.toResponse(cartItem));
+    }
+
+    @DeleteMapping("/cartItem")
+    public ResponseDto<Void> deleteCartItems( @Valid @RequestBody DeleteCartItemsDto.Request request) {
+
+        this.cartService.deleteCartItems(request);
+
+        return new ResponseDto<>(ResponseCode.CART_ITEMS_DELETE, null);
     }
 }
