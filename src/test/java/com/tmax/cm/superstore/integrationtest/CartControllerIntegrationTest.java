@@ -30,7 +30,7 @@ import com.tmax.cm.superstore.EasyRestDocumentation;
 @ExtendWith(RestDocumentationExtension.class)
 @ActiveProfiles("develop-integration-test")
 // @ContextConfiguration(classes = {
-//         IntegrationTestDataLoader.class
+// IntegrationTestDataLoader.class
 // })
 public class CartControllerIntegrationTest {
 
@@ -69,12 +69,16 @@ public class CartControllerIntegrationTest {
                                         put(new JSONObject() {
                                             {
                                                 put("optionGroupId", "62cfa7ab-26f5-46cf-af80-f9dedfda5693");
-                                                put("cartOpions", new JSONArray() {{
-                                                    put(new JSONObject() {{
-                                                        put("optionId", "d8b52a5a-45e7-424a-beaa-7f281081f1c6");
-                                                        put("count", 1);
-                                                    }});
-                                                }});
+                                                put("cartOpions", new JSONArray() {
+                                                    {
+                                                        put(new JSONObject() {
+                                                            {
+                                                                put("optionId", "d8b52a5a-45e7-424a-beaa-7f281081f1c6");
+                                                                put("count", 1);
+                                                            }
+                                                        });
+                                                    }
+                                                });
                                             }
                                         });
                                     }
@@ -99,7 +103,7 @@ public class CartControllerIntegrationTest {
     }
 
     @Test
-    void testCart() throws Exception {
+    void testGetCart() throws Exception {
         // when
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
                 .get("/v1/cart"));
@@ -108,5 +112,17 @@ public class CartControllerIntegrationTest {
         result.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(EasyRestDocumentation.document("getCart", "카트 조회", this.tag));
+    }
+
+    @Test
+    void testGetCartItem() throws Exception {
+        // when
+        ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
+                .get("/v1/cart/cartItem/{cartItemId}", "b735da9e-b59a-4caf-80a9-2c894773e447"));
+
+        // then
+        result.andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(EasyRestDocumentation.document("getCartItem", "카트 상품 조회", this.tag));
     }
 }
