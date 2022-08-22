@@ -24,7 +24,7 @@ public class CategoryService {
                 .map(ce -> new CategoryDto(ce.getCategoryId(), ce.getCategoryName(), ce.getParentId()))
                 .collect(groupingBy(CategoryDto::getParentId));
 
-        System.out.println(groupingByParent);
+        //System.out.println(groupingByParent);
         CategoryDto rootCategoryDto = new CategoryDto(0L, "ROOT", null);
         addSubCategories(rootCategoryDto, groupingByParent);
 
@@ -42,6 +42,4 @@ public class CategoryService {
                     addSubCategories(s, groupingByParentId);
                 });
     }
-
-
 }
