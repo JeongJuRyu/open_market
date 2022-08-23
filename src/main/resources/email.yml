@@ -1,0 +1,8 @@
+spring:
+  mail:
+    host: smtp.naver.com
+    port: 465
+    username: totw2018
+    password:
+    default:
+      encoding: UTF-8

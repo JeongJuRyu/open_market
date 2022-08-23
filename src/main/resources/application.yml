@@ -2,6 +2,7 @@ spring:
   config:
     import:
     - classpath:application-develop.yml
+    - classpath:email.yml
   profiles:
     group:
       develop: develop
