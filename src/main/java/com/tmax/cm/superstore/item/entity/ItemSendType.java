@@ -26,7 +26,7 @@ import lombok.Setter;
 @Setter
 @Entity
 public class ItemSendType {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -34,8 +34,8 @@ public class ItemSendType {
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "FK_item_send_type_item_id"), name = "itemId", nullable = false)
     private Item item;
-    
+
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private SendType SendType;
+    private SendType sendType;
 }

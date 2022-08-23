@@ -17,10 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tmax.cm.superstore.cart.dto.DeleteCartItemsDto;
 import com.tmax.cm.superstore.cart.dto.GetCartDto;
 import com.tmax.cm.superstore.cart.dto.GetCartItemDto;
+import com.tmax.cm.superstore.cart.dto.GetCartReservationItemDto;
 import com.tmax.cm.superstore.cart.dto.PostCartItemDto;
+import com.tmax.cm.superstore.cart.dto.PostCartReservationItemDto;
 import com.tmax.cm.superstore.cart.dto.PutCartItemDto;
+import com.tmax.cm.superstore.cart.dto.PutCartReservationItemDto;
 import com.tmax.cm.superstore.cart.dto.mapper.GetCartDtoMapper;
 import com.tmax.cm.superstore.cart.dto.mapper.GetCartItemDtoMapper;
+import com.tmax.cm.superstore.cart.dto.mapper.GetCartReservationItemDtoMapper;
 import com.tmax.cm.superstore.cart.entity.CartItem;
 import com.tmax.cm.superstore.cart.service.CartService;
 import com.tmax.cm.superstore.code.CartType;
@@ -38,6 +42,7 @@ public class CartController {
 
     private final GetCartDtoMapper getCartDtoMapper;
     private final GetCartItemDtoMapper getCartItemDtoMapper;
+    private final GetCartReservationItemDtoMapper getCartReservationItemDtoMapper;
 
     @PostMapping("/cartItem")
     public ResponseDto<Void> postCreateCartItem(
@@ -46,6 +51,15 @@ public class CartController {
         this.cartService.createCartItem(request);
 
         return new ResponseDto<>(ResponseCode.CART_ITEM_CREATE, null);
+    }
+
+    @PostMapping("/cartReservationItem")
+    public ResponseDto<Void> postCreateCartReservationItem(
+            @Valid @RequestBody PostCartReservationItemDto.Request request) {
+
+        this.cartService.createCartReservationItem(request);
+
+        return new ResponseDto<>(ResponseCode.CART_RESERVATIOIN_ITEM_CREATE, null);
     }
 
     @GetMapping
@@ -77,6 +91,15 @@ public class CartController {
         return new ResponseDto<>(ResponseCode.CART_ITEM_READ, this.getCartItemDtoMapper.toResponse(cartItem));
     }
 
+    @GetMapping("/cartReservationItem/{cartItemId}")
+    public ResponseDto<GetCartReservationItemDto.Response> getCartReservationItem(@PathVariable UUID cartItemId) {
+
+        CartItem cartItem = this.cartService.readCartItem(cartItemId);
+
+        return new ResponseDto<>(ResponseCode.CART_RESERVATIOIN_ITEM_READ,
+                this.getCartReservationItemDtoMapper.toResponse(cartItem));
+    }
+
     @DeleteMapping("/cartItem")
     public ResponseDto<Void> deleteCartItems(@Valid @RequestBody DeleteCartItemsDto.Request request) {
 
@@ -92,5 +115,14 @@ public class CartController {
         this.cartService.updateCartItem(cartItemId, request);
 
         return new ResponseDto<>(ResponseCode.CART_ITEM_UPDATE, null);
+    }
+
+    @PutMapping("/cartReservationItem/{cartItemId}")
+    public ResponseDto<Void> putCartReservationItem(@PathVariable UUID cartItemId,
+            @Valid @RequestBody PutCartReservationItemDto.Request request) {
+
+        this.cartService.updateCartReservationItem(cartItemId, request);
+
+        return new ResponseDto<>(ResponseCode.CART_RESERVATIOIN_ITEM_UPDATE, null);
     }
 }

@@ -16,6 +16,8 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+import com.tmax.cm.superstore.code.SendType;
+import com.tmax.cm.superstore.error.exception.ItemSendTypeImpossibleException;
 import com.tmax.cm.superstore.shop.entity.Shop;
 
 import lombok.AllArgsConstructor;
@@ -38,11 +40,11 @@ public class Item {
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @OneToMany(mappedBy = "item", cascade = {CascadeType.PERSIST})
-	private List<OptionGroup> optionGroups;
+    @OneToMany(mappedBy = "item", cascade = { CascadeType.PERSIST })
+    private List<OptionGroup> optionGroups;
 
-    @OneToMany(mappedBy = "item", cascade = {CascadeType.PERSIST})
-	private List<ItemSendType> itemSendTypes;
+    @OneToMany(mappedBy = "item", cascade = { CascadeType.PERSIST })
+    private List<ItemSendType> itemSendTypes;
 
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "FK_item_shop_id"), name = "shopId", nullable = false)
@@ -55,6 +57,17 @@ public class Item {
     private Integer price;
 
     @Column(nullable = false)
-	@Builder.Default
-	private Boolean isDeleted = false;
+    @Builder.Default
+    private Boolean isDeleted = false;
+
+    public void validateSendType(SendType sendType) {
+        boolean isSendTypeContain = this.itemSendTypes.stream()
+                .anyMatch((element) -> {
+                    return element.getSendType() == sendType;
+                });
+
+        if (!isSendTypeContain) {
+            throw new ItemSendTypeImpossibleException();
+        }
+    }
 }

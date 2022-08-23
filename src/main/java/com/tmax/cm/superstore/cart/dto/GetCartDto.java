@@ -1,5 +1,7 @@
 package com.tmax.cm.superstore.cart.dto;
 
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,12 +21,12 @@ public class GetCartDto {
 
         @JsonProperty("shipping/visit")
         private List<GetCartItemDto> shippingVisit;
-        
+
         @JsonProperty("delivery/pickup")
         private List<GetCartItemDto> deliveryPickup;
 
         @JsonProperty("reservation")
-        private List<GetCartItemDto> reservation;
+        private List<GetCartReservationItemDto> reservation;
 
         @Builder
         @Getter
@@ -38,7 +40,7 @@ public class GetCartDto {
 
             @NotNull
             private SendType sendType;
-            
+
             @NotNull
             private UUID itemId;
 
@@ -54,6 +56,94 @@ public class GetCartDto {
             private Integer cartItemAmount;
 
             private Integer cartItemCount;
+
+            private List<GetSelectedOptionDto> selectedOptions;
+
+            @Builder
+            @Getter
+            public static class GetSelectedOptionDto {
+
+                private UUID selectedOptionId;
+
+                private Integer selectedOptionCount;
+
+                private Integer selectedOptionAmount;
+
+                private List<GetCartOptionGroupDto> cartOptionGroups;
+
+                @Builder
+                @Getter
+                public static class GetCartOptionGroupDto {
+
+                    private UUID cartOptionGroupId;
+
+                    private UUID optionGroupId;
+
+                    private String optionGroupName;
+
+                    private Boolean isNecessary;
+
+                    private List<GetCartOptionDto> cartOptions;
+
+                    @Builder
+                    @Getter
+                    public static class GetCartOptionDto {
+
+                        private UUID cartOptionId;
+
+                        private UUID optionId;
+
+                        private String optionName;
+
+                        private Integer optionPrice;
+
+                        private Integer cartItemOptionCount;
+                    }
+                }
+            }
+        }
+
+        @Builder
+        @Getter
+        public static class GetCartReservationItemDto {
+
+            @NotNull
+            private UUID shopId;
+
+            @NotNull
+            private String shopName;
+
+            @NotNull
+            private SendType sendType;
+
+            private UUID itemId;
+            
+            @Builder.Default
+            private String itemThumbnailURL = "images/510a2ac1-7869-49c5-875b-1dfb8ea243f4.jpg";
+
+            private String itemName;
+
+            private Integer itemPrice;
+
+            private UUID cartItemId;
+
+            private Integer cartItemAmount;
+
+            private Integer cartItemCount;
+            
+            private LocalDateTime reservationDate;
+            
+            private DayOfWeek dayOfWeek;
+
+            private Integer reservationHeadcount;
+            
+            private String guestName;
+
+            private String guestPhoneNumber;
+            
+            private String guestEmail;
+            
+            private String reservationRequirement;
 
             private List<GetSelectedOptionDto> selectedOptions;
 

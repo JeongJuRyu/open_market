@@ -29,6 +29,23 @@ INSERT INTO item_option(id, name, price, description, is_deleted, option_group_i
 INSERT INTO item_option(id, name, price, description, is_deleted, option_group_id) VALUES (UUID_TO_BIN("434a6e11-edb0-4dea-80df-90c495bd4c86"), "살사소스", 500, "참을 수 없는 옵션의 유혹", 0, UUID_TO_BIN("ebe5c005-9241-4149-844a-c0ee1eabb29c"))
 INSERT INTO item_option(id, name, price, description, is_deleted, option_group_id) VALUES (UUID_TO_BIN("37233135-e75e-4549-8217-939d756199f9"), "마요소스", 500, "참을 수 없는 옵션의 유혹", 0, UUID_TO_BIN("ebe5c005-9241-4149-844a-c0ee1eabb29c"))
 
+-- 예약 상품 등록
+INSERT INTO shop(id, name, is_deleted) VALUES (UUID_TO_BIN("54717bb2-2850-40e5-9889-d17d227f1606"), "마루돈가", 0)
+
+INSERT INTO item(id, name, price, is_deleted, shop_id) VALUES (UUID_TO_BIN("82cdc2eb-5ee8-4bde-8e32-654054b7fc16"), "디너코스", 0, 0, UUID_TO_BIN("54717bb2-2850-40e5-9889-d17d227f1606"))
+
+INSERT INTO item_send_type(id, send_type, item_id) VALUES (5, "RESERVATION", UUID_TO_BIN("82cdc2eb-5ee8-4bde-8e32-654054b7fc16"))
+
+INSERT INTO option_group(id, name, is_necessary, is_deleted, item_id) VALUES (UUID_TO_BIN("8b41baa5-6118-4949-886f-abe34ca69cfe"), "추가정보", 1, 0, UUID_TO_BIN("82cdc2eb-5ee8-4bde-8e32-654054b7fc16"))
+
+INSERT INTO item_option(id, name, price, description, is_deleted, option_group_id) VALUES (UUID_TO_BIN("08a1f664-c17c-4ff3-bb26-6519b7b2bff1"), "A코스", 8000, "육회 냉면, 된장찌개, 한우 불고기 런치정식 육회 냉면, 된장찌개, 한우 불괴 런치 정식", 0, UUID_TO_BIN("8b41baa5-6118-4949-886f-abe34ca69cfe"))
+INSERT INTO item_option(id, name, price, description, is_deleted, option_group_id) VALUES (UUID_TO_BIN("47360b10-6542-488c-8e59-9ccb324797a8"), "B코스", 42000, "한우+육회+디너코스", 0, UUID_TO_BIN("8b41baa5-6118-4949-886f-abe34ca69cfe"))
+INSERT INTO item_option(id, name, price, description, is_deleted, option_group_id) VALUES (UUID_TO_BIN("c46d564c-1e08-4413-be59-9fbc0a1b344c"), "C코스", 150000, "1등급 한우 코스 요리 1등급 한우 코스 요리 1등급 한우 코스 요리", 0, UUID_TO_BIN("8b41baa5-6118-4949-886f-abe34ca69cfe"))
+INSERT INTO item_option(id, name, price, description, is_deleted, option_group_id) VALUES (UUID_TO_BIN("eefe8c5c-15b4-4d5c-9864-5e2e1d47888b"), "D코스", 150000, "1등급 한우 코스 요리 1등급 한우 코스 요리 1등급 한우 코스 요리", 0, UUID_TO_BIN("8b41baa5-6118-4949-886f-abe34ca69cfe"))
+INSERT INTO item_option(id, name, price, description, is_deleted, option_group_id) VALUES (UUID_TO_BIN("75bd49ea-63e4-4641-a58d-4c24e481a3df"), "E코스", 150000, "1등급 한우 코스 요리 1등급 한우 코스 요리 1등급 한우 코스 요리", 0, UUID_TO_BIN("8b41baa5-6118-4949-886f-abe34ca69cfe"))
+
+-- 카트 등록
+
 INSERT INTO cart(id, cart_type) VALUES (1, "SHIPPING_VISIT")
 INSERT INTO cart(id, cart_type) VALUES (2, "DELIVERY_PICKUP")
 INSERT INTO cart(id, cart_type) VALUES (3, "RESERVATION")
@@ -60,3 +77,14 @@ INSERT INTO cart_option(id, count, cart_option_group_id, option_id) VALUES (UUID
 
 INSERT INTO cart_option_group(id, selected_option_id, option_group_id) VALUES (UUID_TO_BIN("e6fbbb4b-b55e-4f12-a257-d12151579c2f"), UUID_TO_BIN("b998c70d-11c9-4903-bdab-9f698c93d83e"), UUID_TO_BIN("ebe5c005-9241-4149-844a-c0ee1eabb29c"))
 INSERT INTO cart_option(id, count, cart_option_group_id, option_id) VALUES (UUID_TO_BIN("302d04cc-d687-4c5b-8331-ced63ad68118"), 1, UUID_TO_BIN("e6fbbb4b-b55e-4f12-a257-d12151579c2f"), UUID_TO_BIN("434a6e11-edb0-4dea-80df-90c495bd4c86"))
+
+-- 카트에 예약 상품 등록
+
+INSERT INTO cart_item(id, send_type, is_deleted, cart_id, item_id) VALUES (UUID_TO_BIN("0ceda629-b012-45c4-bdf9-6e5787ba4e62"), "RESERVATION", 0, 3, UUID_TO_BIN("82cdc2eb-5ee8-4bde-8e32-654054b7fc16"))
+
+INSERT INTO cart_reservation_item(id, day_of_week, guest_email, guest_name, guest_phone_number, reservation_date, reservation_headcount, reservation_requirement, cart_item_id) VALUES (1, "MONDAY", "abc_12@tmax.co.kr", "김맥스", "010-1234-5678", "2022-08-08 20:00:00", 36, "50인분 같은 36인분 부탁이요 ~", UUID_TO_BIN("0ceda629-b012-45c4-bdf9-6e5787ba4e62"))
+
+INSERT INTO selected_option(id, count, is_deleted, cart_item_id) VALUES (UUID_TO_BIN("370b1115-3425-4672-ba8c-c384e5b9b6ab"), 1, 0, UUID_TO_BIN("0ceda629-b012-45c4-bdf9-6e5787ba4e62"))
+
+INSERT INTO cart_option_group(id, selected_option_id, option_group_id) VALUES (UUID_TO_BIN("5343e1f3-cd8a-43a2-99fc-adf333c6b3c8"), UUID_TO_BIN("370b1115-3425-4672-ba8c-c384e5b9b6ab"), UUID_TO_BIN("8b41baa5-6118-4949-886f-abe34ca69cfe"))
+INSERT INTO cart_option(id, count, cart_option_group_id, option_id) VALUES (UUID_TO_BIN("1c80573b-4974-4c8e-8dc3-beebdbac5f3e"), 1, UUID_TO_BIN("5343e1f3-cd8a-43a2-99fc-adf333c6b3c8"), UUID_TO_BIN("47360b10-6542-488c-8e59-9ccb324797a8"))
