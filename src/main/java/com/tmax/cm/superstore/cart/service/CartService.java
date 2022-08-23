@@ -1,20 +1,24 @@
 package com.tmax.cm.superstore.cart.service;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
+import com.tmax.cm.superstore.cart.dto.DeleteCartItemsDto;
 import com.tmax.cm.superstore.cart.dto.PostCartItemDto;
 import com.tmax.cm.superstore.cart.entity.Cart;
 import com.tmax.cm.superstore.cart.entity.CartItem;
 import com.tmax.cm.superstore.cart.entity.CartOption;
 import com.tmax.cm.superstore.cart.entity.CartOptionGroup;
 import com.tmax.cm.superstore.cart.entity.SelectedOption;
+import com.tmax.cm.superstore.cart.repository.CartItemRepository;
 import com.tmax.cm.superstore.cart.repository.CartRepository;
 import com.tmax.cm.superstore.code.CartType;
 import com.tmax.cm.superstore.code.SendType;
+import com.tmax.cm.superstore.error.exception.CartItemNotFoundException;
 import com.tmax.cm.superstore.error.exception.ItemNotFoundException;
 import com.tmax.cm.superstore.error.exception.OptionGroupNotFoundException;
 import com.tmax.cm.superstore.error.exception.OptionNotFoundException;
@@ -32,6 +36,7 @@ import lombok.RequiredArgsConstructor;
 public class CartService {
 
     private final CartRepository cartRepository;
+    private final CartItemRepository cartItemRepository;
     private final ItemRepository itemRepository;
     private final OptionGroupRepository optionGroupRepository;
     private final OptionRepository optionRepository;
@@ -133,5 +138,20 @@ public class CartService {
     public Cart readCart(CartType cartType) {
 
         return this.cartRepository.findTopByCartType(cartType);
+    }
+
+    @Transactional
+    public CartItem readCartItem(UUID cartItemId) {
+        
+        return this.cartItemRepository.findById(cartItemId).orElseThrow(CartItemNotFoundException::new);
+    }
+
+    @Transactional
+    public void deleteCartItems(DeleteCartItemsDto.Request request) {
+        for (UUID cartItemId : request.getCartItemIds()) {
+            CartItem cartItem = this.cartItemRepository.findById(cartItemId).orElseThrow(CartItemNotFoundException::new);
+
+            this.cartItemRepository.delete(cartItem);
+        }
     }
 }

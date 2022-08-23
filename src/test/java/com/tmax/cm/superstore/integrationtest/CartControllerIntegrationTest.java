@@ -15,7 +15,6 @@ import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -25,21 +24,18 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import com.tmax.cm.superstore.EasyRestDocumentation;
-import com.tmax.cm.superstore.code.SendType;
-import com.tmax.cm.superstore.integrationtest.data.IntegrationTestData;
-import com.tmax.cm.superstore.integrationtest.data.IntegrationTestDataLoader;
 
 @Transactional
 @SpringBootTest
 @ExtendWith(RestDocumentationExtension.class)
 @ActiveProfiles("develop-integration-test")
-@ContextConfiguration(classes = {
-        IntegrationTestDataLoader.class
-})
+// @ContextConfiguration(classes = {
+// IntegrationTestDataLoader.class
+// })
 public class CartControllerIntegrationTest {
 
-    @Autowired
-    private IntegrationTestData testData;
+    // @Autowired
+    // private IntegrationTestData testData;
 
     @Autowired
     private WebApplicationContext context;
@@ -61,7 +57,7 @@ public class CartControllerIntegrationTest {
         // given
         JSONObject request = new JSONObject() {
             {
-                put("itemId", testData.getItemId());
+                put("itemId", "169f84f8-8862-477c-ad27-0b79871deb27");
                 put("sendType", "shipping");
                 put("selectedOptions", new JSONArray() {
                     {
@@ -72,14 +68,17 @@ public class CartControllerIntegrationTest {
                                     {
                                         put(new JSONObject() {
                                             {
-                                                put("optionGroupId", testData.getOptionGroupId());
-                                                put("cartOpions", new JSONArray() {{
-                                                    put(new JSONObject() {{
-                                                        
-                                                        put("optionId", testData.getOptionId());
-                                                        put("count", 1);
-                                                    }});
-                                                }});
+                                                put("optionGroupId", "62cfa7ab-26f5-46cf-af80-f9dedfda5693");
+                                                put("cartOpions", new JSONArray() {
+                                                    {
+                                                        put(new JSONObject() {
+                                                            {
+                                                                put("optionId", "d8b52a5a-45e7-424a-beaa-7f281081f1c6");
+                                                                put("count", 1);
+                                                            }
+                                                        });
+                                                    }
+                                                });
                                             }
                                         });
                                     }
@@ -104,7 +103,7 @@ public class CartControllerIntegrationTest {
     }
 
     @Test
-    void testCart() throws Exception {
+    void testGetCart() throws Exception {
         // when
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
                 .get("/v1/cart"));
@@ -113,5 +112,42 @@ public class CartControllerIntegrationTest {
         result.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(EasyRestDocumentation.document("getCart", "카트 조회", this.tag));
+    }
+
+    @Test
+    void testGetCartItem() throws Exception {
+        // when
+        ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
+                .get("/v1/cart/cartItem/{cartItemId}", "b735da9e-b59a-4caf-80a9-2c894773e447"));
+
+        // then
+        result.andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(EasyRestDocumentation.document("getCartItem", "카트 상품 조회", this.tag));
+    }
+
+    @Test
+    void testDeleteCartItems() throws Exception {
+        // given
+        JSONObject request = new JSONObject() {
+            {
+                put("cartItemIds", new JSONArray() {
+                    {
+                        put("b735da9e-b59a-4caf-80a9-2c894773e447");
+                    }
+                });
+            }
+        };
+
+        // when
+        ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
+                .delete("/v1/cart/cartItem")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(request.toString()));
+
+        // then
+        result.andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(EasyRestDocumentation.document("deleteCartItem", "카트 상품 대량 삭제", this.tag));
     }
 }

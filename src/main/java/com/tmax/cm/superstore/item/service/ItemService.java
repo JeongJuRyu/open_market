@@ -66,6 +66,7 @@ public class ItemService {
                 Option option = Option.builder()
                         .name(postOptionDto.getName())
                         .price(postOptionDto.getPrice())
+                        .description(postOptionDto.getDescription())
                         .optionGroup(optionGroup)
                         .build();
 

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tmax.cm.superstore.code.SendType;
 
 import lombok.Builder;
@@ -32,7 +33,11 @@ public class GetItemAllDto {
 
             private Integer itemPrice;
 
-            private List<GetOptionGroupDto> optionGroups;
+            @JsonProperty("necessaryOptionGroups")
+            private List<GetOptionGroupDto> necessaryOptionGroups;
+
+            @JsonProperty("optionalOptionGroups")
+            private List<GetOptionGroupDto> optionalOptionGroups;
 
             @Builder
             @Getter
@@ -42,8 +47,6 @@ public class GetItemAllDto {
 
                 private String optionGroupName;
 
-                private Boolean isNecessary;
-
                 private List<GetOptionDto> options;
 
                 @Builder
@@ -52,9 +55,11 @@ public class GetItemAllDto {
 
                     private UUID optionId;
 
-                    private String name;
+                    private String optionName;
 
-                    private Integer price;
+                    private Integer optionPrice;
+
+                    private String optionDescription;
                 }
             }
         }

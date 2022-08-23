@@ -1,5 +1,6 @@
 package com.tmax.cm.superstore.item.dto.mapper;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -25,14 +26,31 @@ public interface GetItemAllDtoMapper {
     }
 
     List<GetItemAllDto.Response.GetItemDto> toGetItemDtos(List<Item> items);
-    
-    @Mapping(target = "shopId", source = "shop.id")
-    @Mapping(target = "shopName", source = "shop.name")
-    @Mapping(target = "itemId", source = "id")
-    @Mapping(target = "itemName", source = "name")
-    @Mapping(target = "itemPrice", source = "price")
-    @Mapping(target = "possibleSendType", source = "itemSendTypes")
-    GetItemAllDto.Response.GetItemDto toGetItemDto(Item items);
+
+    default GetItemAllDto.Response.GetItemDto toResponse(Item item) {
+        List<GetItemAllDto.Response.GetItemDto.GetOptionGroupDto> necessaryOptionGroups = new ArrayList<>();
+        List<GetItemAllDto.Response.GetItemDto.GetOptionGroupDto> optionalOptionGroups = new ArrayList<>();
+
+        for (OptionGroup optionGroup : item.getOptionGroups()) {
+            if (optionGroup.getIsNecessary()) {
+                necessaryOptionGroups.add(this.toGetOptionDto(optionGroup));
+            } else {
+                optionalOptionGroups.add(this.toGetOptionDto(optionGroup));
+            }
+        }
+
+        return this.toGetItemDto(item, necessaryOptionGroups, optionalOptionGroups);
+    }
+
+    @Mapping(target = "shopId", source = "item.shop.id")
+    @Mapping(target = "shopName", source = "item.shop.name")
+    @Mapping(target = "itemId", source = "item.id")
+    @Mapping(target = "itemName", source = "item.name")
+    @Mapping(target = "itemPrice", source = "item.price")
+    @Mapping(target = "possibleSendType", source = "item.itemSendTypes")
+    GetItemAllDto.Response.GetItemDto toGetItemDto(Item item,
+            List<GetItemAllDto.Response.GetItemDto.GetOptionGroupDto> necessaryOptionGroups,
+            List<GetItemAllDto.Response.GetItemDto.GetOptionGroupDto> optionalOptionGroups);
 
     default Set<SendType> toSendTypes(List<ItemSendType> itemSendTypes) {
         Set<SendType> sendTypes = new HashSet<>();
@@ -49,5 +67,8 @@ public interface GetItemAllDtoMapper {
     GetItemAllDto.Response.GetItemDto.GetOptionGroupDto toGetOptionDto(OptionGroup optionGroup);
 
     @Mapping(target = "optionId", source = "id")
+    @Mapping(target = "optionName", source = "name")
+    @Mapping(target = "optionPrice", source = "price")
+    @Mapping(target = "optionDescription", source = "description")
     GetItemAllDto.Response.GetItemDto.GetOptionGroupDto.GetOptionDto toGetOptionDto(Option option);
 }

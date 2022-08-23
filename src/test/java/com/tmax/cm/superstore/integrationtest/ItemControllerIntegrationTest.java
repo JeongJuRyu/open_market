@@ -1,7 +1,5 @@
 package com.tmax.cm.superstore.integrationtest;
 
-import java.util.UUID;
-
 import javax.transaction.Transactional;
 
 import org.json.JSONArray;
@@ -18,7 +16,6 @@ import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -40,7 +37,7 @@ public class ItemControllerIntegrationTest {
 
     private String tag = "Item";
 
-    private UUID itemId;
+    // private UUID itemId;
 
     @BeforeEach
     public void setUp(RestDocumentationContextProvider restDocumentation) throws Exception {
@@ -49,85 +46,87 @@ public class ItemControllerIntegrationTest {
                 .apply(MockMvcRestDocumentation.documentationConfiguration(restDocumentation))
                 .build();
 
-        {
-            JSONObject createItemRequest = new JSONObject() {
-                {
-                    put("shopName", "서머슈슈즈");
-                    put("name", "로토 스르르트 썸머 슈즈");
-                    put("price", 82000);
-                    put("possibleSendType", new JSONArray() {
-                        {
-                            put("shipping");
-                        }
-                    });
-                    put("optionGroups", new JSONArray() {
-                        {
-                            put(new JSONObject() {
-                                {
-                                    put("name", "color");
-                                    put("isNecessary", true);
-                                    put("options", new JSONArray() {
-                                        {
-                                            put(new JSONObject() {
-                                                {
-                                                    put("name", "블랙");
-                                                    put("price", 0);
-                                                }
-                                            });
-                                            put(new JSONObject() {
-                                                {
-                                                    put("name", "화이트");
-                                                    put("price", 0);
-                                                }
-                                            });
-                                        }
-                                    });
-                                }
-                            });
-                            put(new JSONObject() {
-                                {
-                                    put("name", "굽 변경");
-                                    put("isNecessary", false);
-                                    put("options", new JSONArray() {
-                                        {
-                                            put(new JSONObject() {
-                                                {
-                                                    put("name", "3cm");
-                                                    put("price", 1000);
-                                                }
-                                            });
-                                            put(new JSONObject() {
-                                                {
-                                                    put("name", "5cm");
-                                                    put("price", 0);
-                                                }
-                                            });
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                    });
-                }
-            };
+        // {
+        // JSONObject createItemRequest = new JSONObject() {
+        // {
+        // put("shopName", "서머슈슈즈");
+        // put("name", "로토 스르르트 썸머 슈즈");
+        // put("price", 82000);
+        // put("possibleSendType", new JSONArray() {
+        // {
+        // put("shipping");
+        // }
+        // });
+        // put("optionGroups", new JSONArray() {
+        // {
+        // put(new JSONObject() {
+        // {
+        // put("name", "color");
+        // put("isNecessary", true);
+        // put("options", new JSONArray() {
+        // {
+        // put(new JSONObject() {
+        // {
+        // put("name", "블랙");
+        // put("price", 0);
+        // put("description", "참을 수 없는 옵션의 유혹");
+        // }
+        // });
+        // put(new JSONObject() {
+        // {
+        // put("name", "화이트");
+        // put("price", 0);
+        // put("description", "참을 수 없는 옵션의 유혹");
+        // }
+        // });
+        // }
+        // });
+        // }
+        // });
+        // put(new JSONObject() {
+        // {
+        // put("name", "굽 변경");
+        // put("isNecessary", false);
+        // put("options", new JSONArray() {
+        // {
+        // put(new JSONObject() {
+        // {
+        // put("name", "3cm");
+        // put("price", 1000);
+        // put("description", "참을 수 없는 옵션의 유혹");
+        // }
+        // });
+        // put(new JSONObject() {
+        // {
+        // put("name", "5cm");
+        // put("price", 0);
+        // put("description", "참을 수 없는 옵션의 유혹");
+        // }
+        // });
+        // }
+        // });
+        // }
+        // });
+        // }
+        // });
+        // }
+        // };
 
-            // when
-            MvcResult createItemResult = this.mvc.perform(RestDocumentationRequestBuilders
-                    .post("/v1/item")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(createItemRequest.toString()))
-                    .andDo(MockMvcResultHandlers.print())
-                    .andExpect(MockMvcResultMatchers.status().isOk())
-                    .andReturn();
+        // // when
+        // MvcResult createItemResult =
+        // this.mvc.perform(RestDocumentationRequestBuilders
+        // .post("/v1/item")
+        // .contentType(MediaType.APPLICATION_JSON)
+        // .content(createItemRequest.toString()))
+        // .andDo(MockMvcResultHandlers.print())
+        // .andExpect(MockMvcResultMatchers.status().isOk())
+        // .andReturn();
 
-            JSONObject createItemResponse = new JSONObject(
-                    createItemResult.getResponse().getContentAsString());
-            this.itemId = UUID.fromString(createItemResponse.getJSONObject("data").getString("itemId"));
-        }
-
-        {
-
-        }
+        // JSONObject createItemResponse = new JSONObject(
+        // createItemResult.getResponse().getContentAsString());
+        // this.itemId =
+        // UUID.fromString(createItemResponse.getJSONObject("data").getString("itemId"));
+        // }
     }
 
     @Test
@@ -155,12 +154,14 @@ public class ItemControllerIntegrationTest {
                                             {
                                                 put("name", "블랙");
                                                 put("price", 0);
+                                                put("description", "참을 수 없는 옵션의 유혹");
                                             }
                                         });
                                         put(new JSONObject() {
                                             {
                                                 put("name", "화이트");
                                                 put("price", 0);
+                                                put("description", "참을 수 없는 옵션의 유혹");
                                             }
                                         });
                                     }
@@ -177,12 +178,14 @@ public class ItemControllerIntegrationTest {
                                             {
                                                 put("name", "3cm");
                                                 put("price", 1000);
+                                                put("description", "참을 수 없는 옵션의 유혹");
                                             }
                                         });
                                         put(new JSONObject() {
                                             {
                                                 put("name", "5cm");
                                                 put("price", 0);
+                                                put("description", "참을 수 없는 옵션의 유혹");
                                             }
                                         });
                                     }
@@ -210,7 +213,7 @@ public class ItemControllerIntegrationTest {
     void testGetItem() throws Exception {
         // when
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
-                .get("/v1/item/{itemId}", this.itemId));
+                .get("/v1/item/{itemId}", "1523bc68-e8f7-4140-b7dd-cbfe622e068a"));
 
         // then
         result.andDo(MockMvcResultHandlers.print())

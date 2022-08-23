@@ -51,5 +51,4 @@ public interface GetCartDtoMapper {
         @Mapping(target = "cartItemOptionCount", source = "count")
         GetCartDto.Response.GetCartItemDto.GetSelectedOptionDto.GetCartOptionGroupDto.GetCartOptionDto toGetCartOptionDto(
                         CartOption cartOption);
-
 }
