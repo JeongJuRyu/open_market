@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -48,6 +49,9 @@ public class CartItem {
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "FK_cart_item_item_id"), name = "itemId", nullable = false)
     private Item item;
+
+    @OneToOne(mappedBy = "cartItem", cascade = { CascadeType.PERSIST })
+    private CartReservationItem cartReservationItem;
 
     @OneToMany(mappedBy = "cartItem", cascade = { CascadeType.PERSIST })
     private List<SelectedOption> selectedOptions;

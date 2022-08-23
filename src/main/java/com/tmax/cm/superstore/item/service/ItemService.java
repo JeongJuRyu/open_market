@@ -47,7 +47,7 @@ public class ItemService {
 
         for (SendType sendType : postItemDto.getPossibleSendType()) {
             ItemSendType itemSendType = ItemSendType.builder()
-                    .SendType(sendType)
+                    .sendType(sendType)
                     .item(item)
                     .build();
 

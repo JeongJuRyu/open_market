@@ -103,3 +103,4 @@ spring:
       platform: develop
       mode: always
       continue-on-error: true
+      # continue-on-error: false
