@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
+import com.tmax.cm.superstore.common.entity.BaseTimeEntity;
+import com.tmax.cm.superstore.user.entities.User;
 import org.hibernate.annotations.GenericGenerator;
 
 import lombok.AccessLevel;
@@ -23,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Builder(builderMethodName = "ReviewBuilder")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Review {
+public class Review extends BaseTimeEntity {
 	@Id
 	@GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
@@ -40,17 +38,17 @@ public class Review {
 	@Column(nullable = false)
 	private String content;
 
-	/*@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "USER_ID")
-	private User user;*/
+	private User user;
 
 	@OneToMany(mappedBy = "review")
 	private List<ReviewImage> reviewImages = new ArrayList<>();
 
-	/*@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "REVIEW_REPLY_ID")
 	private ReviewReply reviewReply;
-	 */
+
 	/*public static ReviewBuilder builder(String title, String content
 								,User user, List<ReviewImage> reviewImages){
 		return ReviewBuilder()

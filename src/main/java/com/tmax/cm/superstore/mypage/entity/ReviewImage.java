@@ -30,18 +30,9 @@ public class ReviewImage {
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
 	private UUID id;
 
+	private String url;
 	/*@OneToMany(mappedBy = "order")
 	List<OrderItem> orderItems;*/
-
-	@Column(nullable = false)
-	private String title;
-
-	@Column(nullable = false)
-	private String content;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "USER_ID")
-	private User user;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "REIVEW_ID")
@@ -51,10 +42,6 @@ public class ReviewImage {
 	public static ReviewImageBuilder builder(/*OrderItem orderItem, */String title,
 									String content, User user, Review review){
 		return ReviewImageBuilder()
-			//.orderItem(orderItem)
-			.title(title)
-			.content(content)
-			.user(user)
 			.review(review);
 	}
 }
