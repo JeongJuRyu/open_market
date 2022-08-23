@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,6 +18,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
@@ -53,6 +55,10 @@ public class User implements UserDetails {
 
 	@Column(nullable = false)
 	private String address;
+
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "EMAIL_TOKEN_ID")
+	private EmailToken emailToken;
 
 	@OneToMany(mappedBy = "user")
 	private List<DeliveryAddress> deliveryAddresses = new ArrayList<>();
