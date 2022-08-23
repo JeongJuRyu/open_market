@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tmax.cm.superstore.user.dto.CreateUserRequestDto;
 import com.tmax.cm.superstore.user.dto.CreateUserResponseDto;
-import com.tmax.cm.superstore.user.dto.EmailAuthRequestDto;
-import com.tmax.cm.superstore.user.dto.EmailAuthResponseDto;
 import com.tmax.cm.superstore.user.dto.UpdateDeliveryRequestDto;
 import com.tmax.cm.superstore.user.dto.UpdateDeliveryResponseDto;
 import com.tmax.cm.superstore.user.dto.UpdateEmailRequestDto;
@@ -38,12 +36,6 @@ public class UserController {
 	public ResponseEntity<UpdateEmailResponseDto> updateEmail(
 		@RequestBody UpdateEmailRequestDto updateEmailRequestDto){
 		return ResponseEntity.ok().body(userService.updateEmail(updateEmailRequestDto));
-	}
-
-	@PostMapping("/email/auth")
-	public ResponseEntity<EmailAuthResponseDto> emailAuth(@RequestBody
-		EmailAuthRequestDto emailAuthRequestDto){
-		return ResponseEntity.ok().body(userService.emailAuth(emailAuthRequestDto));
 	}
 
 	@PostMapping("/password")
