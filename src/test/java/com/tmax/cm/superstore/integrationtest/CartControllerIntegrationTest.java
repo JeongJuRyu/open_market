@@ -150,4 +150,53 @@ public class CartControllerIntegrationTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(EasyRestDocumentation.document("deleteCartItem", "카트 상품 대량 삭제", this.tag));
     }
+
+    @Test
+    void testPutCartItem() throws Exception {
+        // given
+        JSONObject request = new JSONObject() {
+            {
+                put("sendType", "visit");
+                put("selectedOptions", new JSONArray() {
+                    {
+                        put(new JSONObject() {
+                            {
+                                put("selectedOptionCount", 1);
+                                put("cartOptionGroups", new JSONArray() {
+                                    {
+                                        put(new JSONObject() {
+                                            {
+                                                put("optionGroupId", "62cfa7ab-26f5-46cf-af80-f9dedfda5693");
+                                                put("cartOpions", new JSONArray() {
+                                                    {
+                                                        put(new JSONObject() {
+                                                            {
+                                                                put("optionId", "ca24924e-2007-4177-8e5a-a55225c1b2d6");
+                                                                put("cartItemOptionCount", 1);
+                                                            }
+                                                        });
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        };
+
+        // when
+        ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
+                .put("/v1/cart/cartItem/{cartItemId}", "b735da9e-b59a-4caf-80a9-2c894773e447")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(request.toString()));
+
+        // then
+        result.andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(EasyRestDocumentation.document("putCartItem", "카트 상품 수정", this.tag));
+    }
 }

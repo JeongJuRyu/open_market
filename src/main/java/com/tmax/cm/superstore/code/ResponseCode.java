@@ -20,6 +20,7 @@ public enum ResponseCode implements Code {
     CART_READ("SUCCESS", "CART_READ", "Read cart", "카트 조회"),
     CART_ITEM_CREATE("SUCCESS", "CART_ITEM_CREATE", "Create cart item", "카트 상품 추가"),
     CART_ITEM_READ("SUCCESS", "CART_ITEM_READ", "Read cart item", "카트 상품 조회"),
+    CART_ITEM_UPDATE("SUCCESS", "CART_ITEM_UPDATE", "Update cart items", "카트 상품 수정"),
     CART_ITEMS_DELETE("SUCCESS", "CART_ITEMS_DELETE", "Delete cart items", "카트 상품 대량 삭제"),
     
     // Error - Item
