@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.tmax.cm.superstore.cart.dto.DeleteCartItemsDto;
 import com.tmax.cm.superstore.cart.dto.PostCartItemDto;
+import com.tmax.cm.superstore.cart.dto.PutCartItemDto;
 import com.tmax.cm.superstore.cart.entity.Cart;
 import com.tmax.cm.superstore.cart.entity.CartItem;
 import com.tmax.cm.superstore.cart.entity.CartOption;
@@ -16,6 +17,7 @@ import com.tmax.cm.superstore.cart.entity.CartOptionGroup;
 import com.tmax.cm.superstore.cart.entity.SelectedOption;
 import com.tmax.cm.superstore.cart.repository.CartItemRepository;
 import com.tmax.cm.superstore.cart.repository.CartRepository;
+import com.tmax.cm.superstore.cart.repository.SelectedOptionRepository;
 import com.tmax.cm.superstore.code.CartType;
 import com.tmax.cm.superstore.code.SendType;
 import com.tmax.cm.superstore.error.exception.CartItemNotFoundException;
@@ -38,6 +40,7 @@ public class CartService {
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
     private final ItemRepository itemRepository;
+    private final SelectedOptionRepository selectedOptionRepository;
     private final OptionGroupRepository optionGroupRepository;
     private final OptionRepository optionRepository;
 
@@ -142,16 +145,70 @@ public class CartService {
 
     @Transactional
     public CartItem readCartItem(UUID cartItemId) {
-        
+
         return this.cartItemRepository.findById(cartItemId).orElseThrow(CartItemNotFoundException::new);
     }
 
     @Transactional
     public void deleteCartItems(DeleteCartItemsDto.Request request) {
         for (UUID cartItemId : request.getCartItemIds()) {
-            CartItem cartItem = this.cartItemRepository.findById(cartItemId).orElseThrow(CartItemNotFoundException::new);
+            CartItem cartItem = this.cartItemRepository.findById(cartItemId)
+                    .orElseThrow(CartItemNotFoundException::new);
 
             this.cartItemRepository.delete(cartItem);
+        }
+    }
+
+    @Transactional
+    public void updateCartItem(UUID cartItemId, PutCartItemDto.Request request) {
+
+        CartItem cartItem = this.cartItemRepository.findById(cartItemId).orElseThrow(CartItemNotFoundException::new);
+
+        for (SelectedOption previousSelectedOption : cartItem.getSelectedOptions()) {
+            this.selectedOptionRepository.delete(previousSelectedOption);
+        }
+
+        cartItem.getSelectedOptions().clear();
+
+        for (PutCartItemDto.Request.PutSelectedOptionDto putSelectedOptionDto : request.getSelectedOptions()) {
+
+            SelectedOption selectedOption = SelectedOption.builder()
+                    .cartItem(cartItem)
+                    .cartOptionGroups(new ArrayList<>())
+                    .count(putSelectedOptionDto.getSelectedOptionCount())
+                    .build();
+
+            cartItem.getSelectedOptions().add(selectedOption);
+
+            for (PutCartItemDto.Request.PutSelectedOptionDto.PutCartOptionGroupDto putCartOptionGroupDto : putSelectedOptionDto
+                    .getCartOptionGroups()) {
+
+                OptionGroup optionGroup = this.optionGroupRepository.findById(putCartOptionGroupDto.getOptionGroupId())
+                        .orElseThrow(OptionGroupNotFoundException::new);
+
+                CartOptionGroup cartOptionGroup = CartOptionGroup.builder()
+                        .selectedOption(selectedOption)
+                        .cartOptions(new ArrayList<>())
+                        .optionGroup(optionGroup)
+                        .build();
+
+                selectedOption.getCartOptionGroups().add(cartOptionGroup);
+
+                for (PutCartItemDto.Request.PutSelectedOptionDto.PutCartOptionGroupDto.PutCartOptionDto putCartOptionDto : putCartOptionGroupDto
+                        .getCartOpions()) {
+
+                    Option option = this.optionRepository.findById(putCartOptionDto.getOptionId())
+                            .orElseThrow(OptionNotFoundException::new);
+
+                    CartOption cartOption = CartOption.builder()
+                            .cartOptionGroup(cartOptionGroup)
+                            .count(putCartOptionDto.getCartItemOptionCount())
+                            .option(option)
+                            .build();
+
+                    cartOptionGroup.getCartOptions().add(cartOption);
+                }
+            }
         }
     }
 }
