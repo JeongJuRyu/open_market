@@ -52,14 +52,14 @@ public class IntegrationTestDataLoader {
                 .build();
 
         ItemSendType itemSendType1 = ItemSendType.builder()
-                .SendType(SendType.SHIPPING)
+                .sendType(SendType.SHIPPING)
                 .item(item)
                 .build();
 
         item.getItemSendTypes().add(itemSendType1);
 
         ItemSendType itemSendType2 = ItemSendType.builder()
-                .SendType(SendType.VISIT)
+                .sendType(SendType.VISIT)
                 .item(item)
                 .build();
 

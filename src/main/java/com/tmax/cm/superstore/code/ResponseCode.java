@@ -19,14 +19,18 @@ public enum ResponseCode implements Code {
     // Cart
     CART_READ("SUCCESS", "CART_READ", "Read cart", "카트 조회"),
     CART_ITEM_CREATE("SUCCESS", "CART_ITEM_CREATE", "Create cart item", "카트 상품 추가"),
+    CART_RESERVATIOIN_ITEM_CREATE("SUCCESS", "CART_RESERVATIOIN_ITEM_CREATE", "Create cart reservation item", "카트 예약 추가"),
     CART_ITEM_READ("SUCCESS", "CART_ITEM_READ", "Read cart item", "카트 상품 조회"),
-    CART_ITEM_UPDATE("SUCCESS", "CART_ITEM_UPDATE", "Update cart items", "카트 상품 수정"),
+    CART_RESERVATIOIN_ITEM_READ("SUCCESS", "CART_RESERVATIOIN_ITEM_READ", "Create cart reservation item", "카트 예약 조회"),
+    CART_ITEM_UPDATE("SUCCESS", "CART_ITEM_UPDATE", "Update cart item", "카트 상품 수정"),
+    CART_RESERVATIOIN_ITEM_UPDATE("SUCCESS", "CART_RESERVATIOIN_ITEM_UPDATE", "Update cart reservation item", "카트 예약 수정"),
     CART_ITEMS_DELETE("SUCCESS", "CART_ITEMS_DELETE", "Delete cart items", "카트 상품 대량 삭제"),
     
     // Error - Item
     ERROR_ITEM_NOT_FOUND("ERROR", "EI000", "Item not found", "해당 상품이 저장되어 있지 않음"),
     ERROR_OPTION_GROUP_NOT_FOUND("ERROR", "EI001", "Option group not found", "해당 옵션 그룹이 저장되어 있지 않음"),
     ERROR_OPTION_NOT_FOUND("ERROR", "EI002", "Option not found", "해당 옵션이 저장되어 있지 않음"),
+    ERROR_ITEM_IMPOSSIBLE_SEND_TYPE("ERROR", "EI003", "Impossible itemSendType", "해당 상품으로는 불가능한 itemSendType"),
     
     // Error - Cart
     ERROR_CART_ITEM_NOT_FOUND("ERROR", "EC100", "Cart item not found", "해당 카트 상품이 저장되어 있지 않음"),
