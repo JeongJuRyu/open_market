@@ -21,9 +21,9 @@ public class PostCartItemDto {
         @Getter
         public static class PostSelectedOptionDto {
 
-            private List<PostCartOptionGroupDto> cartOptionGroups;
-
             private Integer count;
+            
+            private List<PostCartOptionGroupDto> cartOptionGroups;
 
             @Getter
             public static class PostCartOptionGroupDto {
