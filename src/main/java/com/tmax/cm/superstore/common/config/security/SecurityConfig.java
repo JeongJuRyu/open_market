@@ -1,5 +1,7 @@
 package com.tmax.cm.superstore.common.config.security;
 
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,6 +11,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @EnableWebSecurity//(debug = true)
 public class SecurityConfig {
@@ -46,7 +51,8 @@ public class SecurityConfig {
 			.and()
 			.sessionManagement()
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-
+			.and()
+			.cors().configurationSource(configurationSource())
 
 			.and()
 			.apply(customDsl)
@@ -61,5 +67,19 @@ public class SecurityConfig {
 			web.ignoring()
 				.antMatchers("h2-console/**");
 		};
+	}
+
+	@Bean
+	public CorsConfigurationSource configurationSource(){
+		CorsConfiguration configuration = new CorsConfiguration();
+
+		configuration.setAllowedOriginPatterns(List.of("*"));
+		configuration.addAllowedHeader("*");
+		configuration.addAllowedMethod("*");
+		configuration.setAllowCredentials(true);
+
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
 	}
 }
