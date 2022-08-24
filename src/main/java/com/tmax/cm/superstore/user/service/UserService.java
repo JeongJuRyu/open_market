@@ -1,5 +1,8 @@
 package com.tmax.cm.superstore.user.service;
 
+import java.util.UUID;
+
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,12 +45,15 @@ public class UserService {
 	}
 	@Transactional
 	public UpdateEmailResponseDto updateEmail(UpdateEmailRequestDto updateEmailRequestDto){
-		User user = userRepository.findUserByEmail(updateEmailRequestDto.getEmail()).orElseThrow(EmailNotFoundException::new);
+		String email = updateEmailRequestDto.getEmail();
+		User user = userRepository.findUserByEmail(email).orElseThrow(EmailNotFoundException::new);
 		if(checkEmailDuplicate(updateEmailRequestDto.getEmail())){
 			throw new UserAlreadyExistException();
 		}
 		user.updateEmail(updateEmailRequestDto.getEmail());
-		return null;
+		return UpdateEmailResponseDto.builder()
+			.email(updateEmailRequestDto.getEmail())
+			.build();
 	}
 
 	public EmailAuthResponseDto emailAuth(EmailAuthRequestDto emailAuthRequestDto){

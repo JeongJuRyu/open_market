@@ -3,8 +3,8 @@ INSERT INTO shop(id, name, is_deleted) VALUES (UUID'8d41c42a-011b-4525-9864-b244
 
 INSERT INTO item(id, name, price, is_deleted, shop_id) VALUES (UUID'169f84f8-8862-477c-ad27-0b79871deb27', '로토 스르르트 썸머 슈즈', 81000, 0, UUID'2d68d1d0-ed27-46d2-b858-da3f0aa2e430')
 
-INSERT INTO item_send_type(id, send_type, item_id) VALUES (101, 'SHIPPING', UUID'169f84f8-8862-477c-ad27-0b79871deb27')
-INSERT INTO item_send_type(id, send_type, item_id) VALUES (102, 'VISIT', UUID'169f84f8-8862-477c-ad27-0b79871deb27')
+INSERT INTO item_send_type(id, send_type, item_id) VALUES (1, 'SHIPPING', UUID'169f84f8-8862-477c-ad27-0b79871deb27')
+INSERT INTO item_send_type(id, send_type, item_id) VALUES (2, 'VISIT', UUID'169f84f8-8862-477c-ad27-0b79871deb27')
 
 INSERT INTO option_group(id, name, is_necessary, is_deleted, item_id) VALUES (UUID'62cfa7ab-26f5-46cf-af80-f9dedfda5693', 'color', 1, 0, UUID'169f84f8-8862-477c-ad27-0b79871deb27')
 INSERT INTO option_group(id, name, is_necessary, is_deleted, item_id) VALUES (UUID'd1cb3733-da60-413e-9574-8085372bbce7', '굽 선택', 0, 0, UUID'169f84f8-8862-477c-ad27-0b79871deb27')
@@ -18,8 +18,8 @@ INSERT INTO item_option(id, name, price, description, is_deleted, option_group_i
 
 INSERT INTO item(id, name, price, is_deleted, shop_id) VALUES (UUID'1523bc68-e8f7-4140-b7dd-cbfe622e068a', '뿌린클 순살치킨 세트', 20000, 0, UUID'8d41c42a-011b-4525-9864-b24481f985c5')
 
-INSERT INTO item_send_type(id, send_type, item_id) VALUES (103, 'DELIVERY', UUID'1523bc68-e8f7-4140-b7dd-cbfe622e068a')
-INSERT INTO item_send_type(id, send_type, item_id) VALUES (104, 'PICKUP', UUID'1523bc68-e8f7-4140-b7dd-cbfe622e068a')
+INSERT INTO item_send_type(id, send_type, item_id) VALUES (3, 'DELIVERY', UUID'1523bc68-e8f7-4140-b7dd-cbfe622e068a')
+INSERT INTO item_send_type(id, send_type, item_id) VALUES (4, 'PICKUP', UUID'1523bc68-e8f7-4140-b7dd-cbfe622e068a')
 
 INSERT INTO option_group(id, name, is_necessary, is_deleted, item_id) VALUES (UUID'53d4caac-64e9-45aa-b606-73b8b51192a7', '종류', 1, 0, UUID'1523bc68-e8f7-4140-b7dd-cbfe622e068a')
 INSERT INTO option_group(id, name, is_necessary, is_deleted, item_id) VALUES (UUID'ebe5c005-9241-4149-844a-c0ee1eabb29c', '소스', 0, 0, UUID'1523bc68-e8f7-4140-b7dd-cbfe622e068a')
@@ -34,7 +34,7 @@ INSERT INTO shop(id, name, is_deleted) VALUES (UUID'54717bb2-2850-40e5-9889-d17d
 
 INSERT INTO item(id, name, price, is_deleted, shop_id) VALUES (UUID'82cdc2eb-5ee8-4bde-8e32-654054b7fc16', '디너코스', 0, 0, UUID'54717bb2-2850-40e5-9889-d17d227f1606')
 
-INSERT INTO item_send_type(id, send_type, item_id) VALUES (105, 'RESERVATION', UUID'82cdc2eb-5ee8-4bde-8e32-654054b7fc16')
+INSERT INTO item_send_type(id, send_type, item_id) VALUES (5, 'RESERVATION', UUID'82cdc2eb-5ee8-4bde-8e32-654054b7fc16')
 
 INSERT INTO option_group(id, name, is_necessary, is_deleted, item_id) VALUES (UUID'8b41baa5-6118-4949-886f-abe34ca69cfe', '추가정보', 1, 0, UUID'82cdc2eb-5ee8-4bde-8e32-654054b7fc16')
 

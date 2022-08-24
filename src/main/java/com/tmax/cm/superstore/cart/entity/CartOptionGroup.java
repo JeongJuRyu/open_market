@@ -41,6 +41,6 @@ public class CartOptionGroup {
     @JoinColumn(foreignKey = @ForeignKey(name = "FK_cart_option_group_option_group_id"), name = "optionGroupId", nullable = false)
     private OptionGroup optionGroup;
 
-    @OneToMany(mappedBy = "cartOptionGroup", cascade = {CascadeType.PERSIST})
+    @OneToMany(mappedBy = "cartOptionGroup", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private List<CartOption> cartOptions;
 }
