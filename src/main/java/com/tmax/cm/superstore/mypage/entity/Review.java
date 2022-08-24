@@ -1,6 +1,5 @@
 package com.tmax.cm.superstore.mypage.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,7 +42,7 @@ public class Review extends BaseTimeEntity {
 	private User user;
 
 	@OneToMany(mappedBy = "review")
-	private List<ReviewImage> reviewImages = new ArrayList<>();
+	private List<ReviewImage> reviewImages;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "REVIEW_REPLY_ID")
