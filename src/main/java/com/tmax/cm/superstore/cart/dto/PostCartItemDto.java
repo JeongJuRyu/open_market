@@ -30,7 +30,7 @@ public class PostCartItemDto {
 
                 private UUID optionGroupId;
 
-                private List<PostCartOptionDto> cartOpions;
+                private List<PostCartOptionDto> cartOptions;
 
                 @Getter
                 public static class PostCartOptionDto {

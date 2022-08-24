@@ -121,7 +121,7 @@ public class CartService {
                 selectedOption.getCartOptionGroups().add(cartOptionGroup);
 
                 for (PostCartItemDto.Request.PostSelectedOptionDto.PostCartOptionGroupDto.PostCartOptionDto postCartOptionDto : postCartOptionGroupDto
-                        .getCartOpions()) {
+                        .getCartOptions()) {
 
                     Option option = this.optionRepository.findById(postCartOptionDto.getOptionId())
                             .orElseThrow(OptionNotFoundException::new);
@@ -207,7 +207,7 @@ public class CartService {
                 selectedOption.getCartOptionGroups().add(cartOptionGroup);
 
                 for (PostCartReservationItemDto.Request.PostSelectedOptionDto.PostCartOptionGroupDto.PostCartOptionDto postCartOptionDto : postCartOptionGroupDto
-                        .getCartOpions()) {
+                        .getCartOptions()) {
 
                     Option option = this.optionRepository.findById(postCartOptionDto.getOptionId())
                             .orElseThrow(OptionNotFoundException::new);
@@ -298,7 +298,7 @@ public class CartService {
                 selectedOption.getCartOptionGroups().add(cartOptionGroup);
 
                 for (PutCartReservationItemDto.Request.PutSelectedOptionDto.PutCartOptionGroupDto.PutCartOptionDto putCartOptionDto : putCartOptionGroupDto
-                        .getCartOpions()) {
+                        .getCartOptions()) {
 
                     Option option = this.optionRepository.findById(putCartOptionDto.getOptionId())
                             .orElseThrow(OptionNotFoundException::new);
@@ -354,7 +354,7 @@ public class CartService {
                 selectedOption.getCartOptionGroups().add(cartOptionGroup);
 
                 for (PutCartItemDto.Request.PutSelectedOptionDto.PutCartOptionGroupDto.PutCartOptionDto putCartOptionDto : putCartOptionGroupDto
-                        .getCartOpions()) {
+                        .getCartOptions()) {
 
                     Option option = this.optionRepository.findById(putCartOptionDto.getOptionId())
                             .orElseThrow(OptionNotFoundException::new);

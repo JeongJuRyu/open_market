@@ -69,7 +69,7 @@ public class CartControllerIntegrationTest {
                                         put(new JSONObject() {
                                             {
                                                 put("optionGroupId", "62cfa7ab-26f5-46cf-af80-f9dedfda5693");
-                                                put("cartOpions", new JSONArray() {
+                                                put("cartOptions", new JSONArray() {
                                                     {
                                                         put(new JSONObject() {
                                                             {
@@ -125,7 +125,7 @@ public class CartControllerIntegrationTest {
                                         put(new JSONObject() {
                                             {
                                                 put("optionGroupId", "8b41baa5-6118-4949-886f-abe34ca69cfe");
-                                                put("cartOpions", new JSONArray() {
+                                                put("cartOptions", new JSONArray() {
                                                     {
                                                         put(new JSONObject() {
                                                             {
@@ -236,7 +236,7 @@ public class CartControllerIntegrationTest {
                                         put(new JSONObject() {
                                             {
                                                 put("optionGroupId", "62cfa7ab-26f5-46cf-af80-f9dedfda5693");
-                                                put("cartOpions", new JSONArray() {
+                                                put("cartOptions", new JSONArray() {
                                                     {
                                                         put(new JSONObject() {
                                                             {
@@ -291,7 +291,7 @@ public class CartControllerIntegrationTest {
                                         put(new JSONObject() {
                                             {
                                                 put("optionGroupId", "8b41baa5-6118-4949-886f-abe34ca69cfe");
-                                                put("cartOpions", new JSONArray() {
+                                                put("cartOptions", new JSONArray() {
                                                     {
                                                         put(new JSONObject() {
                                                             {
