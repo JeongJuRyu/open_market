@@ -22,7 +22,10 @@ public enum ResponseCode implements Code {
     CART_ITEM_READ("SUCCESS", "CART_ITEM_READ", "Read cart item", "카트 상품 조회"),
     CART_ITEM_UPDATE("SUCCESS", "CART_ITEM_UPDATE", "Update cart items", "카트 상품 수정"),
     CART_ITEMS_DELETE("SUCCESS", "CART_ITEMS_DELETE", "Delete cart items", "카트 상품 대량 삭제"),
-    
+
+    // Seller
+    SELLER_CREATE("SUCCESS", "SELLER_CREATE","Create seller", "판매자 계정 생성"),
+
     // Error - Item
     ERROR_ITEM_NOT_FOUND("ERROR", "EI000", "Item not found", "해당 상품이 저장되어 있지 않음"),
     ERROR_OPTION_GROUP_NOT_FOUND("ERROR", "EI001", "Option group not found", "해당 옵션 그룹이 저장되어 있지 않음"),
