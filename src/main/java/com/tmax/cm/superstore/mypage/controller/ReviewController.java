@@ -2,18 +2,12 @@ package com.tmax.cm.superstore.mypage.controller;
 
 import java.util.UUID;
 
+import com.tmax.cm.superstore.mypage.dto.CreateReviewRequestDto;
 import com.tmax.cm.superstore.mypage.dto.GetAllReviewRequestDto;
 import com.tmax.cm.superstore.mypage.dto.GetAllReviewResponseDto;
 import com.tmax.cm.superstore.mypage.dto.GetReviewResponseDto;
-import com.tmax.cm.superstore.user.entities.User;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.tmax.cm.superstore.mypage.service.ReviewService;
 
@@ -31,14 +25,15 @@ public class ReviewController {
 		return ResponseEntity.ok().body(reviewService.getAllReview(getAllReviewRequestDto));
 	}
 
-	/*@PostMapping
-	public UUID createReview(
-
-	)*/
+	@PostMapping
+	public ResponseEntity<UUID> createReview(
+		@RequestBody CreateReviewRequestDto createReviewRequestDto) {
+		return ResponseEntity.ok().body(reviewService.postReview(createReviewRequestDto));
+	}
 
 	@GetMapping("{reviewId}")
 	public ResponseEntity<GetReviewResponseDto> getReview(
-		@RequestParam UUID reviewId){
+		@PathVariable UUID reviewId){
 		return ResponseEntity.ok().body(reviewService.getReview(reviewId));
 	}
 
