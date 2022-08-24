@@ -59,7 +59,7 @@ public class CartController {
 
         this.cartService.createCartReservationItem(request);
 
-        return new ResponseDto<>(ResponseCode.CART_RESERVATIOIN_ITEM_CREATE, null);
+        return new ResponseDto<>(ResponseCode.CART_RESERVATION_ITEM_CREATE, null);
     }
 
     @GetMapping
@@ -96,7 +96,7 @@ public class CartController {
 
         CartItem cartItem = this.cartService.readCartItem(cartItemId);
 
-        return new ResponseDto<>(ResponseCode.CART_RESERVATIOIN_ITEM_READ,
+        return new ResponseDto<>(ResponseCode.CART_RESERVATION_ITEM_READ,
                 this.getCartReservationItemDtoMapper.toResponse(cartItem));
     }
 
@@ -123,6 +123,6 @@ public class CartController {
 
         this.cartService.updateCartReservationItem(cartItemId, request);
 
-        return new ResponseDto<>(ResponseCode.CART_RESERVATIOIN_ITEM_UPDATE, null);
+        return new ResponseDto<>(ResponseCode.CART_RESERVATION_ITEM_UPDATE, null);
     }
 }
