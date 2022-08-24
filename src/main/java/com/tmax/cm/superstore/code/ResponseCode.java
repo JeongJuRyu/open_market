@@ -35,13 +35,18 @@ public enum ResponseCode implements Code {
     // Error - Cart
     ERROR_CART_ITEM_NOT_FOUND("ERROR", "EC100", "Cart item not found", "해당 카트 상품이 저장되어 있지 않음"),
 
-    // Error - Common
-    ERROR_COMMON_RUNTIME("ERROR", "EC000", "Runtime Exception", "Runtime Exception 발생한 경우"),
-    ERROR_COMMON_CONCURRENCY("ERROR","EC001", "Request occured simultaneously", "동시 요청으로 인한 오류"),
+    //Error - MyPage
+    ERROR_REVIEW_NOT_FOUND("ERROR", "EM100", "Review not found", "해당 리뷰가 존재하지 않음"),
 
     // User
     ERROR_EMAIL_NOT_FOUND("ERROR", "EU001", "Email not found", "존재하지 않는 이메일"),
-    ERROR_EMAIL_ALREADY_EXIST("ERROR", "EU002", "Already existed email", "이미 존재하는 이메일");
+    ERROR_EMAIL_ALREADY_EXIST("ERROR", "EU002", "Already existed email", "이미 존재하는 이메일"),
+
+
+    // Error - Common
+    ERROR_COMMON_RUNTIME("ERROR", "EC000", "Runtime Exception", "Runtime Exception 발생한 경우"),
+    ERROR_COMMON_CONCURRENCY("ERROR","EC001", "Request occured simultaneously", "동시 요청으로 인한 오류");
+
 
     private String status; // API response
     private String code; // API response
