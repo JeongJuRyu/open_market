@@ -11,7 +11,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class GetAlICustomerCenterInquiryResponseDto {
-	private List<Inquiry> inquiry = new ArrayList<>();
+	private List<Inquiry> inquiries;
 	@Getter
 	@Builder
 	public static class Inquiry {
