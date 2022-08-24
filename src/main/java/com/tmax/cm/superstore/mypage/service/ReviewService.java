@@ -6,7 +6,7 @@ import com.tmax.cm.superstore.mypage.dto.GetAllReviewResponseDto;
 import com.tmax.cm.superstore.mypage.dto.GetReviewResponseDto;
 import com.tmax.cm.superstore.mypage.entity.Review;
 import com.tmax.cm.superstore.mypage.entity.ReviewImage;
-import com.tmax.cm.superstore.mypage.mapper.ReviewMapperImpl;
+import com.tmax.cm.superstore.mypage.mapper.ReviewMapper;
 import com.tmax.cm.superstore.user.entities.User;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ReviewService {
 	private final ReviewRepository reviewRepository;
-	private final ReviewMapperImpl reviewMapper;
+	private final ReviewMapper reviewMapper;
 
 	public GetAllReviewResponseDto getAllReview(GetAllReviewRequestDto dto){
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
