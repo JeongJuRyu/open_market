@@ -40,7 +40,7 @@ public class SelectedOption {
 	@JoinColumn(foreignKey = @ForeignKey(name = "FK_selected_option_cart_item_id"), name = "cartItemId", nullable = false)
 	private CartItem cartItem;
 
-    @OneToMany(mappedBy = "selectedOption", cascade = {CascadeType.PERSIST})
+    @OneToMany(mappedBy = "selectedOption", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private List<CartOptionGroup> cartOptionGroups;
 
     @Column(nullable = false)
