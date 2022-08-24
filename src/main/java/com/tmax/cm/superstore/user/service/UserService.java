@@ -45,7 +45,7 @@ public class UserService {
 	}
 	@Transactional
 	public UpdateEmailResponseDto updateEmail(UpdateEmailRequestDto updateEmailRequestDto){
-		String email = ((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getEmail();
+		String email = updateEmailRequestDto.getEmail();
 		User user = userRepository.findUserByEmail(email).orElseThrow(EmailNotFoundException::new);
 		if(checkEmailDuplicate(updateEmailRequestDto.getEmail())){
 			throw new UserAlreadyExistException();
