@@ -3,6 +3,7 @@ package com.tmax.cm.superstore.user.controller;
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,7 +40,7 @@ public class UserController {
 		return ResponseEntity.ok().body(userService.updateEmail(updateEmailRequestDto));
 	}
 
-	@PostMapping("/password")
+	@PatchMapping("/password")
 	public ResponseEntity<UpdatePasswordResponseDto> updatePassword(@RequestBody
 		UpdatePasswordRequestDto updatePasswordRequestDto){
 		return ResponseEntity.ok().body(userService.updatePassword(updatePasswordRequestDto));

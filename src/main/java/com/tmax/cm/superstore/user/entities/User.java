@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,6 +22,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -30,18 +33,20 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Table(name="users")
 public class User implements UserDetails {
 	@Id
 	@GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-	@Column(name = "USER_ID")
+	@Column(name = "USER_ID", columnDefinition = "BINARY(16)")
 	private UUID id;
 
 	@Column(unique = true, nullable = false)
@@ -60,7 +65,7 @@ public class User implements UserDetails {
 	@JoinColumn(name = "EMAIL_TOKEN_ID")
 	private EmailToken emailToken;
 
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<DeliveryAddress> deliveryAddresses = new ArrayList<>();
 
 	@ManyToMany
