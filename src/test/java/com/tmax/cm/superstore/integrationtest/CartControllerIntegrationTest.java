@@ -103,7 +103,7 @@ public class CartControllerIntegrationTest {
     }
 
     @Test
-    void testPostCreateCartItem() throws Exception {
+    void testPostCartReservationItem() throws Exception {
         // given
         JSONObject request = new JSONObject() {
             {
@@ -119,7 +119,7 @@ public class CartControllerIntegrationTest {
                     {
                         put(new JSONObject() {
                             {
-                                put("count", 1);
+                                put("selectedOptionCount", 1);
                                 put("cartOptionGroups", new JSONArray() {
                                     {
                                         put(new JSONObject() {
@@ -130,7 +130,7 @@ public class CartControllerIntegrationTest {
                                                         put(new JSONObject() {
                                                             {
                                                                 put("optionId", "08a1f664-c17c-4ff3-bb26-6519b7b2bff1");
-                                                                put("count", 1);
+                                                                put("cartItemOptionCount", 1);
                                                             }
                                                         });
                                                     }
