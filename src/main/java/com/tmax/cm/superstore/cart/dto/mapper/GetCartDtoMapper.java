@@ -28,13 +28,13 @@ public interface GetCartDtoMapper {
         @Mapping(target = "itemThumbnailURL", ignore = true)
         @Mapping(target = "itemPrice", source = "item.price")
         @Mapping(target = "cartItemId", source = "id")
-        @Mapping(target = "cartItemAmount", ignore = true) // TODO
-        @Mapping(target = "cartItemCount", ignore = true) // TODO
+        @Mapping(target = "cartItemAmount", ignore = true)
+        @Mapping(target = "cartItemCount", ignore = true)
         GetCartDto.Response.GetCartItemDto toCartItemDto(CartItem cartItem);
 
         @Mapping(target = "selectedOptionId", source = "id")
         @Mapping(target = "selectedOptionCount", source = "count")
-        @Mapping(target = "selectedOptionAmount", ignore = true) // TODO
+        @Mapping(target = "selectedOptionAmount", ignore = true)
         GetCartDto.Response.GetCartItemDto.GetSelectedOptionDto toGetSelectedOptionDto(SelectedOption selectedOption);
 
         @Mapping(target = "cartOptionGroupId", source = "id")
@@ -60,13 +60,13 @@ public interface GetCartDtoMapper {
         @Mapping(target = "itemPrice", source = "item.price")
         @Mapping(target = "cartItemId", source = "id")
         @Mapping(target = ".", source = "cartReservationItem")
-        @Mapping(target = "cartItemAmount", ignore = true) // TODO
-        @Mapping(target = "cartItemCount", ignore = true) // TODO
+        @Mapping(target = "cartItemAmount", ignore = true)
+        @Mapping(target = "cartItemCount", ignore = true)
         GetCartDto.Response.GetCartReservationItemDto toCartReservationItemDto(CartItem cartItem);
 
         @Mapping(target = "selectedOptionId", source = "id")
         @Mapping(target = "selectedOptionCount", source = "count")
-        @Mapping(target = "selectedOptionAmount", ignore = true) // TODO
+        @Mapping(target = "selectedOptionAmount", ignore = true)
         GetCartDto.Response.GetCartReservationItemDto.GetSelectedOptionDto toCartReservationItemGetSelectedOptionDto(
                         SelectedOption selectedOption);
 

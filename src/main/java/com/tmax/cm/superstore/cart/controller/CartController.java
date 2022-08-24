@@ -80,6 +80,10 @@ public class CartController {
         GetCartDto.Response response = this.getCartDtoMapper.toResponse(shippingVisitCartItems, deliveryPickupCartItems,
                 reservationCartItems);
 
+        response.getShippingVisit().forEach((element) -> element.calculate());
+        response.getDeliveryPickup().forEach((element) -> element.calculate());
+        response.getReservation().forEach((element) -> element.calculate());
+
         return new ResponseDto<>(ResponseCode.CART_READ, response);
     }
 
@@ -88,7 +92,10 @@ public class CartController {
 
         CartItem cartItem = this.cartService.readCartItem(cartItemId);
 
-        return new ResponseDto<>(ResponseCode.CART_ITEM_READ, this.getCartItemDtoMapper.toResponse(cartItem));
+        GetCartItemDto.Response response = this.getCartItemDtoMapper.toResponse(cartItem);
+        response.calculate();
+
+        return new ResponseDto<>(ResponseCode.CART_ITEM_READ, response);
     }
 
     @GetMapping("/cartReservationItem/{cartItemId}")
@@ -96,8 +103,10 @@ public class CartController {
 
         CartItem cartItem = this.cartService.readCartItem(cartItemId);
 
-        return new ResponseDto<>(ResponseCode.CART_RESERVATION_ITEM_READ,
-                this.getCartReservationItemDtoMapper.toResponse(cartItem));
+        GetCartReservationItemDto.Response response = this.getCartReservationItemDtoMapper.toResponse(cartItem);
+        response.calculate();
+
+        return new ResponseDto<>(ResponseCode.CART_RESERVATION_ITEM_READ, response);
     }
 
     @DeleteMapping("/cartItem")
