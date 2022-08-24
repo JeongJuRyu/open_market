@@ -101,6 +101,26 @@ public class GetCartDto {
                     }
                 }
             }
+
+            public void calculate() {
+                this.cartItemAmount = 0;
+                this.cartItemCount = 0;
+
+                for (GetSelectedOptionDto selectedOption : selectedOptions) {
+                    selectedOption.selectedOptionAmount = 0;
+
+                    for (GetCartDto.Response.GetCartItemDto.GetSelectedOptionDto.GetCartOptionGroupDto cartOptionGroup : selectedOption.cartOptionGroups) {
+                        for (GetCartDto.Response.GetCartItemDto.GetSelectedOptionDto.GetCartOptionGroupDto.GetCartOptionDto cartOption : cartOptionGroup.cartOptions) {
+                            selectedOption.selectedOptionAmount += cartOption.optionPrice
+                                    * cartOption.cartItemOptionCount;
+                        }
+                    }
+
+                    selectedOption.selectedOptionAmount += this.itemPrice;
+                    this.cartItemAmount += selectedOption.selectedOptionAmount * selectedOption.selectedOptionCount;
+                    this.cartItemCount += selectedOption.selectedOptionCount;
+                }
+            }
         }
 
         @Builder
@@ -117,7 +137,7 @@ public class GetCartDto {
             private SendType sendType;
 
             private UUID itemId;
-            
+
             @Builder.Default
             private String itemThumbnailURL = "images/510a2ac1-7869-49c5-875b-1dfb8ea243f4.jpg";
 
@@ -130,19 +150,19 @@ public class GetCartDto {
             private Integer cartItemAmount;
 
             private Integer cartItemCount;
-            
+
             private LocalDateTime reservationDate;
-            
+
             private DayOfWeek dayOfWeek;
 
             private Integer reservationHeadcount;
-            
+
             private String guestName;
 
             private String guestPhoneNumber;
-            
+
             private String guestEmail;
-            
+
             private String reservationRequirement;
 
             private List<GetSelectedOptionDto> selectedOptions;
@@ -187,6 +207,26 @@ public class GetCartDto {
 
                         private Integer cartItemOptionCount;
                     }
+                }
+            }
+
+            public void calculate() {
+                this.cartItemAmount = 0;
+                this.cartItemCount = 0;
+
+                for (GetSelectedOptionDto selectedOption : selectedOptions) {
+                    selectedOption.selectedOptionAmount = 0;
+
+                    for (GetCartDto.Response.GetCartReservationItemDto.GetSelectedOptionDto.GetCartOptionGroupDto cartOptionGroup : selectedOption.cartOptionGroups) {
+                        for (GetCartDto.Response.GetCartReservationItemDto.GetSelectedOptionDto.GetCartOptionGroupDto.GetCartOptionDto cartOption : cartOptionGroup.cartOptions) {
+                            selectedOption.selectedOptionAmount += cartOption.optionPrice
+                                    * cartOption.cartItemOptionCount;
+                        }
+                    }
+
+                    selectedOption.selectedOptionAmount += this.itemPrice;
+                    this.cartItemAmount += selectedOption.selectedOptionAmount * selectedOption.selectedOptionCount;
+                    this.cartItemCount += selectedOption.selectedOptionCount;
                 }
             }
         }
