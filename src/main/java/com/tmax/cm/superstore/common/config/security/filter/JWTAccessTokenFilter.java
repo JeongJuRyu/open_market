@@ -1,4 +1,4 @@
-package com.tmax.cm.superstore.common.config.security;
+package com.tmax.cm.superstore.common.config.security.filter;
 
 import java.io.IOException;
 
@@ -13,6 +13,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
+import com.tmax.cm.superstore.common.config.security.JwtUtil;
+import com.tmax.cm.superstore.common.config.security.VerifyResult;
 import com.tmax.cm.superstore.error.lib.AuthErrorCode;
 import com.tmax.cm.superstore.user.repository.UserLoginInfoRepository;
 import com.tmax.cm.superstore.user.service.UserDetailsServiceImpl;

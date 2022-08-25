@@ -1,4 +1,4 @@
-package com.tmax.cm.superstore.common.config.security;
+package com.tmax.cm.superstore.common.config.security.filter;
 
 import java.io.IOException;
 
@@ -16,6 +16,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tmax.cm.superstore.common.config.security.JwtUtil;
 import com.tmax.cm.superstore.error.lib.AuthErrorCode;
 import com.tmax.cm.superstore.user.dto.UserLoginRequestDto;
 import com.tmax.cm.superstore.user.entities.User;

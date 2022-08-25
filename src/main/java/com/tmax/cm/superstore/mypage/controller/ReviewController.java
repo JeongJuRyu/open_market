@@ -10,6 +10,7 @@ import com.tmax.cm.superstore.mypage.dto.GetReviewResponseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.tmax.cm.superstore.mypage.dto.UpdateReviewRequestDto;
 import com.tmax.cm.superstore.mypage.service.ReviewService;
 
 import lombok.RequiredArgsConstructor;
@@ -31,11 +32,11 @@ public class ReviewController {
 		@RequestBody CreateReviewRequestDto createReviewRequestDto) {
 		return ResponseEntity.ok().body(reviewService.postReview(createReviewRequestDto));
 	}
-	/*@PutMapping
+	@PutMapping
 	public ResponseEntity<UUID> updateReview(
-		@RequestBody CreateReviewRequestDto createReviewRequestDto){
-		return ResponseEntity.ok().body(reviewService.updateReview(createReviewRequestDto));
-	}*/
+		@RequestBody UpdateReviewRequestDto updateReviewRequestDto){
+		return ResponseEntity.ok().body(reviewService.updateReview(updateReviewRequestDto));
+	}
 
 	@DeleteMapping("/{reviewId}")
 	public void deleteReview(
