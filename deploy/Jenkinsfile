@@ -9,6 +9,12 @@ pipeline {
         FAILURE_REASON = 'unknown'
     }
 
+    environment {
+        DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1012228864346443827/mAKrRlMJ0g5bN7OGCnUfNVLkzs18SxXXXEDrGVRegPhd1Y05onul4GFxroP-50AAvP3l'
+        FAILURE_TITLE = '빌드 오류'
+        FAILURE_REASON = 'unknown'
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -21,7 +27,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        def output = sh script: './gradlew clean test' returnStdout: true
+                        def output = sh(script: './gradlew clean test', returnStdout: true)
                     } catch (err) {
                         FAILURE_TITLE = 'gradle test 실패'
                         FAILURE_REASON = output
@@ -39,7 +45,7 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                script {
+                script  {
                     try {
                         sh 'docker-compose --env-file ./deploy/.env -f ./deploy/docker-compose.yml down --rmi all'
                     } catch (err) {
@@ -63,7 +69,6 @@ DB 주소 : 192.168.159.41:13306
                     '''
 
                 discordSend description: sendMessage,
-                        footer: "Build ${currentBuild.result}",
                         link: env.BUILD_URL,
                         result: currentBuild.currentResult,
                         title: JOB_NAME,
@@ -79,7 +84,6 @@ ${FAILURE_REASON}
             """
 
                 discordSend description: sendMessage,
-                    footer: "Build ${currentBuild.result}",
                     link: "${env.BUILD_URL}console",
                     result: currentBuild.currentResult,
                     title: JOB_NAME,
