@@ -26,6 +26,9 @@ public enum ResponseCode implements Code {
     // Seller
     SELLER_CREATE("SUCCESS", "SELLER_CREATE","Create seller", "판매자 계정 생성"),
 
+    // Reservation
+    RESERVATION_ITEM_CREATE("SUCCESS", "RESERVATION_ITEM_CREATE", "Create reservationItem", "예약 상품 생성"),
+
     // Error - Item
     ERROR_ITEM_NOT_FOUND("ERROR", "EI000", "Item not found", "해당 상품이 저장되어 있지 않음"),
     ERROR_OPTION_GROUP_NOT_FOUND("ERROR", "EI001", "Option group not found", "해당 옵션 그룹이 저장되어 있지 않음"),
@@ -33,6 +36,10 @@ public enum ResponseCode implements Code {
     
     // Error - Cart
     ERROR_CART_ITEM_NOT_FOUND("ERROR", "EC100", "Cart item not found", "해당 카트 상품이 저장되어 있지 않음"),
+
+    // Error - Seller
+    ERROR_SELLER_NOT_FOUND("ERROR", "ES000", "Seller not found", "해당 판매자 계정이 존재하지 않음"),
+    ERROR_SELLER_ALREADY_DELETED("ERROR", "ES001", "Seller already deleted", "해당 판매자 계정은 이미 삭제됨"),
 
     // Error - Common
     ERROR_COMMON_RUNTIME("ERROR", "EC000", "Runtime Exception", "Runtime Exception 발생한 경우"),

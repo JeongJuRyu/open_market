@@ -1,9 +1,15 @@
 package com.tmax.cm.superstore.reservation.entity;
 
+import com.tmax.cm.superstore.reservation.dto.CreateReservationItemDto;
+import com.tmax.cm.superstore.seller.entity.Seller;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalTime;
 import java.util.UUID;
 
@@ -11,6 +17,9 @@ import java.util.UUID;
 @Getter
 @Table(name = "reservationItem")
 @Access(AccessType.FIELD)
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder(builderMethodName = "ReservationItemBuilder")
 public class ReservationItem {
 
 	@Id
@@ -34,9 +43,26 @@ public class ReservationItem {
 	@Column
 	private String reservationInterval;
 
-	@Column
-	private LocalTime startTime;
+	@Column(nullable = false)
+	private boolean isDeleted;
 
-	@Column
-	private LocalTime endTime;
+	@NotNull
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "sellerId")
+	private Seller sellerId;
+
+//	@Column
+//	private LocalTime startTime;
+//	@Column
+//	private LocalTime endTime;
+
+	public static ReservationItemBuilder builder(CreateReservationItemDto.Request createReservationItemRequestDto, Seller seller){
+		return ReservationItemBuilder()
+			.reservationItemName(createReservationItemRequestDto.getReservationItemName())
+			.reservationItemDescription(createReservationItemRequestDto.getReservationItemDescription())
+			.reservationItemNotice(createReservationItemRequestDto.getReservationItemNotice())
+			.allowReservationNumberPer30(createReservationItemRequestDto.getAllowReservationNumberPer30())
+			.reservationInterval(createReservationItemRequestDto.getReservationInterval())
+			.sellerId(seller);
+	}
 }

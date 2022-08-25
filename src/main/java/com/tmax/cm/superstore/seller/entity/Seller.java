@@ -40,6 +40,9 @@ public class Seller {
 	@Column
 	private String sellerPhoneNum;
 
+	@Column(nullable = false)
+	private boolean isDeleted;
+
 	public static SellerBuilder builder(CreateSellerDto.Request createSellerRequestDto){
 		return SellerBuilder()
 			.loginId(createSellerRequestDto.getLoginId())
