@@ -27,6 +27,7 @@ import lombok.NoArgsConstructor;
 public class CustomerCenterInquiry {
 	@Id @GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+	@Column(name = "CUSTOMER_CENTER_INQURIY_ID", columnDefinition = "BINARY(16)")
 	private UUID id;
 
 	@ManyToOne(fetch = FetchType.LAZY)

@@ -29,6 +29,7 @@ import lombok.NoArgsConstructor;
 public class ReviewImage {
 	@Id @GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+	@Column(name = "REVIEW_ID", columnDefinition = "BINARY(16)")
 	private UUID id;
 
 	private String url;
