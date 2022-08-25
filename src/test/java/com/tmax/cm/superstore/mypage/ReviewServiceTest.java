@@ -1,4 +1,4 @@
-package com.tmax.cm.superstore.mypage;
+/*package com.tmax.cm.superstore.mypage;
 
 import static org.mockito.BDDMockito.*;
 
@@ -55,8 +55,7 @@ public class ReviewServiceTest {
 		given(reviewRepository.findReviewById(id))
 			.willReturn(Optional.ofNullable(review));
 		// when
-
-		/*리뷰 생성 후 저장 로직*/
+=
 
 		// then
 		Review findReview = reviewRepository.findReviewById(id).get();
@@ -66,3 +65,4 @@ public class ReviewServiceTest {
 
 	}
 }
+*/
