@@ -3,6 +3,12 @@ pipeline {
     parameters {
         string(name: 'BRANCH', defaultValue: '*/master', description: 'checkout branch')
     }
+    environment {
+        DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1012228864346443827/mAKrRlMJ0g5bN7OGCnUfNVLkzs18SxXXXEDrGVRegPhd1Y05onul4GFxroP-50AAvP3l'
+        FAILURE_TITLE = '빌드 오류'
+        FAILURE_REASON = 'unknown'
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -13,7 +19,14 @@ pipeline {
 
         stage('Test') {
             steps {
-                sh './gradlew clean test'
+                script {
+                    try {
+                        def output = sh script: './gradlew clean test' returnStdout: true
+                    } catch (err) {
+                        FAILURE_TITLE = 'gradle test 실패'
+                        FAILURE_REASON = output
+                    }
+                }
             }
         }
 
@@ -26,7 +39,7 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                script{
+                script {
                     try {
                         sh 'docker-compose --env-file ./deploy/.env -f ./deploy/docker-compose.yml down --rmi all'
                     } catch (err) {
@@ -35,6 +48,42 @@ pipeline {
                         sh 'docker-compose --env-file ./deploy/.env -f ./deploy/docker-compose.yml up -d'
                     }
                 }
+            }
+        }
+    }
+
+    post {
+        fixed { // 빌드 결과가 이전 실패 > 성공으로 전환됨
+            script {
+                String sendMessage = '''
+[ 빌드 성공 ]
+스프링 주소 : http://192.168.159.41:18080/
+Swagger 주소 :  http://192.168.159.41:28080/
+DB 주소 : 192.168.159.41:13306
+                    '''
+
+                discordSend description: sendMessage,
+                        footer: "Build ${currentBuild.result}",
+                        link: env.BUILD_URL,
+                        result: currentBuild.currentResult,
+                        title: JOB_NAME,
+                        webhookURL: DISCORD_WEBHOOK_URL
+            }
+        }
+
+        unsuccessful {
+            script {
+                String sendMessage = """
+[ ${FAILURE_TITLE} ]
+${FAILURE_REASON}
+            """
+
+                discordSend description: sendMessage,
+                    footer: "Build ${currentBuild.result}",
+                    link: "${env.BUILD_URL}console",
+                    result: currentBuild.currentResult,
+                    title: JOB_NAME,
+                    webhookURL: DISCORD_WEBHOOK_URL
             }
         }
     }
