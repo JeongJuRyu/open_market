@@ -8,6 +8,7 @@ import javax.persistence.*;
 
 import com.tmax.cm.superstore.common.entity.BaseTimeEntity;
 import com.tmax.cm.superstore.mypage.dto.CreateReviewReplyRequestDto;
+import com.tmax.cm.superstore.mypage.dto.UpdateReviewRequestDto;
 import com.tmax.cm.superstore.user.entities.User;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -51,6 +52,15 @@ public class Review extends BaseTimeEntity {
 	@JoinColumn(name = "REVIEW_REPLY_ID")
 	private ReviewReply reviewReply;
 
+	public void updateReview(UpdateReviewRequestDto dto){
+		this.title = dto.getTitle();
+		this.content = dto.getContent();
+		this.getReviewImages().clear();
+		dto.getReviewImages().forEach(image->
+			this.getReviewImages().add(ReviewImage.ReviewImageBuilder()
+				.review(this).url(image.getUrl()).build())
+		);
+	}
 	public void setReviewReply(CreateReviewReplyRequestDto dto) {
 		this.reviewReply = ReviewReply.ReviewReplyBuilder()
 			.review(this)
