@@ -29,7 +29,7 @@ public enum ResponseCode implements Code {
     // Reservation
     RESERVATION_DATE_READ("SUCCESS", "Reservation_DATE_READ", "Read reservable dates", "예약 가능한 날짜 조회"),
     RESERVATION_TIME_READ("SUCCESS", "Reservation_TIME_READ", "Read reservable times", "예약 가능한 시간대 조회"),
-    
+
     // Error - Item
     ERROR_ITEM_NOT_FOUND("ERROR", "EI000", "Item not found", "해당 상품이 저장되어 있지 않음"),
     ERROR_OPTION_GROUP_NOT_FOUND("ERROR", "EI001", "Option group not found", "해당 옵션 그룹이 저장되어 있지 않음"),
@@ -39,13 +39,17 @@ public enum ResponseCode implements Code {
     // Error - Cart
     ERROR_CART_ITEM_NOT_FOUND("ERROR", "EC100", "Cart item not found", "해당 카트 상품이 저장되어 있지 않음"),
 
-    // Error - Common
-    ERROR_COMMON_RUNTIME("ERROR", "EC000", "Runtime Exception", "Runtime Exception 발생한 경우"),
-    ERROR_COMMON_CONCURRENCY("ERROR","EC001", "Request occurred simultaneously", "동시 요청으로 인한 오류"),
+    // Error - MyPage
+    ERROR_REVIEW_NOT_FOUND("ERROR", "EM100", "Review not found", "해당 리뷰가 존재하지 않음"),
 
     // Error - User
     ERROR_EMAIL_NOT_FOUND("ERROR", "EU001", "Email not found", "존재하지 않는 이메일"),
-    ERROR_EMAIL_ALREADY_EXIST("ERROR", "EU002", "Already existed email", "이미 존재하는 이메일");
+    ERROR_EMAIL_ALREADY_EXIST("ERROR", "EU002", "Already existed email", "이미 존재하는 이메일"),
+
+    // Error - Common
+    ERROR_COMMON_RUNTIME("ERROR", "EC000", "Runtime Exception", "Runtime Exception 발생한 경우"),
+    ERROR_COMMON_CONCURRENCY("ERROR","EC001", "Request occured simultaneously", "동시 요청으로 인한 오류");
+
 
     private String status; // API response
     private String code; // API response
