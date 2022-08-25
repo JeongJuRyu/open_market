@@ -42,7 +42,7 @@ public class ReviewController {
 		@PathVariable UUID reviewId){
 		reviewService.deleteReview(reviewId);
 	}
-	@GetMapping("{/reviewId}")
+	@GetMapping("{reviewId}")
 	public ResponseEntity<GetReviewResponseDto> getReview(
 		@PathVariable UUID reviewId){
 		return ResponseEntity.ok().body(reviewService.getReview(reviewId));
