@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 public class ItemInquiryAnswer {
 	@Id @GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-	@Column(name = "ITEM_INQUIRY_ANSWER_ID")
+	@Column(name = "ITEM_INQUIRY_ANSWER_ID", columnDefinition = "BINARY(16)")
 	private UUID id;
 
 	@Column(nullable = false)

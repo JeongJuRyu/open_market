@@ -26,14 +26,14 @@ import lombok.NoArgsConstructor;
 public class ReviewReply {
 	@Id @GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-	@Column(name = "REVIEW_REPLY_ID")
+	@Column(name = "REVIEW_REPLY_ID", columnDefinition = "BINARY(16)")
 	private UUID id;
+
+	@Column(nullable = false)
+	private String content;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "REIVEW_ID")
 	private Review review;
-
-	@Column(nullable = false)
-	private String content;
 
 }

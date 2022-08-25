@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 public class ItemInquiryImage {
 	@Id @GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-	@Column(name = "ITEM_INQUIRY_IMAGE_ID")
+	@Column(name = "ITEM_INQUIRY_IMAGE_ID", columnDefinition = "BINARY(16)")
 	private UUID id;
 
 	@ManyToOne(fetch = FetchType.LAZY)

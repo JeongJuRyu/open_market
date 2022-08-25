@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.tmax.cm.superstore.user.entities.User;
@@ -28,20 +29,12 @@ import lombok.NoArgsConstructor;
 public class ReviewImage {
 	@Id @GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+	@Column(name = "REVIEW_ID", columnDefinition = "BINARY(16)")
 	private UUID id;
 
+	private String url;
 	/*@OneToMany(mappedBy = "order")
 	List<OrderItem> orderItems;*/
-
-	@Column(nullable = false)
-	private String title;
-
-	@Column(nullable = false)
-	private String content;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "USER_ID")
-	private User user;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "REIVEW_ID")
@@ -51,10 +44,6 @@ public class ReviewImage {
 	public static ReviewImageBuilder builder(/*OrderItem orderItem, */String title,
 									String content, User user, Review review){
 		return ReviewImageBuilder()
-			//.orderItem(orderItem)
-			.title(title)
-			.content(content)
-			.user(user)
 			.review(review);
 	}
 }
