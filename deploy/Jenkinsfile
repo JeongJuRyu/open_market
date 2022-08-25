@@ -8,13 +8,7 @@ pipeline {
         FAILURE_TITLE = '빌드 오류'
         FAILURE_REASON = 'unknown'
     }
-
-    environment {
-        DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1012228864346443827/mAKrRlMJ0g5bN7OGCnUfNVLkzs18SxXXXEDrGVRegPhd1Y05onul4GFxroP-50AAvP3l'
-        FAILURE_TITLE = '빌드 오류'
-        FAILURE_REASON = 'unknown'
-    }
-
+    
     stages {
         stage('Checkout') {
             steps {
