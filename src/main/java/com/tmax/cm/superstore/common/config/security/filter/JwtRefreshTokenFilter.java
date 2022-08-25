@@ -1,4 +1,4 @@
-package com.tmax.cm.superstore.common.config.security;
+package com.tmax.cm.superstore.common.config.security.filter;
 
 import java.io.IOException;
 
@@ -20,6 +20,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tmax.cm.superstore.common.config.security.JwtUtil;
+import com.tmax.cm.superstore.common.config.security.VerifyResult;
 import com.tmax.cm.superstore.error.lib.AuthErrorCode;
 import com.tmax.cm.superstore.user.dto.TokenRequestDto;
 import com.tmax.cm.superstore.user.entities.User;

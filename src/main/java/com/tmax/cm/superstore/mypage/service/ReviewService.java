@@ -6,6 +6,7 @@ import com.tmax.cm.superstore.mypage.dto.CreateReviewRequestDto;
 import com.tmax.cm.superstore.mypage.dto.GetAllReviewRequestDto;
 import com.tmax.cm.superstore.mypage.dto.GetAllReviewResponseDto;
 import com.tmax.cm.superstore.mypage.dto.GetReviewResponseDto;
+import com.tmax.cm.superstore.mypage.dto.UpdateReviewRequestDto;
 import com.tmax.cm.superstore.mypage.entity.Review;
 import com.tmax.cm.superstore.mypage.entity.ReviewImage;
 import com.tmax.cm.superstore.mypage.entity.ReviewReply;
@@ -54,10 +55,16 @@ public class ReviewService {
 	}
 
 	@Transactional
+	public UUID updateReview(UpdateReviewRequestDto dto){
+		Review review = reviewRepository.findReviewById(dto.getId()).orElseThrow(ReviewNotFoundException::new);
+		review.updateReview(dto);
+		return review.getId();
+	}
+	@Transactional
 	public UUID postReviewReply(CreateReviewReplyRequestDto dto){
 		Review review = reviewRepository.findReviewById(dto.getReviewId()).orElseThrow(ReviewNotFoundException::new);
 		review.setReviewReply(dto);
-		return reviewRepository.save(review).getId(); // 리뷰 ID 리턴
+		return reviewRepository.save(review).getId();
 	}
 
 	@Transactional
