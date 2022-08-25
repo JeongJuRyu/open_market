@@ -28,7 +28,7 @@ public class PutCartItemDto {
 
                 private UUID optionGroupId;
 
-                private List<PutCartOptionDto> cartOpions;
+                private List<PutCartOptionDto> cartOptions;
 
                 @Getter
                 public static class PutCartOptionDto {

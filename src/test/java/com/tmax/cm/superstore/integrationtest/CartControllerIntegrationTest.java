@@ -69,7 +69,7 @@ public class CartControllerIntegrationTest {
                                         put(new JSONObject() {
                                             {
                                                 put("optionGroupId", "62cfa7ab-26f5-46cf-af80-f9dedfda5693");
-                                                put("cartOpions", new JSONArray() {
+                                                put("cartOptions", new JSONArray() {
                                                     {
                                                         put(new JSONObject() {
                                                             {
@@ -103,7 +103,7 @@ public class CartControllerIntegrationTest {
     }
 
     @Test
-    void testPostCreateCartItem() throws Exception {
+    void testPostCartReservationItem() throws Exception {
         // given
         JSONObject request = new JSONObject() {
             {
@@ -119,18 +119,18 @@ public class CartControllerIntegrationTest {
                     {
                         put(new JSONObject() {
                             {
-                                put("count", 1);
+                                put("selectedOptionCount", 1);
                                 put("cartOptionGroups", new JSONArray() {
                                     {
                                         put(new JSONObject() {
                                             {
                                                 put("optionGroupId", "8b41baa5-6118-4949-886f-abe34ca69cfe");
-                                                put("cartOpions", new JSONArray() {
+                                                put("cartOptions", new JSONArray() {
                                                     {
                                                         put(new JSONObject() {
                                                             {
                                                                 put("optionId", "08a1f664-c17c-4ff3-bb26-6519b7b2bff1");
-                                                                put("count", 1);
+                                                                put("cartItemOptionCount", 1);
                                                             }
                                                         });
                                                     }
@@ -236,7 +236,7 @@ public class CartControllerIntegrationTest {
                                         put(new JSONObject() {
                                             {
                                                 put("optionGroupId", "62cfa7ab-26f5-46cf-af80-f9dedfda5693");
-                                                put("cartOpions", new JSONArray() {
+                                                put("cartOptions", new JSONArray() {
                                                     {
                                                         put(new JSONObject() {
                                                             {
@@ -291,7 +291,7 @@ public class CartControllerIntegrationTest {
                                         put(new JSONObject() {
                                             {
                                                 put("optionGroupId", "8b41baa5-6118-4949-886f-abe34ca69cfe");
-                                                put("cartOpions", new JSONArray() {
+                                                put("cartOptions", new JSONArray() {
                                                     {
                                                         put(new JSONObject() {
                                                             {

@@ -85,5 +85,25 @@ public class GetCartItemDto {
                 }
             }
         }
+
+        public void calculate() {
+            this.cartItemAmount = 0;
+            this.cartItemCount = 0;
+
+            for (GetSelectedOptionDto selectedOption : selectedOptions) {
+                selectedOption.selectedOptionAmount = 0;
+
+                for (GetCartItemDto.Response.GetSelectedOptionDto.GetCartOptionGroupDto cartOptionGroup : selectedOption.cartOptionGroups) {
+                    for (GetCartItemDto.Response.GetSelectedOptionDto.GetCartOptionGroupDto.GetCartOptionDto cartOption : cartOptionGroup.cartOptions) {
+                        selectedOption.selectedOptionAmount += cartOption.optionPrice
+                                * cartOption.cartItemOptionCount;
+                    }
+                }
+
+                selectedOption.selectedOptionAmount += this.itemPrice;
+                this.cartItemAmount += selectedOption.selectedOptionAmount * selectedOption.selectedOptionCount;
+                this.cartItemCount += selectedOption.selectedOptionCount;
+            }
+        }
     }
 }

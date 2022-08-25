@@ -28,15 +28,15 @@ import lombok.Setter;
 @Entity
 public class Cart {
     @Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @OneToMany(mappedBy = "cart", cascade = {CascadeType.PERSIST})
-	private List<CartItem> cartItems;
+    @OneToMany(mappedBy = "cart", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    private List<CartItem> cartItems;
 
     // TODO user ID
 
     @Column(nullable = false)
-	@Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     private CartType cartType;
 }

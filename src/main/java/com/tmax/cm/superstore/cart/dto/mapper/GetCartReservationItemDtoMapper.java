@@ -21,13 +21,13 @@ public interface GetCartReservationItemDtoMapper {
     @Mapping(target = "itemPrice", source = "item.price")
     @Mapping(target = "cartItemId", source = "id")
     @Mapping(target = ".", source = "cartReservationItem")
-    @Mapping(target = "cartItemAmount", ignore = true) // TODO
-    @Mapping(target = "cartItemCount", ignore = true) // TODO
+    @Mapping(target = "cartItemAmount", ignore = true)
+    @Mapping(target = "cartItemCount", ignore = true)
     GetCartReservationItemDto.Response toResponse(CartItem cartItem);
 
     @Mapping(target = "selectedOptionId", source = "id")
     @Mapping(target = "selectedOptionCount", source = "count")
-    @Mapping(target = "selectedOptionAmount", ignore = true) // TODO
+    @Mapping(target = "selectedOptionAmount", ignore = true)
     GetCartReservationItemDto.Response.GetSelectedOptionDto toGetSelectedOptionDto(SelectedOption selectedOption);
 
     @Mapping(target = "cartOptionGroupId", source = "id")

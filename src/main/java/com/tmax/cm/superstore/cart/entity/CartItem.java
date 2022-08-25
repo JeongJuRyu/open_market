@@ -50,10 +50,10 @@ public class CartItem {
     @JoinColumn(foreignKey = @ForeignKey(name = "FK_cart_item_item_id"), name = "itemId", nullable = false)
     private Item item;
 
-    @OneToOne(mappedBy = "cartItem", cascade = { CascadeType.PERSIST })
+    @OneToOne(mappedBy = "cartItem", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private CartReservationItem cartReservationItem;
 
-    @OneToMany(mappedBy = "cartItem", cascade = { CascadeType.PERSIST })
+    @OneToMany(mappedBy = "cartItem", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<SelectedOption> selectedOptions;
 
     @Enumerated(EnumType.STRING)
