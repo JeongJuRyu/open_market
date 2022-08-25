@@ -7,8 +7,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
 
+import com.tmax.cm.superstore.common.config.security.filter.JwtLoginFilter;
+import com.tmax.cm.superstore.common.config.security.filter.JwtRefreshTokenFilter;
 import com.tmax.cm.superstore.user.repository.UserLoginInfoRepository;
-import com.tmax.cm.superstore.user.service.UserDetailsServiceImpl;
 // import com.tmax.cm.superstore.user.service.CustomUserDetailsService;
 
 import lombok.RequiredArgsConstructor;

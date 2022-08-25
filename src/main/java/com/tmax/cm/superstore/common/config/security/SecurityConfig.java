@@ -3,7 +3,6 @@ package com.tmax.cm.superstore.common.config.security;
 import java.util.List;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -15,17 +14,18 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.tmax.cm.superstore.common.config.security.handler.JwtAccessDeniedHandler;
+import com.tmax.cm.superstore.common.config.security.handler.JwtAuthenticationEntryPoint;
+
 @EnableWebSecurity//(debug = true)
 public class SecurityConfig {
-	private final TokenProvider tokenProvider;
 	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 	private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 	private final CustomDsl customDsl;
-	public SecurityConfig(TokenProvider tokenProvider,
+	public SecurityConfig(
 		JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
 		JwtAccessDeniedHandler jwtAccessDeniedHandler,
 		CustomDsl customDsl) {
-		this.tokenProvider = tokenProvider;
 		this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
 		this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
 		this.customDsl = customDsl;
