@@ -2,6 +2,7 @@ package com.tmax.cm.superstore.mypage.controller;
 
 import java.util.UUID;
 
+import com.tmax.cm.superstore.mypage.dto.CreateReviewReplyRequestDto;
 import com.tmax.cm.superstore.mypage.dto.CreateReviewRequestDto;
 import com.tmax.cm.superstore.mypage.dto.GetAllReviewRequestDto;
 import com.tmax.cm.superstore.mypage.dto.GetAllReviewResponseDto;
@@ -30,11 +31,27 @@ public class ReviewController {
 		@RequestBody CreateReviewRequestDto createReviewRequestDto) {
 		return ResponseEntity.ok().body(reviewService.postReview(createReviewRequestDto));
 	}
+	/*@PutMapping
+	public ResponseEntity<UUID> updateReview(
+		@RequestBody CreateReviewRequestDto createReviewRequestDto){
+		return ResponseEntity.ok().body(reviewService.updateReview(createReviewRequestDto));
+	}*/
 
-	@GetMapping("{reviewId}")
+	@DeleteMapping("/{reviewId}")
+	public void deleteReview(
+		@PathVariable UUID reviewId){
+		reviewService.deleteReview(reviewId);
+	}
+	@GetMapping("{/reviewId}")
 	public ResponseEntity<GetReviewResponseDto> getReview(
 		@PathVariable UUID reviewId){
 		return ResponseEntity.ok().body(reviewService.getReview(reviewId));
+	}
+
+	@PostMapping("/reply")
+	public ResponseEntity<UUID> createReviewReply(
+		@RequestBody CreateReviewReplyRequestDto createReviewReplyRequestDto) {
+		return ResponseEntity.ok().body(reviewService.postReviewReply(createReviewReplyRequestDto));
 	}
 
 }
