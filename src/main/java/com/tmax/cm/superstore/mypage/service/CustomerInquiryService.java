@@ -26,7 +26,7 @@ public class CustomerInquiryService {
 	@Transactional(readOnly = true)
 	public GetAlICustomerCenterInquiryResponseDto getAllInquiry(){
 		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		List<CustomerInquiry> inquiryList = customerInquiryRepository.findAllByUserId(user.getId());
+		List<CustomerInquiry> inquiryList = customerInquiryRepository.findAllInquiryByUserId(user.getId());
 		return GetAlICustomerCenterInquiryResponseDto.builder().build();
 	}
 

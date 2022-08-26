@@ -34,7 +34,6 @@ public class CustomerInquiryAnswer {
 	@Column(nullable = false)
 	private String content;
 
-
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CUSTOMER_INQUIRY_ID")
 	private CustomerInquiry customerInquiry;
