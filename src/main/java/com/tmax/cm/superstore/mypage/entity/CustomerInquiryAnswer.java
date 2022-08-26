@@ -22,18 +22,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-public class CustomerCenterInquiryAnswer {
+public class CustomerInquiryAnswer {
 	@Id @GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-	@Column(name = "CUSTOMER_CENTER_INQUIRY_ANSWER_ID", columnDefinition = "BINARY(16)")
+	@Column(name = "CUSTOMER_INQUIRY_ANSWER_ID", columnDefinition = "BINARY(16)")
 	private UUID id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CUSTOMER_CENTER_INQUIRY")
-	private CustomerCenterInquiry customerCenterInquiry;
+	@Column(nullable = false)
+	private String title;
 
 	@Column(nullable = false)
 	private String content;
 
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "CUSTOMER_INQUIRY_ID")
+	private CustomerInquiry customerInquiry;
 
 }

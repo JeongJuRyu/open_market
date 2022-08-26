@@ -4,5 +4,6 @@ import com.tmax.cm.superstore.config.CommonMapperConfig;
 import org.mapstruct.Mapper;
 
 @Mapper(config = CommonMapperConfig.class)
-public interface CustomerCenterInquiryMapper {
+public interface CustomerInquiryMapper {
+
 }
