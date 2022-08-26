@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 public interface CustomerInquiryRepository extends JpaRepository<CustomerInquiry, UUID> {
-	@Query("select ci from CustomerInquiry ci join fetch ci.customerInquiryAnswers "
+	@Query(value = "select ci from CustomerInquiry ci join fetch ci.customerInquiryAnswers "
 		+ "join fetch ci.customerInquiryImages "
-		+ "where ci.user.id =: userId")
-	List<CustomerInquiry> findAllByUserId(UUID userId);
+		+ "where ci.user.id =: userId", nativeQuery = true)
+	List<CustomerInquiry> findAllInquiryByUserId(UUID userId);
 }
