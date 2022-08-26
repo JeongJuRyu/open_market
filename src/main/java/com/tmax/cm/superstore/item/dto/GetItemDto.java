@@ -27,6 +27,8 @@ public class GetItemDto {
 
         private Integer itemPrice;
 
+        private List<ItemImageInfo> itemImages;
+
         private List<GetOptionGroupDto> optionGroups;
 
         @Builder

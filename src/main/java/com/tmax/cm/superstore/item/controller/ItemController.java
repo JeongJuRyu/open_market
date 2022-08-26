@@ -1,22 +1,17 @@
 package com.tmax.cm.superstore.item.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
 import javax.validation.Valid;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.tmax.cm.superstore.item.dto.*;
+import com.tmax.cm.superstore.item.service.ImageService;
+import org.springframework.web.bind.annotation.*;
 
 import com.tmax.cm.superstore.code.ResponseCode;
 import com.tmax.cm.superstore.common.ResponseDto;
-import com.tmax.cm.superstore.item.dto.GetItemAllDto;
-import com.tmax.cm.superstore.item.dto.GetItemDto;
-import com.tmax.cm.superstore.item.dto.PostItemDto;
 import com.tmax.cm.superstore.item.dto.mapper.GetItemAllDtoMapper;
 import com.tmax.cm.superstore.item.dto.mapper.GetItemDtoMapper;
 import com.tmax.cm.superstore.item.dto.mapper.PostItemDtoMapper;
@@ -24,6 +19,8 @@ import com.tmax.cm.superstore.item.entity.Item;
 import com.tmax.cm.superstore.item.service.ItemService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
+import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
 @RestController
@@ -31,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 public class ItemController {
 
     private final ItemService itemService;
+    private final ImageService imageService;
 
     private final PostItemDtoMapper postItemDtoMapper;
     private final GetItemDtoMapper getItemDtoMapper;
@@ -59,5 +57,10 @@ public class ItemController {
         List<Item> items = this.itemService.readItems();
 
         return new ResponseDto<>(ResponseCode.ITEM_READ, this.getItemAllDtoMapper.toResponse(items));
+    }
+
+    @PostMapping("/images")
+    public Mono<FileInfo> postImage(@RequestParam MultipartFile multipartFile) throws IOException {
+        return imageService.uploadImages(multipartFile);
     }
 }

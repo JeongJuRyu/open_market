@@ -1,5 +1,6 @@
 package com.tmax.cm.superstore.item.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -39,14 +41,18 @@ public class Item {
     private UUID id;
 
     @OneToMany(mappedBy = "item", cascade = {CascadeType.PERSIST})
-	private List<OptionGroup> optionGroups;
+    private List<OptionGroup> optionGroups;
 
     @OneToMany(mappedBy = "item", cascade = {CascadeType.PERSIST})
-	private List<ItemSendType> itemSendTypes;
+    private List<ItemSendType> itemSendTypes;
 
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "FK_item_shop_id"), name = "shopId", nullable = false)
     private Shop shop;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemImage> itemImages;
 
     @Column(nullable = false)
     private String name;

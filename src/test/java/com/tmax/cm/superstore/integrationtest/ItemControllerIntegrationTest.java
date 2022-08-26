@@ -1,5 +1,8 @@
 package com.tmax.cm.superstore.integrationtest;
 
+import java.io.FileInputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -11,7 +14,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.mock.web.MockPart;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
@@ -27,6 +33,11 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import com.tmax.cm.superstore.EasyRestDocumentation;
+import org.springframework.web.multipart.MultipartFile;
+
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Transactional
 @SpringBootTest
@@ -116,8 +127,8 @@ public class ItemControllerIntegrationTest {
                     .post("/v1/item")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(createItemRequest.toString()))
-                    .andDo(MockMvcResultHandlers.print())
-                    .andExpect(MockMvcResultMatchers.status().isOk())
+                    .andDo(print())
+                    .andExpect(status().isOk())
                     .andReturn();
 
             JSONObject createItemResponse = new JSONObject(
@@ -201,8 +212,8 @@ public class ItemControllerIntegrationTest {
                 .content(request.toString()));
 
         // then
-        result.andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
+        result.andDo(print())
+                .andExpect(status().isOk())
                 .andDo(EasyRestDocumentation.document("postItem", "상품 생성", this.tag));
     }
 
@@ -213,8 +224,8 @@ public class ItemControllerIntegrationTest {
                 .get("/v1/item/{itemId}", this.itemId));
 
         // then
-        result.andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
+        result.andDo(print())
+                .andExpect(status().isOk())
                 .andDo(EasyRestDocumentation.document("getItem", "특정 상품 조회", this.tag));
     }
 
@@ -225,8 +236,29 @@ public class ItemControllerIntegrationTest {
                 .get("/v1/item"));
 
         // then
-        result.andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
+        result.andDo(print())
+                .andExpect(status().isOk())
                 .andDo(EasyRestDocumentation.document("getItemAll", "모든 상품 조회", this.tag));
+    }
+
+    @Test
+    void image_test() throws Exception{
+        MockMultipartFile file = new MockMultipartFile("image",
+                "ddx.png",
+                "image/png",
+                new FileInputStream("C:\\Users\\jaehoon_choi3\\Pictures\\Screenshots\\ddx.png"));
+
+        List<MultipartFile> imageFiles = List.of(
+                new MockMultipartFile("test1", "test1.PNG", MediaType.IMAGE_PNG_VALUE, "test1".getBytes()),
+                new MockMultipartFile("test2", "test2.PNG", MediaType.IMAGE_PNG_VALUE, "test2".getBytes())
+        );
+
+        this.mvc.perform(
+                        multipart("/v1/item/images")
+                                .file("images", imageFiles.get(0).getBytes())
+                                .contentType(MediaType.MULTIPART_FORM_DATA)
+                )
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 }
