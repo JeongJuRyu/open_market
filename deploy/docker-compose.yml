@@ -46,7 +46,7 @@ services:
       superstore_network:
 
   superstore-redis:
-    image: "redis:alpine"
+    image: redis:alpine
 #   restart: always
     command:
       - redis-server
