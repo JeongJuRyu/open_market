@@ -41,6 +41,7 @@ public enum ResponseCode implements Code {
 
     // Error - MyPage
     ERROR_REVIEW_NOT_FOUND("ERROR", "EM100", "Review not found", "해당 리뷰가 존재하지 않음"),
+    ERROR_CUSTOMER_INQUIRY_NOT_FOUND("ERROR", "EM101", "Customer inquiry not found", "해당 고객센터 문의가 존재하지 않음"),
 
     // Error - User
     ERROR_EMAIL_NOT_FOUND("ERROR", "EU001", "Email not found", "존재하지 않는 이메일"),
