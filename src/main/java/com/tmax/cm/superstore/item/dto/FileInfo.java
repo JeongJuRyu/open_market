@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FileInfo {
-    @JsonProperty("file_name")
+    //@JsonProperty("file_name")
     private String fileName;
 
-    @JsonProperty("file_id")
+    //@JsonProperty("file_id")
     private String fileId;
 }

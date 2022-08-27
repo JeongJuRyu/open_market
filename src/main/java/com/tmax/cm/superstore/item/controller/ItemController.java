@@ -8,6 +8,8 @@ import javax.validation.Valid;
 
 import com.tmax.cm.superstore.item.dto.*;
 import com.tmax.cm.superstore.item.service.ImageService;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import com.tmax.cm.superstore.code.ResponseCode;
@@ -60,7 +62,7 @@ public class ItemController {
     }
 
     @PostMapping("/images")
-    public Mono<FileInfo> postImage(@RequestParam MultipartFile multipartFile) throws IOException {
+    public HttpStatus postImage(@RequestParam("file") MultipartFile multipartFile) throws IOException {
         return imageService.uploadImages(multipartFile);
     }
 }

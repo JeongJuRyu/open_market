@@ -67,6 +67,10 @@ dependencies {
 	// https://docs.jboss.org/hibernate/validator/7.0/reference/en-US/html_single/#section-builtin-constraints
 	implementation group: 'org.hibernate.validator', name: 'hibernate-validator'
 
+	//For MacOs DnsError
+	implementation 'io.netty:netty-resolver-dns-native-macos:4.1.68.Final:osx-aarch_64'
+	implementation 'org.apache.httpcomponents:httpclient:4.5'
+
 	// https://mvnrepository.com/artifact/com.h2database/h2
 	testImplementation group: 'com.h2database', name: 'h2', version: '2.1.214'
 
