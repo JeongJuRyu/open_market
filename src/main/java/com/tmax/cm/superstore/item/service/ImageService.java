@@ -19,7 +19,7 @@ import java.io.IOException;
 @Service
 @RequiredArgsConstructor
 public class ImageService {
-    private final String baseUrl = "http://localhost:8888/images/upload";
+    private final String baseUrl = "http://192.168.159.42:8888/images/upload";
     private final RestTemplate restTemplate;
     public HttpStatus uploadImages(MultipartFile images) throws IOException {
         return requestUpload(images);
