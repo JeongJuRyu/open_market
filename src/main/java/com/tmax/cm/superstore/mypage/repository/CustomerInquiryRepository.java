@@ -11,5 +11,5 @@ public interface CustomerInquiryRepository extends JpaRepository<CustomerInquiry
 	@Query(value = "select ci from CustomerInquiry ci join fetch ci.customerInquiryAnswers "
 		+ "join fetch ci.customerInquiryImages "
 		+ "where ci.user.id =: userId", nativeQuery = true)
-	List<CustomerInquiry> findAllInquiryByUserId(UUID userId);
+	List<CustomerInquiry> findAllByUserId(UUID userId);
 }

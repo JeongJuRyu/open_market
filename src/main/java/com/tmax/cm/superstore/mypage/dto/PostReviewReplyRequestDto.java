@@ -5,7 +5,7 @@ import java.util.UUID;
 import lombok.Getter;
 
 @Getter
-public class CreateReviewReplyRequestDto {
+public class PostReviewReplyRequestDto {
 	private UUID reviewId;
 	private String content;
 }
