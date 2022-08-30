@@ -2,6 +2,7 @@ package com.tmax.cm.superstore.user.service;
 
 import java.util.UUID;
 
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserService {
 	private final UserRepository userRepository;
+	private final EmailService emailService;
 	private final PasswordEncoder passwordEncoder;
 
 	public CreateUserResponseDto createUser(CreateUserRequestDto createUserRequestDto){
@@ -50,6 +52,15 @@ public class UserService {
 		if(checkEmailDuplicate(updateEmailRequestDto.getEmail())){
 			throw new UserAlreadyExistException();
 		}
+
+		EmailAuthRequestDto emailAuthRequestDto = EmailAuthRequestDto
+			.builder().email(updateEmailRequestDto.getNewEmail()).build();
+		EmailAuthResponseDto dto;
+		try {
+			dto = emailService.authEmail(emailAuthRequestDto);
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
 		user.updateEmail(updateEmailRequestDto.getEmail());
 		return UpdateEmailResponseDto.builder()
 			.email(updateEmailRequestDto.getEmail())
@@ -61,7 +72,7 @@ public class UserService {
 		// 랜덤번호 생성 후 메일 전송
 		String valid_num = "1234";
 		return EmailAuthResponseDto.builder()
-			.valid_num(valid_num).build();
+			.validNum(valid_num).build();
 	}
 
 	@Transactional
@@ -70,8 +81,14 @@ public class UserService {
 		User user = userRepository
 			.findUserByEmail(updatePasswordRequestDto.getEmail()).orElseThrow(EmailNotFoundException::new);
 		String encodedPassword = passwordEncoder
+			.encode(updatePasswordRequestDto.getPassword());
+
+		String encodedNewPassword = passwordEncoder
 			.encode(updatePasswordRequestDto.getUpdatePassword());
-		user.updatePassword(encodedPassword);
+		if(!user.getPassword().equals(encodedPassword)){
+			throw new BadCredentialsException("wrong password.");
+		}
+		user.updatePassword(encodedNewPassword);
 		return UpdatePasswordResponseDto.builder().build();
 	}
 
