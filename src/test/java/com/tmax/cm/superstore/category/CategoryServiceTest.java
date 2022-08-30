@@ -34,7 +34,7 @@ public class CategoryServiceTest {
                 .willReturn(categories);
 
         //when
-        CategoryDto categoryRoot = categoryService.createCategoryRoot();
+        CategoryDto categoryRoot = categoryService.getCategory(0L);
 
         //then
         verify(categoryRepository, atLeastOnce()).findAll();

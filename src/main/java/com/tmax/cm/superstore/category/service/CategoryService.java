@@ -1,7 +1,7 @@
 package com.tmax.cm.superstore.category.service;
 
-import com.tmax.cm.superstore.category.entity.Category;
 import com.tmax.cm.superstore.category.entity.dto.CategoryDto;
+import com.tmax.cm.superstore.category.entity.dto.mapper.CategoryMapper;
 import com.tmax.cm.superstore.category.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,18 +17,24 @@ import static java.util.stream.Collectors.groupingBy;
 @RequiredArgsConstructor
 public class CategoryService {
     private final CategoryRepository categoryRepository;
+    private final CategoryMapper categoryMapper;
 
-    public CategoryDto createCategoryRoot() {
+    public CategoryDto getCategory(Long categoryId){
         Map<Long, List<CategoryDto>> groupingByParent = categoryRepository.findAll()
                 .stream()
                 .map(ce -> new CategoryDto(ce.getCategoryId(), ce.getCategoryName(), ce.getParentId()))
                 .collect(groupingBy(CategoryDto::getParentId));
 
-        System.out.println(groupingByParent);
-        CategoryDto rootCategoryDto = new CategoryDto(0L, "ROOT", null);
-        addSubCategories(rootCategoryDto, groupingByParent);
+        CategoryDto category;
 
-        return rootCategoryDto;
+        if (categoryId == 0){
+            category = new CategoryDto(0L, "ROOT", null);
+        } else{
+            category = categoryMapper.categoryToCategoryDto(categoryRepository.findById(categoryId).orElseThrow(IllegalArgumentException::new));
+        }
+        addSubCategories(category, groupingByParent);
+
+        return category;
     }
 
     private void addSubCategories(CategoryDto parent, Map<Long, List<CategoryDto>> groupingByParentId){
