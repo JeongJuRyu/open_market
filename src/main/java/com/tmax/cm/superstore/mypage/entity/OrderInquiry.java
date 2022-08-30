@@ -4,10 +4,15 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import com.tmax.cm.superstore.mypage.dto.UpdateOrderInquiryRequestDto;
+import com.tmax.cm.superstore.order.entity.OrderItem;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -23,7 +28,7 @@ import lombok.NoArgsConstructor;
 public class OrderInquiry {
 	@Id @GeneratedValue(generator = "UUID")
 	@GenericGenerator(name ="UUID", strategy = "org.hibernate.id.UUIDGenerator")
-	@Column(name = "ORDER_INQUIRY_ID")
+	@Column(name = "ORDER_INQUIRY_ID", columnDefinition = "BINARY(16)")
 	private UUID id;
 
 	@Column(nullable = false)
@@ -32,6 +37,13 @@ public class OrderInquiry {
 	@Column(nullable = false)
 	private String content;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	private OrderItem orderItem;
+
+	public void updateOrderInquiry(UpdateOrderInquiryRequestDto dto){
+		this.title = dto.getTitle();
+		this.content = dto.getContent();
+	}
 }
 
 
