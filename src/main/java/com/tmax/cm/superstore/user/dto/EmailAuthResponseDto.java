@@ -6,5 +6,5 @@ import lombok.Getter;
 @Getter
 @Builder
 public class EmailAuthResponseDto {
-	private String valid_num;
+	private String validNum;
 }

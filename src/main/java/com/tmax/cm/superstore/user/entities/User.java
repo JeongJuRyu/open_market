@@ -98,7 +98,6 @@ public class User implements UserDetails {
 			this.getDeliveryAddresses().add(newAddress);
 		}
 	}
-	@Column()
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return null;

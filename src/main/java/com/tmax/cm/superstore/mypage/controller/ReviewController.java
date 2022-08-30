@@ -2,8 +2,8 @@ package com.tmax.cm.superstore.mypage.controller;
 
 import java.util.UUID;
 
-import com.tmax.cm.superstore.mypage.dto.CreateReviewReplyRequestDto;
-import com.tmax.cm.superstore.mypage.dto.CreateReviewRequestDto;
+import com.tmax.cm.superstore.mypage.dto.PostReviewReplyRequestDto;
+import com.tmax.cm.superstore.mypage.dto.PostReviewRequestDto;
 import com.tmax.cm.superstore.mypage.dto.GetAllReviewRequestDto;
 import com.tmax.cm.superstore.mypage.dto.GetAllReviewResponseDto;
 import com.tmax.cm.superstore.mypage.dto.GetReviewResponseDto;
@@ -29,8 +29,8 @@ public class ReviewController {
 
 	@PostMapping
 	public ResponseEntity<UUID> createReview(
-		@RequestBody CreateReviewRequestDto createReviewRequestDto) {
-		return ResponseEntity.ok().body(reviewService.postReview(createReviewRequestDto));
+		@RequestBody PostReviewRequestDto postReviewRequestDto) {
+		return ResponseEntity.ok().body(reviewService.postReview(postReviewRequestDto));
 	}
 	@PutMapping
 	public ResponseEntity<UUID> updateReview(
@@ -51,8 +51,8 @@ public class ReviewController {
 
 	@PostMapping("/reply")
 	public ResponseEntity<UUID> createReviewReply(
-		@RequestBody CreateReviewReplyRequestDto createReviewReplyRequestDto) {
-		return ResponseEntity.ok().body(reviewService.postReviewReply(createReviewReplyRequestDto));
+		@RequestBody PostReviewReplyRequestDto postReviewReplyRequestDto) {
+		return ResponseEntity.ok().body(reviewService.postReviewReply(postReviewReplyRequestDto));
 	}
 
 }

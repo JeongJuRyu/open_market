@@ -9,7 +9,7 @@ import java.util.List;
 
 @Getter
 @Builder
-public class CreateReviewRequestDto {
+public class PostReviewRequestDto {
     private String title;
     private String content;
     private List<ReviewImage> reviewImages;

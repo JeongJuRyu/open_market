@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tmax.cm.superstore.mypage.dto.CreateCustomerInquiryRequestDto;
+import com.tmax.cm.superstore.mypage.dto.PostCustomerInquiryRequestDto;
 import com.tmax.cm.superstore.mypage.dto.GetAlICustomerCenterInquiryResponseDto;
 import com.tmax.cm.superstore.mypage.dto.GetCustomerInquiryResponseDto;
 import com.tmax.cm.superstore.mypage.service.CustomerInquiryService;
@@ -30,9 +30,9 @@ public class CustomerInquiryController {
 
 	@PostMapping
 	public ResponseEntity<UUID> createCustomerInquiry(
-		@RequestBody CreateCustomerInquiryRequestDto createCustomerInquiryRequestDto){
+		@RequestBody PostCustomerInquiryRequestDto postCustomerInquiryRequestDto){
 		return ResponseEntity.ok()
-			.body(customerInquiryService.postCustomerInquiry(createCustomerInquiryRequestDto));
+			.body(customerInquiryService.postCustomerInquiry(postCustomerInquiryRequestDto));
 	}
 
 	@GetMapping("/{id}")

@@ -1,15 +1,24 @@
 package com.tmax.cm.superstore.mypage.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import com.tmax.cm.superstore.common.entity.BaseTimeEntity;
+import com.tmax.cm.superstore.item.entity.Item;
+import com.tmax.cm.superstore.user.entities.User;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -22,7 +31,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class ItemInquiry {
+public class ItemInquiry extends BaseTimeEntity {
 	@Id
 	@GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
@@ -35,9 +44,17 @@ public class ItemInquiry {
 	@Column(nullable = false)
 	private String content;
 
-	@OneToMany(mappedBy = "itemInquiry")
-	private List<ItemInquiryImage> itemInquiryImages;
+	@OneToMany(mappedBy = "itemInquiry", cascade = CascadeType.ALL, orphanRemoval = true)
+	@Builder.Default
+	private List<ItemInquiryImage> itemInquiryImages = new ArrayList<>();
 
-	@OneToMany(mappedBy = "itemInquiry")
+	@OneToMany(mappedBy = "itemInquiry", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<ItemInquiryAnswer> itemInquiryAnswers;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "USER_ID")
+	private User user;
+	// @ManyToOne(fetch = FetchType.LAZY)
+	// @JoinColumn(name = "ITEM_ID")
+	// private Item item;
 }
