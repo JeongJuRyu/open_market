@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "categories")
@@ -14,7 +15,13 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long categoryId;
+
+    @Column
+    @NotNull
     private String categoryName;
+
+    @Column
+    @NotNull
     private Long parentId;
 
     public Category(String categoryName, Long parentId){

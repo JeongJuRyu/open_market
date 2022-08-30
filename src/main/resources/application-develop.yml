@@ -113,3 +113,24 @@ spring:
       mode: always
       continue-on-error: true
       # continue-on-error: false
+
+---
+server:
+  port: 8081
+
+spring:
+  config:
+    activate:
+      on-profile: develop-cjh
+  datasource:
+    url: jdbc:mysql://localhost:3306/superstore
+    username: root
+    password: 1234
+  jpa:
+    defer-datasource-initialization: true
+  sql:
+    init:
+      platform: develop
+      mode: always
+      continue-on-error: true
+      # continue-on-error: false
