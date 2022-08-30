@@ -47,6 +47,9 @@ public enum ResponseCode implements Code {
     ERROR_EMAIL_NOT_FOUND("ERROR", "EU001", "Email not found", "존재하지 않는 이메일"),
     ERROR_EMAIL_ALREADY_EXIST("ERROR", "EU002", "Already existed email", "이미 존재하는 이메일"),
     ERROR_EMAIL_NOT_EXPIRED_EXCEPTION("ERROR", "EU003", "authentication email not expired", "인증용 이메일이 만료되지 않았습니다."),
+    ERROR_ITEM_INQUIRY_NOT_FOUND("ERROR", "EU004", "Item inquiry not found", "상품 문의가 존재하지 않습니다."),
+    ERROR_PASSWORD_NOT_MATCHED("ERROR", "EU005", "Password is not matched", "비밀번호가 일치하지 않습니다."),
+
     // Error - Common
     ERROR_COMMON_RUNTIME("ERROR", "EC000", "Runtime Exception", "Runtime Exception 발생한 경우"),
     ERROR_COMMON_CONCURRENCY("ERROR","EC001", "Request occured simultaneously", "동시 요청으로 인한 오류");
