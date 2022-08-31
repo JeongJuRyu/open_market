@@ -1,7 +1,6 @@
 package com.tmax.cm.superstore.mypage.mapper;
 
 import com.tmax.cm.superstore.config.CommonMapperConfig;
-import com.tmax.cm.superstore.mypage.dto.GetAllReviewRequestDto;
 import com.tmax.cm.superstore.mypage.dto.GetAllReviewResponseDto;
 import com.tmax.cm.superstore.mypage.dto.GetReviewResponseDto;
 import com.tmax.cm.superstore.mypage.entity.Review;

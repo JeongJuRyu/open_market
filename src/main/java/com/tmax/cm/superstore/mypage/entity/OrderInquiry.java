@@ -12,8 +12,10 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.tmax.cm.superstore.common.entity.BaseTimeEntity;
 import com.tmax.cm.superstore.mypage.dto.UpdateOrderInquiryRequestDto;
 import com.tmax.cm.superstore.order.entity.OrderItem;
+import com.tmax.cm.superstore.user.entities.User;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -26,7 +28,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
-public class OrderInquiry {
+public class OrderInquiry extends BaseTimeEntity {
 	@Id @GeneratedValue(generator = "UUID")
 	@GenericGenerator(name ="UUID", strategy = "org.hibernate.id.UUIDGenerator")
 	@Column(name = "ORDER_INQUIRY_ID", columnDefinition = "BINARY(16)")
@@ -38,9 +40,16 @@ public class OrderInquiry {
 	@Column(nullable = false)
 	private String content;
 
+	@Column(nullable = false)
+	private Boolean isAnswered;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ORDER_ITEM_ID")
 	private OrderItem orderItem;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "USER_ID")
+	private User user;
 
 	public void updateOrderInquiry(UpdateOrderInquiryRequestDto dto){
 		this.title = dto.getTitle();

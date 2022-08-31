@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tmax.cm.superstore.mypage.dto.GetAllOrderInquiryResponseDto;
+import com.tmax.cm.superstore.mypage.dto.GetOrderInquiryResponseDto;
 import com.tmax.cm.superstore.mypage.dto.PostOrderInquiryRequestDto;
 import com.tmax.cm.superstore.mypage.dto.UpdateOrderInquiryRequestDto;
 import com.tmax.cm.superstore.mypage.service.OrderInquiryService;
@@ -28,6 +29,11 @@ public class OrderInquiryController {
 	@GetMapping
 	public ResponseEntity<GetAllOrderInquiryResponseDto> getAllInquiry(){
 		return ResponseEntity.ok().body(orderInquiryService.getAllOrderInquiry());
+	}
+
+	@GetMapping("/{inquiryId}")
+	public ResponseEntity<GetOrderInquiryResponseDto> getInquiry(@RequestParam UUID inquiryId){
+		return ResponseEntity.ok().body(orderInquiryService.getOrderInquiry(inquiryId));
 	}
 
 	@PostMapping

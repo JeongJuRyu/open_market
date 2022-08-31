@@ -13,6 +13,7 @@ import com.tmax.cm.superstore.mypage.dto.PostOrderInquiryRequestDto;
 import com.tmax.cm.superstore.mypage.dto.UpdateOrderInquiryRequestDto;
 import com.tmax.cm.superstore.mypage.entity.OrderInquiry;
 import com.tmax.cm.superstore.mypage.error.exception.OrderInquiryNotFound;
+import com.tmax.cm.superstore.mypage.mapper.OrderInquiryMapper;
 import com.tmax.cm.superstore.mypage.repository.OrderInquiryRepository;
 import com.tmax.cm.superstore.user.entities.User;
 
@@ -22,19 +23,21 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class OrderInquiryService {
 	private final OrderInquiryRepository orderInquiryRepository;
-
+	private final OrderInquiryMapper orderInquiryMapper;
 	@Transactional(readOnly = true)
 	public GetAllOrderInquiryResponseDto getAllOrderInquiry(){
 		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		// List<OrderInquiry> orderInquiries = orderInquiryRepository.findAllByUserId(user.getId());
-		return GetAllOrderInquiryResponseDto.builder().build();
+		List<OrderInquiry> orderInquiries = orderInquiryRepository.findAllByUserId(user.getId());
+		return GetAllOrderInquiryResponseDto.builder()
+			.orderInquiries(orderInquiryMapper.toOrderInquiries(orderInquiries))
+			.build();
 	}
 
 	@Transactional(readOnly = true)
 	public GetOrderInquiryResponseDto getOrderInquiry(UUID inquiryId){
 		OrderInquiry orderInquiry = orderInquiryRepository.findById(inquiryId)
 			.orElseThrow(OrderInquiryNotFound::new);
-		return GetOrderInquiryResponseDto.builder().build();
+		return orderInquiryMapper.toSingleOrderInquiry(orderInquiry);
 	}
 
 	@Transactional

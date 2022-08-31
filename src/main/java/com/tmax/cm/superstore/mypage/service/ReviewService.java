@@ -3,7 +3,6 @@ package com.tmax.cm.superstore.mypage.service;
 import com.tmax.cm.superstore.mypage.error.exception.ReviewNotFoundException;
 import com.tmax.cm.superstore.mypage.dto.PostReviewReplyRequestDto;
 import com.tmax.cm.superstore.mypage.dto.PostReviewRequestDto;
-import com.tmax.cm.superstore.mypage.dto.GetAllReviewRequestDto;
 import com.tmax.cm.superstore.mypage.dto.GetAllReviewResponseDto;
 import com.tmax.cm.superstore.mypage.dto.GetReviewResponseDto;
 import com.tmax.cm.superstore.mypage.dto.UpdateReviewRequestDto;
@@ -29,7 +28,7 @@ public class ReviewService {
 	private final ReviewMapper reviewMapper;
 
 	@Transactional(readOnly = true)
-	public GetAllReviewResponseDto getAllReview(GetAllReviewRequestDto dto){
+	public GetAllReviewResponseDto getAllReview(){
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<Review> reviewList = reviewRepository.findAllByUserId(user.getId());
 		return GetAllReviewResponseDto.builder()

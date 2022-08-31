@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import com.tmax.cm.superstore.mypage.entity.OrderInquiry;
 
 public interface OrderInquiryRepository extends JpaRepository<OrderInquiry, UUID> {
-	// @Query()
-	// List<OrderInquiry> findAllByUserId(UUID userId);
+	@Query("select oi from OrderInquiry oi join fetch OrderItem "
+		+ "where oi.user.id =: userId")
+	List<OrderInquiry> findAllByUserId(UUID userId);
 }
