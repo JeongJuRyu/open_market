@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import com.tmax.cm.superstore.mypage.dto.PostReviewReplyRequestDto;
 import com.tmax.cm.superstore.mypage.dto.PostReviewRequestDto;
-import com.tmax.cm.superstore.mypage.dto.GetAllReviewRequestDto;
 import com.tmax.cm.superstore.mypage.dto.GetAllReviewResponseDto;
 import com.tmax.cm.superstore.mypage.dto.GetReviewResponseDto;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +21,8 @@ public class ReviewController {
 	private final ReviewService reviewService;
 
 	@GetMapping
-	public ResponseEntity<GetAllReviewResponseDto> getAllReview(
-		@RequestBody GetAllReviewRequestDto getAllReviewRequestDto){
-		return ResponseEntity.ok().body(reviewService.getAllReview(getAllReviewRequestDto));
+	public ResponseEntity<GetAllReviewResponseDto> getAllReview(){
+		return ResponseEntity.ok().body(reviewService.getAllReview());
 	}
 
 	@PostMapping
