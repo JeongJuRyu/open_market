@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import com.tmax.cm.superstore.mypage.entity.OrderInquiry;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -14,10 +13,12 @@ import lombok.Getter;
 public class GetAllOrderInquiryResponseDto {
 	private List<OrderInquiry> orderInquiries;
 
+	@Getter
+	@Builder
 	public static class OrderInquiry {
 		private UUID id;
 		private String title;
+		private LocalDateTime createdAt;
+		private Boolean isAnswered;
 	}
-	private LocalDateTime createdAt;
-	private boolean isAnswered;
 }
