@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tmax.cm.superstore.mypage.dto.PostCustomerInquiryRequestDto;
-import com.tmax.cm.superstore.mypage.dto.GetAlICustomerCenterInquiryResponseDto;
+import com.tmax.cm.superstore.mypage.dto.GetAlICustomerInquiryResponseDto;
 import com.tmax.cm.superstore.mypage.dto.GetCustomerInquiryResponseDto;
 import com.tmax.cm.superstore.mypage.service.CustomerInquiryService;
 
@@ -24,7 +24,7 @@ public class CustomerInquiryController {
 	private final CustomerInquiryService customerInquiryService;
 
 	@GetMapping
-	public ResponseEntity<GetAlICustomerCenterInquiryResponseDto> getAllInquiry(){
+	public ResponseEntity<GetAlICustomerInquiryResponseDto> getAllInquiry(){
 		return ResponseEntity.ok().body(customerInquiryService.getAllInquiry());
 	}
 

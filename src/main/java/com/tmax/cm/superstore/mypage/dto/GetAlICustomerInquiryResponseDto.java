@@ -1,7 +1,6 @@
 package com.tmax.cm.superstore.mypage.dto;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -10,7 +9,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class GetAlICustomerCenterInquiryResponseDto {
+public class GetAlICustomerInquiryResponseDto {
 	private List<Inquiry> inquiries;
 	@Getter
 	@Builder
