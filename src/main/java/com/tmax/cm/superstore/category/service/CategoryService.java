@@ -22,7 +22,7 @@ public class CategoryService {
     public CategoryDto getCategory(Long categoryId){
         Map<Long, List<CategoryDto>> groupingByParent = categoryRepository.findAll()
                 .stream()
-                .map(ce -> new CategoryDto(ce.getCategoryId(), ce.getCategoryName(), ce.getParentId()))
+                .map(ce -> new CategoryDto(ce.getId(), ce.getName(), ce.getParentId()))
                 .collect(groupingBy(CategoryDto::getParentId));
 
         CategoryDto category;
