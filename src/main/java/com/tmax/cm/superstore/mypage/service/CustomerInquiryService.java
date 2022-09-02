@@ -7,8 +7,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tmax.cm.superstore.mypage.dto.CreateCustomerInquiryRequestDto;
-import com.tmax.cm.superstore.mypage.dto.GetAlICustomerCenterInquiryResponseDto;
+import com.tmax.cm.superstore.mypage.dto.PostCustomerInquiryRequestDto;
+import com.tmax.cm.superstore.mypage.dto.GetAlICustomerInquiryResponseDto;
 import com.tmax.cm.superstore.mypage.dto.GetCustomerInquiryResponseDto;
 import com.tmax.cm.superstore.mypage.dto.UpdateCustomerInquiryRequestDto;
 import com.tmax.cm.superstore.mypage.entity.CustomerInquiry;
@@ -24,10 +24,10 @@ public class CustomerInquiryService {
 	private final CustomerInquiryRepository customerInquiryRepository;
 
 	@Transactional(readOnly = true)
-	public GetAlICustomerCenterInquiryResponseDto getAllInquiry(){
+	public GetAlICustomerInquiryResponseDto getAllInquiry(){
 		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		List<CustomerInquiry> inquiryList = customerInquiryRepository.findAllInquiryByUserId(user.getId());
-		return GetAlICustomerCenterInquiryResponseDto.builder().build();
+		List<CustomerInquiry> inquiryList = customerInquiryRepository.findAllByUserId(user.getId());
+		return GetAlICustomerInquiryResponseDto.builder().build();
 	}
 
 	@Transactional(readOnly = true)
@@ -38,7 +38,7 @@ public class CustomerInquiryService {
 	}
 
 	@Transactional
-	public UUID postCustomerInquiry(CreateCustomerInquiryRequestDto dto){
+	public UUID postCustomerInquiry(PostCustomerInquiryRequestDto dto){
 		CustomerInquiry customerInquiry = CustomerInquiry.builder().build();
 		return customerInquiryRepository.save(customerInquiry).getId();
 	}

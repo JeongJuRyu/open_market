@@ -1,7 +1,11 @@
 package com.tmax.cm.superstore.mypage.dto;
 
-public class CreateCustomerInquiryRequestDto {
+import java.util.UUID;
+
+public class PostOrderInquiryRequestDto {
 	private String title;
 
 	private String content;
+
+	private UUID OrderItemId;
 }

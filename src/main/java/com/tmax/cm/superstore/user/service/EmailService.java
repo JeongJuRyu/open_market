@@ -22,22 +22,21 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class EmailService {
 	private final JavaMailSender javaMailSender;
-	private final RedisTemplate<String, Object> redisTemplate;
+	//private final RedisTemplate<String, Object> redisTemplate;
 	public EmailAuthResponseDto authEmail(EmailAuthRequestDto emailAuthRequestDto) throws IllegalAccessException {
 		String validate_num = Integer.toString(ThreadLocalRandom.current().nextInt(100000, 1000000));
 		try {
 			MimeMessage message = createMessage(validate_num, emailAuthRequestDto.getEmail());
-			ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
-			if(valueOperations.get(emailAuthRequestDto.getEmail()) != null){
-				throw new EmailNotExpiredException();
-			}
+			// ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
+			// if(valueOperations.get(emailAuthRequestDto.getEmail()) != null){
+			// 	throw new EmailNotExpiredException();
+			// }
 			javaMailSender.send(message);
-			Duration duration = Duration.ofMinutes(1);
-			valueOperations.set(emailAuthRequestDto.getEmail(), "valid", duration);
+			// Duration duration = Duration.ofMinutes(1valueOperations.set(emailAuthRequestDto.getEmail(), "valid", duration);
 		} catch (MessagingException e) {
 			throw new IllegalAccessException();
 		}
-		return EmailAuthResponseDto.builder().valid_num(validate_num).build();
+		return EmailAuthResponseDto.builder().validNum(validate_num).build();
 	}
 
 	public MimeMessage createMessage(String code, String email) throws MessagingException {

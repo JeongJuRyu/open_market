@@ -6,10 +6,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Builder
-public class CreateReviewRequestDto {
+public class PostReviewRequestDto {
+    private UUID itemId;
     private String title;
     private String content;
     private List<ReviewImage> reviewImages;

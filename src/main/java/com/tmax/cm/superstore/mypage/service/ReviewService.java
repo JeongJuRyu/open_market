@@ -3,10 +3,11 @@ package com.tmax.cm.superstore.mypage.service;
 import com.tmax.cm.superstore.error.exception.ItemNotFoundException;
 import com.tmax.cm.superstore.item.entity.Item;
 import com.tmax.cm.superstore.item.repository.ItemRepository;
+import com.tmax.cm.superstore.error.exception.ItemNotFoundException;
+import com.tmax.cm.superstore.item.entity.Item;
 import com.tmax.cm.superstore.mypage.error.exception.ReviewNotFoundException;
-import com.tmax.cm.superstore.mypage.dto.CreateReviewReplyRequestDto;
-import com.tmax.cm.superstore.mypage.dto.CreateReviewRequestDto;
-import com.tmax.cm.superstore.mypage.dto.GetAllReviewRequestDto;
+import com.tmax.cm.superstore.mypage.dto.PostReviewReplyRequestDto;
+import com.tmax.cm.superstore.mypage.dto.PostReviewRequestDto;
 import com.tmax.cm.superstore.mypage.dto.GetAllReviewResponseDto;
 import com.tmax.cm.superstore.mypage.dto.GetReviewResponseDto;
 import com.tmax.cm.superstore.mypage.dto.UpdateReviewRequestDto;
@@ -50,14 +51,14 @@ public class ReviewService {
 			.review(reviewMapper.toReviewDto(review)).build();
 	}
 	@Transactional
-	public UUID postReview(CreateReviewRequestDto dto){
+	public UUID postReview(PostReviewRequestDto dto){
 		Item item = itemRepository.findById(dto.getItemId()).orElseThrow(ItemNotFoundException::new);
 		Review review = Review.ReviewBuilder()
 				.item(item)
 			.title(dto.getTitle())
 			.content(dto.getContent())
 			.build();
-		for(CreateReviewRequestDto.ReviewImage reviewImage : dto.getReviewImages()){
+		for(PostReviewRequestDto.ReviewImage reviewImage : dto.getReviewImages()){
 			review.getReviewImages().add(ReviewImage.ReviewImageBuilder().url(reviewImage.getUrl()).review(review).build());
 		}
 		return reviewRepository.save(review).getId();
@@ -70,7 +71,7 @@ public class ReviewService {
 		return review.getId();
 	}
 	@Transactional
-	public UUID postReviewReply(CreateReviewReplyRequestDto dto){
+	public UUID postReviewReply(PostReviewReplyRequestDto dto){
 		Review review = reviewRepository.findReviewById(dto.getReviewId()).orElseThrow(ReviewNotFoundException::new);
 		review.setReviewReply(dto);
 		return reviewRepository.save(review).getId();
