@@ -1,5 +1,8 @@
 package com.tmax.cm.superstore.mypage.service;
 
+import com.tmax.cm.superstore.error.exception.ItemNotFoundException;
+import com.tmax.cm.superstore.item.entity.Item;
+import com.tmax.cm.superstore.item.repository.ItemRepository;
 import com.tmax.cm.superstore.mypage.error.exception.ReviewNotFoundException;
 import com.tmax.cm.superstore.mypage.dto.CreateReviewReplyRequestDto;
 import com.tmax.cm.superstore.mypage.dto.CreateReviewRequestDto;
@@ -27,13 +30,17 @@ import java.util.UUID;
 public class ReviewService {
 	private final ReviewRepository reviewRepository;
 	private final ReviewMapper reviewMapper;
+	private final ItemRepository itemRepository;
 
 	@Transactional(readOnly = true)
-	public GetAllReviewResponseDto getAllReview(GetAllReviewRequestDto dto){
-		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		List<Review> reviewList = reviewRepository.findAllByUserId(user.getId());
+	public GetAllReviewResponseDto getAllReview(UUID itemId){
+//		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//		List<Review> reviewList = reviewRepository.findAllByUserId(user.getId());
+
+		List<Review> reviews = reviewRepository.findAllByItemId(itemId);
+
 		return GetAllReviewResponseDto.builder()
-			.reviews(reviewMapper.toReviewDto(reviewList)).build();
+			.reviews(reviewMapper.toReviewDto(reviews)).build();
 	}
 
 	@Transactional(readOnly = true)
@@ -44,7 +51,9 @@ public class ReviewService {
 	}
 	@Transactional
 	public UUID postReview(CreateReviewRequestDto dto){
+		Item item = itemRepository.findById(dto.getItemId()).orElseThrow(ItemNotFoundException::new);
 		Review review = Review.ReviewBuilder()
+				.item(item)
 			.title(dto.getTitle())
 			.content(dto.getContent())
 			.build();

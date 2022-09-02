@@ -21,11 +21,11 @@ import lombok.RequiredArgsConstructor;
 public class ReviewController {
 	private final ReviewService reviewService;
 
-	@GetMapping
-	public ResponseEntity<GetAllReviewResponseDto> getAllReview(
-		@RequestBody GetAllReviewRequestDto getAllReviewRequestDto){
-		return ResponseEntity.ok().body(reviewService.getAllReview(getAllReviewRequestDto));
-	}
+//	@GetMapping
+//	public ResponseEntity<GetAllReviewResponseDto> getAllReview(
+//		@RequestBody GetAllReviewRequestDto getAllReviewRequestDto){
+//		return ResponseEntity.ok().body(reviewService.getAllReview(getAllReviewRequestDto));
+//	}
 
 	@PostMapping
 	public ResponseEntity<UUID> createReview(
@@ -48,11 +48,14 @@ public class ReviewController {
 		@PathVariable UUID reviewId){
 		return ResponseEntity.ok().body(reviewService.getReview(reviewId));
 	}
-
 	@PostMapping("/reply")
 	public ResponseEntity<UUID> createReviewReply(
 		@RequestBody CreateReviewReplyRequestDto createReviewReplyRequestDto) {
 		return ResponseEntity.ok().body(reviewService.postReviewReply(createReviewReplyRequestDto));
+	}
+	@GetMapping
+	public ResponseEntity<GetAllReviewResponseDto> getAllReview(@RequestParam UUID itemId){
+		return ResponseEntity.ok().body(reviewService.getAllReview(itemId));
 	}
 
 }

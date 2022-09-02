@@ -7,6 +7,7 @@ import java.util.UUID;
 import javax.persistence.*;
 
 import com.tmax.cm.superstore.common.entity.BaseTimeEntity;
+import com.tmax.cm.superstore.item.entity.Item;
 import com.tmax.cm.superstore.mypage.dto.CreateReviewReplyRequestDto;
 import com.tmax.cm.superstore.mypage.dto.UpdateReviewRequestDto;
 import com.tmax.cm.superstore.user.entities.User;
@@ -30,9 +31,9 @@ public class Review extends BaseTimeEntity {
 	@Column(name = "REVIEW_ID", columnDefinition = "BINARY(16)")
 	private UUID id;
 
-	/*@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ORDER_ITEM_ID")
-	private OrderItem orderItem;*/
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(foreignKey = @ForeignKey(name = "FK_review_item_id"), name = "item_id", nullable = false)
+	private Item item;
 
 	@Column(nullable = false)
 	private String title;
