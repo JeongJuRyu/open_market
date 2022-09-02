@@ -14,18 +14,18 @@ import javax.validation.constraints.NotNull;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long categoryId;
+    private Long id;
 
     @Column
     @NotNull
-    private String categoryName;
+    private String name;
 
     @Column
     @NotNull
     private Long parentId;
 
     public Category(String categoryName, Long parentId){
-        this.categoryName = categoryName;
+        this.name = categoryName;
         this.parentId = parentId;
     }
 }

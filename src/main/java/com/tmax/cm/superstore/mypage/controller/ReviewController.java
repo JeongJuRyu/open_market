@@ -46,11 +46,14 @@ public class ReviewController {
 		@PathVariable UUID reviewId){
 		return ResponseEntity.ok().body(reviewService.getReview(reviewId));
 	}
-
 	@PostMapping("/reply")
 	public ResponseEntity<UUID> createReviewReply(
 		@RequestBody PostReviewReplyRequestDto postReviewReplyRequestDto) {
 		return ResponseEntity.ok().body(reviewService.postReviewReply(postReviewReplyRequestDto));
+	}
+	@GetMapping
+	public ResponseEntity<GetAllReviewResponseDto> getAllReview(@RequestParam UUID itemId){
+		return ResponseEntity.ok().body(reviewService.getAllReview(itemId));
 	}
 
 }

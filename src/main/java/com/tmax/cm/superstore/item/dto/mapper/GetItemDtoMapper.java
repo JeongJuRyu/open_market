@@ -40,6 +40,7 @@ public interface GetItemDtoMapper {
     @Mapping(target = "itemName", source = "item.name")
     @Mapping(target = "itemPrice", source = "item.price")
     @Mapping(target = "possibleSendType", source = "item.itemSendTypes")
+    @Mapping(target = "categoryId", source = "item.category.id")
     GetItemDto.Response toResponse(Item item, List<GetItemDto.Response.GetOptionGroupDto> necessaryOptionGroups,
             List<GetItemDto.Response.GetOptionGroupDto> optionalOptionGroups);
 
