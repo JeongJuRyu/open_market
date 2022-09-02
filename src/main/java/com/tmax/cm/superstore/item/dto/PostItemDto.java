@@ -31,6 +31,8 @@ public class PostItemDto {
 
         private List<PostOptionGroupDto> optionGroups;
 
+        private Long categoryId;
+
         @Getter
         public static class PostOptionGroupDto {
 

@@ -15,4 +15,6 @@ public interface ReviewRepository extends JpaRepository<Review, UUID> {
 
     @Query("select r from Review r join fetch r.reviewImages join fetch r.reviewReply where r.id =: reviewId")
     Optional<Review> findReviewById(UUID reviewId);
+
+    List<Review> findAllByItemId(UUID itemId);
 }

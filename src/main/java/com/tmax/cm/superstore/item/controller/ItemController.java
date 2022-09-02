@@ -5,12 +5,9 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.tmax.cm.superstore.item.dto.GetItemAllByCategoryDto;
+import com.tmax.cm.superstore.item.dto.mapper.GetItemAllByCategoryDtoMapper;
+import org.springframework.web.bind.annotation.*;
 
 import com.tmax.cm.superstore.code.ResponseCode;
 import com.tmax.cm.superstore.common.ResponseDto;
@@ -35,6 +32,7 @@ public class ItemController {
     private final PostItemDtoMapper postItemDtoMapper;
     private final GetItemDtoMapper getItemDtoMapper;
     private final GetItemAllDtoMapper getItemAllDtoMapper;
+    private final GetItemAllByCategoryDtoMapper getItemAllByCategoryDtoMapper;
 
     @PostMapping
     public ResponseDto<PostItemDto.Response> postCreateItem(
@@ -59,5 +57,12 @@ public class ItemController {
         List<Item> items = this.itemService.readItems();
 
         return new ResponseDto<>(ResponseCode.ITEM_READ, this.getItemAllDtoMapper.toResponse(items));
+    }
+
+    @GetMapping("/simpleItems")
+    public ResponseDto<GetItemAllByCategoryDto.Response> getItemByCategory(@RequestParam("categoryId") Long categoryId) {
+        List<Item> items = this.itemService.readItemsByCategory(categoryId);
+
+        return new ResponseDto<>(ResponseCode.ITEM_READ_ALL, this.getItemAllByCategoryDtoMapper.toResponse(items));
     }
 }
