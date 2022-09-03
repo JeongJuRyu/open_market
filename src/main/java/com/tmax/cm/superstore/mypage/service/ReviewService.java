@@ -33,7 +33,7 @@ public class ReviewService {
 	private final ReviewMapper reviewMapper;
 	private final ItemRepository itemRepository;
 
-	@Transactional(readOnly = true)
+	/*@Transactional(readOnly = true)
 	public GetAllReviewResponseDto getAllReview(UUID itemId){
 //		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 //		List<Review> reviewList = reviewRepository.findAllByUserId(user.getId());
@@ -42,7 +42,7 @@ public class ReviewService {
 
 		return GetAllReviewResponseDto.builder()
 			.reviews(reviewMapper.toReviewDto(reviews)).build();
-	}
+	}*/
 
 	@Transactional(readOnly = true)
 	public GetReviewResponseDto getReview(UUID reviewId){
