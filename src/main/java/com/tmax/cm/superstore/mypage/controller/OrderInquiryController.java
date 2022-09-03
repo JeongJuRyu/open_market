@@ -38,8 +38,7 @@ public class OrderInquiryController {
 
 	@PostMapping
 	public ResponseEntity<UUID> postInquiry(
-		@RequestBody PostOrderInquiryRequestDto postOrderInquiryRequestDto
-	){
+		@RequestBody PostOrderInquiryRequestDto postOrderInquiryRequestDto){
 		return ResponseEntity.ok()
 			.body(orderInquiryService.postOrderInquiry(postOrderInquiryRequestDto));
 	}
