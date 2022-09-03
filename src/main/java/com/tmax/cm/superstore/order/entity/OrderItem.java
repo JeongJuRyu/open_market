@@ -44,9 +44,9 @@ public class OrderItem {
 	@Column(nullable = false)
 	private String imageUrl;
 
-	@OneToMany(mappedBy = "orderItem")
+	/*@OneToMany(mappedBy = "orderItem")
 	@Builder.Default
-	private List<OrderInquiry> orderInquiries = new ArrayList<>();
+	private List<OrderInquiry> orderInquiries = new ArrayList<>();*/
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id")
