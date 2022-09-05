@@ -204,8 +204,8 @@ public class ItemControllerIntegrationTest {
                 .content(request.toString()));
 
         // then
-        result.andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
+        result.andDo(print())
+                .andExpect(status().isOk())
                 .andDo(EasyRestDocumentation.document("postItem", "상품 생성", this.tag));
     }
 
@@ -216,8 +216,8 @@ public class ItemControllerIntegrationTest {
                 .get("/v1/item/{itemId}", "1523bc68-e8f7-4140-b7dd-cbfe622e068a"));
 
         // then
-        result.andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
+        result.andDo(print())
+                .andExpect(status().isOk())
                 .andDo(EasyRestDocumentation.document("getItem", "특정 상품 조회", this.tag));
     }
 
@@ -228,8 +228,8 @@ public class ItemControllerIntegrationTest {
                 .get("/v1/item"));
 
         // then
-        result.andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
+        result.andDo(print())
+                .andExpect(status().isOk())
                 .andDo(EasyRestDocumentation.document("getItemAll", "모든 상품 조회", this.tag));
     }
 }
