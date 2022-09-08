@@ -4,6 +4,7 @@ import com.tmax.cm.superstore.seller.entity.Seller;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
@@ -11,6 +12,7 @@ public class CreateSellerDto {
 
 	@Getter
 	@AllArgsConstructor
+	@NoArgsConstructor
 	@Builder
 	public static class Request {
 		private String loginId;
