@@ -10,7 +10,6 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalTime;
 import java.util.UUID;
 
 @Entity
@@ -51,12 +50,13 @@ public class ReservationItem {
 	@JoinColumn(name = "sellerId")
 	private Seller sellerId;
 
-//	@Column
-//	private LocalTime startTime;
-//	@Column
-//	private LocalTime endTime;
+	//	@Column
+	//	private LocalTime startTime;
+	//	@Column
+	//	private LocalTime endTime;
 
-	public static ReservationItemBuilder builder(CreateReservationItemDto.Request createReservationItemRequestDto, Seller seller){
+	public static ReservationItemBuilder builder(CreateReservationItemDto.Request createReservationItemRequestDto,
+		Seller seller) {
 		return ReservationItemBuilder()
 			.reservationItemName(createReservationItemRequestDto.getReservationItemName())
 			.reservationItemDescription(createReservationItemRequestDto.getReservationItemDescription())

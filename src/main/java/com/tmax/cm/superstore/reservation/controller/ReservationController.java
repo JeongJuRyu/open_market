@@ -3,6 +3,7 @@ package com.tmax.cm.superstore.reservation.controller;
 import com.tmax.cm.superstore.common.ResponseDto;
 import com.tmax.cm.superstore.reservation.dto.CreateReservationItemDto;
 import com.tmax.cm.superstore.reservation.dto.CreateReservationItemImageDto;
+import com.tmax.cm.superstore.reservation.dto.CreateReservationItemOptionDto;
 import com.tmax.cm.superstore.reservation.service.ReservationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -35,4 +36,12 @@ public class ReservationController {
 			reservationService.createReservationItemImage(reservationItemId, createReservationItemImageRequestDto));
 	}
 
+	@PostMapping("/{reservationItemId}/item/option/create")
+	public ResponseEntity<ResponseDto<CreateReservationItemOptionDto.Response>> createReservationItemOption(
+		@PathVariable UUID reservationItemId,
+		@Valid @RequestBody CreateReservationItemOptionDto.Request createReservationItemOptionRequestDto)
+		throws Exception {
+		return ResponseEntity.ok().body(
+			reservationService.createReservationItemOption(reservationItemId, createReservationItemOptionRequestDto));
+	}
 }

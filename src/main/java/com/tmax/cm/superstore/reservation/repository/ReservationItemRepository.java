@@ -1,7 +1,6 @@
 package com.tmax.cm.superstore.reservation.repository;
 
 import com.tmax.cm.superstore.reservation.entity.ReservationItem;
-import com.tmax.cm.superstore.seller.entity.Seller;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

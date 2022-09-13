@@ -27,8 +27,8 @@ public enum ResponseCode implements Code {
 
 	// Reservation
 	RESERVATION_ITEM_CREATE("SUCCESS", "RESERVATION_ITEM_CREATE", "Create reservationItem", "예약 상품 생성"),
-	RESERVATION_ITEM_IMAGE_CREATE("SUCCESS", "RESERVATION_ITEM_IMAGE_CREATE", "Create reservationItemImage",
-		"예약 상품 이미지 등록"),
+	RESERVATION_ITEM_OPTION_CREATE("SUCCESS", "RESERVATION_ITEM_OPTION_CREATE", "Create reservationItemOption", "예약 상품 옵션 생성"),
+	RESERVATION_ITEM_IMAGE_CREATE("SUCCESS", "RESERVATION_ITEM_IMAGE_CREATE", "Create reservationItemImage", "예약 상품 이미지 등록"),
 
 	// Error - Item
 	ERROR_ITEM_NOT_FOUND("ERROR", "EI000", "Item not found", "해당 상품이 저장되어 있지 않음"),
