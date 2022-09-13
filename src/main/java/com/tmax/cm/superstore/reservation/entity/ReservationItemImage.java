@@ -1,6 +1,10 @@
 package com.tmax.cm.superstore.reservation.entity;
 
+import com.tmax.cm.superstore.reservation.dto.CreateReservationItemImageDto;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -13,6 +17,9 @@ import java.util.UUID;
 @Getter
 @Table(name = "reservationItemImage")
 @Access(AccessType.FIELD)
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder(builderMethodName = "ReservationItemImageBuilder")
 public class ReservationItemImage {
 
 	@Id
@@ -34,4 +41,12 @@ public class ReservationItemImage {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "reservationItemId")
 	private ReservationItem reservationItemId;
+
+	public static ReservationItemImageBuilder builder(
+		CreateReservationItemImageDto.Request createReservationItemImageRequestDto, ReservationItem reservationItem) {
+		return ReservationItemImageBuilder()
+			.reservationItemImageId(createReservationItemImageRequestDto.getReservationItemImageId())
+			.imageName(createReservationItemImageRequestDto.getImageName())
+			.reservationItemId(reservationItem);
+	}
 }

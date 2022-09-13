@@ -5,17 +5,17 @@ import com.tmax.cm.superstore.seller.entity.Seller;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import java.time.LocalTime;
 import java.util.UUID;
 
 public class CreateReservationItemDto {
 
 	@Getter
 	@AllArgsConstructor
+	@NoArgsConstructor
 	@Builder
-	public static class Request{
+	public static class Request {
 		private String reservationItemName;
 		private String reservationItemDescription;
 		private String reservationItemNotice;
@@ -25,7 +25,7 @@ public class CreateReservationItemDto {
 
 	@Getter
 	@Builder(builderMethodName = "ResponseBuilder")
-	public static class Response{
+	public static class Response {
 		private UUID reservationItemId;
 		private String reservationItemName;
 		private String reservationItemDescription;
@@ -35,7 +35,7 @@ public class CreateReservationItemDto {
 		private Boolean isDeleted;
 		private UUID sellerId;
 
-		public static ResponseBuilder builder(ReservationItem reservationItem, Seller seller){
+		public static ResponseBuilder builder(ReservationItem reservationItem, Seller seller) {
 			return ResponseBuilder()
 				.reservationItemId(reservationItem.getReservationItemId())
 				.reservationItemName(reservationItem.getReservationItemName())
