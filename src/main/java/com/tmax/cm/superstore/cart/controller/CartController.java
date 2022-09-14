@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tmax.cm.superstore.cart.dto.DeleteCartItemsDto;
+import com.tmax.cm.superstore.cart.dto.DeleteCartItemsHttpDto;
 import com.tmax.cm.superstore.cart.dto.GetCartDto;
 import com.tmax.cm.superstore.cart.dto.GetCartItemDto;
 import com.tmax.cm.superstore.cart.dto.GetCartReservationItemDto;
@@ -26,6 +26,7 @@ import com.tmax.cm.superstore.cart.dto.mapper.GetCartDtoMapper;
 import com.tmax.cm.superstore.cart.dto.mapper.GetCartItemDtoMapper;
 import com.tmax.cm.superstore.cart.dto.mapper.GetCartReservationItemDtoMapper;
 import com.tmax.cm.superstore.cart.entity.CartItem;
+import com.tmax.cm.superstore.cart.service.CartItemService;
 import com.tmax.cm.superstore.cart.service.CartService;
 import com.tmax.cm.superstore.code.CartType;
 import com.tmax.cm.superstore.code.ResponseCode;
@@ -39,6 +40,7 @@ import lombok.RequiredArgsConstructor;
 public class CartController {
 
     private final CartService cartService;
+    private final CartItemService cartItemService;
 
     private final GetCartDtoMapper getCartDtoMapper;
     private final GetCartItemDtoMapper getCartItemDtoMapper;
@@ -48,7 +50,7 @@ public class CartController {
     public ResponseDto<Void> postCreateCartItem(
             @Valid @RequestBody PostCartItemDto.Request request) {
 
-        this.cartService.createCartItem(request);
+        this.cartItemService.create(request);
 
         return new ResponseDto<>(ResponseCode.CART_ITEM_CREATE, null);
     }
@@ -57,7 +59,7 @@ public class CartController {
     public ResponseDto<Void> postCreateCartReservationItem(
             @Valid @RequestBody PostCartReservationItemDto.Request request) {
 
-        this.cartService.createCartReservationItem(request);
+        this.cartItemService.createCartReservationItem(request);
 
         return new ResponseDto<>(ResponseCode.CART_RESERVATION_ITEM_CREATE, null);
     }
@@ -90,7 +92,7 @@ public class CartController {
     @GetMapping("/cartItem/{cartItemId}")
     public ResponseDto<GetCartItemDto.Response> getCartItem(@PathVariable UUID cartItemId) {
 
-        CartItem cartItem = this.cartService.readCartItem(cartItemId);
+        CartItem cartItem = this.cartItemService.read(cartItemId);
 
         GetCartItemDto.Response response = this.getCartItemDtoMapper.toResponse(cartItem);
         response.calculate();
@@ -101,7 +103,7 @@ public class CartController {
     @GetMapping("/cartReservationItem/{cartItemId}")
     public ResponseDto<GetCartReservationItemDto.Response> getCartReservationItem(@PathVariable UUID cartItemId) {
 
-        CartItem cartItem = this.cartService.readCartItem(cartItemId);
+        CartItem cartItem = this.cartItemService.read(cartItemId);
 
         GetCartReservationItemDto.Response response = this.getCartReservationItemDtoMapper.toResponse(cartItem);
         response.calculate();
@@ -110,9 +112,9 @@ public class CartController {
     }
 
     @DeleteMapping("/cartItem")
-    public ResponseDto<Void> deleteCartItems(@Valid @RequestBody DeleteCartItemsDto.Request request) {
+    public ResponseDto<Void> deleteCartItems(@Valid @RequestBody DeleteCartItemsHttpDto.Request request) {
 
-        this.cartService.deleteCartItems(request);
+        this.cartItemService.delete(request);
 
         return new ResponseDto<>(ResponseCode.CART_ITEMS_DELETE, null);
     }
@@ -121,7 +123,7 @@ public class CartController {
     public ResponseDto<Void> putCartItem(@PathVariable UUID cartItemId,
             @Valid @RequestBody PutCartItemDto.Request request) {
 
-        this.cartService.updateCartItem(cartItemId, request);
+        this.cartItemService.update(cartItemId, request);
 
         return new ResponseDto<>(ResponseCode.CART_ITEM_UPDATE, null);
     }
@@ -130,7 +132,7 @@ public class CartController {
     public ResponseDto<Void> putCartReservationItem(@PathVariable UUID cartItemId,
             @Valid @RequestBody PutCartReservationItemDto.Request request) {
 
-        this.cartService.updateCartReservationItem(cartItemId, request);
+        this.cartItemService.updateCartReservationItem(cartItemId, request);
 
         return new ResponseDto<>(ResponseCode.CART_RESERVATION_ITEM_UPDATE, null);
     }
