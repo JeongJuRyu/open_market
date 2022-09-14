@@ -17,4 +17,31 @@ public enum CartType implements Code {
 
     @JsonValue
     private String jsonValue;
+
+    public static CartType findBySendType(SendType sendType) {
+        CartType cartType;
+
+        switch (sendType) {
+            case SHIPPING:
+                cartType = CartType.SHIPPING_VISIT;
+                break;
+            case VISIT:
+                cartType = CartType.SHIPPING_VISIT;
+                break;
+            case DELIVERY:
+                cartType = CartType.DELIVERY_PICKUP;
+                break;
+            case PICKUP:
+                cartType = CartType.DELIVERY_PICKUP;
+                break;
+            case RESERVATION:
+                cartType = CartType.RESERVATION;
+                break;
+            default:
+                cartType = null;
+                break;
+        }
+
+        return cartType;
+    }
 }

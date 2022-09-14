@@ -36,7 +36,7 @@ public class SelectedOption {
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST})
 	@JoinColumn(foreignKey = @ForeignKey(name = "FK_selected_option_cart_item_id"), name = "cartItemId", nullable = false)
 	private CartItem cartItem;
 

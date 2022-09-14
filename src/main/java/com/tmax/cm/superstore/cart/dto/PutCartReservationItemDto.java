@@ -5,12 +5,18 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tmax.cm.superstore.cart.service.dto.CreateCartOptionDto;
+import com.tmax.cm.superstore.cart.service.dto.CreateCartOptionGroupDto;
+import com.tmax.cm.superstore.cart.service.dto.CreateSelectedOptionDto;
+import com.tmax.cm.superstore.cart.service.dto.UpdateCartReservationItemDto;
+
 import lombok.Getter;
 
 public class PutCartReservationItemDto {
 
     @Getter
-    public static class Request {
+    public static class Request implements UpdateCartReservationItemDto {
 
         private LocalDateTime reservationDate;
 
@@ -29,25 +35,29 @@ public class PutCartReservationItemDto {
         private List<PutSelectedOptionDto> selectedOptions;
 
         @Getter
-        public static class PutSelectedOptionDto {
+        public static class PutSelectedOptionDto implements CreateSelectedOptionDto {
 
-            private Integer selectedOptionCount;
-            
+            @JsonProperty("selectedOptionCount")
+            private Integer count;
+
             private List<PutCartOptionGroupDto> cartOptionGroups;
 
             @Getter
-            public static class PutCartOptionGroupDto {
+            public static class PutCartOptionGroupDto implements CreateCartOptionGroupDto {
 
-                private UUID optionGroupId;
+                @JsonProperty("optionGroupId")
+                private UUID id;
 
                 private List<PutCartOptionDto> cartOptions;
 
                 @Getter
-                public static class PutCartOptionDto {
+                public static class PutCartOptionDto implements CreateCartOptionDto {
 
-                    private UUID optionId;
+                    @JsonProperty("optionId")
+                    private UUID id;
 
-                    private Integer cartItemOptionCount;
+                    @JsonProperty("cartItemOptionCount")
+                    private Integer count;
                 }
             }
         }

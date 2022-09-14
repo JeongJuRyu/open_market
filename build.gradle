@@ -91,6 +91,9 @@ dependencies {
 
 test { 
 	outputs.dir snippetsDir
+	// testLogging {
+	// 	showStandardStreams = true
+	// }
 }
 
 asciidoctor { 
