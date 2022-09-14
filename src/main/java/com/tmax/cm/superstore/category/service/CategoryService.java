@@ -1,16 +1,19 @@
 package com.tmax.cm.superstore.category.service;
 
-import com.tmax.cm.superstore.category.entity.dto.CategoryDto;
-import com.tmax.cm.superstore.category.entity.dto.mapper.CategoryMapper;
-import com.tmax.cm.superstore.category.repository.CategoryRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import static java.util.stream.Collectors.groupingBy;
 
 import java.util.List;
 import java.util.Map;
 
-import static java.util.stream.Collectors.groupingBy;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.tmax.cm.superstore.category.entity.Category;
+import com.tmax.cm.superstore.category.entity.dto.CategoryDto;
+import com.tmax.cm.superstore.category.entity.dto.mapper.CategoryMapper;
+import com.tmax.cm.superstore.category.repository.CategoryRepository;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @Transactional
@@ -35,6 +38,10 @@ public class CategoryService {
         addSubCategories(category, groupingByParent);
 
         return category;
+    }
+
+    public Category getCategoryEntity(Long categoryId) {
+        return this.categoryRepository.findById(categoryId).orElseThrow(IllegalArgumentException::new);
     }
 
     private void addSubCategories(CategoryDto parent, Map<Long, List<CategoryDto>> groupingByParentId){

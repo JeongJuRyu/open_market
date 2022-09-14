@@ -45,88 +45,6 @@ public class ItemControllerIntegrationTest {
                 .addFilter(new CharacterEncodingFilter("UTF-8", true))
                 .apply(MockMvcRestDocumentation.documentationConfiguration(restDocumentation))
                 .build();
-
-        // {
-        // JSONObject createItemRequest = new JSONObject() {
-        // {
-        // put("shopName", "서머슈슈즈");
-        // put("name", "로토 스르르트 썸머 슈즈");
-        // put("price", 82000);
-        // put("possibleSendType", new JSONArray() {
-        // {
-        // put("shipping");
-        // }
-        // });
-        // put("optionGroups", new JSONArray() {
-        // {
-        // put(new JSONObject() {
-        // {
-        // put("name", "color");
-        // put("isNecessary", true);
-        // put("options", new JSONArray() {
-        // {
-        // put(new JSONObject() {
-        // {
-        // put("name", "블랙");
-        // put("price", 0);
-        // put("description", "참을 수 없는 옵션의 유혹");
-        // }
-        // });
-        // put(new JSONObject() {
-        // {
-        // put("name", "화이트");
-        // put("price", 0);
-        // put("description", "참을 수 없는 옵션의 유혹");
-        // }
-        // });
-        // }
-        // });
-        // }
-        // });
-        // put(new JSONObject() {
-        // {
-        // put("name", "굽 변경");
-        // put("isNecessary", false);
-        // put("options", new JSONArray() {
-        // {
-        // put(new JSONObject() {
-        // {
-        // put("name", "3cm");
-        // put("price", 1000);
-        // put("description", "참을 수 없는 옵션의 유혹");
-        // }
-        // });
-        // put(new JSONObject() {
-        // {
-        // put("name", "5cm");
-        // put("price", 0);
-        // put("description", "참을 수 없는 옵션의 유혹");
-        // }
-        // });
-        // }
-        // });
-        // }
-        // });
-        // }
-        // });
-        // }
-        // };
-
-        // // when
-        // MvcResult createItemResult =
-        // this.mvc.perform(RestDocumentationRequestBuilders
-        // .post("/v1/item")
-        // .contentType(MediaType.APPLICATION_JSON)
-        // .content(createItemRequest.toString()))
-        // .andDo(MockMvcResultHandlers.print())
-        // .andExpect(MockMvcResultMatchers.status().isOk())
-        // .andReturn();
-
-        // JSONObject createItemResponse = new JSONObject(
-        // createItemResult.getResponse().getContentAsString());
-        // this.itemId =
-        // UUID.fromString(createItemResponse.getJSONObject("data").getString("itemId"));
-        // }
     }
 
     @Test
@@ -142,6 +60,7 @@ public class ItemControllerIntegrationTest {
                         put("shipping");
                     }
                 });
+                put("categoryId", 8);
                 put("optionGroups", new JSONArray() {
                     {
                         put(new JSONObject() {
@@ -204,8 +123,8 @@ public class ItemControllerIntegrationTest {
                 .content(request.toString()));
 
         // then
-        result.andDo(print())
-                .andExpect(status().isOk())
+        result.andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(EasyRestDocumentation.document("postItem", "상품 생성", this.tag));
     }
 
@@ -216,8 +135,8 @@ public class ItemControllerIntegrationTest {
                 .get("/v1/item/{itemId}", "1523bc68-e8f7-4140-b7dd-cbfe622e068a"));
 
         // then
-        result.andDo(print())
-                .andExpect(status().isOk())
+        result.andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(EasyRestDocumentation.document("getItem", "특정 상품 조회", this.tag));
     }
 
@@ -228,8 +147,8 @@ public class ItemControllerIntegrationTest {
                 .get("/v1/item"));
 
         // then
-        result.andDo(print())
-                .andExpect(status().isOk())
+        result.andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(EasyRestDocumentation.document("getItemAll", "모든 상품 조회", this.tag));
     }
 }

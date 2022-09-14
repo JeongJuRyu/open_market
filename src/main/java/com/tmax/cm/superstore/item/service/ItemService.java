@@ -6,11 +6,11 @@ import java.util.UUID;
 
 import javax.transaction.Transactional;
 
+import org.springframework.stereotype.Service;
+
 import com.tmax.cm.superstore.category.entity.Category;
 import com.tmax.cm.superstore.category.entity.dto.CategoryDto;
 import com.tmax.cm.superstore.category.service.CategoryService;
-import org.springframework.stereotype.Service;
-
 import com.tmax.cm.superstore.code.SendType;
 import com.tmax.cm.superstore.error.exception.ItemNotFoundException;
 import com.tmax.cm.superstore.item.dto.PostItemDto;
@@ -41,12 +41,15 @@ public class ItemService {
         
         this.shopRepository.save(shop);
 
+        Category category = this.categoryService.getCategoryEntity(postItemDto.getCategoryId());
+
         Item item = Item.builder()
                 .shop(shop)
                 .name(postItemDto.getName())
                 .price(postItemDto.getPrice())
                 .optionGroups(new ArrayList<>())
                 .itemSendTypes(new ArrayList<>())
+                .category(category)
                 .build();
 
         for (SendType sendType : postItemDto.getPossibleSendType()) {
