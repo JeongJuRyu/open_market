@@ -5,12 +5,12 @@ import com.tmax.cm.superstore.common.ResponseDto;
 import com.tmax.cm.superstore.reservation.dto.CreateReservationItemDto;
 import com.tmax.cm.superstore.reservation.dto.CreateReservationItemImageDto;
 import com.tmax.cm.superstore.reservation.dto.CreateReservationItemOptionDto;
+import com.tmax.cm.superstore.reservation.dto.FindPossibleReservationByDay;
+import com.tmax.cm.superstore.reservation.entity.Reservation;
 import com.tmax.cm.superstore.reservation.entity.ReservationItem;
 import com.tmax.cm.superstore.reservation.entity.ReservationItemImage;
 import com.tmax.cm.superstore.reservation.entity.ReservationItemOption;
-import com.tmax.cm.superstore.reservation.repository.ReservationItemImageRepository;
-import com.tmax.cm.superstore.reservation.repository.ReservationItemOptionRepository;
-import com.tmax.cm.superstore.reservation.repository.ReservationItemRepository;
+import com.tmax.cm.superstore.reservation.repository.*;
 import com.tmax.cm.superstore.seller.entity.Seller;
 import com.tmax.cm.superstore.seller.error.exception.SellerAlreadyDeletedException;
 import com.tmax.cm.superstore.seller.error.exception.SellerNotFoundException;
@@ -19,6 +19,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -28,6 +34,7 @@ public class ReservationService {
 	private final ReservationItemRepository reservationItemRepository;
 	private final ReservationItemImageRepository reservationItemImageRepository;
 	private final ReservationItemOptionRepository reservationItemOptionRepository;
+	private final ReservationRepository reservationRepository;
 	private final SellerRepository sellerRepository;
 
 	@Transactional(rollbackFor = Exception.class)
@@ -86,7 +93,41 @@ public class ReservationService {
 
 			return ResponseDto.<CreateReservationItemOptionDto.Response>builder()
 				.responseCode(ResponseCode.RESERVATION_ITEM_OPTION_CREATE)
-				.data(CreateReservationItemOptionDto.Response.builder(newReservationItemOption, findReservationItem).build())
+				.data(CreateReservationItemOptionDto.Response.builder(newReservationItemOption, findReservationItem)
+					.build())
+				.build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Transactional(rollbackFor = Exception.class, readOnly = true)
+	public ResponseDto<FindPossibleReservationByDay.Response> findPossibleReservationByDay(UUID reservationItemId)
+		throws Exception {
+		try {
+			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
+				reservationItemId);
+			List<LocalDate> possibleReservationDate = new ArrayList<>();
+			LocalDateTime currentTime = LocalDateTime.now();
+			LocalDateTime afterAMonth = currentTime.plusDays(30);
+			for (LocalDateTime iterDateTime = currentTime; iterDateTime.isBefore(
+				afterAMonth); iterDateTime = iterDateTime.plusDays(1)) {
+				for (LocalTime iterTime = findReservationItem.getStartTime(); iterTime.isBefore(
+					findReservationItem.getEndTime()); iterTime = iterTime.plusHours(1)) {
+					LocalDateTime checkTime = LocalDateTime.of(iterDateTime.toLocalDate(), iterTime);
+					Optional<List<Reservation>> reservationCheckList = reservationRepository.findAllByReservationItemIdAndReservationTime(
+						findReservationItem, checkTime);
+					if (reservationCheckList.get().size()
+						< findReservationItem.getAllowReservationNumberPerInterval()) {
+						possibleReservationDate.add(iterDateTime.toLocalDate());
+						break;
+					}
+				}
+			}
+			return ResponseDto.<FindPossibleReservationByDay.Response>builder()
+				.responseCode(ResponseCode.RESERVATION_POSSIBLE_DAYS_FIND)
+				.data(FindPossibleReservationByDay.Response.builder(possibleReservationDate).build())
 				.build();
 		} catch (Exception e) {
 			e.printStackTrace();

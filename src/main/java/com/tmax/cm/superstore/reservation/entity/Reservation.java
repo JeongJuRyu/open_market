@@ -1,7 +1,10 @@
 package com.tmax.cm.superstore.reservation.entity;
 
 import com.tmax.cm.superstore.seller.entity.Seller;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -13,6 +16,9 @@ import java.util.UUID;
 @Getter
 @Table(name = "reservation")
 @Access(AccessType.FIELD)
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder(builderMethodName = "ReservationBuilder")
 public class Reservation {
 
 	@Id
@@ -42,4 +48,9 @@ public class Reservation {
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "reservationItemId")
 	private ReservationItem reservationItemId;
+
+	@NotNull
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "reservationItemOptionId")
+	private ReservationItemOption reservationItemOptionId;
 }

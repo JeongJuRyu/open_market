@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalTime;
 import java.util.UUID;
 
 public class CreateReservationItemDto {
@@ -19,8 +20,10 @@ public class CreateReservationItemDto {
 		private String reservationItemName;
 		private String reservationItemDescription;
 		private String reservationItemNotice;
-		private Integer allowReservationNumberPer30;
+		private Integer allowReservationNumberPerInterval;
 		private String reservationInterval;
+		private LocalTime startTime;
+		private LocalTime endTime;
 	}
 
 	@Getter
@@ -41,7 +44,7 @@ public class CreateReservationItemDto {
 				.reservationItemName(reservationItem.getReservationItemName())
 				.reservationItemDescription(reservationItem.getReservationItemDescription())
 				.reservationItemNotice(reservationItem.getReservationItemNotice())
-				.allowReservationNumberPer30(reservationItem.getAllowReservationNumberPer30())
+				.allowReservationNumberPer30(reservationItem.getAllowReservationNumberPerInterval())
 				.reservationInterval(reservationItem.getReservationInterval())
 				.isDeleted(reservationItem.isDeleted())
 				.sellerId(seller.getSellerId());

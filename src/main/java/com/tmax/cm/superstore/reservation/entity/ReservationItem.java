@@ -10,6 +10,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalTime;
 import java.util.UUID;
 
 @Entity
@@ -37,7 +38,7 @@ public class ReservationItem {
 	private String reservationItemNotice;
 
 	@Column
-	private Integer allowReservationNumberPer30;
+	private Integer allowReservationNumberPerInterval;
 
 	@Column
 	private String reservationInterval;
@@ -50,10 +51,10 @@ public class ReservationItem {
 	@JoinColumn(name = "sellerId")
 	private Seller sellerId;
 
-	//	@Column
-	//	private LocalTime startTime;
-	//	@Column
-	//	private LocalTime endTime;
+	@Column
+	private LocalTime startTime;
+	@Column
+	private LocalTime endTime;
 
 	public static ReservationItemBuilder builder(CreateReservationItemDto.Request createReservationItemRequestDto,
 		Seller seller) {
@@ -61,8 +62,10 @@ public class ReservationItem {
 			.reservationItemName(createReservationItemRequestDto.getReservationItemName())
 			.reservationItemDescription(createReservationItemRequestDto.getReservationItemDescription())
 			.reservationItemNotice(createReservationItemRequestDto.getReservationItemNotice())
-			.allowReservationNumberPer30(createReservationItemRequestDto.getAllowReservationNumberPer30())
+			.allowReservationNumberPerInterval(createReservationItemRequestDto.getAllowReservationNumberPerInterval())
 			.reservationInterval(createReservationItemRequestDto.getReservationInterval())
+			.startTime(createReservationItemRequestDto.getStartTime())
+			.endTime(createReservationItemRequestDto.getEndTime())
 			.sellerId(seller);
 	}
 }
