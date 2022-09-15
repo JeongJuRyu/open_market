@@ -55,4 +55,10 @@ public class ReservationController {
 		throws Exception {
 		return ResponseEntity.ok().body(reservationService.findPossibleReservationByTime(reservationItemId, reservationDay));
 	}
+
+	@PostMapping("/make")
+	public ResponseEntity<ResponseDto<MakeReservationDto.Response>> makeReservation(
+		@Valid @RequestBody MakeReservationDto.Request makeReservationRequestDto) throws Exception {
+		return ResponseEntity.ok().body(reservationService.makeReservation(makeReservationRequestDto));
+	}
 }

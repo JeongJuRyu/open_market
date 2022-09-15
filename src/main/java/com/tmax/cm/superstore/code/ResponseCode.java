@@ -30,6 +30,8 @@ public enum ResponseCode implements Code {
 	RESERVATION_ITEM_OPTION_CREATE("SUCCESS", "RESERVATION_ITEM_OPTION_CREATE", "Create reservationItemOption", "예약 상품 옵션 생성"),
 	RESERVATION_ITEM_IMAGE_CREATE("SUCCESS", "RESERVATION_ITEM_IMAGE_CREATE", "Create reservationItemImage", "예약 상품 이미지 등록"),
 	RESERVATION_POSSIBLE_DAYS_FIND("SUCCESS","RESERVATION_POSSIBLE_DAYS_FIND","Find reservationPossibleDays","예약 가능 일자 찾기"),
+	RESERVATION_POSSIBLE_TIMES_FIND("SUCCESS","RESERVATION_POSSIBLE_TIMES_FIND","Find reservationPossibleTimes","예약 가능 시간 찾기"),
+	RESERVATION_MAKE("SUCCESS","RESERVATION_MAKE_SUCCESS","Make reservation","예약 하기"),
 
 	// Error - Item
 	ERROR_ITEM_NOT_FOUND("ERROR", "EI000", "Item not found", "해당 상품이 저장되어 있지 않음"),
@@ -42,6 +44,9 @@ public enum ResponseCode implements Code {
 	// Error - Seller
 	ERROR_SELLER_NOT_FOUND("ERROR", "ES000", "Seller not found", "해당 판매자 계정이 존재하지 않음"),
 	ERROR_SELLER_ALREADY_DELETED("ERROR", "ES001", "Seller already deleted", "해당 판매자 계정은 이미 삭제됨"),
+
+	// Error - Reservation
+	ERROR_NO_MORE_RESERVATION("ERROR", "ER000", "No More Reservation", "해당 시간은 예약이 차있음"),
 
 	// Error - Common
 	ERROR_COMMON_RUNTIME("ERROR", "EC000", "Runtime Exception", "Runtime Exception 발생한 경우"),

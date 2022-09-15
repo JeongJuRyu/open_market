@@ -32,11 +32,6 @@ public class ReservationItemOption {
 	@Column
 	private String optionPrice;
 
-	//	@Column
-	//	private LocalTime startTime;
-	//	@Column
-	//	private LocalTime endTime;
-
 	@Column
 	private String optionDescription;
 
