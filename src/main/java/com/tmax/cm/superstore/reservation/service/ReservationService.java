@@ -2,15 +2,15 @@ package com.tmax.cm.superstore.reservation.service;
 
 import com.tmax.cm.superstore.code.ResponseCode;
 import com.tmax.cm.superstore.common.ResponseDto;
-import com.tmax.cm.superstore.reservation.dto.CreateReservationItemDto;
-import com.tmax.cm.superstore.reservation.dto.CreateReservationItemImageDto;
-import com.tmax.cm.superstore.reservation.dto.CreateReservationItemOptionDto;
-import com.tmax.cm.superstore.reservation.dto.FindPossibleReservationByDay;
+import com.tmax.cm.superstore.reservation.dto.*;
 import com.tmax.cm.superstore.reservation.entity.Reservation;
 import com.tmax.cm.superstore.reservation.entity.ReservationItem;
 import com.tmax.cm.superstore.reservation.entity.ReservationItemImage;
 import com.tmax.cm.superstore.reservation.entity.ReservationItemOption;
-import com.tmax.cm.superstore.reservation.repository.*;
+import com.tmax.cm.superstore.reservation.repository.ReservationItemImageRepository;
+import com.tmax.cm.superstore.reservation.repository.ReservationItemOptionRepository;
+import com.tmax.cm.superstore.reservation.repository.ReservationItemRepository;
+import com.tmax.cm.superstore.reservation.repository.ReservationRepository;
 import com.tmax.cm.superstore.seller.entity.Seller;
 import com.tmax.cm.superstore.seller.error.exception.SellerAlreadyDeletedException;
 import com.tmax.cm.superstore.seller.error.exception.SellerNotFoundException;
@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -128,6 +129,36 @@ public class ReservationService {
 			return ResponseDto.<FindPossibleReservationByDay.Response>builder()
 				.responseCode(ResponseCode.RESERVATION_POSSIBLE_DAYS_FIND)
 				.data(FindPossibleReservationByDay.Response.builder(possibleReservationDate).build())
+				.build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Transactional(rollbackFor = Exception.class, readOnly = true)
+	public ResponseDto<FindPossibleReservationByTime.Response> findPossibleReservationByTime(UUID reservationItemId,
+		String reservationDay)
+		throws Exception {
+		try {
+			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
+				reservationItemId);
+			DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
+			LocalDate selectedReservationDay = LocalDate.parse(reservationDay, formatter);
+			List<LocalTime> possibleReservationTime = new ArrayList<>();
+			for (LocalTime iterTime = findReservationItem.getStartTime(); iterTime.isBefore(
+				findReservationItem.getEndTime()); iterTime = iterTime.plusHours(1)) {
+				LocalDateTime checkTime = LocalDateTime.of(selectedReservationDay, iterTime);
+				Optional<List<Reservation>> reservationCheckList = reservationRepository.findAllByReservationItemIdAndReservationTime(
+					findReservationItem, checkTime);
+				if (reservationCheckList.get().size() >= findReservationItem.getAllowReservationNumberPerInterval()) {
+					continue;
+				}
+				possibleReservationTime.add(iterTime);
+			}
+			return ResponseDto.<FindPossibleReservationByTime.Response>builder()
+				.responseCode(ResponseCode.RESERVATION_POSSIBLE_DAYS_FIND)
+				.data(FindPossibleReservationByTime.Response.builder(possibleReservationTime).build())
 				.build();
 		} catch (Exception e) {
 			e.printStackTrace();

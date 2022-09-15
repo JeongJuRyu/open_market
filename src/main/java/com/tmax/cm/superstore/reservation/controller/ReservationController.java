@@ -1,10 +1,7 @@
 package com.tmax.cm.superstore.reservation.controller;
 
 import com.tmax.cm.superstore.common.ResponseDto;
-import com.tmax.cm.superstore.reservation.dto.CreateReservationItemDto;
-import com.tmax.cm.superstore.reservation.dto.CreateReservationItemImageDto;
-import com.tmax.cm.superstore.reservation.dto.CreateReservationItemOptionDto;
-import com.tmax.cm.superstore.reservation.dto.FindPossibleReservationByDay;
+import com.tmax.cm.superstore.reservation.dto.*;
 import com.tmax.cm.superstore.reservation.service.ReservationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -52,5 +49,10 @@ public class ReservationController {
 		return ResponseEntity.ok().body(reservationService.findPossibleReservationByDay(reservationItemId));
 	}
 
-	//예약가능 시간 조회
+	@GetMapping("/{reservationItemId}/possible/time")
+	public ResponseEntity<ResponseDto<FindPossibleReservationByTime.Response>> findPossibleReservationByTime(
+		@PathVariable UUID reservationItemId, @RequestParam(value = "reservationDay") String reservationDay)
+		throws Exception {
+		return ResponseEntity.ok().body(reservationService.findPossibleReservationByTime(reservationItemId, reservationDay));
+	}
 }
