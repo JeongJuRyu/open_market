@@ -222,3 +222,13 @@ INSERT INTO cart_option_group(id, selected_option_id, option_group_id) VALUES (U
 INSERT INTO cart_option(id, count, cart_option_group_id, option_id) VALUES (UUID_TO_BIN("1c80573b-4974-4c8e-8dc3-beebdbac5f3e"), 1, UUID_TO_BIN("5343e1f3-cd8a-43a2-99fc-adf333c6b3c8"), UUID_TO_BIN("47360b10-6542-488c-8e59-9ccb324797a8"));
 
 --- 카테고리 상품
+
+--- 찜 그룹 등록
+INSERT INTO wishlist_group(id, name, position, is_deleted) VALUES (1, '여행용', 0, false);
+INSERT INTO wishlist_group(id, name, position, is_deleted) VALUES (2, '나들이용', 1, false);
+
+--- 찜 상품 등록
+INSERT INTO wishlist_item(id, item_id, wishlist_group_id, is_deleted) VALUES (1, UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb27'), 1, false);
+INSERT INTO wishlist_item(id, item_id, wishlist_group_id, is_deleted) VALUES (2, UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb28'), 1, false);
+INSERT INTO wishlist_item(id, item_id, wishlist_group_id, is_deleted) VALUES (3, UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb29'), 2, false);
+INSERT INTO wishlist_item(id, item_id, wishlist_group_id, is_deleted) VALUES (4, UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb30'), null, false);
