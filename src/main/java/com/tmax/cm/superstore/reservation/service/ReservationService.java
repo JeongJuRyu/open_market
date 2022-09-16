@@ -2,7 +2,7 @@ package com.tmax.cm.superstore.reservation.service;
 
 import com.tmax.cm.superstore.code.ResponseCode;
 import com.tmax.cm.superstore.common.ResponseDto;
-import com.tmax.cm.superstore.reservation.NoMoreReservationException;
+import com.tmax.cm.superstore.reservation.error.exception.NoMoreReservationException;
 import com.tmax.cm.superstore.reservation.dto.*;
 import com.tmax.cm.superstore.reservation.entity.Reservation;
 import com.tmax.cm.superstore.reservation.entity.ReservationItem;
