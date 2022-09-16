@@ -126,6 +126,26 @@ public class ReservationService {
 		}
 	}
 
+	@Transactional(rollbackFor = Exception.class, readOnly = true)
+	public ResponseDto<FindReservationItemOptionListDto.Response> findReservationItemOptionList(UUID reservationItemId) throws Exception{
+		try{
+			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(reservationItemId);
+			List<ReservationItemOption> findReservationItemOptionList = reservationItemOptionRepository.findAllByReservationItemId(findReservationItem);
+			List<FindReservationItemOptionListDto.Response.ReservationItemOptionList> reservationItemOptionList = new ArrayList<>();
+			for(ReservationItemOption reservationItemOption : findReservationItemOptionList){
+				reservationItemOptionList.add(FindReservationItemOptionListDto.Response.ReservationItemOptionList.builder(reservationItemOption).build());
+			}
+
+			return ResponseDto.<FindReservationItemOptionListDto.Response>builder()
+				.responseCode(ResponseCode.RESERVATION_ITEM_OPTION_LIST_FIND)
+				.data(FindReservationItemOptionListDto.Response.builder(reservationItemOptionList).build())
+				.build();
+		}catch (Exception e){
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
 	// 최적화 매우 필요
 	@Transactional(rollbackFor = Exception.class, readOnly = true)
 	public ResponseDto<FindPossibleReservationByDay.Response> findPossibleReservationByDay(UUID reservationItemId)

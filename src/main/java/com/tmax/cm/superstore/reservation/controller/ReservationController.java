@@ -48,6 +48,11 @@ public class ReservationController {
 			reservationService.createReservationItemOption(reservationItemId, createReservationItemOptionRequestDto));
 	}
 
+	@GetMapping("/{reservationItemId}/option")
+	public ResponseEntity<ResponseDto<FindReservationItemOptionListDto.Response>> findReservationItemOptionList(@PathVariable UUID reservationItemId) throws Exception{
+		return ResponseEntity.ok().body(reservationService.findReservationItemOptionList(reservationItemId));
+	}
+
 	@GetMapping("/{reservationItemId}/possible/day")
 	public ResponseEntity<ResponseDto<FindPossibleReservationByDay.Response>> findPossibleReservationByDay(
 		@PathVariable UUID reservationItemId) throws Exception {
