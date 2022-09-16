@@ -33,6 +33,15 @@ spring:
       platform: develop
       mode: always
       continue-on-error: true
+  data:
+    redis:
+      repositories:
+        enabled: false
+#  redis:
+#    host: localhost
+#    port: 6379
+#    password: tmax
+
 
 logging:
   level:
@@ -52,7 +61,7 @@ spring:
     activate:
       on-profile: develop-integration-test
   datasource:
-    url: jdbc:h2:mem:mydb
+    url: jdbc:h2:mem:mydb;MODE=MySQL
     username: tmax
     password: tmax
     driverClassName: org.h2.Driver
@@ -102,4 +111,35 @@ spring:
     init:
       platform: develop
       mode: always
-      continue-on-error: true
+      # continue-on-error: false
+
+---
+server:
+  port: 8081
+
+spring:
+
+  config:
+    activate:
+      on-profile: develop-cjh
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/superstore
+    username: root
+    password: 1234
+  jpa:
+    show-sql: true
+    defer-datasource-initialization: true
+    generate-ddl: true
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    properties:
+      hibernate:
+        ddl-auto: create
+        format_sql: true
+  sql:
+    init:
+      platform: develop
+      mode: always
+      # continue-on-error: true
+      # continue-on-error: false

@@ -1,34 +1,47 @@
 package com.tmax.cm.superstore.category.service;
 
-import com.tmax.cm.superstore.category.entity.Category;
-import com.tmax.cm.superstore.category.entity.dto.CategoryDto;
-import com.tmax.cm.superstore.category.repository.CategoryRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import static java.util.stream.Collectors.groupingBy;
 
 import java.util.List;
 import java.util.Map;
 
-import static java.util.stream.Collectors.groupingBy;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.tmax.cm.superstore.category.entity.Category;
+import com.tmax.cm.superstore.category.entity.dto.CategoryDto;
+import com.tmax.cm.superstore.category.entity.dto.mapper.CategoryMapper;
+import com.tmax.cm.superstore.category.repository.CategoryRepository;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class CategoryService {
     private final CategoryRepository categoryRepository;
+    private final CategoryMapper categoryMapper;
 
-    public CategoryDto createCategoryRoot() {
+    public CategoryDto getCategory(Long categoryId){
         Map<Long, List<CategoryDto>> groupingByParent = categoryRepository.findAll()
                 .stream()
-                .map(ce -> new CategoryDto(ce.getCategoryId(), ce.getCategoryName(), ce.getParentId()))
+                .map(ce -> new CategoryDto(ce.getId(), ce.getName(), ce.getParentId()))
                 .collect(groupingBy(CategoryDto::getParentId));
 
-        System.out.println(groupingByParent);
-        CategoryDto rootCategoryDto = new CategoryDto(0L, "ROOT", null);
-        addSubCategories(rootCategoryDto, groupingByParent);
+        CategoryDto category;
 
-        return rootCategoryDto;
+        if (categoryId == 0){
+            category = new CategoryDto(0L, "ROOT", null);
+        } else{
+            category = categoryMapper.categoryToCategoryDto(categoryRepository.findById(categoryId).orElseThrow(IllegalArgumentException::new));
+        }
+        addSubCategories(category, groupingByParent);
+
+        return category;
+    }
+
+    public Category getCategoryEntity(Long categoryId) {
+        return this.categoryRepository.findById(categoryId).orElseThrow(IllegalArgumentException::new);
     }
 
     private void addSubCategories(CategoryDto parent, Map<Long, List<CategoryDto>> groupingByParentId){

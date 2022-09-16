@@ -33,6 +33,8 @@ public class GetItemAllDto {
 
             private Integer itemPrice;
 
+            private Long categoryId;
+
             @JsonProperty("necessaryOptionGroups")
             private List<GetOptionGroupDto> necessaryOptionGroups;
 

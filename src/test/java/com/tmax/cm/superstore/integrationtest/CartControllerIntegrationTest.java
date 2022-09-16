@@ -53,7 +53,7 @@ public class CartControllerIntegrationTest {
     }
 
     @Test
-    void testPostItem() throws Exception {
+    void testPostCartItem() throws Exception {
         // given
         JSONObject request = new JSONObject() {
             {
@@ -69,7 +69,7 @@ public class CartControllerIntegrationTest {
                                         put(new JSONObject() {
                                             {
                                                 put("optionGroupId", "62cfa7ab-26f5-46cf-af80-f9dedfda5693");
-                                                put("cartOpions", new JSONArray() {
+                                                put("cartOptions", new JSONArray() {
                                                     {
                                                         put(new JSONObject() {
                                                             {
@@ -103,6 +103,63 @@ public class CartControllerIntegrationTest {
     }
 
     @Test
+    void testPostCartReservationItem() throws Exception {
+        // given
+        JSONObject request = new JSONObject() {
+            {
+                put("itemId", "82cdc2eb-5ee8-4bde-8e32-654054b7fc16");
+                put("reservationDate", "2022-08-08T20:00:00");
+                put("dayOfWeek", "MONDAY");
+                put("reservationHeadcount", 36);
+                put("guestName", "김맥스");
+                put("guestPhoneNumber", "010-1234-5678");
+                put("guestEmail", "abc_12@tmax.co.kr");
+                put("reservationRequirement", "50인분 같은 36인분 부탁이요 ~");
+                put("selectedOptions", new JSONArray() {
+                    {
+                        put(new JSONObject() {
+                            {
+                                put("selectedOptionCount", 1);
+                                put("cartOptionGroups", new JSONArray() {
+                                    {
+                                        put(new JSONObject() {
+                                            {
+                                                put("optionGroupId", "8b41baa5-6118-4949-886f-abe34ca69cfe");
+                                                put("cartOptions", new JSONArray() {
+                                                    {
+                                                        put(new JSONObject() {
+                                                            {
+                                                                put("optionId", "08a1f664-c17c-4ff3-bb26-6519b7b2bff1");
+                                                                put("cartItemOptionCount", 1);
+                                                            }
+                                                        });
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        };
+
+        // when
+        ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
+                .post("/v1/cart/cartReservationItem")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(request.toString()));
+
+        // then
+        result.andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(EasyRestDocumentation.document("postCartReservationItem", "카트 예약 생성", this.tag));
+    }
+
+
+    @Test
     void testGetCart() throws Exception {
         // when
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
@@ -124,6 +181,18 @@ public class CartControllerIntegrationTest {
         result.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(EasyRestDocumentation.document("getCartItem", "카트 상품 조회", this.tag));
+    }
+
+    @Test
+    void testGetCartReservationItem() throws Exception {
+        // when
+        ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
+                .get("/v1/cart/cartReservationItem/{cartItemId}", "0ceda629-b012-45c4-bdf9-6e5787ba4e62"));
+
+        // then
+        result.andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(EasyRestDocumentation.document("getCartReservationItem", "카트 예약 조회", this.tag));
     }
 
     @Test
@@ -167,7 +236,7 @@ public class CartControllerIntegrationTest {
                                         put(new JSONObject() {
                                             {
                                                 put("optionGroupId", "62cfa7ab-26f5-46cf-af80-f9dedfda5693");
-                                                put("cartOpions", new JSONArray() {
+                                                put("cartOptions", new JSONArray() {
                                                     {
                                                         put(new JSONObject() {
                                                             {
@@ -198,5 +267,60 @@ public class CartControllerIntegrationTest {
         result.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(EasyRestDocumentation.document("putCartItem", "카트 상품 수정", this.tag));
+    }
+
+    @Test
+    void testPutCartReservationItem() throws Exception {
+        // given
+        JSONObject request = new JSONObject() {
+            {
+                put("reservationDate", "2022-08-08T20:00:00");
+                put("dayOfWeek", "MONDAY");
+                put("reservationHeadcount", 36);
+                put("guestName", "김맥스");
+                put("guestPhoneNumber", "010-1234-5678");
+                put("guestEmail", "abc_12@tmax.co.kr");
+                put("reservationRequirement", "50인분 같은 36인분 부탁이요 ~");
+                put("selectedOptions", new JSONArray() {
+                    {
+                        put(new JSONObject() {
+                            {
+                                put("selectedOptionCount", 1);
+                                put("cartOptionGroups", new JSONArray() {
+                                    {
+                                        put(new JSONObject() {
+                                            {
+                                                put("optionGroupId", "8b41baa5-6118-4949-886f-abe34ca69cfe");
+                                                put("cartOptions", new JSONArray() {
+                                                    {
+                                                        put(new JSONObject() {
+                                                            {
+                                                                put("optionId", "75bd49ea-63e4-4641-a58d-4c24e481a3df");
+                                                                put("cartItemOptionCount", 1);
+                                                            }
+                                                        });
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        };
+
+        // when
+        ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
+                .put("/v1/cart/cartReservationItem/{cartItemId}", "0ceda629-b012-45c4-bdf9-6e5787ba4e62")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(request.toString()));
+
+        // then
+        result.andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(EasyRestDocumentation.document("putCartReservationItem", "카트 예약 수정", this.tag));
     }
 }

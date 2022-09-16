@@ -7,6 +7,7 @@ import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tmax.cm.superstore.code.SendType;
 
+import com.tmax.cm.superstore.mypage.entity.Review;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -28,11 +29,17 @@ public class GetItemDto {
 
         private Integer itemPrice;
 
+        private Long categoryId;
+
         @JsonProperty("necessaryOptionGroups")
         private List<GetOptionGroupDto> necessaryOptionGroups;
-        
+
         @JsonProperty("optionalOptionGroups")
         private List<GetOptionGroupDto> optionalOptionGroups;
+
+        private List<ItemImageInfo> itemImages;
+
+        private List<GetOptionGroupDto> optionGroups;
 
         @Builder
         @Getter
@@ -51,7 +58,7 @@ public class GetItemDto {
                 private UUID optionId;
 
                 private String optionName;
-                
+
                 private Integer optionPrice;
 
                 private String optionDescription;

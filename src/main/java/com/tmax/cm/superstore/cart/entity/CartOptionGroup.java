@@ -33,7 +33,7 @@ public class CartOptionGroup {
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(foreignKey = @ForeignKey(name = "FK_cart_option_group_selected_option_id"), name = "selectedOptionId", nullable = false)
     private SelectedOption selectedOption;
 
@@ -41,6 +41,6 @@ public class CartOptionGroup {
     @JoinColumn(foreignKey = @ForeignKey(name = "FK_cart_option_group_option_group_id"), name = "optionGroupId", nullable = false)
     private OptionGroup optionGroup;
 
-    @OneToMany(mappedBy = "cartOptionGroup", cascade = {CascadeType.PERSIST})
+    @OneToMany(mappedBy = "cartOptionGroup", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private List<CartOption> cartOptions;
 }

@@ -11,6 +11,7 @@ import com.tmax.cm.superstore.code.SendType;
 
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.web.multipart.MultipartFile;
 
 public class PostItemDto {
     
@@ -29,7 +30,12 @@ public class PostItemDto {
 
         private Set<SendType> possibleSendType;
 
+        private List<MultipartFile> itemImages;
+
         private List<PostOptionGroupDto> optionGroups;
+
+        @NotNull
+        private Long categoryId;
 
         @Getter
         public static class PostOptionGroupDto {

@@ -8,6 +8,9 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
+import com.tmax.cm.superstore.category.entity.Category;
+import com.tmax.cm.superstore.category.entity.dto.CategoryDto;
+import com.tmax.cm.superstore.category.service.CategoryService;
 import com.tmax.cm.superstore.code.SendType;
 import com.tmax.cm.superstore.error.exception.ItemNotFoundException;
 import com.tmax.cm.superstore.item.dto.PostItemDto;
@@ -27,6 +30,7 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
     private final ShopRepository shopRepository;
+    private final CategoryService categoryService;
 
     @Transactional
     public Item createItem(PostItemDto.Request postItemDto) {
@@ -37,17 +41,20 @@ public class ItemService {
         
         this.shopRepository.save(shop);
 
+        Category category = this.categoryService.getCategoryEntity(postItemDto.getCategoryId());
+
         Item item = Item.builder()
                 .shop(shop)
                 .name(postItemDto.getName())
                 .price(postItemDto.getPrice())
                 .optionGroups(new ArrayList<>())
                 .itemSendTypes(new ArrayList<>())
+                .category(category)
                 .build();
 
         for (SendType sendType : postItemDto.getPossibleSendType()) {
             ItemSendType itemSendType = ItemSendType.builder()
-                    .SendType(sendType)
+                    .sendType(sendType)
                     .item(item)
                     .build();
 
@@ -95,5 +102,24 @@ public class ItemService {
         List<Item> items = this.itemRepository.findAll();
 
         return items;
+    }
+
+    @Transactional
+    public List<Item> readItemsByCategory(Long categoryId) {
+        CategoryDto category = categoryService.getCategory(categoryId);
+
+        List<CategoryDto> subCategoryList = category.getSubCategories();
+
+        List<Item> itemList = new ArrayList<>();
+
+        if(subCategoryList == null){
+            return itemRepository.findByCategoryId(categoryId);
+        } else{
+            for (CategoryDto categoryDto:subCategoryList
+            ) {
+                itemList.addAll(readItemsByCategory(categoryDto.getCategoryId()));
+            }
+            return itemList;
+        }
     }
 }
