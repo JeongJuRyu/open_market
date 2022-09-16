@@ -25,6 +25,11 @@ public class ReservationController {
 			.body(reservationService.createReservationItem(sellerId, createReservationItemRequestDto));
 	}
 
+	@GetMapping("/{sellerId}/item")
+	public ResponseEntity<ResponseDto<FindReservationItemListDto.Response>> findReservationItemList(@PathVariable UUID sellerId) throws Exception{
+		return ResponseEntity.ok().body(reservationService.findReservationItemList(sellerId));
+	}
+
 	@PostMapping("/{reservationItemId}/item/image/create")
 	public ResponseEntity<ResponseDto<CreateReservationItemImageDto.Response>> createReservationItemImage(
 		@PathVariable UUID reservationItemId,
