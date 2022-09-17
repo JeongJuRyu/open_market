@@ -20,10 +20,10 @@ import lombok.RequiredArgsConstructor;
 public class ReviewController {
 	private final ReviewService reviewService;
 
-	@GetMapping
+	/*@GetMapping
 	public ResponseEntity<GetAllReviewResponseDto> getAllReview(){
 		return ResponseEntity.ok().body(reviewService.getAllReview());
-	}
+	}*/
 
 	@PostMapping
 	public ResponseEntity<UUID> createReview(
@@ -54,6 +54,5 @@ public class ReviewController {
 	@GetMapping("/getAll")
 	public ResponseEntity<GetAllReviewResponseDto> getAllReviewByItemId(@RequestParam UUID itemId){
 		return ResponseEntity.ok().body(reviewService.getAllReview(itemId));
-	}
-
+	}*/
 }
