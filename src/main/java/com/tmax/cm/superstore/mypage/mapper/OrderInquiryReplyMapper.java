@@ -12,5 +12,5 @@ import com.tmax.cm.superstore.mypage.entity.OrderInquiryReply;
 public interface OrderInquiryReplyMapper {
 	List<GetAllOrderInquiryReplyResponseDto.OrderInquiryReply> toOrderInquiryReplies
 		(List<OrderInquiryReply> orderInquiryReplies);
-
+	GetAllOrderInquiryReplyResponseDto.OrderInquiryReply toOrderInquiryReply(OrderInquiryReply orderInquiryReply);
 }

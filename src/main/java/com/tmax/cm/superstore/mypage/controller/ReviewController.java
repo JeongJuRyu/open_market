@@ -54,5 +54,5 @@ public class ReviewController {
 	@GetMapping("/getAll")
 	public ResponseEntity<GetAllReviewResponseDto> getAllReviewByItemId(@RequestParam UUID itemId){
 		return ResponseEntity.ok().body(reviewService.getAllReview(itemId));
-	}*/
+	}
 }
