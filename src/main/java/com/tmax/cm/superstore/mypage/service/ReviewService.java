@@ -33,16 +33,21 @@ public class ReviewService {
 	private final ReviewMapper reviewMapper;
 	private final ItemRepository itemRepository;
 
-	/*@Transactional(readOnly = true)
-	public GetAllReviewResponseDto getAllReview(UUID itemId){
-//		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//		List<Review> reviewList = reviewRepository.findAllByUserId(user.getId());
+	@Transactional(readOnly = true)
+	public GetAllReviewResponseDto getAllReview(){
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<Review> reviewList = reviewRepository.findAllByUserId(user.getId());
+		return GetAllReviewResponseDto.builder()
+				.reviews(reviewMapper.toReviewDto(reviewList)).build();
+	}
 
+	@Transactional(readOnly = true)
+	public GetAllReviewResponseDto getAllReview(UUID itemId){
 		List<Review> reviews = reviewRepository.findAllByItemId(itemId);
 
 		return GetAllReviewResponseDto.builder()
-			.reviews(reviewMapper.toReviewDto(reviews)).build();
-	}*/
+				.reviews(reviewMapper.toReviewDto(reviews)).build();
+	}
 
 	@Transactional(readOnly = true)
 	public GetReviewResponseDto getReview(UUID reviewId){

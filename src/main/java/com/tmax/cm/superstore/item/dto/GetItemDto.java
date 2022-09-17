@@ -33,9 +33,13 @@ public class GetItemDto {
 
         @JsonProperty("necessaryOptionGroups")
         private List<GetOptionGroupDto> necessaryOptionGroups;
-        
+
         @JsonProperty("optionalOptionGroups")
         private List<GetOptionGroupDto> optionalOptionGroups;
+
+        private List<ItemImageInfo> itemImages;
+
+        private List<GetOptionGroupDto> optionGroups;
 
         @Builder
         @Getter
@@ -54,7 +58,7 @@ public class GetItemDto {
                 private UUID optionId;
 
                 private String optionName;
-                
+
                 private Integer optionPrice;
 
                 private String optionDescription;

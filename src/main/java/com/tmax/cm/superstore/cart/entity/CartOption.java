@@ -2,6 +2,7 @@ package com.tmax.cm.superstore.cart.entity;
 
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
@@ -30,7 +31,7 @@ public class CartOption {
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(foreignKey = @ForeignKey(name = "FK_cart_option_cart_option_group_id"), name = "cartOptionGroupId", nullable = false)
     private CartOptionGroup cartOptionGroup;
 
