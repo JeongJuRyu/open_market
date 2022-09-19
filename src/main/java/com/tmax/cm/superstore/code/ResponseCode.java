@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 @AllArgsConstructor
 @Getter
@@ -69,15 +70,16 @@ public enum ResponseCode implements Code {
 	ERROR_ITEM_INQUIRY_NOT_FOUND("ERROR", "EU004", "Item inquiry not found", "상품 문의가 존재 하지 않음."),
 	ERROR_PASSWORD_NOT_MATCHED("ERROR", "EU005", "Password is not matched", "비밀번호 불일치."),
 
-	// Error - Common
-	ERROR_COMMON_RUNTIME("ERROR", "EC000", "Runtime Exception", "Runtime Exception 발생한 경우"),
-	ERROR_COMMON_CONCURRENCY("ERROR","EC001", "Request occurred simultaneously", "동시 요청으로 인한 오류"),
-	ERROR_INVALID_FIELD("ERROR","EC003", "Field is invalid", "@Valid 통과 실패, 유효하지 않은 필드값");
+    // Error - Common
+    ERROR_COMMON_RUNTIME("ERROR", "EC000", "Runtime Exception", "Runtime Exception 발생한 경우"),
+    ERROR_COMMON_CONCURRENCY("ERROR","EC001", "Request occurred simultaneously", "동시 요청으로 인한 오류"),
+    ERROR_INVALID_FIELD("ERROR","EC003", "Field is invalid", "@Valid 통과 실패, 유효하지 않은 필드값"),
+    ERROR_ENTITY_NOT_FOUND("ERROR","EC004", "Class entity not found", "존재하지 않는 엔티티");
 
-	private String status; // API response
-	private String code; // API response
-	private String message; // API response
-	@JsonIgnore
-	private String description; // 개발 편의를 위한 description
-
+    private String status; // API response
+    private String code; // API response
+    @Setter
+    private String message; // API response
+    @JsonIgnore
+    private String description; // 개발 편의를 위한 description
 }

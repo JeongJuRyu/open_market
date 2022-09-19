@@ -21,9 +21,10 @@ public class ExceptionController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(RuntimeException.class)
     public ResponseDto<String> responseRuntimeException(RuntimeException exception) {
-
+        
         return new ResponseDto<String>(ResponseCode.ERROR_COMMON_RUNTIME, exception.getMessage());
     }
+
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
