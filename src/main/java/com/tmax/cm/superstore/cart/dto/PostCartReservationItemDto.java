@@ -29,7 +29,7 @@ public class PostCartReservationItemDto {
 
         private Integer reservationHeadcount;
 
-        private String guestName;
+        private String guestName; 
 
         private String guestPhoneNumber;
 

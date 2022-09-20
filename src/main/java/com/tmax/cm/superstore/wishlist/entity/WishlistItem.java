@@ -44,4 +44,13 @@ public class WishlistItem {
     @Column(nullable = false)
     @Builder.Default
     private Boolean isDeleted = false;
+
+    public void setGroup(WishlistGroup group) {
+        if(this.wishlistGroup != null) {
+            this.wishlistGroup.getWishlistItems().remove(this);
+        }
+
+        this.wishlistGroup = group;
+        group.getWishlistItems().add(this);
+    }
 }
