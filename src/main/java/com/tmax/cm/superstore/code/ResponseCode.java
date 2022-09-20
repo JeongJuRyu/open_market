@@ -43,6 +43,17 @@ public enum ResponseCode implements Code {
 	RESERVATION_DATE_READ("SUCCESS", "Reservation_DATE_READ", "Read reservable dates", "예약 가능한 날짜 조회"),
 	RESERVATION_TIME_READ("SUCCESS", "Reservation_TIME_READ", "Read reservable times", "예약 가능한 시간대 조회"),
 
+	// Wishlist
+	WISHLIST_GROUP_CREATE("SUCCESS", "WISHLIST_GROUP_CREATE", "Create wishlist group", "찜 그룹 추가"),
+	WISHLIST_GROUP_UPDATE("SUCCESS", "WISHLIST_GROUP_UPDATE", "Update wishlist group", "찜 그룹 수정"),
+	WISHLIST_GROUP_ORDER_UPDATE("SUCCESS", "WISHLIST_GROUP_ORDER_UPDATE", "Update wishlist group order", "찜 그룹 순서 변경"),
+	WISHLIST_ITEM_GROUP_MOVE_UPDATE("SUCCESS", "WISHLIST_ITEM_GROUP_MOVE_UPDATE", "Update wishlist item group", "찜한 상품 그룹 이동"),
+	WISHLIST_GROUP_READ("SUCCESS", "WISHLIST_GROUP_READ", "Read wishlist group", "찜 그룹 조회"),
+	WISHLIST_ITEM_READ("SUCCESS", "WISHLIST_ITEM_READ", "Read wishlist item", "찜한 상품 조회"),
+	WISHLIST_GROUP_DELETE("SUCCESS", "WISHLIST_GROUP_DELETE", "Delete wishlist group", "찜 그룹 삭제"),
+	WISHLIST_ITEM_DELETE("SUCCESS", "WISHLIST_ITEM_DELETE", "Delete wishlist item", "찜 아이템 삭제"),
+
+
 	// Error - Item
 	ERROR_ITEM_NOT_FOUND("ERROR", "EI000", "Item not found", "해당 상품이 저장되어 있지 않음"),
 	ERROR_OPTION_GROUP_NOT_FOUND("ERROR", "EI001", "Option group not found", "해당 옵션 그룹이 저장되어 있지 않음"),
@@ -75,6 +86,8 @@ public enum ResponseCode implements Code {
     ERROR_COMMON_CONCURRENCY("ERROR","EC001", "Request occurred simultaneously", "동시 요청으로 인한 오류"),
     ERROR_INVALID_FIELD("ERROR","EC003", "Field is invalid", "@Valid 통과 실패, 유효하지 않은 필드값"),
     ERROR_ENTITY_NOT_FOUND("ERROR","EC004", "Class entity not found", "존재하지 않는 엔티티");
+
+	// Error - Wishlist
 
     private String status; // API response
     private String code; // API response
