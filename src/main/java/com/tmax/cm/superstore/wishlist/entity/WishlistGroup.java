@@ -41,8 +41,8 @@ public class WishlistGroup {
     private Boolean isDeleted = false;
 
     // TODO user ID
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ID", nullable = false)
-    private User user;
+//
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "USER_ID", nullable = false)
+//    private User user;
 }
