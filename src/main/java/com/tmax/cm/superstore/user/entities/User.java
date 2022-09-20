@@ -21,6 +21,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 
+import com.tmax.cm.superstore.wishlist.entity.WishlistGroup;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
@@ -75,6 +76,11 @@ public class User implements UserDetails {
 		inverseJoinColumns = {@JoinColumn(name = "AUTHORITY_NAME", referencedColumnName = "AUTHORITY_NAME")}
 	)
 	private Set<Authority> authorities;
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	@Builder.Default
+	private List<WishlistGroup> wishlistGroups = new ArrayList<>();
+
 
 	public void updateEmail(String email){
 		this.email = email;

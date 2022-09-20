@@ -11,5 +11,4 @@ public class SuperstoreApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SuperstoreApplication.class, args);
 	}
-
 }
