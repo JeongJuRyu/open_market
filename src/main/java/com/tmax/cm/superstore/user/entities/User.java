@@ -77,9 +77,9 @@ public class User implements UserDetails {
 	)
 	private Set<Authority> authorities;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-	@Builder.Default
-	private List<WishlistGroup> wishlistGroups = new ArrayList<>();
+//	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+//	@Builder.Default
+//	private List<WishlistGroup> wishlistGroups = new ArrayList<>();
 
 
 	public void updateEmail(String email){
