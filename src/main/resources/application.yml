@@ -8,7 +8,7 @@ spring:
       develop: develop
       develop-server: develop, develop-server
       develop-hsj: develop, develop-hsj
-      develop-cjh: develop, develop-cjh
+      develop-cjh: develop-cjh
     active: develop # 실행 원하는 spring.profiles.group 지정
 
 jwt:
