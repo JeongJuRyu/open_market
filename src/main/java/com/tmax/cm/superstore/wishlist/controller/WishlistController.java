@@ -2,18 +2,17 @@ package com.tmax.cm.superstore.wishlist.controller;
 
 import com.tmax.cm.superstore.code.ResponseCode;
 import com.tmax.cm.superstore.common.ResponseDto;
-import com.tmax.cm.superstore.wishlist.dto.PatchUpdateMoveItemDto;
-import com.tmax.cm.superstore.wishlist.dto.PatchUpdatePositionWishlistGroupDto;
-import com.tmax.cm.superstore.wishlist.dto.PatchUpdateWishlistGroupDto;
-import com.tmax.cm.superstore.wishlist.dto.PostCreateWishlistGroupDto;
+import com.tmax.cm.superstore.wishlist.dto.*;
+import com.tmax.cm.superstore.wishlist.dto.mapper.GetWishlistGroupAllDtoMapper;
+import com.tmax.cm.superstore.wishlist.entity.WishlistGroup;
 import com.tmax.cm.superstore.wishlist.service.WishlistGroupService;
 import com.tmax.cm.superstore.wishlist.service.WishlistItemService;
-import com.tmax.cm.superstore.wishlist.service.dto.CreateWishlistGroupDto;
-import com.tmax.cm.superstore.wishlist.service.dto.UpdateWishlistGroupDto;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -22,6 +21,15 @@ public class WishlistController {
 
     private final WishlistGroupService wishlistGroupService;
     private final WishlistItemService wishlistItemService;
+    private final GetWishlistGroupAllDtoMapper getWishlistGroupAllDtoMapper;
+
+
+    @GetMapping("/wishlistGroup")
+    public ResponseDto<GetWishlistGroupAllDto.Response> getWishlistGroup() {
+        List<WishlistGroup> wishlistGroups = this.wishlistGroupService.readAll();
+        GetWishlistGroupAllDto.Response response = this.getWishlistGroupAllDtoMapper.toResponse(wishlistGroups);
+        return new ResponseDto<>(ResponseCode.WISHLIST_GROUP_READ, response);
+    }
 
     @PostMapping("/wishlistGroup")
     public ResponseDto<Void> createWishlistGroup(@Valid @RequestBody PostCreateWishlistGroupDto.Request groupDto) {
