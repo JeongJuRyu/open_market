@@ -9,7 +9,9 @@ import javax.persistence.*;
 import com.tmax.cm.superstore.common.entity.BaseTimeEntity;
 import com.tmax.cm.superstore.item.entity.Item;
 import com.tmax.cm.superstore.mypage.dto.PostReviewReplyRequestDto;
+import com.tmax.cm.superstore.mypage.dto.UpdateReviewReplyRequestDto;
 import com.tmax.cm.superstore.mypage.dto.UpdateReviewRequestDto;
+import com.tmax.cm.superstore.seller.entity.Seller;
 import com.tmax.cm.superstore.user.entities.User;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -41,6 +43,10 @@ public class Review extends BaseTimeEntity {
 	@Column(nullable = false)
 	private String content;
 
+	private Float starRating;
+
+	private Long numOfUseful;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "USER_ID")
 	private User user;
@@ -49,9 +55,13 @@ public class Review extends BaseTimeEntity {
 	@Builder.Default
 	private List<ReviewImage> reviewImages = new ArrayList<>();
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "REVIEW_REPLY_ID")
 	private ReviewReply reviewReply;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "SELLER_ID")
+	private Seller seller;
 
 	public void updateReview(UpdateReviewRequestDto dto){
 		this.title = dto.getTitle();
@@ -68,7 +78,13 @@ public class Review extends BaseTimeEntity {
 			.content(dto.getContent())
 			.build();
 	}
-	public void removeReviewReply(){
+	public void updateReviewReply(UpdateReviewReplyRequestDto dto){
+		this.reviewReply = ReviewReply.ReviewReplyBuilder()
+			.review(this)
+			.content(dto.getContent())
+			.build();
+	}
+	public void deleteReviewReply(){
 		this.reviewReply = null;
 	}
 }
