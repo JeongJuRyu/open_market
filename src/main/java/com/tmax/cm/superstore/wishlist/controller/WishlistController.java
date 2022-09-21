@@ -4,7 +4,9 @@ import com.tmax.cm.superstore.code.ResponseCode;
 import com.tmax.cm.superstore.common.ResponseDto;
 import com.tmax.cm.superstore.wishlist.dto.*;
 import com.tmax.cm.superstore.wishlist.dto.mapper.GetWishlistGroupAllDtoMapper;
+import com.tmax.cm.superstore.wishlist.dto.mapper.GetWishlistItemDtoMapper;
 import com.tmax.cm.superstore.wishlist.entity.WishlistGroup;
+import com.tmax.cm.superstore.wishlist.entity.WishlistItem;
 import com.tmax.cm.superstore.wishlist.service.WishlistGroupService;
 import com.tmax.cm.superstore.wishlist.service.WishlistItemService;
 
@@ -22,10 +24,11 @@ public class WishlistController {
     private final WishlistGroupService wishlistGroupService;
     private final WishlistItemService wishlistItemService;
     private final GetWishlistGroupAllDtoMapper getWishlistGroupAllDtoMapper;
+    private final GetWishlistItemDtoMapper getWishlistItemDtoMapper;
 
 
     @GetMapping("/wishlistGroup")
-    public ResponseDto<GetWishlistGroupAllDto.Response> getWishlistGroup() {
+    public ResponseDto<GetWishlistGroupAllDto.Response> getWishlistGroupAll() {
         List<WishlistGroup> wishlistGroups = this.wishlistGroupService.readAll();
         GetWishlistGroupAllDto.Response response = this.getWishlistGroupAllDtoMapper.toResponse(wishlistGroups);
         return new ResponseDto<>(ResponseCode.WISHLIST_GROUP_READ, response);
@@ -35,6 +38,13 @@ public class WishlistController {
     public ResponseDto<Void> createWishlistGroup(@Valid @RequestBody PostCreateWishlistGroupDto.Request groupDto) {
         this.wishlistGroupService.create(groupDto);
         return new ResponseDto<>(ResponseCode.WISHLIST_GROUP_CREATE, null);
+    }
+
+    @GetMapping("/wishlistItem")
+    public ResponseDto<GetWishlistItemDto.Response> getWishlistItem(@Valid @RequestParam(name = "wishlistGroupId", required = false) Long groupId) {
+        List<WishlistItem> wishlistItems = (groupId == null) ? (this.wishlistItemService.readAll()) : (this.wishlistItemService.findByGroupId(groupId));
+        GetWishlistItemDto.Response response = this.getWishlistItemDtoMapper.toResponse(wishlistItems);
+        return new ResponseDto<>(ResponseCode.WISHLIST_ITEM_READ, response);
     }
 
     @PatchMapping("/wishlistGroup/{wishlistGroupId}")
