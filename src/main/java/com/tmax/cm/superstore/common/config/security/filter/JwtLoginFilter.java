@@ -16,6 +16,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tmax.cm.superstore.code.ResponseCode;
 import com.tmax.cm.superstore.common.config.security.JwtUtil;
 import com.tmax.cm.superstore.error.lib.AuthErrorCode;
 import com.tmax.cm.superstore.user.dto.UserLoginRequestDto;
@@ -58,6 +59,7 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
 		//3개의 파라미터를 모두 넘겨야 isAuthenticated가 true가 된다.
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userLoginRequestDto.getEmail(),
 													userLoginRequestDto.getPassword());
+		System.out.println(token);
 		return getAuthenticationManager().authenticate(token);
 	}
 
@@ -74,5 +76,16 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
 		userLoginInfoRepository.save(userLoginInfo);
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		response.getOutputStream().write(objectMapper.writeValueAsBytes(userLoginInfo));
+	}
+
+	@Override
+	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+		AuthenticationException failed) throws IOException, ServletException {
+		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+		if(failed.getMessage().equals("wrong password")){
+			response.getOutputStream().write(objectMapper.writeValueAsBytes(ResponseCode.ERROR_PASSWORD_NOT_MATCHED));
+		} else if(failed.getMessage().equals("email not found")){
+			response.getOutputStream().write(objectMapper.writeValueAsBytes(ResponseCode.ERROR_EMAIL_NOT_FOUND));
+		}
 	}
 }

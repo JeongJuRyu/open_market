@@ -30,7 +30,7 @@ public class ReviewController {
 		@RequestBody PostReviewRequestDto postReviewRequestDto) {
 		return ResponseEntity.ok().body(reviewService.postReview(postReviewRequestDto));
 	}
-	@PutMapping
+	@PatchMapping
 	public ResponseEntity<UUID> updateReview(
 		@RequestBody UpdateReviewRequestDto updateReviewRequestDto){
 		return ResponseEntity.ok().body(reviewService.updateReview(updateReviewRequestDto));
