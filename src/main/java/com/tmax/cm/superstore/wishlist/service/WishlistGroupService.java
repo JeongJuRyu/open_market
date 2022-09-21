@@ -5,6 +5,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import com.tmax.cm.superstore.user.entities.User;
+import com.tmax.cm.superstore.wishlist.dto.mapper.GetWishlistGroupAllDtoMapper;
 import com.tmax.cm.superstore.wishlist.entity.WishlistItem;
 import com.tmax.cm.superstore.wishlist.repository.WishlistItemRepository;
 import com.tmax.cm.superstore.wishlist.service.dto.UpdateWishlistGroupOrderDto;
@@ -26,6 +27,7 @@ public class WishlistGroupService {
 
     private final WishlistGroupRepository wishlistGroupRepository;
     private final WishlistItemRepository wishlistItemRepository;
+    private final GetWishlistGroupAllDtoMapper getWishlistGroupAllDtoMapper;
 
     @Transactional
     public WishlistGroup create(CreateWishlistGroupDto createWishlistGroupDto) {
