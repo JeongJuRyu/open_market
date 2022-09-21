@@ -78,4 +78,10 @@ public class Item extends BaseTimeEntity {
             throw new ItemSendTypeImpossibleException();
         }
     }
+
+    public void addItemImage(ItemImage itemImage) {
+        this.itemImages.add(itemImage);
+        itemImage.setItem(this);
+    }
+
 }

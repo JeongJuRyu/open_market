@@ -9,13 +9,13 @@ import javax.validation.constraints.PositiveOrZero;
 
 import com.tmax.cm.superstore.code.SendType;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
+import reactor.util.annotation.Nullable;
 
 public class PostItemDto {
-    
-	@Getter
+
+    @Getter
     public static class Request {
 
         @NotNull
@@ -29,8 +29,6 @@ public class PostItemDto {
         private Integer price;
 
         private Set<SendType> possibleSendType;
-
-        private List<MultipartFile> itemImages;
 
         private List<PostOptionGroupDto> optionGroups;
 
