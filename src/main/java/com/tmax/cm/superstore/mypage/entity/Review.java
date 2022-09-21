@@ -41,6 +41,9 @@ public class Review extends BaseTimeEntity {
 	@Column(nullable = false)
 	private String content;
 
+	@Column(nullable = false)
+	private Float score;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "USER_ID")
 	private User user;
