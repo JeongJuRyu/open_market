@@ -12,6 +12,8 @@ import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.tmax.cm.superstore.mypage.dto.UpdateReviewReplyRequestDto;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,4 +38,7 @@ public class ReviewReply {
 	@JoinColumn(name = "REIVEW_ID")
 	private Review review;
 
+	public void updateReviewReply(UpdateReviewReplyRequestDto dto) {
+		this.content = dto.getContent();
+	}
 }
