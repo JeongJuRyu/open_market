@@ -34,7 +34,7 @@ public class UserController {
 		return ResponseEntity.ok().body(userService.createUser(createUserRequestDto));
 	}
 
-	@PutMapping("/email")
+	@PatchMapping("/email")
 	public ResponseEntity<UpdateEmailResponseDto> updateEmail(
 		@RequestBody UpdateEmailRequestDto updateEmailRequestDto){
 		return ResponseEntity.ok().body(userService.updateEmail(updateEmailRequestDto));

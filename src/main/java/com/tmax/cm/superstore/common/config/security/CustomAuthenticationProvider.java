@@ -1,7 +1,6 @@
 package com.tmax.cm.superstore.common.config.security;
 
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -10,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.tmax.cm.superstore.user.entities.User;
+import com.tmax.cm.superstore.user.error.exception.WrongPasswordException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,7 +27,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
 		User user = (User)userDetailsService.loadUserByUsername(userEmail);
 		if(!bCryptPasswordEncoder.matches(userPw, user.getPassword())){
-			throw new BadCredentialsException(user.getEmail() + "Invalid password");
+			throw new WrongPasswordException();
 		}
 		return new UsernamePasswordAuthenticationToken(user, userPw, user.getAuthorities());
 	}
