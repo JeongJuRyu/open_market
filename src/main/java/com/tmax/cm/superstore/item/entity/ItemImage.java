@@ -28,4 +28,9 @@ public class ItemImage {
     private ItemImage(FileInfo fileInfo){
         this.fileId = fileInfo.getFileId();
     }
+
+    public static ItemImage create(FileInfo fileInfo) {
+        return new ItemImage(fileInfo);
+    }
+
 }

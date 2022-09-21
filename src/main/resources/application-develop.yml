@@ -122,6 +122,9 @@ spring:
   config:
     activate:
       on-profile: develop-cjh
+  output:
+    ansi:
+      enabled: always
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/superstore
@@ -135,7 +138,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     properties:
       hibernate:
-        ddl-auto: create
+        ddl-auto: update
         format_sql: true
   sql:
     init:

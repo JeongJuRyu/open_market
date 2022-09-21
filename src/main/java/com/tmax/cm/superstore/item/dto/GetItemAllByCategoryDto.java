@@ -1,6 +1,8 @@
 package com.tmax.cm.superstore.item.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.tmax.cm.superstore.code.SendType;
+import com.tmax.cm.superstore.item.entity.ItemImage;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -26,6 +28,8 @@ public class GetItemAllByCategoryDto {
 
             private Set<SendType> possibleSendType;
 
+            private List<GetItemImageDto> itemImages;
+
             private UUID itemId;
 
             private String itemName;
@@ -33,6 +37,12 @@ public class GetItemAllByCategoryDto {
             private Integer itemPrice;
 
             private Long categoryId;
+
+            @Builder
+            @Getter
+            public static class GetItemImageDto {
+                private String fileId;
+            }
 
             private LocalDateTime createdAt;
 

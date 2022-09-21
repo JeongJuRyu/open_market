@@ -1,11 +1,14 @@
 package com.tmax.cm.superstore.item.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
 
+import com.tmax.cm.superstore.item.dto.FileInfo;
+import com.tmax.cm.superstore.item.entity.*;
 import org.springframework.stereotype.Service;
 
 import com.tmax.cm.superstore.category.entity.Category;
@@ -14,15 +17,12 @@ import com.tmax.cm.superstore.category.service.CategoryService;
 import com.tmax.cm.superstore.code.SendType;
 import com.tmax.cm.superstore.error.exception.ItemNotFoundException;
 import com.tmax.cm.superstore.item.dto.PostItemDto;
-import com.tmax.cm.superstore.item.entity.Item;
-import com.tmax.cm.superstore.item.entity.ItemSendType;
-import com.tmax.cm.superstore.item.entity.Option;
-import com.tmax.cm.superstore.item.entity.OptionGroup;
 import com.tmax.cm.superstore.item.repository.ItemRepository;
 import com.tmax.cm.superstore.shop.entity.Shop;
 import com.tmax.cm.superstore.shop.repository.ShopRepository;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @Service
@@ -31,9 +31,10 @@ public class ItemService {
     private final ItemRepository itemRepository;
     private final ShopRepository shopRepository;
     private final CategoryService categoryService;
+    private final ImageService imageService;
 
     @Transactional
-    public Item createItem(PostItemDto.Request postItemDto) {
+    public Item createItem(PostItemDto.Request postItemDto, List<MultipartFile> attachment) {
 
         Shop shop = Shop.builder()
                 .name(postItemDto.getShopName())
@@ -47,10 +48,15 @@ public class ItemService {
                 .shop(shop)
                 .name(postItemDto.getName())
                 .price(postItemDto.getPrice())
+                .itemImages(new ArrayList<>())
                 .optionGroups(new ArrayList<>())
                 .itemSendTypes(new ArrayList<>())
                 .category(category)
                 .build();
+
+        List<FileInfo> fileInfos = imageService.uploadImages(attachment);
+
+        fileInfos.stream().map(ItemImage::create).forEach(item::addItemImage);
 
         for (SendType sendType : postItemDto.getPossibleSendType()) {
             ItemSendType itemSendType = ItemSendType.builder()
