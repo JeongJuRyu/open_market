@@ -1,5 +1,6 @@
 package com.tmax.cm.superstore.wishlist.service;
 
+import com.tmax.cm.superstore.error.exception.EntityNotFoundException;
 import com.tmax.cm.superstore.wishlist.entity.WishlistItem;
 import com.tmax.cm.superstore.wishlist.repository.WishlistItemRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,9 @@ public class WishlistItemService {
 
     @Transactional
     public void delete(Long itemId) {
-        this.wishlistItemRepository.deleteById(itemId);
+        WishlistItem wishlistItem = this.wishlistItemRepository.findById(itemId)
+                .orElseThrow(() -> EntityNotFoundException.of(WishlistItem.class));
+        wishlistItem.setIsDeleted(true);
     }
 
     @Transactional

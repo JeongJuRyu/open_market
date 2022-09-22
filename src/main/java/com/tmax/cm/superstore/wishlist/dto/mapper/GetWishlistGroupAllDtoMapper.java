@@ -25,9 +25,7 @@ public interface GetWishlistGroupAllDtoMapper {
     List<GetWishlistGroupAllDto.Response.GetWishlistGroupsDto> toWishlistGroupAllDto(List<WishlistGroup> wishlistGroups);
 
     default Integer getTotalItems(WishlistGroup wishlistGroup) {
-        if(!wishlistGroup.getWishlistItems().isEmpty())
-            return wishlistGroup.getWishlistItems().size();
-        return null;
+        return wishlistGroup.getWishlistItems().size();
     }
 
     default GetWishlistGroupAllDto.Response.GetWishlistGroupsDto toWishlistGroupDtos(WishlistGroup wishlistGroup) {

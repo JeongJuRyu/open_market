@@ -48,8 +48,8 @@ public class WishlistController {
     }
 
     @PatchMapping("/wishlistGroup/{wishlistGroupId}")
-    public ResponseDto<Void> updateWishlistGroup(@Valid @PathVariable Long GroupId, @RequestBody PatchUpdateWishlistGroupDto.Request groupDto) {
-        this.wishlistGroupService.update(GroupId, groupDto);
+    public ResponseDto<Void> updateWishlistGroup(@Valid @PathVariable Long wishlistGroupId, @RequestBody PatchUpdateWishlistGroupDto.Request groupDto) {
+        this.wishlistGroupService.update(wishlistGroupId, groupDto);
         return new ResponseDto<>(ResponseCode.WISHLIST_GROUP_UPDATE, null);
     }
 
@@ -66,14 +66,14 @@ public class WishlistController {
     }
 
     @DeleteMapping("/wishlistGroup/{wishlistGroupId}")
-    public ResponseDto<Void> deleteWishlistGroup(@Valid @PathVariable Long groupId) {
-        this.wishlistGroupService.delete(groupId);
+    public ResponseDto<Void> deleteWishlistGroup(@Valid @PathVariable Long wishlistGroupId) {
+        this.wishlistGroupService.delete(wishlistGroupId);
         return new ResponseDto<>(ResponseCode.WISHLIST_GROUP_DELETE, null);
     }
 
     @DeleteMapping("/wishlistItem/{wishlistItemId}")
-    public ResponseDto<Void> deleteWishlistItem(@Valid @PathVariable Long itemId) {
-        this.wishlistItemService.delete(itemId);
+    public ResponseDto<Void> deleteWishlistItem(@Valid @PathVariable Long wishlistItemId) {
+        this.wishlistItemService.delete(wishlistItemId);
         return new ResponseDto<>(ResponseCode.WISHLIST_ITEM_DELETE, null);
     }
 }
