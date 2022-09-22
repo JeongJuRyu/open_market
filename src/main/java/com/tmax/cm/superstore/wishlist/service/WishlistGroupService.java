@@ -31,7 +31,7 @@ public class WishlistGroupService {
 
     @Transactional
     public WishlistGroup create(CreateWishlistGroupDto createWishlistGroupDto) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Long totalItemCount = this.wishlistGroupRepository.count();
 
         WishlistGroup wishlistGroup = WishlistGroup.builder()
