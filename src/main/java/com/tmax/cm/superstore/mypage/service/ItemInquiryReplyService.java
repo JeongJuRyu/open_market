@@ -22,18 +22,22 @@ public class ItemInquiryReplyService {
 	private ItemInquiryReplyRepository itemInquiryReplyRepository;
 
 	public void postItemInquiryReply(PostItemInquiryReplyRequestDto dto){
-		ItemInquiryReply itemInquiryReply = ItemInquiryReply.builder()
-			.content(dto.getContent()).build();
 		ItemInquiry itemInquiry = itemInquiryRepository.findById(dto.getItemInquiryId())
 			.orElseThrow(ItemInquiryNotFoundException::new);
+		ItemInquiryReply itemInquiryReply = ItemInquiryReply.builder()
+			.content(dto.getContent())
+			.itemInquiry(itemInquiry)
+			.build();
 		itemInquiry.postReply(itemInquiryReply);
 	}
 
 	public void updateItemInquiryReply(UpdateItemInquiryReplyRequestDto dto){
-		ItemInquiryReply itemInquiryReply = ItemInquiryReply.builder()
-			.content(dto.getContent()).build();
 		ItemInquiry itemInquiry = itemInquiryRepository.findById(dto.getItemInquiryID())
 			.orElseThrow(ItemInquiryNotFoundException::new);
+		ItemInquiryReply itemInquiryReply = ItemInquiryReply.builder()
+			.content(dto.getContent())
+			.itemInquiry(itemInquiry)
+			.build();
 		itemInquiry.postReply(itemInquiryReply);
 	}
 
