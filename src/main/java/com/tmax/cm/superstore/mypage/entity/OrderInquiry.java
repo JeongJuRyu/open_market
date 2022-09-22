@@ -2,6 +2,7 @@ package com.tmax.cm.superstore.mypage.entity;
 
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -51,9 +53,19 @@ public class OrderInquiry extends BaseTimeEntity {
 	@JoinColumn(name = "USER_ID")
 	private User user;
 
+	@OneToOne(mappedBy = "orderInquiry", cascade = CascadeType.ALL, orphanRemoval = true)
+	private OrderInquiryReply orderInquiryReply;
 	public void updateOrderInquiry(UpdateOrderInquiryRequestDto dto){
 		this.title = dto.getTitle();
 		this.content = dto.getContent();
+	}
+
+	public void postOrderInquiryReply(OrderInquiryReply orderInquiryReply) {
+		this.orderInquiryReply = orderInquiryReply;
+	}
+
+	public void deleteOrderInquiryReply(){
+		this.orderInquiryReply = null;
 	}
 }
 
