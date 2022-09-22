@@ -9,6 +9,6 @@ public class PatchUpdatePositionWishlistGroupDto {
 
     @Getter
     public static class Request implements UpdateWishlistGroupOrderDto {
-        private List<Long> groupIds;
+        private List<Long> wishlistGroupIds;
     }
 }
