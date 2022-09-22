@@ -13,11 +13,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
 import com.tmax.cm.superstore.common.entity.BaseTimeEntity;
-import com.tmax.cm.superstore.item.entity.Item;
 import com.tmax.cm.superstore.user.entities.User;
 
 import lombok.AccessLevel;
@@ -48,8 +48,9 @@ public class ItemInquiry extends BaseTimeEntity {
 	@Builder.Default
 	private List<ItemInquiryImage> itemInquiryImages = new ArrayList<>();
 
-	@OneToMany(mappedBy = "itemInquiry", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<ItemInquiryAnswer> itemInquiryAnswers;
+	@OneToOne(mappedBy = "itemInquiry", cascade = CascadeType.ALL, orphanRemoval = true)
+	private ItemInquiryReply itemInquiryReply;
+
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "USER_ID")
@@ -57,4 +58,10 @@ public class ItemInquiry extends BaseTimeEntity {
 	// @ManyToOne(fetch = FetchType.LAZY)
 	// @JoinColumn(name = "ITEM_ID")
 	// private Item item;
+	public void postReply(ItemInquiryReply itemInquiryReply){
+		this.itemInquiryReply = itemInquiryReply;
+	}
+	public void removeItemInquiryReply(){
+		this.itemInquiryReply = null;
+	}
 }

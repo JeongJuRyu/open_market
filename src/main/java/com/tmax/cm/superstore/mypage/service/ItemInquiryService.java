@@ -25,20 +25,20 @@ public class ItemInquiryService {
 	private final ItemInquiryRepository itemInquiryRepository;
 	private final ItemInquiryMapper itemInquiryMapper;
 
-	// @Transactional(readOnly = true)
-	// public GetAllItemInquiryResponseDto getAllItemInquiry(){
-	// 	User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	// 	List<ItemInquiry> itemInquiryList = itemInquiryRepository.findAllByUserId(user.getId());
-	// 	return GetAllItemInquiryResponseDto.builder()
-	// 		.itemInquiries(itemInquiryMapper.toItemInquiryDto(itemInquiryList)).build();
-	// }
+	@Transactional(readOnly = true)
+	public GetAllItemInquiryResponseDto getAllItemInquiry(){
+		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<ItemInquiry> itemInquiries = itemInquiryRepository.findAllByUserId(user.getId());
+		return GetAllItemInquiryResponseDto.builder()
+			.itemInquiries(itemInquiryMapper.toItemInquiriesDto(itemInquiries)).build();
+	}
 
 	@Transactional(readOnly = true)
 	public GetItemInquiryResponseDto getItemInquiry(UUID itemInquiryId){
-		ItemInquiry itemInquiry = itemInquiryRepository.findById(itemInquiryId)
+		ItemInquiry itemInquiry= itemInquiryRepository.findByIdWithReply(itemInquiryId)
 			.orElseThrow(ItemInquiryNotFoundException::new);
 		return GetItemInquiryResponseDto.builder()
-			//.itemInquiry(itemInquiryMapper.toItemInquiryDto(itemInquiry))
+			.itemInquiry(itemInquiryMapper.toItemInquiryDto(itemInquiry))
 			.build();
 	}
 
