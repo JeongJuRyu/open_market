@@ -35,7 +35,7 @@ public class WishlistGroupService {
         Long totalItemCount = this.wishlistGroupRepository.count();
 
         WishlistGroup wishlistGroup = WishlistGroup.builder()
-                .name(createWishlistGroupDto.getWishListGroupName())
+                .name(createWishlistGroupDto.getWishlistGroupName())
                 .position(totalItemCount.intValue() + 1)
                 .build();
 
@@ -54,7 +54,7 @@ public class WishlistGroupService {
         WishlistGroup wishlistGroup = this.wishlistGroupRepository.findById(wishlistGroupId)
                 .orElseThrow(() -> EntityNotFoundException.of(WishlistGroup.class));
 
-        wishlistGroup.setName(updateWishlistGroupDto.getWishListGroupName());
+        wishlistGroup.setName(updateWishlistGroupDto.getWishlistGroupName());
         return wishlistGroup;
     }
 
@@ -67,12 +67,12 @@ public class WishlistGroupService {
 
     @Transactional
     public void updateOrder(UpdateWishlistGroupOrderDto updateWishlistGroupOrderDto) {
-        Long newIndex = 1L;
-        for (Long groupId : updateWishlistGroupOrderDto.getGroupIds()) {
+        Integer newIndex = 1;
+        for (Long groupId : updateWishlistGroupOrderDto.getWishlistGroupIds()) {
             WishlistGroup wishlistGroup = this.wishlistGroupRepository.findById(groupId)
                     .orElseThrow(() -> EntityNotFoundException.of(WishlistGroup.class));
 
-            wishlistGroup.setPosition(newIndex.intValue());
+            wishlistGroup.setPosition(newIndex);
             newIndex++;
         }
     }

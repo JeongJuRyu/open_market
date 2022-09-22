@@ -11,6 +11,6 @@ public class PostCreateWishlistGroupDto {
     @Getter
     @NotNull
     public static class Request implements CreateWishlistGroupDto {
-        private String wishListGroupName;
+        private String wishlistGroupName;
     }
 }
