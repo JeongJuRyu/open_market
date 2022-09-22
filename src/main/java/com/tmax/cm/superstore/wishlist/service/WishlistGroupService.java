@@ -60,7 +60,9 @@ public class WishlistGroupService {
 
     @Transactional
     public void delete(Long groupId) {
-        this.wishlistGroupRepository.deleteById(groupId);
+        WishlistGroup wishlistGroup = this.wishlistGroupRepository.findById(groupId)
+                .orElseThrow(() -> EntityNotFoundException.of(WishlistGroup.class));
+        wishlistGroup.setIsDeleted(true);
     }
 
     @Transactional
