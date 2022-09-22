@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -20,9 +21,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder(builderMethodName = "itemsInquiryAnswerBuilder")
+@Builder
 @Entity
-public class ItemInquiryAnswer {
+public class ItemInquiryReply {
 	@Id @GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
 	@Column(name = "ITEM_INQUIRY_ANSWER_ID", columnDefinition = "BINARY(16)")
@@ -31,7 +32,7 @@ public class ItemInquiryAnswer {
 	@Column(nullable = false)
 	private String content;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ITEM_INQUIRY_ID")
 	private ItemInquiry itemInquiry;
 
