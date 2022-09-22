@@ -1,5 +1,6 @@
 package com.tmax.cm.superstore.wishlist.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -45,4 +46,11 @@ public class WishlistGroup {
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "USER_ID", nullable = false)
 //    private User user;
+
+    public void deleteGroup() {
+        for (WishlistItem wishlistItem : this.getWishlistItems()) {
+            wishlistItem.setWishlistGroup(null);
+        }
+        wishlistItems.clear();
+    }
 }
