@@ -77,6 +77,7 @@ public enum ResponseCode implements Code {
 	ERROR_ORDER_INQUIRY_NOT_FOUND("ERROR", "EM103", "Order inquiry not found", "해당 주문 문의가 존재 하지 않음"),
 	ERROR_ITEM_INQUIRY_NOT_FOUND("ERROR", "EM104", "Item inquiry not found", "상품 문의가 존재 하지 않음."),
 	ERROR_ITEM_INQUIRY_REPLY_NOT_FOUND("ERROR", "EM105", "Item inquiry reply not found", "상품 문의 답변이 존재 하지 않음."),
+	ERROR_CUSTOMER_INQUIRY_REPLY_NOT_FOUND("ERROR", "EM106", "Customer inquiry reply not found", "해당 고객센터 문의 답변이 존재 하지 않음"),
 
 
 	// Error - User

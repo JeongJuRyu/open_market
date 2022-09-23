@@ -35,19 +35,19 @@ public class CustomerInquiry {
 	@Column(name = "CUSTOMER_CENTER_INQUIRY_ID", columnDefinition = "BINARY(16)")
 	private UUID id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "USER_ID")
-	private User user;
-
 	@Column(nullable = false)
 	private String title;
 
 	@Column(nullable = false)
 	private String content;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "USER_ID")
+	private User user;
+
 	@OneToMany(mappedBy = "customerInquiry", cascade = CascadeType.ALL, orphanRemoval = true)
 	@Builder.Default
-	private List<CustomerInquiryAnswer> customerInquiryAnswers = new ArrayList<>();
+	private List<CustomerInquiryReply> customerInquiryReplies = new ArrayList<>();
 
 	@OneToMany(mappedBy = "customerInquiry", cascade = CascadeType.ALL, orphanRemoval = true)
 	@Builder.Default
@@ -55,5 +55,13 @@ public class CustomerInquiry {
 
 	public void updateInquiry(UpdateCustomerInquiryRequestDto dto){
 
+	}
+	public void updateReply(CustomerInquiryReply customerInquiryReply){
+		this.customerInquiryReplies.add(customerInquiryReply);
+	}
+
+	public void deleteReply(UUID customerInquiryReplyId){
+		this.customerInquiryReplies = this.customerInquiryReplies.stream()
+			.filter(reply -> reply.getId() != customerInquiryReplyId).toList();
 	}
 }
