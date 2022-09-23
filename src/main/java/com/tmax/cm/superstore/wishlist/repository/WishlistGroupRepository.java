@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface WishlistGroupRepository extends JpaRepository<WishlistGroup, Long> {
-    @Query("SELECT wg FROM WishlistGroup wg ORDER BY wg.position ACS")
+    @Query("SELECT wg FROM WishlistGroup wg ORDER BY wg.position")
     List<WishlistGroup> findAllAsc();
 }
