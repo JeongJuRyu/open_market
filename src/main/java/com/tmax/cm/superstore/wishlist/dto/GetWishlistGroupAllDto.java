@@ -23,7 +23,7 @@ public class GetWishlistGroupAllDto {
         public static class GetWishlistGroupsDto {
 
             @NotNull
-            private Long groupId;
+            private Long wishlistGroupId;
 
             @NotNull
             private String wishlistGroupName;
