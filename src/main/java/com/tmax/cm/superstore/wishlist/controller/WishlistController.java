@@ -2,18 +2,19 @@ package com.tmax.cm.superstore.wishlist.controller;
 
 import com.tmax.cm.superstore.code.ResponseCode;
 import com.tmax.cm.superstore.common.ResponseDto;
-import com.tmax.cm.superstore.wishlist.dto.PatchUpdateMoveItemDto;
-import com.tmax.cm.superstore.wishlist.dto.PatchUpdatePositionWishlistGroupDto;
-import com.tmax.cm.superstore.wishlist.dto.PatchUpdateWishlistGroupDto;
-import com.tmax.cm.superstore.wishlist.dto.PostCreateWishlistGroupDto;
+import com.tmax.cm.superstore.wishlist.dto.*;
+import com.tmax.cm.superstore.wishlist.dto.mapper.GetWishlistGroupAllDtoMapper;
+import com.tmax.cm.superstore.wishlist.dto.mapper.GetWishlistItemDtoMapper;
+import com.tmax.cm.superstore.wishlist.entity.WishlistGroup;
+import com.tmax.cm.superstore.wishlist.entity.WishlistItem;
 import com.tmax.cm.superstore.wishlist.service.WishlistGroupService;
 import com.tmax.cm.superstore.wishlist.service.WishlistItemService;
-import com.tmax.cm.superstore.wishlist.service.dto.CreateWishlistGroupDto;
-import com.tmax.cm.superstore.wishlist.service.dto.UpdateWishlistGroupDto;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -22,6 +23,16 @@ public class WishlistController {
 
     private final WishlistGroupService wishlistGroupService;
     private final WishlistItemService wishlistItemService;
+    private final GetWishlistGroupAllDtoMapper getWishlistGroupAllDtoMapper;
+    private final GetWishlistItemDtoMapper getWishlistItemDtoMapper;
+
+
+    @GetMapping("/wishlistGroup")
+    public ResponseDto<GetWishlistGroupAllDto.Response> getWishlistGroupAll() {
+        List<WishlistGroup> wishlistGroups = this.wishlistGroupService.readAll();
+        GetWishlistGroupAllDto.Response response = this.getWishlistGroupAllDtoMapper.toResponse(wishlistGroups);
+        return new ResponseDto<>(ResponseCode.WISHLIST_GROUP_READ, response);
+    }
 
     @PostMapping("/wishlistGroup")
     public ResponseDto<Void> createWishlistGroup(@Valid @RequestBody PostCreateWishlistGroupDto.Request groupDto) {
@@ -29,9 +40,16 @@ public class WishlistController {
         return new ResponseDto<>(ResponseCode.WISHLIST_GROUP_CREATE, null);
     }
 
+    @GetMapping("/wishlistItem")
+    public ResponseDto<GetWishlistItemDto.Response> getWishlistItem(@Valid @RequestParam(name = "wishlistGroupId", required = false) Long groupId) {
+        List<WishlistItem> wishlistItems = (groupId == null) ? (this.wishlistItemService.readAll()) : (this.wishlistItemService.findByGroupId(groupId));
+        GetWishlistItemDto.Response response = this.getWishlistItemDtoMapper.toResponse(wishlistItems);
+        return new ResponseDto<>(ResponseCode.WISHLIST_ITEM_READ, response);
+    }
+
     @PatchMapping("/wishlistGroup/{wishlistGroupId}")
-    public ResponseDto<Void> updateWishlistGroup(@Valid @PathVariable Long GroupId, @RequestBody PatchUpdateWishlistGroupDto.Request groupDto) {
-        this.wishlistGroupService.update(GroupId, groupDto);
+    public ResponseDto<Void> updateWishlistGroup(@Valid @PathVariable Long wishlistGroupId, @RequestBody PatchUpdateWishlistGroupDto.Request groupDto) {
+        this.wishlistGroupService.update(wishlistGroupId, groupDto);
         return new ResponseDto<>(ResponseCode.WISHLIST_GROUP_UPDATE, null);
     }
 
@@ -48,14 +66,14 @@ public class WishlistController {
     }
 
     @DeleteMapping("/wishlistGroup/{wishlistGroupId}")
-    public ResponseDto<Void> deleteWishlistGroup(@Valid @PathVariable Long groupId) {
-        this.wishlistGroupService.delete(groupId);
+    public ResponseDto<Void> deleteWishlistGroup(@Valid @PathVariable Long wishlistGroupId) {
+        this.wishlistGroupService.delete(wishlistGroupId);
         return new ResponseDto<>(ResponseCode.WISHLIST_GROUP_DELETE, null);
     }
 
     @DeleteMapping("/wishlistItem/{wishlistItemId}")
-    public ResponseDto<Void> deleteWishlistItem(@Valid @PathVariable Long itemId) {
-        this.wishlistItemService.delete(itemId);
+    public ResponseDto<Void> deleteWishlistItem(@Valid @PathVariable Long wishlistItemId) {
+        this.wishlistItemService.delete(wishlistItemId);
         return new ResponseDto<>(ResponseCode.WISHLIST_ITEM_DELETE, null);
     }
 }

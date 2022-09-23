@@ -5,6 +5,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import com.tmax.cm.superstore.user.entities.User;
+import com.tmax.cm.superstore.wishlist.dto.mapper.GetWishlistGroupAllDtoMapper;
 import com.tmax.cm.superstore.wishlist.entity.WishlistItem;
 import com.tmax.cm.superstore.wishlist.repository.WishlistItemRepository;
 import com.tmax.cm.superstore.wishlist.service.dto.UpdateWishlistGroupOrderDto;
@@ -26,14 +27,15 @@ public class WishlistGroupService {
 
     private final WishlistGroupRepository wishlistGroupRepository;
     private final WishlistItemRepository wishlistItemRepository;
+    private final GetWishlistGroupAllDtoMapper getWishlistGroupAllDtoMapper;
 
     @Transactional
     public WishlistGroup create(CreateWishlistGroupDto createWishlistGroupDto) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Long totalItemCount = this.wishlistGroupRepository.count();
 
         WishlistGroup wishlistGroup = WishlistGroup.builder()
-                .name(createWishlistGroupDto.getWishListGroupName())
+                .name(createWishlistGroupDto.getWishlistGroupName())
                 .position(totalItemCount.intValue() + 1)
                 .build();
 
@@ -52,23 +54,26 @@ public class WishlistGroupService {
         WishlistGroup wishlistGroup = this.wishlistGroupRepository.findById(wishlistGroupId)
                 .orElseThrow(() -> EntityNotFoundException.of(WishlistGroup.class));
 
-        wishlistGroup.setName(updateWishlistGroupDto.getWishListGroupName());
+        wishlistGroup.setName(updateWishlistGroupDto.getWishlistGroupName());
         return wishlistGroup;
     }
 
     @Transactional
     public void delete(Long groupId) {
-        this.wishlistGroupRepository.deleteById(groupId);
+        WishlistGroup wishlistGroup = this.wishlistGroupRepository.findById(groupId)
+                .orElseThrow(() -> EntityNotFoundException.of(WishlistGroup.class));
+        wishlistGroup.deleteGroup();
+        wishlistGroup.setIsDeleted(true);
     }
 
     @Transactional
     public void updateOrder(UpdateWishlistGroupOrderDto updateWishlistGroupOrderDto) {
-        Long newIndex = 1L;
-        for (Long groupId : updateWishlistGroupOrderDto.getGroupIds()) {
+        Integer newIndex = 1;
+        for (Long groupId : updateWishlistGroupOrderDto.getWishlistGroupIds()) {
             WishlistGroup wishlistGroup = this.wishlistGroupRepository.findById(groupId)
                     .orElseThrow(() -> EntityNotFoundException.of(WishlistGroup.class));
 
-            wishlistGroup.setPosition(newIndex.intValue());
+            wishlistGroup.setPosition(newIndex);
             newIndex++;
         }
     }

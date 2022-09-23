@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.tmax.cm.superstore.mypage.dto.UpdateCustomerInquiryReplyRequestDto;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,7 +24,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-public class CustomerInquiryAnswer {
+public class CustomerInquiryReply {
 	@Id @GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
 	@Column(name = "CUSTOMER_INQUIRY_ANSWER_ID", columnDefinition = "BINARY(16)")
@@ -38,4 +40,8 @@ public class CustomerInquiryAnswer {
 	@JoinColumn(name = "CUSTOMER_INQUIRY_ID")
 	private CustomerInquiry customerInquiry;
 
+	public void updateReply(UpdateCustomerInquiryReplyRequestDto dto){
+		this.title = dto.getTitle();
+		this.content = dto.getContent();
+	}
 }
