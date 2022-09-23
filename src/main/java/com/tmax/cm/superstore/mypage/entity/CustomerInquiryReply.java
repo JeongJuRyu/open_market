@@ -9,9 +9,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.tmax.cm.superstore.common.entity.BaseTimeEntity;
 import com.tmax.cm.superstore.mypage.dto.UpdateCustomerInquiryReplyRequestDto;
 
 import lombok.AllArgsConstructor;
@@ -24,7 +26,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-public class CustomerInquiryReply {
+public class CustomerInquiryReply extends BaseTimeEntity {
 	@Id @GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
 	@Column(name = "CUSTOMER_INQUIRY_ANSWER_ID", columnDefinition = "BINARY(16)")
@@ -36,7 +38,7 @@ public class CustomerInquiryReply {
 	@Column(nullable = false)
 	private String content;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CUSTOMER_INQUIRY_ID")
 	private CustomerInquiry customerInquiry;
 

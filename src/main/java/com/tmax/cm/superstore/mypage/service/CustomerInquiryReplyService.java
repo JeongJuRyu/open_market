@@ -39,10 +39,7 @@ public class CustomerInquiryReplyService {
 	public void updateReply(UpdateCustomerInquiryReplyRequestDto dto){
 		CustomerInquiry customerInquiry = customerInquiryRepository.findByIdWithReply(dto.getCustomerInquiryId())
 			.orElseThrow(CustomerInquiryNotFoundException::new);
-		CustomerInquiryReply customerInquiryReply = customerInquiry.getCustomerInquiryReplies().stream()
-			.filter(reply -> reply.getId() == dto.getCustomerInquiryReplyId()).findFirst()
-			.orElseThrow(CustomerInquiryReplyNotFoundException::new);
-		customerInquiryReply.updateReply(dto);
+		customerInquiry.updateReply(customerInquiry.getCustomerInquiryReply());
 		//인쿼리에 리플라이까지 fetch -> 해당하는 것 찾음 -> update 콜
 	}
 
