@@ -26,7 +26,7 @@ public class GetAllItemInquiryResponseDto {
 
 		private List<ItemInquiryImage> itemInquiryImages;
 
-		private List<ItemInquiryAnswer> itemInquiryAnswers;
+		private ItemInquiryReply itemInquiryReply;
 
 		private LocalDateTime createdAt;
 
@@ -38,7 +38,7 @@ public class GetAllItemInquiryResponseDto {
 
 		@Getter
 		@Builder
-		public static class ItemInquiryAnswer {
+		public static class ItemInquiryReply {
 			private String content;
 		}
 	}

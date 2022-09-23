@@ -39,7 +39,7 @@ public class OrderInquiryReply extends BaseTimeEntity {
 	@Column(nullable = false)
 	private String content;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ORDER_INQUIRY_ID")
 	private OrderInquiry orderInquiry;
 }
