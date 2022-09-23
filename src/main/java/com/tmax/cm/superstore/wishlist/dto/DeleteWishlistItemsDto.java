@@ -11,8 +11,8 @@ import java.util.List;
 public class DeleteWishlistItemsDto {
 
     @Getter
-    @Builder
-    public static class Request implements DeleteWishlistItemDto{
+    @NotNull
+    public static class Request implements DeleteWishlistItemDto {
         List<Long> wishlistItemIds;
     }
 
