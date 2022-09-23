@@ -14,9 +14,16 @@ public interface CustomerInquiryRepository extends JpaRepository<CustomerInquiry
 		+ "where ci.user.id = :userId", nativeQuery = true)
 	List<CustomerInquiry> findAllByUserId(UUID userId);
 
-	// List<CustomerInquiry> findByUserAnd
-
-	@Query("select ci from CustomerInquiry ci join fetch ci.customerInquiryReplies "
+	@Query("select ci from CustomerInquiry ci join fetch ci.customerInquiryReply "
 		+ "where ci.id = :customerInquiryId")
 	Optional<CustomerInquiry> findByIdWithReply(UUID customerInquiryId);
+
+	List<CustomerInquiry> findBySeller(UUID sellerId);
+
+	@Query(value = "SELECT * FROM CustomerInquiry JOIN USER ON :customerInquiryId = USER.ID "
+		+ "JOIN ORDER_ITEM ON :customerInquiryId = ORDER_ITEM.ID "
+		+ "JOIN ITEM ON ORDER_ITEM.ID = ITEM.ID"
+		+ "WHERE CustomerInquiry.ID = :customerInquiryId" , nativeQuery = true)
+	Optional<CustomerInquiry> findByIdForSeller(UUID customerInquiryId);
+
 }
