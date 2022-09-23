@@ -73,9 +73,9 @@ public class WishlistController {
         return new ResponseDto<>(ResponseCode.WISHLIST_GROUP_DELETE, null);
     }
 
-    @DeleteMapping("/wishlistItem/{wishlistItemId}")
-    public ResponseDto<Void> deleteWishlistItem(@Valid @PathVariable Long wishlistItemId) {
-        this.wishlistItemService.delete(wishlistItemId);
+    @DeleteMapping("/wishlistItem")
+    public ResponseDto<Void> deleteWishlistItem(@Valid @RequestBody DeleteWishlistItemsDto.Request request) {
+        this.wishlistItemService.delete(request);
         return new ResponseDto<>(ResponseCode.WISHLIST_ITEM_DELETE, null);
     }
 }
