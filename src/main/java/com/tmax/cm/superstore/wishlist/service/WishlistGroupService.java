@@ -4,13 +4,11 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import com.tmax.cm.superstore.user.entities.User;
 import com.tmax.cm.superstore.wishlist.dto.mapper.GetWishlistGroupAllDtoMapper;
 import com.tmax.cm.superstore.wishlist.entity.WishlistItem;
 import com.tmax.cm.superstore.wishlist.repository.WishlistItemRepository;
 import com.tmax.cm.superstore.wishlist.service.dto.UpdateWishlistGroupOrderDto;
 import com.tmax.cm.superstore.wishlist.service.dto.UpdateWishlistItemMoveDto;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.tmax.cm.superstore.error.exception.EntityNotFoundException;
@@ -27,7 +25,6 @@ public class WishlistGroupService {
 
     private final WishlistGroupRepository wishlistGroupRepository;
     private final WishlistItemRepository wishlistItemRepository;
-    private final GetWishlistGroupAllDtoMapper getWishlistGroupAllDtoMapper;
 
     @Transactional
     public WishlistGroup create(CreateWishlistGroupDto createWishlistGroupDto) {
@@ -45,7 +42,7 @@ public class WishlistGroupService {
 
     @Transactional
     public List<WishlistGroup> readAll() {
-        return this.wishlistGroupRepository.findAll();
+        return this.wishlistGroupRepository.findAllAsc();
     }
 
     @Transactional
