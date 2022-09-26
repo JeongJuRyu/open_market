@@ -24,20 +24,20 @@ public class ReviewReplyService {
 
 	@Transactional
 	public UUID postReviewReply(PostReviewReplyRequestDto dto){
-		Review review = reviewRepository.findReviewById(dto.getReviewId()).orElseThrow(ReviewNotFoundException::new);
+		Review review = reviewRepository.findById(dto.getReviewId()).orElseThrow(ReviewNotFoundException::new);
 		review.setReviewReply(dto);
 		return reviewRepository.save(review).getId();
 	}
 
 	@Transactional
 	public UUID updateReviewReply(UpdateReviewReplyRequestDto dto){
-		Review review = reviewRepository.findReviewById(dto.getReviewId()).orElseThrow(ReviewNotFoundException::new);
+		Review review = reviewRepository.findById(dto.getReviewId()).orElseThrow(ReviewNotFoundException::new);
 		review.updateReviewReply(dto);
 		return reviewRepository.save(review).getId();
 	}
 
 	public UUID deleteReviewReply(UUID reviewId) {
-		Review review = reviewRepository.findReviewById(reviewId).orElseThrow(ReviewNotFoundException::new);
+		Review review = reviewRepository.findById(reviewId).orElseThrow(ReviewNotFoundException::new);
 		ReviewReply reviewReply = reviewReplyRepository.findByReview(reviewId);
 		review.deleteReviewReply();
 		reviewReplyRepository.delete(reviewReply);
