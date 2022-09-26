@@ -93,7 +93,7 @@ public class ReservationService {
 			reservationItemRepository.save(findReservationItem);
 
 			return ResponseDto.<DeleteReservationItemDto.Response>builder()
-				.responseCode(ResponseCode.RESERVATION_ITEM_MODIFY)
+				.responseCode(ResponseCode.RESERVATION_ITEM_DELETE)
 				.data(DeleteReservationItemDto.Response.builder(findReservationItem).build())
 				.build();
 		} catch (Exception e) {
@@ -176,10 +176,12 @@ public class ReservationService {
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	public ResponseDto<ModifyReservationItemOptionDto.Response> modifyReservationItemOption(UUID reservationItemOptionId,
-		ModifyReservationItemOptionDto.Request modifyReservationItemOptionRequestDto) throws Exception{
+	public ResponseDto<ModifyReservationItemOptionDto.Response> modifyReservationItemOption(
+		UUID reservationItemOptionId,
+		ModifyReservationItemOptionDto.Request modifyReservationItemOptionRequestDto) throws Exception {
 		try {
-			ReservationItemOption findReservationItemOption = reservationItemOptionRepository.findReservationItemOptionByOptionId(reservationItemOptionId);
+			ReservationItemOption findReservationItemOption = reservationItemOptionRepository.findReservationItemOptionByOptionId(
+				reservationItemOptionId);
 			findReservationItemOption.modifyReservationItemOption(modifyReservationItemOptionRequestDto);
 			reservationItemOptionRepository.save(findReservationItemOption);
 
@@ -187,7 +189,26 @@ public class ReservationService {
 				.responseCode(ResponseCode.RESERVATION_ITEM_OPTION_MODIFY)
 				.data(ModifyReservationItemOptionDto.Response.builder(findReservationItemOption).build())
 				.build();
-		} catch (Exception e){
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	public ResponseDto<DeleteReservationItemOptionDto.Response> deleteReservationItemOption(
+		UUID reservationItemOptionId) throws Exception {
+		try {
+			ReservationItemOption findReservationItemOption = reservationItemOptionRepository.findReservationItemOptionByOptionId(
+				reservationItemOptionId);
+			findReservationItemOption.deleteReservationItemOption();
+			reservationItemOptionRepository.save(findReservationItemOption);
+
+			return ResponseDto.<DeleteReservationItemOptionDto.Response>builder()
+				.responseCode(ResponseCode.RESERVATION_ITEM_OPTION_DELETE)
+				.data(DeleteReservationItemOptionDto.Response.builder(findReservationItemOption).build())
+				.build();
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
@@ -199,7 +220,7 @@ public class ReservationService {
 		try {
 			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
 				reservationItemId);
-			List<ReservationItemOption> findReservationItemOptionList = reservationItemOptionRepository.findAllByReservationItemId(
+			List<ReservationItemOption> findReservationItemOptionList = reservationItemOptionRepository.findAllByReservationItemIdAndIsDeletedFalse(
 				findReservationItem);
 			List<FindReservationItemOptionListDto.Response.ReservationItemOptionList> reservationItemOptionList = new ArrayList<>();
 			for (ReservationItemOption reservationItemOption : findReservationItemOptionList) {

@@ -59,4 +59,8 @@ public class ReservationItemOption {
 		this.optionPrice = modifyReservationItemOptionRequestDto.getOptionPrice();
 		this.optionDescription = modifyReservationItemOptionRequestDto.getOptionDescription();
 	}
+
+	public void deleteReservationItemOption() {
+		this.isDeleted = true;
+	}
 }

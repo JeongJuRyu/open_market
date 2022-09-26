@@ -26,6 +26,7 @@ public class FindReservationItemOptionListDto {
 			private String optionName;
 			private String optionPrice;
 			private String optionDescription;
+			private Boolean isDeleted;
 
 			public static ReservationItemOptionListBuilder builder(
 				ReservationItemOption reservationItemOption) {
@@ -33,7 +34,8 @@ public class FindReservationItemOptionListDto {
 					.optionId(reservationItemOption.getOptionId())
 					.optionName(reservationItemOption.getOptionName())
 					.optionPrice(reservationItemOption.getOptionPrice())
-					.optionDescription(reservationItemOption.getOptionDescription());
+					.optionDescription(reservationItemOption.getOptionDescription())
+					.isDeleted(reservationItemOption.isDeleted());
 			}
 		}
 	}

@@ -42,7 +42,8 @@ public class ReservationController {
 	}
 
 	@DeleteMapping("/{reservationItemId}/item")
-	public ResponseEntity<ResponseDto<DeleteReservationItemDto.Response>> deleteReservationItem(@PathVariable UUID reservationItemId) throws Exception{
+	public ResponseEntity<ResponseDto<DeleteReservationItemDto.Response>> deleteReservationItem(
+		@PathVariable UUID reservationItemId) throws Exception {
 		return ResponseEntity.ok().body(reservationService.deleteReservationItem(reservationItemId));
 	}
 
@@ -79,9 +80,17 @@ public class ReservationController {
 	@PatchMapping("/{reservationItemOptionId}/item/option/modify")
 	public ResponseEntity<ResponseDto<ModifyReservationItemOptionDto.Response>> modifyReservationItemOption(
 		@PathVariable UUID reservationItemOptionId,
-		@Valid @RequestBody ModifyReservationItemOptionDto.Request modifyReservationItemOptionRequestDto) throws Exception {
+		@Valid @RequestBody ModifyReservationItemOptionDto.Request modifyReservationItemOptionRequestDto)
+		throws Exception {
 		return ResponseEntity.ok()
-			.body(reservationService.modifyReservationItemOption(reservationItemOptionId, modifyReservationItemOptionRequestDto));
+			.body(reservationService.modifyReservationItemOption(reservationItemOptionId,
+				modifyReservationItemOptionRequestDto));
+	}
+
+	@DeleteMapping("/{reservationItemOptionId}/item/option")
+	public ResponseEntity<ResponseDto<DeleteReservationItemOptionDto.Response>> deleteReservationItemOption(
+		@PathVariable UUID reservationItemOptionId) throws Exception {
+		return ResponseEntity.ok().body(reservationService.deleteReservationItemOption(reservationItemOptionId));
 	}
 
 	@GetMapping("/{reservationItemId}/option")
