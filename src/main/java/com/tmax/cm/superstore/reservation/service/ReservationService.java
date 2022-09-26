@@ -135,8 +135,10 @@ public class ReservationService {
 		try {
 			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
 				reservationItemId);
-			if(reservationItemImageRepository.findReservationItemImageByReservationItemId(findReservationItem) != null){
-				reservationItemImageRepository.delete(reservationItemImageRepository.findReservationItemImageByReservationItemId(findReservationItem));
+			if (reservationItemImageRepository.findReservationItemImageByReservationItemId(findReservationItem)
+				!= null) {
+				reservationItemImageRepository.delete(
+					reservationItemImageRepository.findReservationItemImageByReservationItemId(findReservationItem));
 			}
 			ReservationItemImage newReservationItemImage = ReservationItemImage.builder(
 				createReservationItemImageRequestDto, findReservationItem).build();
@@ -161,12 +163,31 @@ public class ReservationService {
 			ReservationItemImage findReservationItemImage = reservationItemImageRepository.findReservationItemImageByReservationItemId(
 				findReservationItem);
 
-			reservationItemImageRepository.delete(findReservationItemImage);
 			DeleteReservationItemImageDto.Response response = DeleteReservationItemImageDto.Response.builder(
 				findReservationItemImage).build();
+			reservationItemImageRepository.delete(findReservationItemImage);
 			return ResponseDto.<DeleteReservationItemImageDto.Response>builder()
 				.responseCode(ResponseCode.RESERVATION_ITEM_IMAGE_DELETE)
 				.data(response)
+				.build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Transactional(rollbackFor = Exception.class, readOnly = true)
+	public ResponseDto<FindReservationItemImageDto.Response> findReservationItemImage(UUID reservationItemId)
+		throws Exception {
+		try {
+			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
+				reservationItemId);
+			ReservationItemImage findReservationItemImage = reservationItemImageRepository.findReservationItemImageByReservationItemId(
+				findReservationItem);
+
+			return ResponseDto.<FindReservationItemImageDto.Response>builder()
+				.responseCode(ResponseCode.RESERVATION_ITEM_IMAGE_FIND)
+				.data(FindReservationItemImageDto.Response.builder(findReservationItemImage).build())
 				.build();
 		} catch (Exception e) {
 			e.printStackTrace();
