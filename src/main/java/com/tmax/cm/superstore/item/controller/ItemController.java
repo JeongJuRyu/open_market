@@ -7,7 +7,6 @@ import javax.validation.Valid;
 
 import com.tmax.cm.superstore.item.dto.GetItemAllByCategoryDto;
 import com.tmax.cm.superstore.item.dto.mapper.GetItemAllByCategoryDtoMapper;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import com.tmax.cm.superstore.item.dto.*;
 
@@ -55,14 +54,11 @@ public class ItemController {
     public ResponseDto<GetItemAllDto.Response> getItemAll() {
 
         List<Item> items = this.itemService.readItems();
-
         return new ResponseDto<>(ResponseCode.ITEM_READ, this.getItemAllDtoMapper.toResponse(items));
     }
 
     @GetMapping("/simpleItems")
     public ResponseDto<GetItemAllByCategoryDto.Response> getItemByCategory(@RequestParam("categoryId") Long categoryId) {
-        List<Item> items = this.itemService.readItemsByCategory(categoryId);
-
-        return new ResponseDto<>(ResponseCode.ITEM_READ_ALL, this.getItemAllByCategoryDtoMapper.toResponse(items));
+        return new ResponseDto<>(ResponseCode.ITEM_READ_ALL, itemService.readSimpleItem(categoryId));
     }
 }

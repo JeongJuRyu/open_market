@@ -18,6 +18,16 @@ public class GetItemAllByCategoryDto {
 
         private List<GetItemSimpleDto> items;
 
+        private List<GetSimpleReviewDto> simpleReview;
+
+        @Builder
+        @Getter
+        public static class GetSimpleReviewDto {
+            private Double avgScore;
+
+            private Integer reviewCount;
+        }
+
         @Builder
         @Getter
         public static class GetItemSimpleDto {
