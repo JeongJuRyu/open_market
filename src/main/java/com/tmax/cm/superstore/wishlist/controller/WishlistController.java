@@ -5,6 +5,7 @@ import com.tmax.cm.superstore.common.ResponseDto;
 import com.tmax.cm.superstore.wishlist.dto.*;
 import com.tmax.cm.superstore.wishlist.dto.mapper.GetWishlistGroupAllDtoMapper;
 import com.tmax.cm.superstore.wishlist.dto.mapper.GetWishlistItemDtoMapper;
+import com.tmax.cm.superstore.wishlist.dto.mapper.PostWishlistGroupDtoMapper;
 import com.tmax.cm.superstore.wishlist.entity.WishlistGroup;
 import com.tmax.cm.superstore.wishlist.entity.WishlistItem;
 import com.tmax.cm.superstore.wishlist.service.WishlistGroupService;
@@ -25,6 +26,7 @@ public class WishlistController {
     private final WishlistItemService wishlistItemService;
     private final GetWishlistGroupAllDtoMapper getWishlistGroupAllDtoMapper;
     private final GetWishlistItemDtoMapper getWishlistItemDtoMapper;
+    private final PostWishlistGroupDtoMapper postWishlistGroupDtoMapper;
 
 
     @GetMapping("/wishlistGroup")
@@ -35,9 +37,9 @@ public class WishlistController {
     }
 
     @PostMapping("/wishlistGroup")
-    public ResponseDto<Void> createWishlistGroup(@Valid @RequestBody PostCreateWishlistGroupDto.Request groupDto) {
-        this.wishlistGroupService.create(groupDto);
-        return new ResponseDto<>(ResponseCode.WISHLIST_GROUP_CREATE, null);
+    public ResponseDto<PostCreateWishlistGroupDto.Response> createWishlistGroup(@Valid @RequestBody PostCreateWishlistGroupDto.Request groupDto) {
+        WishlistGroup wishlistGroup = this.wishlistGroupService.create(groupDto);
+        return new ResponseDto<>(ResponseCode.WISHLIST_GROUP_CREATE, this.postWishlistGroupDtoMapper.toResponse(wishlistGroup));
     }
 
     @GetMapping("/wishlistItem")
@@ -71,9 +73,9 @@ public class WishlistController {
         return new ResponseDto<>(ResponseCode.WISHLIST_GROUP_DELETE, null);
     }
 
-    @DeleteMapping("/wishlistItem/{wishlistItemId}")
-    public ResponseDto<Void> deleteWishlistItem(@Valid @PathVariable Long wishlistItemId) {
-        this.wishlistItemService.delete(wishlistItemId);
+    @DeleteMapping("/wishlistItem")
+    public ResponseDto<Void> deleteWishlistItem(@Valid @RequestBody DeleteWishlistItemsDto.Request request) {
+        this.wishlistItemService.delete(request);
         return new ResponseDto<>(ResponseCode.WISHLIST_ITEM_DELETE, null);
     }
 }
