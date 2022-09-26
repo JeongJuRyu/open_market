@@ -175,6 +175,24 @@ public class ReservationService {
 		}
 	}
 
+	@Transactional(rollbackFor = Exception.class)
+	public ResponseDto<ModifyReservationItemOptionDto.Response> modifyReservationItemOption(UUID reservationItemOptionId,
+		ModifyReservationItemOptionDto.Request modifyReservationItemOptionRequestDto) throws Exception{
+		try {
+			ReservationItemOption findReservationItemOption = reservationItemOptionRepository.findReservationItemOptionByOptionId(reservationItemOptionId);
+			findReservationItemOption.modifyReservationItemOption(modifyReservationItemOptionRequestDto);
+			reservationItemOptionRepository.save(findReservationItemOption);
+
+			return ResponseDto.<ModifyReservationItemOptionDto.Response>builder()
+				.responseCode(ResponseCode.RESERVATION_ITEM_OPTION_MODIFY)
+				.data(ModifyReservationItemOptionDto.Response.builder(findReservationItemOption).build())
+				.build();
+		} catch (Exception e){
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
 	@Transactional(rollbackFor = Exception.class, readOnly = true)
 	public ResponseDto<FindReservationItemOptionListDto.Response> findReservationItemOptionList(UUID reservationItemId)
 		throws Exception {

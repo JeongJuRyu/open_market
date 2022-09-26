@@ -76,6 +76,14 @@ public class ReservationController {
 			reservationService.createReservationItemOption(reservationItemId, createReservationItemOptionRequestDto));
 	}
 
+	@PatchMapping("/{reservationItemOptionId}/item/option/modify")
+	public ResponseEntity<ResponseDto<ModifyReservationItemOptionDto.Response>> modifyReservationItemOption(
+		@PathVariable UUID reservationItemOptionId,
+		@Valid @RequestBody ModifyReservationItemOptionDto.Request modifyReservationItemOptionRequestDto) throws Exception {
+		return ResponseEntity.ok()
+			.body(reservationService.modifyReservationItemOption(reservationItemOptionId, modifyReservationItemOptionRequestDto));
+	}
+
 	@GetMapping("/{reservationItemId}/option")
 	public ResponseEntity<ResponseDto<FindReservationItemOptionListDto.Response>> findReservationItemOptionList(
 		@PathVariable UUID reservationItemId) throws Exception {
