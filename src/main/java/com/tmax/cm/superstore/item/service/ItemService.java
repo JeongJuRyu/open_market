@@ -8,7 +8,10 @@ import java.util.UUID;
 import javax.transaction.Transactional;
 
 import com.tmax.cm.superstore.item.dto.FileInfo;
+import com.tmax.cm.superstore.item.dto.GetItemAllByCategoryDto;
+import com.tmax.cm.superstore.item.dto.mapper.GetItemAllByCategoryDtoMapper;
 import com.tmax.cm.superstore.item.entity.*;
+import com.tmax.cm.superstore.mypage.service.ReviewService;
 import org.springframework.stereotype.Service;
 
 import com.tmax.cm.superstore.category.entity.Category;
@@ -30,8 +33,12 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
     private final ShopRepository shopRepository;
+
     private final CategoryService categoryService;
     private final ImageService imageService;
+    private final ReviewService reviewService;
+
+    private final GetItemAllByCategoryDtoMapper getItemAllByCategoryDtoMapper;
 
     @Transactional
     public Item createItem(PostItemDto.Request postItemDto, List<MultipartFile> attachment) {
@@ -110,7 +117,6 @@ public class ItemService {
         return items;
     }
 
-    @Transactional
     public List<Item> readItemsByCategory(Long categoryId) {
         CategoryDto category = categoryService.getCategory(categoryId);
 
@@ -127,5 +133,26 @@ public class ItemService {
             }
             return itemList;
         }
+    }
+
+    @Transactional
+    public GetItemAllByCategoryDto.Response readSimpleItem(Long categoryId){
+        List<Item> items = readItemsByCategory(categoryId);
+
+        List<Double> avgStars = new ArrayList<>();
+        List<Integer> reviewCounts = new ArrayList<>();
+
+        for(Item item : items){
+            if(item.getReviews().isEmpty()){
+                avgStars.add(0.0);
+                reviewCounts.add(0);
+            }
+            else{
+                avgStars.add(reviewService.getAvgStarRating(item.getId()));
+                reviewCounts.add(item.getReviews().size());
+            }
+        }
+
+        return getItemAllByCategoryDtoMapper.toResponse(items, avgStars, reviewCounts);
     }
 }
