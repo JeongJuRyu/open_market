@@ -65,6 +65,13 @@ public class ReservationController {
 			reservationService.createReservationItemImage(reservationItemId, createReservationItemImageRequestDto));
 	}
 
+	@DeleteMapping("/{reservationItemId}/item/image")
+	public ResponseEntity<ResponseDto<DeleteReservationItemImageDto.Response>> deleteReservationItemImage(
+		@PathVariable UUID reservationItemId) throws Exception {
+		return ResponseEntity.ok()
+			.body(reservationService.deleteReservationItemImage(reservationItemId));
+	}
+
 	/**
 	 * 예약 상품 옵션
 	 */

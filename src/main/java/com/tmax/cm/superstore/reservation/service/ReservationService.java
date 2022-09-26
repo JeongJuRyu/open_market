@@ -135,7 +135,9 @@ public class ReservationService {
 		try {
 			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
 				reservationItemId);
-
+			if(reservationItemImageRepository.findReservationItemImageByReservationItemId(findReservationItem) != null){
+				reservationItemImageRepository.delete(reservationItemImageRepository.findReservationItemImageByReservationItemId(findReservationItem));
+			}
 			ReservationItemImage newReservationItemImage = ReservationItemImage.builder(
 				createReservationItemImageRequestDto, findReservationItem).build();
 			reservationItemImageRepository.save(newReservationItemImage);
@@ -143,6 +145,28 @@ public class ReservationService {
 			return ResponseDto.<CreateReservationItemImageDto.Response>builder()
 				.responseCode(ResponseCode.RESERVATION_ITEM_IMAGE_CREATE)
 				.data(CreateReservationItemImageDto.Response.builder(newReservationItemImage).build())
+				.build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	public ResponseDto<DeleteReservationItemImageDto.Response> deleteReservationItemImage(UUID reservationItemId)
+		throws Exception {
+		try {
+			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
+				reservationItemId);
+			ReservationItemImage findReservationItemImage = reservationItemImageRepository.findReservationItemImageByReservationItemId(
+				findReservationItem);
+
+			reservationItemImageRepository.delete(findReservationItemImage);
+			DeleteReservationItemImageDto.Response response = DeleteReservationItemImageDto.Response.builder(
+				findReservationItemImage).build();
+			return ResponseDto.<DeleteReservationItemImageDto.Response>builder()
+				.responseCode(ResponseCode.RESERVATION_ITEM_IMAGE_DELETE)
+				.data(response)
 				.build();
 		} catch (Exception e) {
 			e.printStackTrace();

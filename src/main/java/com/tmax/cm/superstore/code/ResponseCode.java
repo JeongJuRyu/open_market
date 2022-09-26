@@ -40,6 +40,7 @@ public enum ResponseCode implements Code {
 	RESERVATION_ITEM_OPTION_DELETE("SUCCESS", "RESERVATION_ITEM_OPTION_DELETE", "Delete reservationItemOption", "예약 상품 옵션 삭제"),
 	RESERVATION_ITEM_OPTION_LIST_FIND("SUCCESS", "RESERVATION_ITEM_OPTION_LIST_FIND","Find reservationItemOptionList", "예약 상품 옵션 리스트 가져오기"),
 	RESERVATION_ITEM_IMAGE_CREATE("SUCCESS", "RESERVATION_ITEM_IMAGE_CREATE", "Create reservationItemImage", "예약 상품 이미지 등록"),
+	RESERVATION_ITEM_IMAGE_DELETE("SUCCESS", "RESERVATION_ITEM_IMAGE_DELETE", "Delete reservationItemImage", "예약 상품 이미지 삭제"),
 	RESERVATION_POSSIBLE_DAYS_FIND("SUCCESS","RESERVATION_POSSIBLE_DAYS_FIND","Find reservationPossibleDays","예약 가능 일자 찾기"),
 	RESERVATION_POSSIBLE_TIMES_FIND("SUCCESS","RESERVATION_POSSIBLE_TIMES_FIND","Find reservationPossibleTimes","예약 가능 시간 찾기"),
 	RESERVATION_MAKE("SUCCESS","RESERVATION_MAKE_SUCCESS","Make reservation","예약 하기"),
