@@ -44,8 +44,9 @@ public class WishlistController {
 
     @GetMapping("/wishlistItem")
     public ResponseDto<GetWishlistItemDto.Response> getWishlistItem(@Valid @RequestParam(name = "wishlistGroupId", required = false) Long groupId) {
+        List<WishlistGroup> wishlistGroups = this.wishlistGroupService.readAll();
         List<WishlistItem> wishlistItems = (groupId == null) ? (this.wishlistItemService.readAll()) : (this.wishlistItemService.findByGroupId(groupId));
-        GetWishlistItemDto.Response response = this.getWishlistItemDtoMapper.toResponse(wishlistItems);
+        GetWishlistItemDto.Response response = this.getWishlistItemDtoMapper.toResponse(wishlistItems, wishlistGroups);
         return new ResponseDto<>(ResponseCode.WISHLIST_ITEM_READ, response);
     }
 
