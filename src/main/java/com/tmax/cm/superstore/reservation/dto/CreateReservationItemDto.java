@@ -18,6 +18,7 @@ public class CreateReservationItemDto {
 	@Builder
 	public static class Request {
 		private String reservationItemName;
+		private String reservationItemPrice;
 		private String reservationItemDescription;
 		private String reservationItemNotice;
 		private Integer allowReservationNumberPerInterval;

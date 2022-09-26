@@ -46,7 +46,7 @@ public class InitDb {
 			sellerRepository.save(seller1);
 
 			// 예약상품 생성
-			ReservationItem reservationItem1 = ReservationItem.builder(new CreateReservationItemDto.Request("치킨텐더 샌드위치","치킨텐더가 들어간 샌드위치 입니다","토마토, 양상추 등의 야채가 들어가니 주의하세요", 20, "30",
+			ReservationItem reservationItem1 = ReservationItem.builder(new CreateReservationItemDto.Request("치킨텐더 샌드위치", "5500", "치킨텐더가 들어간 샌드위치 입니다","토마토, 양상추 등의 야채가 들어가니 주의하세요", 20, "30",
 				LocalTime.of(8,00),LocalTime.of(20,00)), seller1).build();
 			reservationItemRepository.save(reservationItem1);
 			// 예약상품 이미지 등록
@@ -61,7 +61,7 @@ public class InitDb {
 			reservationItemOptionRepository.save(reservationItem1Option2);
 
 			// 예약상품 생성
-			ReservationItem reservationItem2 = ReservationItem.builder(new CreateReservationItemDto.Request("푸실리 샐러드","푸실리드가 들어간 샐러드 입니다","토마토, 양상추 등의 야채가 들어가니 주의하세요", 20, "30",
+			ReservationItem reservationItem2 = ReservationItem.builder(new CreateReservationItemDto.Request("푸실리 샐러드", "5500", "푸실리드가 들어간 샐러드 입니다","토마토, 양상추 등의 야채가 들어가니 주의하세요", 20, "30",
 				LocalTime.of(8,00),LocalTime.of(20,00)), seller1).build();
 			reservationItemRepository.save(reservationItem2);
 			// 예약상품 이미지 등록
@@ -81,7 +81,7 @@ public class InitDb {
 			sellerRepository.save(seller2);
 
 			// 예약상품 생성
-			ReservationItem reservationItem1 = ReservationItem.builder(new CreateReservationItemDto.Request("직화제육 덮밥","직화제육이 들어간 덮밥 입니다","밥 양이 많으니 적게 드실 분은 미리 말씀해주세", 10, "30",
+			ReservationItem reservationItem1 = ReservationItem.builder(new CreateReservationItemDto.Request("직화제육 덮밥", "7500","직화제육이 들어간 덮밥 입니다","밥 양이 많으니 적게 드실 분은 미리 말씀해주세", 10, "30",
 				LocalTime.of(11,00),LocalTime.of(20,00)), seller2).build();
 			reservationItemRepository.save(reservationItem1);
 			// 예약상품 이미지 등록
@@ -96,7 +96,7 @@ public class InitDb {
 			reservationItemOptionRepository.save(reservationItem1Option2);
 
 			// 예약상품 생성
-			ReservationItem reservationItem2 = ReservationItem.builder(new CreateReservationItemDto.Request("회오리 오무라이스","회오리 형태 오무라이스 입니다","볶음밥에 새우가 들어가니 주의하세요.", 10, "30",
+			ReservationItem reservationItem2 = ReservationItem.builder(new CreateReservationItemDto.Request("회오리 오무라이스", "7000","회오리 형태 오무라이스 입니다","볶음밥에 새우가 들어가니 주의하세요.", 10, "30",
 				LocalTime.of(11,00),LocalTime.of(20,00)), seller2).build();
 			reservationItemRepository.save(reservationItem2);
 			// 예약상품 이미지 등록

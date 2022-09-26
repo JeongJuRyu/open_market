@@ -32,6 +32,9 @@ public class ReservationItem {
 	private String reservationItemName;
 
 	@Column
+	private String reservationItemPrice;
+
+	@Column
 	private String reservationItemDescription;
 
 	@Column
@@ -60,6 +63,7 @@ public class ReservationItem {
 		Seller seller) {
 		return ReservationItemBuilder()
 			.reservationItemName(createReservationItemRequestDto.getReservationItemName())
+			.reservationItemPrice(createReservationItemRequestDto.getReservationItemPrice())
 			.reservationItemDescription(createReservationItemRequestDto.getReservationItemDescription())
 			.reservationItemNotice(createReservationItemRequestDto.getReservationItemNotice())
 			.allowReservationNumberPerInterval(createReservationItemRequestDto.getAllowReservationNumberPerInterval())
