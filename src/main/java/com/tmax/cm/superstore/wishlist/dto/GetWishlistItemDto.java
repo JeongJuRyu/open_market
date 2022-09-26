@@ -1,6 +1,7 @@
 package com.tmax.cm.superstore.wishlist.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tmax.cm.superstore.wishlist.entity.WishlistGroup;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,9 @@ public class GetWishlistItemDto {
 
         @JsonProperty("wishlistItems")
         private List<WishlistItemDto> wishlistItemDtos;
+
+        @JsonProperty("wishlistGroupList")
+        private List<WishlistGroupDto> wishlistGroupDtos;
 
         @Builder
         @Getter
@@ -56,6 +60,23 @@ public class GetWishlistItemDto {
 
             @NotNull
             private String categoryName;
+        }
+
+        @Getter
+        @Builder
+        public static class WishlistGroupDto {
+
+            @NotNull
+            private Long wishlistGroupId;
+
+            @NotNull
+            private String wishlistGroupName;
+
+            @NotNull
+            @Builder.Default
+            private String wishlistGroupThumbnailURL = "images/510a2ac1-7869-49c5-875b-1dfb8ea243f4.jpg";
+
+            private Integer totalItemCount;
         }
     }
 }
