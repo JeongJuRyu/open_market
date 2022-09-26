@@ -1,6 +1,7 @@
 package com.tmax.cm.superstore.reservation.entity;
 
 import com.tmax.cm.superstore.reservation.dto.CreateReservationItemDto;
+import com.tmax.cm.superstore.reservation.dto.ModifyReservationItemDto;
 import com.tmax.cm.superstore.seller.entity.Seller;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -71,5 +72,16 @@ public class ReservationItem {
 			.startTime(createReservationItemRequestDto.getStartTime())
 			.endTime(createReservationItemRequestDto.getEndTime())
 			.sellerId(seller);
+	}
+
+	public void modifyReservationItem(ModifyReservationItemDto.Request modifyReservationItemRequestDto){
+		this.reservationItemName = modifyReservationItemRequestDto.getReservationItemName();
+		this.reservationItemPrice = modifyReservationItemRequestDto.getReservationItemPrice();
+		this.reservationItemDescription = modifyReservationItemRequestDto.getReservationItemDescription();
+		this.reservationItemNotice = modifyReservationItemRequestDto.getReservationItemNotice();
+		this.allowReservationNumberPerInterval = modifyReservationItemRequestDto.getAllowReservationNumberPerInterval();
+		this.reservationInterval = modifyReservationItemRequestDto.getReservationInterval();
+		this.startTime = modifyReservationItemRequestDto.getStartTime();
+		this.endTime = modifyReservationItemRequestDto.getEndTime();
 	}
 }

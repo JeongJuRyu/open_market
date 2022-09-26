@@ -2,12 +2,12 @@ package com.tmax.cm.superstore.reservation.service;
 
 import com.tmax.cm.superstore.code.ResponseCode;
 import com.tmax.cm.superstore.common.ResponseDto;
-import com.tmax.cm.superstore.reservation.error.exception.NoMoreReservationException;
 import com.tmax.cm.superstore.reservation.dto.*;
 import com.tmax.cm.superstore.reservation.entity.Reservation;
 import com.tmax.cm.superstore.reservation.entity.ReservationItem;
 import com.tmax.cm.superstore.reservation.entity.ReservationItemImage;
 import com.tmax.cm.superstore.reservation.entity.ReservationItemOption;
+import com.tmax.cm.superstore.reservation.error.exception.NoMoreReservationException;
 import com.tmax.cm.superstore.reservation.repository.ReservationItemImageRepository;
 import com.tmax.cm.superstore.reservation.repository.ReservationItemOptionRepository;
 import com.tmax.cm.superstore.reservation.repository.ReservationItemRepository;
@@ -39,6 +39,9 @@ public class ReservationService {
 	private final ReservationRepository reservationRepository;
 	private final SellerRepository sellerRepository;
 
+	/**
+	 * 예약 상품
+	 */
 	@Transactional(rollbackFor = Exception.class)
 	public ResponseDto<CreateReservationItemDto.Response> createReservationItem(UUID sellerId,
 		CreateReservationItemDto.Request createReservationItemRequestDto) throws Exception {
@@ -61,28 +64,51 @@ public class ReservationService {
 		}
 	}
 
+	@Transactional(rollbackFor = Exception.class)
+	public ResponseDto<ModifyReservationItemDto.Response> modifyReservationItem(UUID reservationItemId,
+		ModifyReservationItemDto.Request modifyReservationItemRequestDto) throws Exception {
+		try {
+			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
+				reservationItemId);
+			findReservationItem.modifyReservationItem(modifyReservationItemRequestDto);
+			reservationItemRepository.save(findReservationItem);
+
+			return ResponseDto.<ModifyReservationItemDto.Response>builder()
+				.responseCode(ResponseCode.RESERVATION_ITEM_MODIFY)
+				.data(ModifyReservationItemDto.Response.builder(findReservationItem).build())
+				.build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
 	@Transactional(rollbackFor = Exception.class, readOnly = true)
-	public ResponseDto<FindReservationItemListDto.Response> findReservationItemList(UUID sellerId) throws Exception{
-		try{
+	public ResponseDto<FindReservationItemListDto.Response> findReservationItemList(UUID sellerId) throws Exception {
+		try {
 			Seller findSeller = sellerRepository.findSellerBySellerId(sellerId);
 			findSellerValidation(findSeller);
 
 			List<ReservationItem> findReservationItemList = reservationItemRepository.findAllBySellerId(findSeller);
 			List<FindReservationItemListDto.Response.ReservationItemList> reservationItemList = new ArrayList<>();
-			for(ReservationItem reservationItem : findReservationItemList){
-				reservationItemList.add(FindReservationItemListDto.Response.ReservationItemList.builder(reservationItem).build());
+			for (ReservationItem reservationItem : findReservationItemList) {
+				reservationItemList.add(
+					FindReservationItemListDto.Response.ReservationItemList.builder(reservationItem).build());
 			}
 
 			return ResponseDto.<FindReservationItemListDto.Response>builder()
 				.responseCode(ResponseCode.RESERVATION_ITEM_LIST_FIND)
 				.data(FindReservationItemListDto.Response.builder(reservationItemList).build())
 				.build();
-		}catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
 	}
 
+	/**
+	 * 예약 상품 이미지
+	 */
 	@Transactional(rollbackFor = Exception.class)
 	public ResponseDto<CreateReservationItemImageDto.Response> createReservationItemImage(UUID reservationItemId,
 		CreateReservationItemImageDto.Request createReservationItemImageRequestDto) throws Exception {
@@ -104,6 +130,9 @@ public class ReservationService {
 		}
 	}
 
+	/**
+	 * 예약 상품 옵션
+	 */
 	@Transactional(rollbackFor = Exception.class)
 	public ResponseDto<CreateReservationItemOptionDto.Response> createReservationItemOption(UUID reservationItemId,
 		CreateReservationItemOptionDto.Request createReservationItemOptionRequestDto) throws Exception {
@@ -127,25 +156,33 @@ public class ReservationService {
 	}
 
 	@Transactional(rollbackFor = Exception.class, readOnly = true)
-	public ResponseDto<FindReservationItemOptionListDto.Response> findReservationItemOptionList(UUID reservationItemId) throws Exception{
-		try{
-			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(reservationItemId);
-			List<ReservationItemOption> findReservationItemOptionList = reservationItemOptionRepository.findAllByReservationItemId(findReservationItem);
+	public ResponseDto<FindReservationItemOptionListDto.Response> findReservationItemOptionList(UUID reservationItemId)
+		throws Exception {
+		try {
+			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
+				reservationItemId);
+			List<ReservationItemOption> findReservationItemOptionList = reservationItemOptionRepository.findAllByReservationItemId(
+				findReservationItem);
 			List<FindReservationItemOptionListDto.Response.ReservationItemOptionList> reservationItemOptionList = new ArrayList<>();
-			for(ReservationItemOption reservationItemOption : findReservationItemOptionList){
-				reservationItemOptionList.add(FindReservationItemOptionListDto.Response.ReservationItemOptionList.builder(reservationItemOption).build());
+			for (ReservationItemOption reservationItemOption : findReservationItemOptionList) {
+				reservationItemOptionList.add(
+					FindReservationItemOptionListDto.Response.ReservationItemOptionList.builder(reservationItemOption)
+						.build());
 			}
 
 			return ResponseDto.<FindReservationItemOptionListDto.Response>builder()
 				.responseCode(ResponseCode.RESERVATION_ITEM_OPTION_LIST_FIND)
 				.data(FindReservationItemOptionListDto.Response.builder(reservationItemOptionList).build())
 				.build();
-		}catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
 	}
 
+	/**
+	 * 예약
+	 */
 	// 최적화 매우 필요
 	@Transactional(rollbackFor = Exception.class, readOnly = true)
 	public ResponseDto<FindPossibleReservationByDay.Response> findPossibleReservationByDay(UUID reservationItemId)
@@ -212,24 +249,29 @@ public class ReservationService {
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	public ResponseDto<MakeReservationDto.Response> makeReservation(MakeReservationDto.Request makeReservationRequestDto) throws Exception{
-		try{
-			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(makeReservationRequestDto.getReservationItemId());
-			Optional<List<Reservation>> currentReservationList = reservationRepository.findAllByReservationItemIdAndReservationTime(findReservationItem, makeReservationRequestDto.getReservationTime());
-			if(currentReservationList.get().size() >= findReservationItem.getAllowReservationNumberPerInterval()){
+	public ResponseDto<MakeReservationDto.Response> makeReservation(
+		MakeReservationDto.Request makeReservationRequestDto) throws Exception {
+		try {
+			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
+				makeReservationRequestDto.getReservationItemId());
+			Optional<List<Reservation>> currentReservationList = reservationRepository.findAllByReservationItemIdAndReservationTime(
+				findReservationItem, makeReservationRequestDto.getReservationTime());
+			if (currentReservationList.get().size() >= findReservationItem.getAllowReservationNumberPerInterval()) {
 				throw new NoMoreReservationException();
 			}
 			//find 예외처리 필요
-			ReservationItemOption findReservationItemOption = reservationItemOptionRepository.findReservationItemOptionByOptionId(makeReservationRequestDto.getReservationItemOptionId());
+			ReservationItemOption findReservationItemOption = reservationItemOptionRepository.findReservationItemOptionByOptionId(
+				makeReservationRequestDto.getReservationItemOptionId());
 			Seller findSeller = sellerRepository.findSellerBySellerId(findReservationItem.getSellerId().getSellerId());
-			Reservation newReservation = Reservation.builder(makeReservationRequestDto, findReservationItem, findReservationItemOption, findSeller).build();
+			Reservation newReservation = Reservation.builder(makeReservationRequestDto, findReservationItem,
+				findReservationItemOption, findSeller).build();
 			reservationRepository.save(newReservation);
 
 			return ResponseDto.<MakeReservationDto.Response>builder()
 				.responseCode(ResponseCode.RESERVATION_MAKE)
 				.data(MakeReservationDto.Response.builder(newReservation).build())
 				.build();
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
