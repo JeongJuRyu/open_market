@@ -74,7 +74,7 @@ public class ReservationItem {
 			.sellerId(seller);
 	}
 
-	public void modifyReservationItem(ModifyReservationItemDto.Request modifyReservationItemRequestDto){
+	public void modifyReservationItem(ModifyReservationItemDto.Request modifyReservationItemRequestDto) {
 		this.reservationItemName = modifyReservationItemRequestDto.getReservationItemName();
 		this.reservationItemPrice = modifyReservationItemRequestDto.getReservationItemPrice();
 		this.reservationItemDescription = modifyReservationItemRequestDto.getReservationItemDescription();
@@ -83,5 +83,9 @@ public class ReservationItem {
 		this.reservationInterval = modifyReservationItemRequestDto.getReservationInterval();
 		this.startTime = modifyReservationItemRequestDto.getStartTime();
 		this.endTime = modifyReservationItemRequestDto.getEndTime();
+	}
+
+	public void deleteReservationItem() {
+		this.isDeleted = true;
 	}
 }

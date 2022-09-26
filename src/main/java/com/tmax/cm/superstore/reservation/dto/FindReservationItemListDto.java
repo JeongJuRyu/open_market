@@ -32,6 +32,7 @@ public class FindReservationItemListDto {
 			private String reservationInterval;
 			private LocalTime startTime;
 			private LocalTime endTime;
+			private Boolean isDeleted;
 
 			public static ReservationItemListBuilder builder(ReservationItem reservationItem) {
 				return ReservationItemListBuilder()
@@ -43,7 +44,8 @@ public class FindReservationItemListDto {
 					.allowReservationNumberPerInterval(reservationItem.getAllowReservationNumberPerInterval())
 					.reservationInterval(reservationItem.getReservationInterval())
 					.startTime(reservationItem.getStartTime())
-					.endTime(reservationItem.getEndTime());
+					.endTime(reservationItem.getEndTime())
+					.isDeleted(reservationItem.isDeleted());
 			}
 		}
 	}

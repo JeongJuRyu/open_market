@@ -83,13 +83,33 @@ public class ReservationService {
 		}
 	}
 
+	@Transactional(rollbackFor = Exception.class)
+	public ResponseDto<DeleteReservationItemDto.Response> deleteReservationItem(UUID reservationItemId)
+		throws Exception {
+		try {
+			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
+				reservationItemId);
+			findReservationItem.deleteReservationItem();
+			reservationItemRepository.save(findReservationItem);
+
+			return ResponseDto.<DeleteReservationItemDto.Response>builder()
+				.responseCode(ResponseCode.RESERVATION_ITEM_MODIFY)
+				.data(DeleteReservationItemDto.Response.builder(findReservationItem).build())
+				.build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
 	@Transactional(rollbackFor = Exception.class, readOnly = true)
 	public ResponseDto<FindReservationItemListDto.Response> findReservationItemList(UUID sellerId) throws Exception {
 		try {
 			Seller findSeller = sellerRepository.findSellerBySellerId(sellerId);
 			findSellerValidation(findSeller);
 
-			List<ReservationItem> findReservationItemList = reservationItemRepository.findAllBySellerId(findSeller);
+			List<ReservationItem> findReservationItemList = reservationItemRepository.findAllBySellerIdAndIsDeletedFalse(
+				findSeller);
 			List<FindReservationItemListDto.Response.ReservationItemList> reservationItemList = new ArrayList<>();
 			for (ReservationItem reservationItem : findReservationItemList) {
 				reservationItemList.add(

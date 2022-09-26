@@ -34,10 +34,16 @@ public class ReservationController {
 	}
 
 	@PatchMapping("/{reservationItemId}/item/modify")
-	public ResponseEntity<ResponseDto<ModifyReservationItemDto.Response>> modifyReservationItem(@PathVariable UUID reservationItemId,
-		@Valid @RequestBody ModifyReservationItemDto.Request modifyReservationItemRequestDto) throws Exception{
+	public ResponseEntity<ResponseDto<ModifyReservationItemDto.Response>> modifyReservationItem(
+		@PathVariable UUID reservationItemId,
+		@Valid @RequestBody ModifyReservationItemDto.Request modifyReservationItemRequestDto) throws Exception {
 		return ResponseEntity.ok()
 			.body(reservationService.modifyReservationItem(reservationItemId, modifyReservationItemRequestDto));
+	}
+
+	@DeleteMapping("/{reservationItemId}/item")
+	public ResponseEntity<ResponseDto<DeleteReservationItemDto.Response>> deleteReservationItem(@PathVariable UUID reservationItemId) throws Exception{
+		return ResponseEntity.ok().body(reservationService.deleteReservationItem(reservationItemId));
 	}
 
 	@GetMapping("/{sellerId}/item")
