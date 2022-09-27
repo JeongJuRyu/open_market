@@ -72,7 +72,7 @@ public class InitDb {
 			// 예약상품 생성
 			ReservationItem reservationItem2 = ReservationItem.builder(
 				new CreateReservationItemDto.Request("푸실리 샐러드", "5500", "푸실리드가 들어간 샐러드 입니다",
-					"토마토, 양상추 등의 야채가 들어가니 주의하세요", 2, "30",
+					"토마토, 양상추 등의 야채가 들어가니 주의하세요", 2, "60",
 					LocalTime.of(8, 00), LocalTime.of(20, 00)), seller1).build();
 			reservationItemRepository.save(reservationItem2);
 			// 예약상품 이미지 등록
