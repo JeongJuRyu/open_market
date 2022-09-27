@@ -16,6 +16,7 @@ import javax.persistence.OneToOne;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.tmax.cm.superstore.item.entity.Item;
+import com.tmax.cm.superstore.mypage.entity.CustomerInquiry;
 import com.tmax.cm.superstore.mypage.entity.OrderInquiry;
 
 import lombok.AllArgsConstructor;
@@ -52,5 +53,6 @@ public class OrderItem {
 	@JoinColumn(name = "id")
 	private Item item;
 
-
+	@OneToOne(mappedBy = "orderItem")
+	private CustomerInquiry customerInquiry;
 }

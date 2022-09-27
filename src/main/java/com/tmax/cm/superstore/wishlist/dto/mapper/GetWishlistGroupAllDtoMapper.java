@@ -32,7 +32,7 @@ public interface GetWishlistGroupAllDtoMapper {
         return this.toWishlistGroupDto(wishlistGroup, getTotalItems(wishlistGroup));
     }
 
-    @Mapping(target = "groupId", source = "wishlistGroup.id")
+    @Mapping(target = "wishlistGroupId", source = "wishlistGroup.id")
     @Mapping(target = "wishlistGroupName", source = "wishlistGroup.name")
     @Mapping(target = "wishlistGroupThumbnailURL", ignore = true)
     @Mapping(target = "totalItemCount", source = "count")
