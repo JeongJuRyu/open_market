@@ -313,7 +313,7 @@ public class ReservationService {
 			for (LocalDateTime iterDateTime = currentTime; iterDateTime.isBefore(
 				afterAMonth); iterDateTime = iterDateTime.plusDays(1)) {
 				for (LocalTime iterTime = findReservationItem.getStartTime(); iterTime.isBefore(
-					findReservationItem.getEndTime()); iterTime = iterTime.plusHours(1)) {
+					findReservationItem.getEndTime()); iterTime = iterTime.plusMinutes(Long.parseLong(findReservationItem.getReservationInterval()))) {
 					LocalDateTime checkTime = LocalDateTime.of(iterDateTime.toLocalDate(), iterTime);
 					Optional<List<Reservation>> reservationCheckList = reservationRepository.findAllByReservationItemIdAndReservationTime(
 						findReservationItem, checkTime);
@@ -347,7 +347,7 @@ public class ReservationService {
 			LocalDate selectedReservationDay = LocalDate.parse(reservationDay, formatter);
 			List<LocalTime> possibleReservationTime = new ArrayList<>();
 			for (LocalTime iterTime = findReservationItem.getStartTime(); iterTime.isBefore(
-				findReservationItem.getEndTime()); iterTime = iterTime.plusHours(1)) {
+				findReservationItem.getEndTime()); iterTime = iterTime.plusMinutes(Long.parseLong(findReservationItem.getReservationInterval()))) {
 				LocalDateTime checkTime = LocalDateTime.of(selectedReservationDay, iterTime);
 				Optional<List<Reservation>> reservationCheckList = reservationRepository.findAllByReservationItemIdAndReservationTime(
 					findReservationItem, checkTime);
