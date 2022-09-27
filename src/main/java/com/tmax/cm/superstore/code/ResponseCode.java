@@ -32,10 +32,16 @@ public enum ResponseCode implements Code {
 
 	// Reservation
 	RESERVATION_ITEM_CREATE("SUCCESS", "RESERVATION_ITEM_CREATE", "Create reservationItem", "예약 상품 생성"),
+	RESERVATION_ITEM_MODIFY("SUCCESS", "RESERVATION_ITEM_MODIFY", "Modify reservationItem", "예약 상품 수정"),
+	RESERVATION_ITEM_DELETE("SUCCESS", "RESERVATION_ITEM_DELETE", "Delete reservationItem", "예약 상품 삭제"),
 	RESERVATION_ITEM_LIST_FIND("SUCCESS", "RESERVATION_ITEM_LIST_FIND","Find reservationItemList", "예약 상품 리스트 가져오기"),
 	RESERVATION_ITEM_OPTION_CREATE("SUCCESS", "RESERVATION_ITEM_OPTION_CREATE", "Create reservationItemOption", "예약 상품 옵션 생성"),
+	RESERVATION_ITEM_OPTION_MODIFY("SUCCESS", "RESERVATION_ITEM_OPTION_MODIFY", "Modify reservationItemOption", "예약 상품 옵션 수정"),
+	RESERVATION_ITEM_OPTION_DELETE("SUCCESS", "RESERVATION_ITEM_OPTION_DELETE", "Delete reservationItemOption", "예약 상품 옵션 삭제"),
 	RESERVATION_ITEM_OPTION_LIST_FIND("SUCCESS", "RESERVATION_ITEM_OPTION_LIST_FIND","Find reservationItemOptionList", "예약 상품 옵션 리스트 가져오기"),
 	RESERVATION_ITEM_IMAGE_CREATE("SUCCESS", "RESERVATION_ITEM_IMAGE_CREATE", "Create reservationItemImage", "예약 상품 이미지 등록"),
+	RESERVATION_ITEM_IMAGE_DELETE("SUCCESS", "RESERVATION_ITEM_IMAGE_DELETE", "Delete reservationItemImage", "예약 상품 이미지 삭제"),
+	RESERVATION_ITEM_IMAGE_FIND("SUCCESS", "RESERVATION_ITEM_IMAGE_FIND", "Find reservationItemImage", "예약 상품 이미지 가져오기"),
 	RESERVATION_POSSIBLE_DAYS_FIND("SUCCESS","RESERVATION_POSSIBLE_DAYS_FIND","Find reservationPossibleDays","예약 가능 일자 찾기"),
 	RESERVATION_POSSIBLE_TIMES_FIND("SUCCESS","RESERVATION_POSSIBLE_TIMES_FIND","Find reservationPossibleTimes","예약 가능 시간 찾기"),
 	RESERVATION_MAKE("SUCCESS","RESERVATION_MAKE_SUCCESS","Make reservation","예약 하기"),
@@ -66,8 +72,16 @@ public enum ResponseCode implements Code {
 	// Error - Seller
 	ERROR_SELLER_ALREADY_DELETED("ERROR", "ES000", "SellerId already deleted", "해당 판매자 계정은 이미 삭제되었음"),
 	ERROR_SELLER_NOT_FOUND("ERROR", "ES001", "SellerId not found", "해당 판매자 아이디를 찾을 수 없음"),
+
 	// Error - Reservation
 	ERROR_NO_MORE_RESERVATION("ERROR", "ER000", "Cannot make reservation", "예약이 다 차있음"),
+	ERROR_RESERVATION_ITEM_ALREADY_DELETED("ERROR","ER100","ReservationItemId already deleted", "해당 예약 상품은 이미 삭제되었음"),
+	ERROR_RESERVATION_ITEM_NOT_FOUND("ERROR","ER101","ReservationItemId not found", "해당 예약 상품을 찾을 수 없음"),
+	ERROR_RESERVATION_ITEM_LIST_NOT_FOUND("ERROR","ER102","ReservationItemList not found", "해당 판매자의 예약 상품 리스트를 찾을 수 없음"),
+	ERROR_RESERVATION_ITEM_IMAGE_NOT_FOUND("ERROR","ER103","ReservationItemImageId not found", "해당 예약 상품 이미지를 찾을 수 없음"),
+	ERROR_RESERVATION_ITEM_OPTION_ALREADY_DELETED("ERROR","ER200","ReservationItemOptionId already deleted", "해당 예약 상품 옵션은 이미 삭제되었음"),
+	ERROR_RESERVATION_ITEM_OPTION_NOT_FOUND("ERROR","ER201","ReservationItemOptionId not found", "해당 예약 상품 옵션을 찾을 수 없음"),
+	ERROR_RESERVATION_ITEM_OPTION_LIST_NOT_FOUND("ERROR","ER202","ReservationItemOptionList not found", "해당 상품의 옵션 리스트를 찾을 수 없음"),
 
 	// Error - Cart
 	ERROR_CART_ITEM_NOT_FOUND("ERROR", "EC100", "Cart item not found", "해당 카트 상품이 저장되어 있지 않음"),

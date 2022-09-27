@@ -25,23 +25,27 @@ public class FindReservationItemListDto {
 		public static class ReservationItemList {
 			private UUID reservationItemId;
 			private String reservationItemName;
+			private String reservationItemPrice;
 			private String reservationItemDescription;
 			private String reservationItemNotice;
 			private Integer allowReservationNumberPerInterval;
 			private String reservationInterval;
 			private LocalTime startTime;
 			private LocalTime endTime;
+			private Boolean isDeleted;
 
 			public static ReservationItemListBuilder builder(ReservationItem reservationItem) {
 				return ReservationItemListBuilder()
 					.reservationItemId(reservationItem.getReservationItemId())
 					.reservationItemName(reservationItem.getReservationItemName())
+					.reservationItemPrice(reservationItem.getReservationItemPrice())
 					.reservationItemDescription(reservationItem.getReservationItemDescription())
 					.reservationItemNotice(reservationItem.getReservationItemNotice())
 					.allowReservationNumberPerInterval(reservationItem.getAllowReservationNumberPerInterval())
 					.reservationInterval(reservationItem.getReservationInterval())
 					.startTime(reservationItem.getStartTime())
-					.endTime(reservationItem.getEndTime());
+					.endTime(reservationItem.getEndTime())
+					.isDeleted(reservationItem.isDeleted());
 			}
 		}
 	}

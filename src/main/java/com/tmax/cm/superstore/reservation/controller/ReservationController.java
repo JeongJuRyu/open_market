@@ -22,12 +22,29 @@ public class ReservationController {
 
 	private final ReservationService reservationService;
 
-	@PostMapping("/{sellerId}/item/create")
+	/**
+	 * 예약 상품
+	 */
+	@PostMapping("/{sellerId}/item")
 	public ResponseEntity<ResponseDto<CreateReservationItemDto.Response>> createReservationItem(
 		@PathVariable UUID sellerId,
 		@Valid @RequestBody CreateReservationItemDto.Request createReservationItemRequestDto) throws Exception {
 		return ResponseEntity.ok()
 			.body(reservationService.createReservationItem(sellerId, createReservationItemRequestDto));
+	}
+
+	@PatchMapping("/{reservationItemId}/item")
+	public ResponseEntity<ResponseDto<ModifyReservationItemDto.Response>> modifyReservationItem(
+		@PathVariable UUID reservationItemId,
+		@Valid @RequestBody ModifyReservationItemDto.Request modifyReservationItemRequestDto) throws Exception {
+		return ResponseEntity.ok()
+			.body(reservationService.modifyReservationItem(reservationItemId, modifyReservationItemRequestDto));
+	}
+
+	@DeleteMapping("/{reservationItemId}/item")
+	public ResponseEntity<ResponseDto<DeleteReservationItemDto.Response>> deleteReservationItem(
+		@PathVariable UUID reservationItemId) throws Exception {
+		return ResponseEntity.ok().body(reservationService.deleteReservationItem(reservationItemId));
 	}
 
 	@GetMapping("/{sellerId}/item")
@@ -36,7 +53,10 @@ public class ReservationController {
 		return ResponseEntity.ok().body(reservationService.findReservationItemList(sellerId));
 	}
 
-	@PostMapping("/{reservationItemId}/item/image/create")
+	/**
+	 * 예약 상품 이미지
+	 */
+	@PostMapping("/{reservationItemId}/item/image")
 	public ResponseEntity<ResponseDto<CreateReservationItemImageDto.Response>> createReservationItemImage(
 		@PathVariable UUID reservationItemId,
 		@Valid @RequestBody CreateReservationItemImageDto.Request createReservationItemImageRequestDto)
@@ -45,7 +65,23 @@ public class ReservationController {
 			reservationService.createReservationItemImage(reservationItemId, createReservationItemImageRequestDto));
 	}
 
-	@PostMapping("/{reservationItemId}/item/option/create")
+	@DeleteMapping("/{reservationItemId}/item/image")
+	public ResponseEntity<ResponseDto<DeleteReservationItemImageDto.Response>> deleteReservationItemImage(
+		@PathVariable UUID reservationItemId) throws Exception {
+		return ResponseEntity.ok()
+			.body(reservationService.deleteReservationItemImage(reservationItemId));
+	}
+
+	@GetMapping("/{reservationItemId}/item/image")
+	public ResponseEntity<ResponseDto<FindReservationItemImageDto.Response>> findReservationItemImage(
+		@PathVariable UUID reservationItemId) throws Exception {
+		return ResponseEntity.ok().body(reservationService.findReservationItemImage(reservationItemId));
+	}
+
+	/**
+	 * 예약 상품 옵션
+	 */
+	@PostMapping("/{reservationItemId}/item/option")
 	public ResponseEntity<ResponseDto<CreateReservationItemOptionDto.Response>> createReservationItemOption(
 		@PathVariable UUID reservationItemId,
 		@Valid @RequestBody CreateReservationItemOptionDto.Request createReservationItemOptionRequestDto)
@@ -54,12 +90,31 @@ public class ReservationController {
 			reservationService.createReservationItemOption(reservationItemId, createReservationItemOptionRequestDto));
 	}
 
+	@PatchMapping("/{reservationItemOptionId}/item/option")
+	public ResponseEntity<ResponseDto<ModifyReservationItemOptionDto.Response>> modifyReservationItemOption(
+		@PathVariable UUID reservationItemOptionId,
+		@Valid @RequestBody ModifyReservationItemOptionDto.Request modifyReservationItemOptionRequestDto)
+		throws Exception {
+		return ResponseEntity.ok()
+			.body(reservationService.modifyReservationItemOption(reservationItemOptionId,
+				modifyReservationItemOptionRequestDto));
+	}
+
+	@DeleteMapping("/{reservationItemOptionId}/item/option")
+	public ResponseEntity<ResponseDto<DeleteReservationItemOptionDto.Response>> deleteReservationItemOption(
+		@PathVariable UUID reservationItemOptionId) throws Exception {
+		return ResponseEntity.ok().body(reservationService.deleteReservationItemOption(reservationItemOptionId));
+	}
+
 	@GetMapping("/{reservationItemId}/option")
 	public ResponseEntity<ResponseDto<FindReservationItemOptionListDto.Response>> findReservationItemOptionList(
 		@PathVariable UUID reservationItemId) throws Exception {
 		return ResponseEntity.ok().body(reservationService.findReservationItemOptionList(reservationItemId));
 	}
 
+	/**
+	 * 예약
+	 */
 	@GetMapping("/{reservationItemId}/possible/day")
 	public ResponseEntity<ResponseDto<FindPossibleReservationByDay.Response>> findPossibleReservationByDay(
 		@PathVariable UUID reservationItemId) throws Exception {
@@ -80,8 +135,9 @@ public class ReservationController {
 		return ResponseEntity.ok().body(reservationService.makeReservation(makeReservationRequestDto));
 	}
 
-	// TODO API 명세 변경 및 자세한 구현하기
-
+	/**
+	 * 장바구니 구현을 위한 임시 예약
+	 */
 	@GetMapping("/year/{year}/month/{month}")
 	public ResponseDto<GetReservableDatesDto.Response> GetReservableDates(@PathVariable Integer year,
 		@PathVariable Integer month) {

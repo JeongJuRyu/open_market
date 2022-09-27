@@ -9,5 +9,6 @@ import java.util.UUID;
 
 public interface ReservationItemOptionRepository extends JpaRepository<ReservationItemOption, UUID> {
 	ReservationItemOption findReservationItemOptionByOptionId(UUID optionId);
-	List<ReservationItemOption> findAllByReservationItemId(ReservationItem reservationItemId);
+
+	List<ReservationItemOption> findAllByReservationItemIdAndIsDeletedFalse(ReservationItem reservationItemId);
 }
