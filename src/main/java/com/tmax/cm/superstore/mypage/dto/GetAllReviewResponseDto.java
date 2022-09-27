@@ -10,10 +10,10 @@ import java.util.UUID;
 @Getter
 @Builder
 public class GetAllReviewResponseDto {
-    private List<ReviewDto> reviews;
+    private List<Review> reviews;
     @Getter
     @Builder
-    public static class ReviewDto{
+    public static class Review{
         private UUID id;
 
         private String title;
