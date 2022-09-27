@@ -14,6 +14,7 @@ public class PostReviewRequestDto {
     private UUID itemId;
     private String title;
     private String content;
+    private Float starRating;
     private List<ReviewImage> reviewImages;
 
     @Getter
