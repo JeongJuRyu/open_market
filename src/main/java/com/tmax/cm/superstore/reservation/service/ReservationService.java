@@ -105,6 +105,23 @@ public class ReservationService {
 	}
 
 	@Transactional(rollbackFor = Exception.class, readOnly = true)
+	public ResponseDto<FindReservationItemDto.Response> findReservationItem(UUID reservationItemId) throws Exception {
+		try {
+			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
+				reservationItemId);
+			findReservationItemValidation(findReservationItem);
+
+			return ResponseDto.<FindReservationItemDto.Response>builder()
+				.responseCode(ResponseCode.RESERVATION_ITEM_LIST_FIND)
+				.data(FindReservationItemDto.Response.builder(findReservationItem).build())
+				.build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Transactional(rollbackFor = Exception.class, readOnly = true)
 	public ResponseDto<FindReservationItemListDto.Response> findReservationItemList(UUID sellerId) throws Exception {
 		try {
 			Seller findSeller = sellerRepository.findSellerBySellerId(sellerId);
@@ -313,7 +330,8 @@ public class ReservationService {
 			for (LocalDateTime iterDateTime = currentTime; iterDateTime.isBefore(
 				afterAMonth); iterDateTime = iterDateTime.plusDays(1)) {
 				for (LocalTime iterTime = findReservationItem.getStartTime(); iterTime.isBefore(
-					findReservationItem.getEndTime()); iterTime = iterTime.plusMinutes(Long.parseLong(findReservationItem.getReservationInterval()))) {
+					findReservationItem.getEndTime()); iterTime = iterTime.plusMinutes(
+					Long.parseLong(findReservationItem.getReservationInterval()))) {
 					LocalDateTime checkTime = LocalDateTime.of(iterDateTime.toLocalDate(), iterTime);
 					Optional<List<Reservation>> reservationCheckList = reservationRepository.findAllByReservationItemIdAndReservationTime(
 						findReservationItem, checkTime);
@@ -347,7 +365,8 @@ public class ReservationService {
 			LocalDate selectedReservationDay = LocalDate.parse(reservationDay, formatter);
 			List<LocalTime> possibleReservationTime = new ArrayList<>();
 			for (LocalTime iterTime = findReservationItem.getStartTime(); iterTime.isBefore(
-				findReservationItem.getEndTime()); iterTime = iterTime.plusMinutes(Long.parseLong(findReservationItem.getReservationInterval()))) {
+				findReservationItem.getEndTime()); iterTime = iterTime.plusMinutes(
+				Long.parseLong(findReservationItem.getReservationInterval()))) {
 				LocalDateTime checkTime = LocalDateTime.of(selectedReservationDay, iterTime);
 				Optional<List<Reservation>> reservationCheckList = reservationRepository.findAllByReservationItemIdAndReservationTime(
 					findReservationItem, checkTime);
