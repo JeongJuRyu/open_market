@@ -7,7 +7,7 @@ import com.tmax.cm.superstore.reservation.entity.Reservation;
 import com.tmax.cm.superstore.reservation.entity.ReservationItem;
 import com.tmax.cm.superstore.reservation.entity.ReservationItemImage;
 import com.tmax.cm.superstore.reservation.entity.ReservationItemOption;
-import com.tmax.cm.superstore.reservation.error.exception.NoMoreReservationException;
+import com.tmax.cm.superstore.reservation.error.exception.*;
 import com.tmax.cm.superstore.reservation.repository.ReservationItemImageRepository;
 import com.tmax.cm.superstore.reservation.repository.ReservationItemOptionRepository;
 import com.tmax.cm.superstore.reservation.repository.ReservationItemRepository;
@@ -70,6 +70,7 @@ public class ReservationService {
 		try {
 			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
 				reservationItemId);
+			findReservationItemValidation(findReservationItem);
 			findReservationItem.modifyReservationItem(modifyReservationItemRequestDto);
 			reservationItemRepository.save(findReservationItem);
 
@@ -89,6 +90,7 @@ public class ReservationService {
 		try {
 			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
 				reservationItemId);
+			findReservationItemValidation(findReservationItem);
 			findReservationItem.deleteReservationItem();
 			reservationItemRepository.save(findReservationItem);
 
@@ -110,6 +112,7 @@ public class ReservationService {
 
 			List<ReservationItem> findReservationItemList = reservationItemRepository.findAllBySellerIdAndIsDeletedFalse(
 				findSeller);
+			findReservationItemValidation(findReservationItemList);
 			List<FindReservationItemListDto.Response.ReservationItemList> reservationItemList = new ArrayList<>();
 			for (ReservationItem reservationItem : findReservationItemList) {
 				reservationItemList.add(
@@ -160,8 +163,10 @@ public class ReservationService {
 		try {
 			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
 				reservationItemId);
+			findReservationItemValidation(findReservationItem);
 			ReservationItemImage findReservationItemImage = reservationItemImageRepository.findReservationItemImageByReservationItemId(
 				findReservationItem);
+			findReservationItemImageValidation(findReservationItemImage);
 
 			DeleteReservationItemImageDto.Response response = DeleteReservationItemImageDto.Response.builder(
 				findReservationItemImage).build();
@@ -182,8 +187,10 @@ public class ReservationService {
 		try {
 			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
 				reservationItemId);
+			findReservationItemValidation(findReservationItem);
 			ReservationItemImage findReservationItemImage = reservationItemImageRepository.findReservationItemImageByReservationItemId(
 				findReservationItem);
+			findReservationItemImageValidation(findReservationItemImage);
 
 			return ResponseDto.<FindReservationItemImageDto.Response>builder()
 				.responseCode(ResponseCode.RESERVATION_ITEM_IMAGE_FIND)
@@ -204,6 +211,7 @@ public class ReservationService {
 		try {
 			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
 				reservationItemId);
+			findReservationItemValidation(findReservationItem);
 
 			ReservationItemOption newReservationItemOption = ReservationItemOption.builder(
 				createReservationItemOptionRequestDto, findReservationItem).build();
@@ -227,6 +235,7 @@ public class ReservationService {
 		try {
 			ReservationItemOption findReservationItemOption = reservationItemOptionRepository.findReservationItemOptionByOptionId(
 				reservationItemOptionId);
+			findReservationItemOptionValidation(findReservationItemOption);
 			findReservationItemOption.modifyReservationItemOption(modifyReservationItemOptionRequestDto);
 			reservationItemOptionRepository.save(findReservationItemOption);
 
@@ -246,6 +255,7 @@ public class ReservationService {
 		try {
 			ReservationItemOption findReservationItemOption = reservationItemOptionRepository.findReservationItemOptionByOptionId(
 				reservationItemOptionId);
+			findReservationItemOptionValidation(findReservationItemOption);
 			findReservationItemOption.deleteReservationItemOption();
 			reservationItemOptionRepository.save(findReservationItemOption);
 
@@ -265,8 +275,10 @@ public class ReservationService {
 		try {
 			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
 				reservationItemId);
+			findReservationItemValidation(findReservationItem);
 			List<ReservationItemOption> findReservationItemOptionList = reservationItemOptionRepository.findAllByReservationItemIdAndIsDeletedFalse(
 				findReservationItem);
+			findReservationItemOptionValidation(findReservationItemOptionList);
 			List<FindReservationItemOptionListDto.Response.ReservationItemOptionList> reservationItemOptionList = new ArrayList<>();
 			for (ReservationItemOption reservationItemOption : findReservationItemOptionList) {
 				reservationItemOptionList.add(
@@ -294,6 +306,7 @@ public class ReservationService {
 		try {
 			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
 				reservationItemId);
+			findReservationItemValidation(findReservationItem);
 			List<LocalDate> possibleReservationDate = new ArrayList<>();
 			LocalDateTime currentTime = LocalDateTime.now();
 			LocalDateTime afterAMonth = currentTime.plusDays(30);
@@ -329,6 +342,7 @@ public class ReservationService {
 		try {
 			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
 				reservationItemId);
+			findReservationItemValidation(findReservationItem);
 			DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
 			LocalDate selectedReservationDay = LocalDate.parse(reservationDay, formatter);
 			List<LocalTime> possibleReservationTime = new ArrayList<>();
@@ -358,15 +372,17 @@ public class ReservationService {
 		try {
 			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
 				makeReservationRequestDto.getReservationItemId());
+			findReservationItemValidation(findReservationItem);
 			Optional<List<Reservation>> currentReservationList = reservationRepository.findAllByReservationItemIdAndReservationTime(
 				findReservationItem, makeReservationRequestDto.getReservationTime());
 			if (currentReservationList.get().size() >= findReservationItem.getAllowReservationNumberPerInterval()) {
 				throw new NoMoreReservationException();
 			}
-			//find 예외처리 필요
 			ReservationItemOption findReservationItemOption = reservationItemOptionRepository.findReservationItemOptionByOptionId(
 				makeReservationRequestDto.getReservationItemOptionId());
+			findReservationItemOptionValidation(findReservationItemOption);
 			Seller findSeller = sellerRepository.findSellerBySellerId(findReservationItem.getSellerId().getSellerId());
+			findSellerValidation(findSeller);
 			Reservation newReservation = Reservation.builder(makeReservationRequestDto, findReservationItem,
 				findReservationItemOption, findSeller).build();
 			reservationRepository.save(newReservation);
@@ -389,6 +405,40 @@ public class ReservationService {
 			throw new SellerNotFoundException();
 		} else if (seller.isDeleted()) {
 			throw new SellerAlreadyDeletedException();
+		}
+	}
+
+	private void findReservationItemValidation(ReservationItem reservationItem) {
+		if (reservationItem == null) {
+			throw new ReservationItemNotFoundException();
+		} else if (reservationItem.isDeleted()) {
+			throw new ReservationItemAlreadyDeletedException();
+		}
+	}
+
+	private void findReservationItemValidation(List<ReservationItem> reservationItemList) {
+		if (reservationItemList.isEmpty()) {
+			throw new ReservationItemListNotFoundException();
+		}
+	}
+
+	private void findReservationItemImageValidation(ReservationItemImage reservationItemImage) {
+		if (reservationItemImage == null) {
+			throw new ReservationItemImageNotFoundException();
+		}
+	}
+
+	private void findReservationItemOptionValidation(ReservationItemOption reservationItemOption) {
+		if (reservationItemOption == null) {
+			throw new ReservationItemOptionNotFoundException();
+		} else if (reservationItemOption.isDeleted()) {
+			throw new ReservationItemOptionAlreadyDeletedException();
+		}
+	}
+
+	private void findReservationItemOptionValidation(List<ReservationItemOption> reservationItemOptionsList) {
+		if (reservationItemOptionsList.isEmpty()) {
+			throw new ReservationItemOptionListNotFoundException();
 		}
 	}
 }

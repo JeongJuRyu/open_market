@@ -24,7 +24,7 @@ public class SellerController {
 	}
 
 	@GetMapping("/list")
-	public ResponseEntity<ResponseDto<FindSellerListDto.Response>> findSellerList() throws Exception{
+	public ResponseEntity<ResponseDto<FindSellerListDto.Response>> findSellerList() throws Exception {
 		return ResponseEntity.ok().body(sellerService.findSellerList());
 	}
 }
