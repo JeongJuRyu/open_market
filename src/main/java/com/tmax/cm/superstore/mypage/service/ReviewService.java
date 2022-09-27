@@ -39,23 +39,22 @@ public class ReviewService {
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<Review> reviews = reviewRepository.findAllByUserId(user.getId());
 		return GetAllReviewResponseDto.builder()
-				.reviews(reviewMapper.toReviewDto(reviews)).build();
+				.reviews(reviewMapper.toReviewsDto(reviews)).build();
 	}
 
 	@Transactional(readOnly = true)
 	public GetAllReviewResponseDto getAllReview(UUID itemId){
 		List<Review> reviews = reviewRepository.findAllByItemId(itemId);
-
 		return GetAllReviewResponseDto.builder()
-				.reviews(reviewMapper.toReviewDto(reviews)).build();
+				.reviews(reviewMapper.toReviewsDto(reviews)).build();
 	}
 
 	@Transactional(readOnly = true)
 	public GetAllReviewForSellerResponseDto getAllReviewForSeller(Long filterDay){
 		Seller seller = (Seller) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<Review> reviews = reviewRepository.findAllBySellerId(seller.getSellerId(), LocalDateTime.now().minusDays(filterDay));
-		return GetAllReviewForSellerResponseDto.builder().build();
-
+		return GetAllReviewForSellerResponseDto.builder()
+			.reviews(reviewMapper.toReviewsForSellerDto(reviews)).build();
 	}
 
 	@Transactional(readOnly = true)
