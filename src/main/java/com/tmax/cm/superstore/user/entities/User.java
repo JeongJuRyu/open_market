@@ -62,11 +62,18 @@ public class User implements UserDetails {
 	@Column(nullable = false)
 	private String address;
 
+	// @Column(nullable = false)
+	private String userName;
+
+	// @Column(nullable = false)
+	private String nickName;
+
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "EMAIL_TOKEN_ID")
 	private EmailToken emailToken;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@Builder.Default
 	private List<DeliveryAddress> deliveryAddresses = new ArrayList<>();
 
 	@ManyToMany

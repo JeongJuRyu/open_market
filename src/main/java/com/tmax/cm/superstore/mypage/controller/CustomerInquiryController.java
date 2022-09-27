@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tmax.cm.superstore.mypage.dto.GetAllCustomerInquiryForSellerRequestDto;
+import com.tmax.cm.superstore.mypage.dto.GetAllCustomerInquiryForSellerResponseDto;
 import com.tmax.cm.superstore.mypage.dto.PostCustomerInquiryRequestDto;
 import com.tmax.cm.superstore.mypage.dto.GetAlICustomerInquiryResponseDto;
 import com.tmax.cm.superstore.mypage.dto.GetCustomerInquiryResponseDto;
@@ -41,5 +43,10 @@ public class CustomerInquiryController {
 		return ResponseEntity.ok().body(customerInquiryService.getCustomerInquiry(id));
 	}
 
+	@GetMapping("/seller")
+	public ResponseEntity<GetAllCustomerInquiryForSellerResponseDto> getAllInquiryForSeller(
+		GetAllCustomerInquiryForSellerRequestDto getAllCustomerInquiryForSellerRequestDto){
+		return ResponseEntity.ok().body(customerInquiryService.getAllInquiryForSeller(getAllCustomerInquiryForSellerRequestDto));
+	}
 
 }
