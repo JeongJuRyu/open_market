@@ -52,6 +52,7 @@ public class Item extends BaseTimeEntity {
     private Category category;
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @Builder.Default
     private List<Review> reviews =new ArrayList<>();
 
     @JsonManagedReference
