@@ -17,14 +17,14 @@ public class SellerController {
 
 	private final SellerService sellerService;
 
-	@PostMapping("/create")
+	@PostMapping
 	public ResponseEntity<ResponseDto<CreateSellerDto.Response>> createSeller(
 		@Valid @RequestBody CreateSellerDto.Request createSellerRequestDto) throws Exception {
 		return ResponseEntity.ok().body(sellerService.createSeller(createSellerRequestDto));
 	}
 
 	@GetMapping("/list")
-	public ResponseEntity<ResponseDto<FindSellerListDto.Response>> findSellerList() throws Exception{
+	public ResponseEntity<ResponseDto<FindSellerListDto.Response>> findSellerList() throws Exception {
 		return ResponseEntity.ok().body(sellerService.findSellerList());
 	}
 }

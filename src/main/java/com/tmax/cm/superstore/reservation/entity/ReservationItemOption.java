@@ -1,6 +1,7 @@
 package com.tmax.cm.superstore.reservation.entity;
 
 import com.tmax.cm.superstore.reservation.dto.CreateReservationItemOptionDto;
+import com.tmax.cm.superstore.reservation.dto.ModifyReservationItemOptionDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,6 +36,9 @@ public class ReservationItemOption {
 	@Column
 	private String optionDescription;
 
+	@Column(nullable = false)
+	private boolean isDeleted;
+
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "reservationItemId")
@@ -47,5 +51,16 @@ public class ReservationItemOption {
 			.optionPrice(createReservationItemOptionRequestDto.getOptionPrice())
 			.optionDescription(createReservationItemOptionRequestDto.getOptionDescription())
 			.reservationItemId(reservationItem);
+	}
+
+	public void modifyReservationItemOption(
+		ModifyReservationItemOptionDto.Request modifyReservationItemOptionRequestDto) {
+		this.optionName = modifyReservationItemOptionRequestDto.getOptionName();
+		this.optionPrice = modifyReservationItemOptionRequestDto.getOptionPrice();
+		this.optionDescription = modifyReservationItemOptionRequestDto.getOptionDescription();
+	}
+
+	public void deleteReservationItemOption() {
+		this.isDeleted = true;
 	}
 }

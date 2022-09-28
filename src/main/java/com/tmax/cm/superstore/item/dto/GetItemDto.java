@@ -37,9 +37,15 @@ public class GetItemDto {
         @JsonProperty("optionalOptionGroups")
         private List<GetOptionGroupDto> optionalOptionGroups;
 
-        private List<ItemImageInfo> itemImages;
+        private List<GetItemImageDto> itemImages;
 
         private List<GetOptionGroupDto> optionGroups;
+
+        @Builder
+        @Getter
+        public static class GetItemImageDto {
+            private String fileId;
+        }
 
         @Builder
         @Getter

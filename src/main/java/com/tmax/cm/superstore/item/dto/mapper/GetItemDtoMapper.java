@@ -5,16 +5,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.tmax.cm.superstore.item.dto.ItemImageInfo;
+import com.tmax.cm.superstore.item.entity.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import com.tmax.cm.superstore.code.SendType;
 import com.tmax.cm.superstore.config.CommonMapperConfig;
 import com.tmax.cm.superstore.item.dto.GetItemDto;
-import com.tmax.cm.superstore.item.entity.Item;
-import com.tmax.cm.superstore.item.entity.ItemSendType;
-import com.tmax.cm.superstore.item.entity.Option;
-import com.tmax.cm.superstore.item.entity.OptionGroup;
 
 @Mapper(config = CommonMapperConfig.class)
 public interface GetItemDtoMapper {
@@ -22,7 +20,7 @@ public interface GetItemDtoMapper {
     default GetItemDto.Response toResponse(Item item) {
         List<GetItemDto.Response.GetOptionGroupDto> necessaryOptionGroups = new ArrayList<>();
         List<GetItemDto.Response.GetOptionGroupDto> optionalOptionGroups = new ArrayList<>();
-
+        List<GetItemDto.Response.GetItemImageDto> itemImageInfos = new ArrayList<>();
         for (OptionGroup optionGroup : item.getOptionGroups()) {
             if (optionGroup.getIsNecessary()) {
                 necessaryOptionGroups.add(this.toGetOptionDto(optionGroup));
@@ -30,8 +28,11 @@ public interface GetItemDtoMapper {
                 optionalOptionGroups.add(this.toGetOptionDto(optionGroup));
             }
         }
+        for (ItemImage itemImage : item.getItemImages()){
+            itemImageInfos.add(this.toGetImageDto(itemImage));
+        }
 
-        return this.toResponse(item, necessaryOptionGroups, optionalOptionGroups);
+        return this.toResponse(item, necessaryOptionGroups, optionalOptionGroups, itemImageInfos);
     }
 
     @Mapping(target = "shopId", source = "item.shop.id")
@@ -42,7 +43,7 @@ public interface GetItemDtoMapper {
     @Mapping(target = "possibleSendType", source = "item.itemSendTypes")
     @Mapping(target = "categoryId", source = "item.category.id")
     GetItemDto.Response toResponse(Item item, List<GetItemDto.Response.GetOptionGroupDto> necessaryOptionGroups,
-            List<GetItemDto.Response.GetOptionGroupDto> optionalOptionGroups);
+            List<GetItemDto.Response.GetOptionGroupDto> optionalOptionGroups, List<GetItemDto.Response.GetItemImageDto> itemImageInfos);
 
     default Set<SendType> toSendTypes(List<ItemSendType> itemSendTypes) {
         Set<SendType> sendTypes = new HashSet<>();
@@ -63,4 +64,7 @@ public interface GetItemDtoMapper {
     @Mapping(target = "optionPrice", source = "price")
     @Mapping(target = "optionDescription", source = "description")
     GetItemDto.Response.GetOptionGroupDto.GetOptionDto toGetOptionDto(Option option);
+
+    @Mapping(target = "fileId", source = "fileId")
+    GetItemDto.Response.GetItemImageDto toGetImageDto(ItemImage itemImage);
 }

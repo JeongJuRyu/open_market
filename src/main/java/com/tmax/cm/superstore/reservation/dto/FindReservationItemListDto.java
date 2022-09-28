@@ -25,6 +25,7 @@ public class FindReservationItemListDto {
 		public static class ReservationItemList {
 			private UUID reservationItemId;
 			private String reservationItemName;
+			private String reservationItemPrice;
 			private String reservationItemDescription;
 			private String reservationItemNotice;
 			private Integer allowReservationNumberPerInterval;
@@ -36,6 +37,7 @@ public class FindReservationItemListDto {
 				return ReservationItemListBuilder()
 					.reservationItemId(reservationItem.getReservationItemId())
 					.reservationItemName(reservationItem.getReservationItemName())
+					.reservationItemPrice(reservationItem.getReservationItemPrice())
 					.reservationItemDescription(reservationItem.getReservationItemDescription())
 					.reservationItemNotice(reservationItem.getReservationItemNotice())
 					.allowReservationNumberPerInterval(reservationItem.getAllowReservationNumberPerInterval())
