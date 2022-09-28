@@ -2,6 +2,8 @@ package com.tmax.cm.superstore.mypage.controller;
 
 import java.util.UUID;
 
+import javax.validation.Valid;
+
 import com.tmax.cm.superstore.mypage.dto.GetAllReviewForSellerResponseDto;
 import com.tmax.cm.superstore.mypage.dto.PostReviewRequestDto;
 import com.tmax.cm.superstore.mypage.dto.GetAllReviewResponseDto;
@@ -20,14 +22,21 @@ import lombok.RequiredArgsConstructor;
 public class ReviewController {
 	private final ReviewService reviewService;
 
-	/*@GetMapping
+	@GetMapping
 	public ResponseEntity<GetAllReviewResponseDto> getAllReview(){
 		return ResponseEntity.ok().body(reviewService.getAllReview());
-	}*/
+	}
+
+	@GetMapping("/{reviewId}")
+	public ResponseEntity<GetReviewResponseDto> getReview(
+		@PathVariable UUID reviewId){
+		return ResponseEntity.ok().body(reviewService.getReview(reviewId));
+	}
 
 	@PostMapping
 	public ResponseEntity<UUID> createReview(
-		@RequestBody PostReviewRequestDto postReviewRequestDto) {
+		@RequestBody @Valid PostReviewRequestDto postReviewRequestDto) {
+		System.out.println(postReviewRequestDto.getReviewImages());
 		return ResponseEntity.ok().body(reviewService.postReview(postReviewRequestDto));
 	}
 	@PatchMapping
@@ -40,11 +49,6 @@ public class ReviewController {
 	public void deleteReview(
 		@PathVariable UUID reviewId){
 		reviewService.deleteReview(reviewId);
-	}
-	@GetMapping("{reviewId}")
-	public ResponseEntity<GetReviewResponseDto> getReview(
-		@PathVariable UUID reviewId){
-		return ResponseEntity.ok().body(reviewService.getReview(reviewId));
 	}
 	@GetMapping("/getAll")
 	public ResponseEntity<GetAllReviewResponseDto> getAllReviewByItemId(@RequestParam UUID itemId){
