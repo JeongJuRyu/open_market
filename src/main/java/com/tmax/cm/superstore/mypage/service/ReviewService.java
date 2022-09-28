@@ -37,8 +37,9 @@ public class ReviewService {
 
 	@Transactional(readOnly = true)
 	public GetAllReviewResponseDto getAllReview(){
-		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		List<Review> reviews = reviewRepository.findAllByUserId(user.getId());
+		// User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		//List<Review> review = reviewRepository.findByUser(user);
+		List<Review> reviews = reviewRepository.findByUserId(UUID.fromString("672ffb8c-f952-49ec-b65b-4fe3a9c37b28"));
 		return GetAllReviewResponseDto.builder()
 				.reviews(reviewMapper.toReviewsDto(reviews)).build();
 	}
