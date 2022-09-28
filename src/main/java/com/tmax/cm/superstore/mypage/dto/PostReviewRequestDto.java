@@ -8,13 +8,21 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 import java.util.UUID;
 
+import javax.validation.constraints.NotNull;
+
 @Getter
 @Builder
 public class PostReviewRequestDto {
-    private UUID itemId;
+    @NotNull
     private String title;
     private String content;
+    @NotNull
     private Float starRating;
+    @NotNull
+    private UUID itemId;
+    @NotNull
+    private UUID userId;
+    private UUID sellerId;
     private List<ReviewImage> reviewImages;
 
     @Getter
