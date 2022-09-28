@@ -17,7 +17,7 @@ public class PostReviewRequestDto {
     private String title;
     private String content;
     @NotNull
-    private Float star_rating;
+    private Float starRating;
     @NotNull
     private UUID itemId;
     @NotNull
