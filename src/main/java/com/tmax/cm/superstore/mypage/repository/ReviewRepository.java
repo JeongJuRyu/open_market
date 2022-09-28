@@ -17,7 +17,7 @@ public interface ReviewRepository extends JpaRepository<Review, UUID> {
     @Query("select r from Review r where r.user.id =:userId")
     List<Review> findByUserId(UUID userId);
 
-    List<Review> findByUser(User user);
+    // List<Review> findByUser(User user);
 
     List<Review> findAllByItemId(UUID itemId);
 
