@@ -1,4 +1,4 @@
-package com.tmax.cm.superstore.user.entities;
+/*package com.tmax.cm.superstore.user.entities;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -33,3 +33,4 @@ public class EmailToken extends BaseTimeEntity {
 	private LocalDateTime expirationTime;
 
 }
+*/
