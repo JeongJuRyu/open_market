@@ -51,6 +51,7 @@ public class Item extends BaseTimeEntity {
     @JoinColumn(foreignKey = @ForeignKey(name = "FK_item_category_id"), name = "categoryId", nullable = false)
     private Category category;
 
+    @Builder.Default
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Review> reviews =new ArrayList<>();
 
@@ -78,4 +79,10 @@ public class Item extends BaseTimeEntity {
             throw new ItemSendTypeImpossibleException();
         }
     }
+
+    public void addItemImage(ItemImage itemImage) {
+        this.itemImages.add(itemImage);
+        itemImage.setItem(this);
+    }
+
 }

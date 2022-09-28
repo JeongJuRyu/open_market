@@ -2,12 +2,12 @@ package com.tmax.cm.superstore.reservation.service;
 
 import com.tmax.cm.superstore.code.ResponseCode;
 import com.tmax.cm.superstore.common.ResponseDto;
-import com.tmax.cm.superstore.reservation.error.exception.NoMoreReservationException;
 import com.tmax.cm.superstore.reservation.dto.*;
 import com.tmax.cm.superstore.reservation.entity.Reservation;
 import com.tmax.cm.superstore.reservation.entity.ReservationItem;
 import com.tmax.cm.superstore.reservation.entity.ReservationItemImage;
 import com.tmax.cm.superstore.reservation.entity.ReservationItemOption;
+import com.tmax.cm.superstore.reservation.error.exception.*;
 import com.tmax.cm.superstore.reservation.repository.ReservationItemImageRepository;
 import com.tmax.cm.superstore.reservation.repository.ReservationItemOptionRepository;
 import com.tmax.cm.superstore.reservation.repository.ReservationItemRepository;
@@ -39,6 +39,9 @@ public class ReservationService {
 	private final ReservationRepository reservationRepository;
 	private final SellerRepository sellerRepository;
 
+	/**
+	 * 예약 상품
+	 */
 	@Transactional(rollbackFor = Exception.class)
 	public ResponseDto<CreateReservationItemDto.Response> createReservationItem(UUID sellerId,
 		CreateReservationItemDto.Request createReservationItemRequestDto) throws Exception {
@@ -61,35 +64,102 @@ public class ReservationService {
 		}
 	}
 
-	@Transactional(rollbackFor = Exception.class, readOnly = true)
-	public ResponseDto<FindReservationItemListDto.Response> findReservationItemList(UUID sellerId) throws Exception{
-		try{
-			Seller findSeller = sellerRepository.findSellerBySellerId(sellerId);
-			findSellerValidation(findSeller);
+	@Transactional(rollbackFor = Exception.class)
+	public ResponseDto<ModifyReservationItemDto.Response> modifyReservationItem(UUID reservationItemId,
+		ModifyReservationItemDto.Request modifyReservationItemRequestDto) throws Exception {
+		try {
+			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
+				reservationItemId);
+			findReservationItemValidation(findReservationItem);
+			findReservationItem.modifyReservationItem(modifyReservationItemRequestDto);
+			reservationItemRepository.save(findReservationItem);
 
-			List<ReservationItem> findReservationItemList = reservationItemRepository.findAllBySellerId(findSeller);
-			List<FindReservationItemListDto.Response.ReservationItemList> reservationItemList = new ArrayList<>();
-			for(ReservationItem reservationItem : findReservationItemList){
-				reservationItemList.add(FindReservationItemListDto.Response.ReservationItemList.builder(reservationItem).build());
-			}
-
-			return ResponseDto.<FindReservationItemListDto.Response>builder()
-				.responseCode(ResponseCode.RESERVATION_ITEM_LIST_FIND)
-				.data(FindReservationItemListDto.Response.builder(reservationItemList).build())
+			return ResponseDto.<ModifyReservationItemDto.Response>builder()
+				.responseCode(ResponseCode.RESERVATION_ITEM_MODIFY)
+				.data(ModifyReservationItemDto.Response.builder(findReservationItem).build())
 				.build();
-		}catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
 	}
 
 	@Transactional(rollbackFor = Exception.class)
+	public ResponseDto<DeleteReservationItemDto.Response> deleteReservationItem(UUID reservationItemId)
+		throws Exception {
+		try {
+			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
+				reservationItemId);
+			findReservationItemValidation(findReservationItem);
+			findReservationItem.deleteReservationItem();
+			reservationItemRepository.save(findReservationItem);
+
+			return ResponseDto.<DeleteReservationItemDto.Response>builder()
+				.responseCode(ResponseCode.RESERVATION_ITEM_DELETE)
+				.data(DeleteReservationItemDto.Response.builder(findReservationItem).build())
+				.build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Transactional(rollbackFor = Exception.class, readOnly = true)
+	public ResponseDto<FindReservationItemDto.Response> findReservationItem(UUID reservationItemId) throws Exception {
+		try {
+			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
+				reservationItemId);
+			findReservationItemValidation(findReservationItem);
+
+			return ResponseDto.<FindReservationItemDto.Response>builder()
+				.responseCode(ResponseCode.RESERVATION_ITEM_LIST_FIND)
+				.data(FindReservationItemDto.Response.builder(findReservationItem).build())
+				.build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Transactional(rollbackFor = Exception.class, readOnly = true)
+	public ResponseDto<FindReservationItemListDto.Response> findReservationItemList(UUID sellerId) throws Exception {
+		try {
+			Seller findSeller = sellerRepository.findSellerBySellerId(sellerId);
+			findSellerValidation(findSeller);
+
+			List<ReservationItem> findReservationItemList = reservationItemRepository.findAllBySellerIdAndIsDeletedFalse(
+				findSeller);
+			findReservationItemValidation(findReservationItemList);
+			List<FindReservationItemListDto.Response.ReservationItemList> reservationItemList = new ArrayList<>();
+			for (ReservationItem reservationItem : findReservationItemList) {
+				reservationItemList.add(
+					FindReservationItemListDto.Response.ReservationItemList.builder(reservationItem).build());
+			}
+
+			return ResponseDto.<FindReservationItemListDto.Response>builder()
+				.responseCode(ResponseCode.RESERVATION_ITEM_LIST_FIND)
+				.data(FindReservationItemListDto.Response.builder(reservationItemList).build())
+				.build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	/**
+	 * 예약 상품 이미지
+	 */
+	@Transactional(rollbackFor = Exception.class)
 	public ResponseDto<CreateReservationItemImageDto.Response> createReservationItemImage(UUID reservationItemId,
 		CreateReservationItemImageDto.Request createReservationItemImageRequestDto) throws Exception {
 		try {
 			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
 				reservationItemId);
-
+			if (reservationItemImageRepository.findReservationItemImageByReservationItemId(findReservationItem)
+				!= null) {
+				reservationItemImageRepository.delete(
+					reservationItemImageRepository.findReservationItemImageByReservationItemId(findReservationItem));
+			}
 			ReservationItemImage newReservationItemImage = ReservationItemImage.builder(
 				createReservationItemImageRequestDto, findReservationItem).build();
 			reservationItemImageRepository.save(newReservationItemImage);
@@ -105,11 +175,60 @@ public class ReservationService {
 	}
 
 	@Transactional(rollbackFor = Exception.class)
+	public ResponseDto<DeleteReservationItemImageDto.Response> deleteReservationItemImage(UUID reservationItemId)
+		throws Exception {
+		try {
+			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
+				reservationItemId);
+			findReservationItemValidation(findReservationItem);
+			ReservationItemImage findReservationItemImage = reservationItemImageRepository.findReservationItemImageByReservationItemId(
+				findReservationItem);
+			findReservationItemImageValidation(findReservationItemImage);
+
+			DeleteReservationItemImageDto.Response response = DeleteReservationItemImageDto.Response.builder(
+				findReservationItemImage).build();
+			reservationItemImageRepository.delete(findReservationItemImage);
+			return ResponseDto.<DeleteReservationItemImageDto.Response>builder()
+				.responseCode(ResponseCode.RESERVATION_ITEM_IMAGE_DELETE)
+				.data(response)
+				.build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Transactional(rollbackFor = Exception.class, readOnly = true)
+	public ResponseDto<FindReservationItemImageDto.Response> findReservationItemImage(UUID reservationItemId)
+		throws Exception {
+		try {
+			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
+				reservationItemId);
+			findReservationItemValidation(findReservationItem);
+			ReservationItemImage findReservationItemImage = reservationItemImageRepository.findReservationItemImageByReservationItemId(
+				findReservationItem);
+			findReservationItemImageValidation(findReservationItemImage);
+
+			return ResponseDto.<FindReservationItemImageDto.Response>builder()
+				.responseCode(ResponseCode.RESERVATION_ITEM_IMAGE_FIND)
+				.data(FindReservationItemImageDto.Response.builder(findReservationItemImage).build())
+				.build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	/**
+	 * 예약 상품 옵션
+	 */
+	@Transactional(rollbackFor = Exception.class)
 	public ResponseDto<CreateReservationItemOptionDto.Response> createReservationItemOption(UUID reservationItemId,
 		CreateReservationItemOptionDto.Request createReservationItemOptionRequestDto) throws Exception {
 		try {
 			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
 				reservationItemId);
+			findReservationItemValidation(findReservationItem);
 
 			ReservationItemOption newReservationItemOption = ReservationItemOption.builder(
 				createReservationItemOptionRequestDto, findReservationItem).build();
@@ -126,26 +245,77 @@ public class ReservationService {
 		}
 	}
 
+	@Transactional(rollbackFor = Exception.class)
+	public ResponseDto<ModifyReservationItemOptionDto.Response> modifyReservationItemOption(
+		UUID reservationItemOptionId,
+		ModifyReservationItemOptionDto.Request modifyReservationItemOptionRequestDto) throws Exception {
+		try {
+			ReservationItemOption findReservationItemOption = reservationItemOptionRepository.findReservationItemOptionByOptionId(
+				reservationItemOptionId);
+			findReservationItemOptionValidation(findReservationItemOption);
+			findReservationItemOption.modifyReservationItemOption(modifyReservationItemOptionRequestDto);
+			reservationItemOptionRepository.save(findReservationItemOption);
+
+			return ResponseDto.<ModifyReservationItemOptionDto.Response>builder()
+				.responseCode(ResponseCode.RESERVATION_ITEM_OPTION_MODIFY)
+				.data(ModifyReservationItemOptionDto.Response.builder(findReservationItemOption).build())
+				.build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	public ResponseDto<DeleteReservationItemOptionDto.Response> deleteReservationItemOption(
+		UUID reservationItemOptionId) throws Exception {
+		try {
+			ReservationItemOption findReservationItemOption = reservationItemOptionRepository.findReservationItemOptionByOptionId(
+				reservationItemOptionId);
+			findReservationItemOptionValidation(findReservationItemOption);
+			findReservationItemOption.deleteReservationItemOption();
+			reservationItemOptionRepository.save(findReservationItemOption);
+
+			return ResponseDto.<DeleteReservationItemOptionDto.Response>builder()
+				.responseCode(ResponseCode.RESERVATION_ITEM_OPTION_DELETE)
+				.data(DeleteReservationItemOptionDto.Response.builder(findReservationItemOption).build())
+				.build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
 	@Transactional(rollbackFor = Exception.class, readOnly = true)
-	public ResponseDto<FindReservationItemOptionListDto.Response> findReservationItemOptionList(UUID reservationItemId) throws Exception{
-		try{
-			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(reservationItemId);
-			List<ReservationItemOption> findReservationItemOptionList = reservationItemOptionRepository.findAllByReservationItemId(findReservationItem);
+	public ResponseDto<FindReservationItemOptionListDto.Response> findReservationItemOptionList(UUID reservationItemId)
+		throws Exception {
+		try {
+			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
+				reservationItemId);
+			findReservationItemValidation(findReservationItem);
+			List<ReservationItemOption> findReservationItemOptionList = reservationItemOptionRepository.findAllByReservationItemIdAndIsDeletedFalse(
+				findReservationItem);
+			findReservationItemOptionValidation(findReservationItemOptionList);
 			List<FindReservationItemOptionListDto.Response.ReservationItemOptionList> reservationItemOptionList = new ArrayList<>();
-			for(ReservationItemOption reservationItemOption : findReservationItemOptionList){
-				reservationItemOptionList.add(FindReservationItemOptionListDto.Response.ReservationItemOptionList.builder(reservationItemOption).build());
+			for (ReservationItemOption reservationItemOption : findReservationItemOptionList) {
+				reservationItemOptionList.add(
+					FindReservationItemOptionListDto.Response.ReservationItemOptionList.builder(reservationItemOption)
+						.build());
 			}
 
 			return ResponseDto.<FindReservationItemOptionListDto.Response>builder()
 				.responseCode(ResponseCode.RESERVATION_ITEM_OPTION_LIST_FIND)
 				.data(FindReservationItemOptionListDto.Response.builder(reservationItemOptionList).build())
 				.build();
-		}catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
 	}
 
+	/**
+	 * 예약
+	 */
 	// 최적화 매우 필요
 	@Transactional(rollbackFor = Exception.class, readOnly = true)
 	public ResponseDto<FindPossibleReservationByDay.Response> findPossibleReservationByDay(UUID reservationItemId)
@@ -153,13 +323,15 @@ public class ReservationService {
 		try {
 			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
 				reservationItemId);
+			findReservationItemValidation(findReservationItem);
 			List<LocalDate> possibleReservationDate = new ArrayList<>();
 			LocalDateTime currentTime = LocalDateTime.now();
 			LocalDateTime afterAMonth = currentTime.plusDays(30);
 			for (LocalDateTime iterDateTime = currentTime; iterDateTime.isBefore(
 				afterAMonth); iterDateTime = iterDateTime.plusDays(1)) {
 				for (LocalTime iterTime = findReservationItem.getStartTime(); iterTime.isBefore(
-					findReservationItem.getEndTime()); iterTime = iterTime.plusHours(1)) {
+					findReservationItem.getEndTime()); iterTime = iterTime.plusMinutes(
+					Long.parseLong(findReservationItem.getReservationInterval()))) {
 					LocalDateTime checkTime = LocalDateTime.of(iterDateTime.toLocalDate(), iterTime);
 					Optional<List<Reservation>> reservationCheckList = reservationRepository.findAllByReservationItemIdAndReservationTime(
 						findReservationItem, checkTime);
@@ -188,11 +360,13 @@ public class ReservationService {
 		try {
 			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
 				reservationItemId);
+			findReservationItemValidation(findReservationItem);
 			DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
 			LocalDate selectedReservationDay = LocalDate.parse(reservationDay, formatter);
 			List<LocalTime> possibleReservationTime = new ArrayList<>();
 			for (LocalTime iterTime = findReservationItem.getStartTime(); iterTime.isBefore(
-				findReservationItem.getEndTime()); iterTime = iterTime.plusHours(1)) {
+				findReservationItem.getEndTime()); iterTime = iterTime.plusMinutes(
+				Long.parseLong(findReservationItem.getReservationInterval()))) {
 				LocalDateTime checkTime = LocalDateTime.of(selectedReservationDay, iterTime);
 				Optional<List<Reservation>> reservationCheckList = reservationRepository.findAllByReservationItemIdAndReservationTime(
 					findReservationItem, checkTime);
@@ -212,24 +386,31 @@ public class ReservationService {
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	public ResponseDto<MakeReservationDto.Response> makeReservation(MakeReservationDto.Request makeReservationRequestDto) throws Exception{
-		try{
-			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(makeReservationRequestDto.getReservationItemId());
-			Optional<List<Reservation>> currentReservationList = reservationRepository.findAllByReservationItemIdAndReservationTime(findReservationItem, makeReservationRequestDto.getReservationTime());
-			if(currentReservationList.get().size() >= findReservationItem.getAllowReservationNumberPerInterval()){
+	public ResponseDto<MakeReservationDto.Response> makeReservation(
+		MakeReservationDto.Request makeReservationRequestDto) throws Exception {
+		try {
+			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
+				makeReservationRequestDto.getReservationItemId());
+			findReservationItemValidation(findReservationItem);
+			Optional<List<Reservation>> currentReservationList = reservationRepository.findAllByReservationItemIdAndReservationTime(
+				findReservationItem, makeReservationRequestDto.getReservationTime());
+			if (currentReservationList.get().size() >= findReservationItem.getAllowReservationNumberPerInterval()) {
 				throw new NoMoreReservationException();
 			}
-			//find 예외처리 필요
-			ReservationItemOption findReservationItemOption = reservationItemOptionRepository.findReservationItemOptionByOptionId(makeReservationRequestDto.getReservationItemOptionId());
+			ReservationItemOption findReservationItemOption = reservationItemOptionRepository.findReservationItemOptionByOptionId(
+				makeReservationRequestDto.getReservationItemOptionId());
+			findReservationItemOptionValidation(findReservationItemOption);
 			Seller findSeller = sellerRepository.findSellerBySellerId(findReservationItem.getSellerId().getSellerId());
-			Reservation newReservation = Reservation.builder(makeReservationRequestDto, findReservationItem, findReservationItemOption, findSeller).build();
+			findSellerValidation(findSeller);
+			Reservation newReservation = Reservation.builder(makeReservationRequestDto, findReservationItem,
+				findReservationItemOption, findSeller).build();
 			reservationRepository.save(newReservation);
 
 			return ResponseDto.<MakeReservationDto.Response>builder()
 				.responseCode(ResponseCode.RESERVATION_MAKE)
 				.data(MakeReservationDto.Response.builder(newReservation).build())
 				.build();
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
@@ -243,6 +424,40 @@ public class ReservationService {
 			throw new SellerNotFoundException();
 		} else if (seller.isDeleted()) {
 			throw new SellerAlreadyDeletedException();
+		}
+	}
+
+	private void findReservationItemValidation(ReservationItem reservationItem) {
+		if (reservationItem == null) {
+			throw new ReservationItemNotFoundException();
+		} else if (reservationItem.isDeleted()) {
+			throw new ReservationItemAlreadyDeletedException();
+		}
+	}
+
+	private void findReservationItemValidation(List<ReservationItem> reservationItemList) {
+		if (reservationItemList.isEmpty()) {
+			throw new ReservationItemListNotFoundException();
+		}
+	}
+
+	private void findReservationItemImageValidation(ReservationItemImage reservationItemImage) {
+		if (reservationItemImage == null) {
+			throw new ReservationItemImageNotFoundException();
+		}
+	}
+
+	private void findReservationItemOptionValidation(ReservationItemOption reservationItemOption) {
+		if (reservationItemOption == null) {
+			throw new ReservationItemOptionNotFoundException();
+		} else if (reservationItemOption.isDeleted()) {
+			throw new ReservationItemOptionAlreadyDeletedException();
+		}
+	}
+
+	private void findReservationItemOptionValidation(List<ReservationItemOption> reservationItemOptionsList) {
+		if (reservationItemOptionsList.isEmpty()) {
+			throw new ReservationItemOptionListNotFoundException();
 		}
 	}
 }

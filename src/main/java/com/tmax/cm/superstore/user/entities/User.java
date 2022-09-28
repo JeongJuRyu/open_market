@@ -73,6 +73,7 @@ public class User implements UserDetails {
 	private EmailToken emailToken;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@Builder.Default
 	private List<DeliveryAddress> deliveryAddresses = new ArrayList<>();
 
 	@ManyToMany
