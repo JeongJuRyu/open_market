@@ -29,7 +29,7 @@ import lombok.NoArgsConstructor;
 public class ReviewImage {
 	@Id @GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-	@Column(name = "REVIEW_ID", columnDefinition = "BINARY(16)")
+	@Column(name = "REVIEW_IMAGE_ID", columnDefinition = "BINARY(16)")
 	private UUID id;
 
 	private String url;
@@ -39,7 +39,6 @@ public class ReviewImage {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "REIVEW_ID")
 	private Review review;
-
 
 	public static ReviewImageBuilder builder(/*OrderItem orderItem, */String title,
 									String content, User user, Review review){

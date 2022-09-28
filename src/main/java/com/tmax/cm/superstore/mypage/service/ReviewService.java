@@ -36,8 +36,9 @@ public class ReviewService {
 
 	@Transactional(readOnly = true)
 	public GetAllReviewResponseDto getAllReview(){
-		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		List<Review> reviews = reviewRepository.findAllByUserId(user.getId());
+		// User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		//List<Review> review = reviewRepository.findByUser(user);
+		List<Review> reviews = reviewRepository.findByUserId(UUID.fromString("672ffb8c-f952-49ec-b65b-4fe3a9c37b28"));
 		return GetAllReviewResponseDto.builder()
 				.reviews(reviewMapper.toReviewsDto(reviews)).build();
 	}
@@ -59,7 +60,7 @@ public class ReviewService {
 
 	@Transactional(readOnly = true)
 	public GetReviewResponseDto getReview(UUID reviewId){
-		Review review = reviewRepository.findReviewById(reviewId).orElseThrow(ReviewNotFoundException::new);
+		Review review = reviewRepository.findById(reviewId).orElseThrow(ReviewNotFoundException::new);
 		return GetReviewResponseDto.builder()
 			.review(reviewMapper.toReviewDto(review)).build();
 	}
@@ -79,14 +80,14 @@ public class ReviewService {
 
 	@Transactional
 	public UUID updateReview(UpdateReviewRequestDto dto){
-		Review review = reviewRepository.findReviewById(dto.getId()).orElseThrow(ReviewNotFoundException::new);
+		Review review = reviewRepository.findById(dto.getId()).orElseThrow(ReviewNotFoundException::new);
 		review.updateReview(dto);
 		return review.getId();
 	}
 
 	@Transactional
 	public void deleteReview(UUID reviewId){
-		Review review = reviewRepository.findReviewById(reviewId).orElseThrow(ReviewNotFoundException::new);
+		Review review = reviewRepository.findById(reviewId).orElseThrow(ReviewNotFoundException::new);
 		review.getReviewImages().clear();
 		review.deleteReviewReply();
 		reviewRepository.delete(review); // 리뷰 ID 리턴
