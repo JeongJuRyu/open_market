@@ -24,6 +24,7 @@ import com.tmax.cm.superstore.mypage.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -71,6 +72,7 @@ public class ReviewService {
 				.item(item)
 			.title(dto.getTitle())
 			.content(dto.getContent())
+			.starRating(dto.getStarRating())
 			.build();
 		for(PostReviewRequestDto.ReviewImage reviewImage : dto.getReviewImages()){
 			review.getReviewImages().add(ReviewImage.ReviewImageBuilder().url(reviewImage.getUrl()).review(review).build());
@@ -91,5 +93,15 @@ public class ReviewService {
 		review.getReviewImages().clear();
 		review.deleteReviewReply();
 		reviewRepository.delete(review); // 리뷰 ID 리턴
+	}
+
+	@Transactional
+	public Double getAvgStarRating(UUID itemId){
+		List<Review> reviews = reviewRepository.findAllByItemId(itemId);
+		List<Float> stars = new ArrayList<>();
+		for(Review review : reviews){
+			stars.add(review.getStarRating());
+		}
+		return stars.stream().mapToDouble(a->a).average().orElseThrow(ReviewNotFoundException::new);
 	}
 }

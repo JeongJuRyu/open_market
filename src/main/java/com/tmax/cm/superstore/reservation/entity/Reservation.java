@@ -1,6 +1,5 @@
 package com.tmax.cm.superstore.reservation.entity;
 
-import com.tmax.cm.superstore.reservation.dto.CreateReservationItemDto;
 import com.tmax.cm.superstore.reservation.dto.MakeReservationDto;
 import com.tmax.cm.superstore.seller.entity.Seller;
 import lombok.AllArgsConstructor;
@@ -38,9 +37,6 @@ public class Reservation {
 	@Column
 	private String customerRequest;
 
-//	@Column
-//	private String managerMemo;
-
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "sellerId")
@@ -56,7 +52,8 @@ public class Reservation {
 	@JoinColumn(name = "reservationItemOptionId")
 	private ReservationItemOption reservationItemOptionId;
 
-	public static ReservationBuilder builder(MakeReservationDto.Request makeReservationRequestDto, ReservationItem reservationItem, ReservationItemOption reservationItemOption, Seller seller) {
+	public static ReservationBuilder builder(MakeReservationDto.Request makeReservationRequestDto,
+		ReservationItem reservationItem, ReservationItemOption reservationItemOption, Seller seller) {
 		return ReservationBuilder()
 			.reservationTime(makeReservationRequestDto.getReservationTime())
 			.numberOfPeople(makeReservationRequestDto.getNumberOfPeople())
