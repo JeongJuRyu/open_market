@@ -50,4 +50,5 @@ public class JWTAccessTokenFilter extends BasicAuthenticationFilter {
 		}
 		chain.doFilter(request,response);
 	}
+
 }
