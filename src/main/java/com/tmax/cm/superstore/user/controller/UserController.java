@@ -1,19 +1,23 @@
 package com.tmax.cm.superstore.user.controller;
 
+import java.util.UUID;
+
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tmax.cm.superstore.user.dto.CreateUserRequestDto;
 import com.tmax.cm.superstore.user.dto.CreateUserResponseDto;
-import com.tmax.cm.superstore.user.dto.UpdateDeliveryRequestDto;
-import com.tmax.cm.superstore.user.dto.UpdateDeliveryResponseDto;
+import com.tmax.cm.superstore.user.dto.DeleteDeliveryInfoRequestDto;
+import com.tmax.cm.superstore.user.dto.PostDeliveryRequestDto;
+import com.tmax.cm.superstore.user.dto.UpdateDeliveryInfoRequestDto;
 import com.tmax.cm.superstore.user.dto.UpdateEmailRequestDto;
 import com.tmax.cm.superstore.user.dto.UpdateEmailResponseDto;
 import com.tmax.cm.superstore.user.dto.UpdatePasswordRequestDto;
@@ -47,8 +51,29 @@ public class UserController {
 	}
 
 	@PostMapping("/delivery")
-	public ResponseEntity<UpdateDeliveryResponseDto> updateDeliveryInfo(
-		@RequestBody UpdateDeliveryRequestDto updateDeliveryRequestDto){
-		return ResponseEntity.ok().body(userService.updateDeliveryInfo(updateDeliveryRequestDto));
+	public ResponseEntity<Object> postDeliveryInfo(
+		@RequestBody PostDeliveryRequestDto postDeliveryInfo){
+		userService.postDeliveryInfo(postDeliveryInfo);
+		return ResponseEntity.ok().body(null);
+	}
+
+	@PatchMapping("/delivery/{id}")
+	public ResponseEntity<Object> updateDeliveryInfo(
+		@RequestBody UpdateDeliveryInfoRequestDto updateDeliveryInfoRequestDto){
+		userService.updateDeliveryInfo(updateDeliveryInfoRequestDto);
+		return ResponseEntity.ok().body(null);
+	}
+
+
+	@DeleteMapping("/delivery/{id}")
+	public ResponseEntity<Object> deleteDeliveryInfo(@RequestBody DeleteDeliveryInfoRequestDto deleteDeliveryInfoRequestDto){
+		userService.deleteDeliveryInfo(deleteDeliveryInfoRequestDto);
+		return ResponseEntity.ok().body(null);
+	}
+
+	@PostMapping("/delivery/{id}")
+	public ResponseEntity<Object> setDefaultADelivery(@PathVariable UUID id){
+		userService.setDefaultDelivery(id);
+		return ResponseEntity.ok().body(null);
 	}
 }

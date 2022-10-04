@@ -38,26 +38,23 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-		//JwtLoginFilter jwtLoginFilter = new JwtLoginFilter(authen)
 		return httpSecurity
 			.csrf().disable()
 
 			.authorizeRequests()
 			.antMatchers("/v1/auth/test", "/v1/wishlist/**").authenticated()
 			.anyRequest().permitAll()
-				.and()
-			.exceptionHandling()
-			.authenticationEntryPoint(jwtAuthenticationEntryPoint)
-			//.accessDeniedHandler(jwtAccessDeniedHandler)
 			.and()
 			.sessionManagement()
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
 			.cors().configurationSource(configurationSource())
 			.and()
+			.exceptionHandling()
+			.authenticationEntryPoint(jwtAuthenticationEntryPoint)
+			.and()
 			.apply(customDsl)
 			.and()
-			//.apply(new JwtSecurityConfig(tokenProvider))
 			.build();
 	}
 
