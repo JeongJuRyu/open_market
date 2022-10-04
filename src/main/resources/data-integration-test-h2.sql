@@ -224,9 +224,12 @@ INSERT INTO cart_option(id, count, cart_option_group_id, option_id) VALUES (UUID
 
 --- 카테고리 상품
 
+--- 유저 등록
+INSERT INTO users(user_id, email, password, phone_num, address, user_name, nick_name) VALUES (UUID'672ffb8c-f952-49ec-b65b-4fe3a9c37b28', 'totw2018@naver.com', '1234', '010-4523-6994', '사랑시 행복구 고백동', '류정주', '쩡류');
+
 --- 찜 그룹 등록
-INSERT INTO wishlist_group(id, name, position, is_deleted) VALUES (1, '여행용', 0, false);
-INSERT INTO wishlist_group(id, name, position, is_deleted) VALUES (2, '나들이용', 1, false);
+INSERT INTO wishlist_group(id, name, position, is_deleted, user_id) VALUES (1, '여행용', 1, false, UUID'672ffb8c-f952-49ec-b65b-4fe3a9c37b28');
+INSERT INTO wishlist_group(id, name, position, is_deleted, user_id) VALUES (2, '나들이용', 2, false, UUID'672ffb8c-f952-49ec-b65b-4fe3a9c37b28');
 
 --- 찜 상품 등록
 INSERT INTO wishlist_item(id, item_id, wishlist_group_id, is_deleted) VALUES (1, UUID'169f84f8-8862-477c-ad27-0b79871deb27', 1, false);
