@@ -28,13 +28,13 @@ public class DeliveryAddress {
 	private UUID id;
 
 	@Column(nullable = false)
-	private String name;
+	private String recipient;
 
 	@Column(nullable = false)
-	private boolean isBasicAddress;
+	private Boolean isDefaultAddress;
 
 	@Column(nullable = false)
-	private String phoneNum;
+	private String mobile;
 
 	@Column(nullable = false)
 	private String address;
@@ -42,4 +42,9 @@ public class DeliveryAddress {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "USER_ID")
 	private User user;
+
+	public void setDefaultAddress(DeliveryAddress deliveryAddress){
+		this.isDefaultAddress = true;
+		deliveryAddress.isDefaultAddress = false;
+	}
 }

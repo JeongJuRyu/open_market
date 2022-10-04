@@ -2,6 +2,8 @@ package com.tmax.cm.superstore.user.service;
 
 import java.util.UUID;
 
+import javax.security.auth.DestroyFailedException;
+
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -10,15 +12,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tmax.cm.superstore.user.dto.CreateUserRequestDto;
 import com.tmax.cm.superstore.user.dto.CreateUserResponseDto;
+import com.tmax.cm.superstore.user.dto.DeleteDeliveryInfoRequestDto;
 import com.tmax.cm.superstore.user.dto.EmailAuthRequestDto;
 import com.tmax.cm.superstore.user.dto.EmailAuthResponseDto;
-import com.tmax.cm.superstore.user.dto.UpdateDeliveryRequestDto;
-import com.tmax.cm.superstore.user.dto.UpdateDeliveryResponseDto;
+import com.tmax.cm.superstore.user.dto.PostDeliveryRequestDto;
+import com.tmax.cm.superstore.user.dto.UpdateDeliveryInfoRequestDto;
 import com.tmax.cm.superstore.user.dto.UpdateEmailRequestDto;
 import com.tmax.cm.superstore.user.dto.UpdateEmailResponseDto;
 import com.tmax.cm.superstore.user.dto.UpdatePasswordRequestDto;
 import com.tmax.cm.superstore.user.dto.UpdatePasswordResponseDto;
+import com.tmax.cm.superstore.user.entities.DeliveryAddress;
 import com.tmax.cm.superstore.user.entities.User;
+import com.tmax.cm.superstore.user.error.exception.DeliveryAddressNotFoundException;
 import com.tmax.cm.superstore.user.error.exception.EmailNotFoundException;
 import com.tmax.cm.superstore.user.error.exception.UserAlreadyExistException;
 import com.tmax.cm.superstore.user.repository.UserRepository;
@@ -32,6 +37,7 @@ public class UserService {
 	private final EmailService emailService;
 	private final PasswordEncoder passwordEncoder;
 
+	@Transactional
 	public CreateUserResponseDto createUser(CreateUserRequestDto createUserRequestDto){
 		if(checkEmailDuplicate(createUserRequestDto.getEmail())){
 			throw new UserAlreadyExistException();
@@ -97,11 +103,34 @@ public class UserService {
 	}
 
 	@Transactional
-	public UpdateDeliveryResponseDto updateDeliveryInfo(
-		UpdateDeliveryRequestDto updateDeliveryRequestDto){
+	public void postDeliveryInfo(
+		PostDeliveryRequestDto dto){
 		User user = userRepository
-			.findUserByEmail(updateDeliveryRequestDto.getEmail()).orElseThrow(EmailNotFoundException::new);
-		user.updateDeliveryAddress(updateDeliveryRequestDto);
-		return UpdateDeliveryResponseDto.builder().build();
+			.findUserByEmail(dto.getEmail()).orElseThrow(EmailNotFoundException::new);
+		user.postDeliveryAddress(dto);
+	}
+
+	@Transactional
+	public void updateDeliveryInfo(UpdateDeliveryInfoRequestDto dto){
+		User user = userRepository.findUserByEmail(dto.getEmail())
+			.orElseThrow(EmailNotFoundException::new);
+		user.updateDeliveryAddress(dto);
+	}
+
+	@Transactional
+	public void deleteDeliveryInfo(DeleteDeliveryInfoRequestDto dto){
+		User user = userRepository.findUserByEmail(dto.getEmail())
+			.orElseThrow(EmailNotFoundException::new);
+		DeliveryAddress deliveryAddress = user.getDeliveryAddresses().stream()
+			.filter(address -> address.getId() == dto.getShippingAddressId())
+			.findAny().orElseThrow(DeliveryAddressNotFoundException::new);
+		user.getDeliveryAddresses().remove(deliveryAddress);
+	}
+
+	@Transactional
+	public void setDefaultDelivery(UUID id){
+		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		User newUser = userRepository.findUserByEmail(user.getEmail()).orElseThrow(EmailNotFoundException::new);
+		newUser.setDeliveryAddress(id);
 	}
 }
