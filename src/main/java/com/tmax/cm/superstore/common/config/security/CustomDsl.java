@@ -1,5 +1,6 @@
 package com.tmax.cm.superstore.common.config.security;
 
+import com.tmax.cm.superstore.common.config.security.filter.JWTAccessTokenFilter;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
