@@ -42,6 +42,12 @@ public class WishlistController {
         return new ResponseDto<>(ResponseCode.WISHLIST_GROUP_CREATE, this.postWishlistGroupDtoMapper.toResponse(wishlistGroup));
     }
 
+    @PostMapping("/wishlistItem")
+    public ResponseDto<Void> createWishlistItem(@Valid @RequestBody PostCreateWishlistItemDto.Request itemDto) {
+        WishlistItem wishlistItem = this.wishlistItemService.create(itemDto);
+        return new ResponseDto<>(ResponseCode.WISHLIST_ITEM_CREATE, null);
+    }
+
     @GetMapping("/wishlistItem")
     public ResponseDto<GetWishlistItemDto.Response> getWishlistItem(@Valid @RequestParam(name = "wishlistGroupId", required = false) Long groupId) {
         List<WishlistGroup> wishlistGroups = this.wishlistGroupService.readAll();

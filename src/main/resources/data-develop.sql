@@ -223,18 +223,18 @@ INSERT INTO cart_option(id, count, cart_option_group_id, option_id) VALUES (UUID
 
 -- 카테고리 상품
 
+-- 유저 등록
+INSERT INTO USERS(user_id, email, password, phone_num, address, user_name, nick_name) VALUES (UUID_TO_BIN('672ffb8c-f952-49ec-b65b-4fe3a9c37b28'), 'totw2018@naver.com', '1234', '010-4523-6994', '사랑시 행복구 고백동', '류정주', '쩡류');
+
 -- 찜 그룹 등록
-INSERT INTO wishlist_group(id, name, position, is_deleted) VALUES (1, '여행용', 0, false);
-INSERT INTO wishlist_group(id, name, position, is_deleted) VALUES (2, '나들이용', 1, false);
+INSERT INTO wishlist_group(id, name, position, is_deleted) VALUES (1, '여행용', 1, false);
+INSERT INTO wishlist_group(id, name, position, is_deleted) VALUES (2, '나들이용', 2, false);
 
 -- 찜 상품 등록
 INSERT INTO wishlist_item(id, item_id, wishlist_group_id, is_deleted) VALUES (1, UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb27'), 1, false);
 INSERT INTO wishlist_item(id, item_id, wishlist_group_id, is_deleted) VALUES (2, UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb28'), 1, false);
 INSERT INTO wishlist_item(id, item_id, wishlist_group_id, is_deleted) VALUES (3, UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb29'), 2, false);
 INSERT INTO wishlist_item(id, item_id, wishlist_group_id, is_deleted) VALUES (4, UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb30'), null, false);
-
--- 유저 등록
-INSERT INTO USERS(user_id, email, password, phone_num, address, user_name, nick_name) VALUES (UUID_TO_BIN('672ffb8c-f952-49ec-b65b-4fe3a9c37b28'), 'totw2018@naver.com', '1234', '010-4523-6994', '사랑시 행복구 고백동', '류정주', '쩡류');
 
 -- 리뷰 등록
 INSERT INTO REVIEW(review_id, content, is_useful, star_rating, title, item_id, user_id) VALUES (UUID_TO_BIN('ce093467-1e60-45c9-b073-9b684b9dbc06'), '맛있어요', 23, 4.0, '추천',UUID_TO_BIN('1523bc68-e8f7-4140-b7dd-cbfe622e068a'), UUID_TO_BIN('672ffb8c-f952-49ec-b65b-4fe3a9c37b28'));
