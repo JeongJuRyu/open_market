@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tmax.cm.superstore.mypage.repository.ReviewRepository;
+import com.tmax.cm.superstore.user.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,11 +35,13 @@ public class ReviewService {
 	private final ReviewRepository reviewRepository;
 	private final ReviewMapper reviewMapper;
 	private final ItemRepository itemRepository;
+	private final UserRepository userRepository;
 
 	@Transactional(readOnly = true)
 	public GetAllReviewResponseDto getAllReview(){
-		// User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		//List<Review> review = reviewRepository.findByUser(user);
+		String email = (String)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		// User user = userRepository.findUserByEmail(email).orElseThrow(EmailNotFoundException::new);
+		// List<Review> reviews = reviewRepository.findByUserId(user.getId());
 		List<Review> reviews = reviewRepository.findByUserId(UUID.fromString("672ffb8c-f952-49ec-b65b-4fe3a9c37b28"));
 		return GetAllReviewResponseDto.builder()
 				.reviews(reviewMapper.toReviewsDto(reviews)).build();
