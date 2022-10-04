@@ -5,6 +5,6 @@ import com.tmax.cm.superstore.error.exception.BusinessException;
 
 public class UserAlreadyExistException extends BusinessException {
 	public UserAlreadyExistException() {
-		super(ResponseCode.ERROR_EMAIL_NOT_FOUND);
+		super(ResponseCode.ERROR_EMAIL_ALREADY_EXIST);
 	}
 }
