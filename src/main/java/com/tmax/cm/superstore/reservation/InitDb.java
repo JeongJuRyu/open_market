@@ -10,7 +10,9 @@ import com.tmax.cm.superstore.reservation.repository.ReservationItemImageReposit
 import com.tmax.cm.superstore.reservation.repository.ReservationItemOptionRepository;
 import com.tmax.cm.superstore.reservation.repository.ReservationItemRepository;
 import com.tmax.cm.superstore.seller.dto.CreateSellerDto;
+import com.tmax.cm.superstore.seller.entity.Business;
 import com.tmax.cm.superstore.seller.entity.Seller;
+import com.tmax.cm.superstore.seller.repository.BusinessRepository;
 import com.tmax.cm.superstore.seller.repository.SellerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -37,6 +39,7 @@ public class InitDb {
 	@RequiredArgsConstructor
 	static class InitService {
 		private final SellerRepository sellerRepository;
+		private final BusinessRepository businessRepository;
 		private final ReservationItemRepository reservationItemRepository;
 		private final ReservationItemOptionRepository reservationItemOptionRepository;
 		private final ReservationItemImageRepository reservationItemImageRepository;
@@ -46,6 +49,8 @@ public class InitDb {
 					new CreateSellerDto.Request("loginId", "password", "랄라샌드위치", "rala@naver.com", "0507-1367-2348"))
 				.build();
 			sellerRepository.save(seller1);
+			Business business1 = Business.builder(seller1).build();
+			businessRepository.save(business1);
 
 			// 예약상품 생성
 			ReservationItem reservationItem1 = ReservationItem.builder(
@@ -96,6 +101,8 @@ public class InitDb {
 			Seller seller2 = Seller.builder(
 				new CreateSellerDto.Request("loginId", "password", "별미", "byulme@naver.com", "031-782-9588")).build();
 			sellerRepository.save(seller2);
+			Business business2 = Business.builder(seller2).build();
+			businessRepository.save(business2);
 
 			// 예약상품 생성
 			ReservationItem reservationItem1 = ReservationItem.builder(
