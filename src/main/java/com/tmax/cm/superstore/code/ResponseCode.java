@@ -60,6 +60,7 @@ public enum ResponseCode implements Code {
 	WISHLIST_ITEM_READ("SUCCESS", "WISHLIST_ITEM_READ", "Read wishlist item", "찜한 상품 조회"),
 	WISHLIST_GROUP_DELETE("SUCCESS", "WISHLIST_GROUP_DELETE", "Delete wishlist group", "찜 그룹 삭제"),
 	WISHLIST_ITEM_DELETE("SUCCESS", "WISHLIST_ITEM_DELETE", "Delete wishlist item", "찜 아이템 삭제"),
+	WISHLIST_ITEM_CREATE("SUCCESS", "WISHLIST_ITEM_CREATE", "Create wishlist item", "찜한 상품 생성"),
 
 
 	// Error - Item
