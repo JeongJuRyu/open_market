@@ -1,5 +1,6 @@
 package com.tmax.cm.superstore.seller.entity;
 
+import com.tmax.cm.superstore.seller.dto.CreateSellerDto;
 import com.tmax.cm.superstore.seller.dto.ModifyBizInfoDto;
 import lombok.*;
 
@@ -37,17 +38,19 @@ public class Business {
 	@Column
 	private String reportNumber;
 
-	@Column
-	private String contactPerson;
-
 	@NotNull
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "sellerId")
 	private Seller sellerId;
 
-	public static BusinessBuilder builder(Seller seller) {
+	public static BusinessBuilder builder(Seller seller, CreateSellerDto.Request createSellerRequestDto) {
 		return BusinessBuilder()
 			.bizId(seller.getSellerId())
+			.bizNum(createSellerRequestDto.getBizInfo().getBizNum())
+			.bizName(createSellerRequestDto.getBizInfo().getBizName())
+			.bizOwner(createSellerRequestDto.getBizInfo().getBizOwner())
+			.bizAddress(createSellerRequestDto.getBizInfo().getBizAddress())
+			.reportNumber(createSellerRequestDto.getBizInfo().getReportNumber())
 			.sellerId(seller);
 	}
 
@@ -57,6 +60,5 @@ public class Business {
 		this.bizOwner = modifyBizInfoRequestDto.getBizOwner();
 		this.bizAddress = modifyBizInfoRequestDto.getBizAddress();
 		this.reportNumber = modifyBizInfoRequestDto.getReportNumber();
-		this.contactPerson = modifyBizInfoRequestDto.getContactPerson();
 	}
 }

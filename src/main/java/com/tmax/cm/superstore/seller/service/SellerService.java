@@ -8,7 +8,9 @@ import com.tmax.cm.superstore.seller.dto.FindSellerListDto;
 import com.tmax.cm.superstore.seller.dto.ModifyBizInfoDto;
 import com.tmax.cm.superstore.seller.entity.Business;
 import com.tmax.cm.superstore.seller.entity.Seller;
+import com.tmax.cm.superstore.seller.entity.SellerDelivery;
 import com.tmax.cm.superstore.seller.repository.BusinessRepository;
+import com.tmax.cm.superstore.seller.repository.SellerDeliveryRepository;
 import com.tmax.cm.superstore.seller.repository.SellerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,7 @@ public class SellerService {
 
 	private final SellerRepository sellerRepository;
 	private final BusinessRepository businessRepository;
+	private final SellerDeliveryRepository sellerDeliveryRepository;
 
 	@Transactional(rollbackFor = Exception.class)
 	public ResponseDto<CreateSellerDto.Response> createSeller(CreateSellerDto.Request createSellerRequestDto)
@@ -31,12 +34,14 @@ public class SellerService {
 		try {
 			Seller newSeller = Seller.builder(createSellerRequestDto).build();
 			sellerRepository.save(newSeller);
-			Business newBusiness = Business.builder(newSeller).build();
+			Business newBusiness = Business.builder(newSeller, createSellerRequestDto).build();
 			businessRepository.save(newBusiness);
+			SellerDelivery newSellerDelivery = SellerDelivery.builder(newSeller, createSellerRequestDto).build();
+			sellerDeliveryRepository.save(newSellerDelivery);
 
 			return ResponseDto.<CreateSellerDto.Response>builder()
 				.responseCode(ResponseCode.SELLER_CREATE)
-				.data(CreateSellerDto.Response.builder(newSeller).build())
+				.data(CreateSellerDto.Response.builder(newSeller, newBusiness, newSellerDelivery).build())
 				.build();
 		} catch (Exception e) {
 			e.printStackTrace();

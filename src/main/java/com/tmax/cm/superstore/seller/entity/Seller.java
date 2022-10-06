@@ -45,10 +45,10 @@ public class Seller {
 
 	public static SellerBuilder builder(CreateSellerDto.Request createSellerRequestDto){
 		return SellerBuilder()
-			.loginId(createSellerRequestDto.getLoginId())
-			.password(createSellerRequestDto.getPassword())
-			.sellerName(createSellerRequestDto.getSellerName())
-			.sellerEmail(createSellerRequestDto.getSellerEmail())
-			.sellerPhoneNum(createSellerRequestDto.getSellerPhoneNum());
+			.loginId(createSellerRequestDto.getSellerInfo().getLoginId())
+			.password(createSellerRequestDto.getSellerInfo().getPassword())
+			.sellerName(createSellerRequestDto.getSellerInfo().getSellerName())
+			.sellerEmail(createSellerRequestDto.getSellerInfo().getSellerEmail())
+			.sellerPhoneNum(createSellerRequestDto.getSellerInfo().getSellerPhoneNum());
 	}
 }

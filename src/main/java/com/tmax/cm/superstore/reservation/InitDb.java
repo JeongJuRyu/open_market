@@ -12,7 +12,9 @@ import com.tmax.cm.superstore.reservation.repository.ReservationItemRepository;
 import com.tmax.cm.superstore.seller.dto.CreateSellerDto;
 import com.tmax.cm.superstore.seller.entity.Business;
 import com.tmax.cm.superstore.seller.entity.Seller;
+import com.tmax.cm.superstore.seller.entity.SellerDelivery;
 import com.tmax.cm.superstore.seller.repository.BusinessRepository;
+import com.tmax.cm.superstore.seller.repository.SellerDeliveryRepository;
 import com.tmax.cm.superstore.seller.repository.SellerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -40,17 +42,40 @@ public class InitDb {
 	static class InitService {
 		private final SellerRepository sellerRepository;
 		private final BusinessRepository businessRepository;
+		private final SellerDeliveryRepository sellerDeliveryRepository;
 		private final ReservationItemRepository reservationItemRepository;
 		private final ReservationItemOptionRepository reservationItemOptionRepository;
 		private final ReservationItemImageRepository reservationItemImageRepository;
 
 		public void dbInit1() {
-			Seller seller1 = Seller.builder(
-					new CreateSellerDto.Request("loginId", "password", "랄라샌드위치", "rala@naver.com", "0507-1367-2348"))
-				.build();
+			CreateSellerDto.SellerInfo sellerInfo = CreateSellerDto.SellerInfo.SellerInfoBuilder()
+				.loginId("rala")
+				.password("rala123")
+				.sellerName("랄라샌드위치")
+				.sellerEmail("rala@naver.com")
+				.sellerPhoneNum("0507-1367-2348").build();
+
+			CreateSellerDto.BizInfo bizInfo = CreateSellerDto.BizInfo.BizInfoBuilder()
+				.bizNum("사업자등록번호")
+				.bizName("상호명")
+				.bizOwner("대표자명")
+				.bizAddress("사업장소재지")
+				.reportNumber("통신판매업번호").build();
+
+			CreateSellerDto.SellerDeliveryInfo sellerDeliveryInfo = CreateSellerDto.SellerDeliveryInfo.SellerDeliveryInfoBuilder()
+				.shipmentAddress("출고지 주소")
+				.shipmentAddressDetail("출고지 상세주소")
+				.returnAddress("반품지 주소")
+				.returnAddressDetail("반품지 상세주소").build();
+
+			CreateSellerDto.Request createSellerRequestDto = new CreateSellerDto.Request(sellerInfo, bizInfo, sellerDeliveryInfo);
+
+			Seller seller1 = Seller.builder(createSellerRequestDto).build();
 			sellerRepository.save(seller1);
-			Business business1 = Business.builder(seller1).build();
+			Business business1 = Business.builder(seller1, createSellerRequestDto).build();
 			businessRepository.save(business1);
+			SellerDelivery sellerDelivery1 = SellerDelivery.builder(seller1, createSellerRequestDto).build();
+			sellerDeliveryRepository.save(sellerDelivery1);
 
 			// 예약상품 생성
 			ReservationItem reservationItem1 = ReservationItem.builder(
@@ -98,11 +123,34 @@ public class InitDb {
 		}
 
 		public void dbInit2() {
-			Seller seller2 = Seller.builder(
-				new CreateSellerDto.Request("loginId", "password", "별미", "byulme@naver.com", "031-782-9588")).build();
+			CreateSellerDto.SellerInfo sellerInfo = CreateSellerDto.SellerInfo.SellerInfoBuilder()
+				.loginId("byulme")
+				.password("byulme123")
+				.sellerName("별미")
+				.sellerEmail("byulme@naver.com")
+				.sellerPhoneNum("031-782-9588").build();
+
+			CreateSellerDto.BizInfo bizInfo = CreateSellerDto.BizInfo.BizInfoBuilder()
+				.bizNum("사업자등록번호")
+				.bizName("상호명")
+				.bizOwner("대표자명")
+				.bizAddress("사업장소재지")
+				.reportNumber("통신판매업번호").build();
+
+			CreateSellerDto.SellerDeliveryInfo sellerDeliveryInfo = CreateSellerDto.SellerDeliveryInfo.SellerDeliveryInfoBuilder()
+				.shipmentAddress("출고지 주소")
+				.shipmentAddressDetail("출고지 상세주소")
+				.returnAddress("반품지 주소")
+				.returnAddressDetail("반품지 상세주소").build();
+
+			CreateSellerDto.Request createSellerRequestDto = new CreateSellerDto.Request(sellerInfo, bizInfo, sellerDeliveryInfo);
+
+			Seller seller2 = Seller.builder(createSellerRequestDto).build();
 			sellerRepository.save(seller2);
-			Business business2 = Business.builder(seller2).build();
+			Business business2 = Business.builder(seller2, createSellerRequestDto).build();
 			businessRepository.save(business2);
+			SellerDelivery sellerDelivery2 = SellerDelivery.builder(seller2, createSellerRequestDto).build();
+			sellerDeliveryRepository.save(sellerDelivery2);
 
 			// 예약상품 생성
 			ReservationItem reservationItem1 = ReservationItem.builder(

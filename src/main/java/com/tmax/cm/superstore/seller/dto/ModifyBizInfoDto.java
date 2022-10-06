@@ -20,7 +20,6 @@ public class ModifyBizInfoDto {
 		private String bizOwner;
 		private String bizAddress;
 		private String reportNumber;
-		private String contactPerson;
 	}
 
 	@Getter
@@ -32,7 +31,6 @@ public class ModifyBizInfoDto {
 		private String bizName;
 		private String bizAddress;
 		private String reportNumber;
-		private String contactPerson;
 
 		public static ResponseBuilder builder(Business business) {
 			return ResponseBuilder()
@@ -41,8 +39,7 @@ public class ModifyBizInfoDto {
 				.bizOwner(business.getBizOwner())
 				.bizName(business.getBizName())
 				.bizAddress(business.getBizAddress())
-				.reportNumber(business.getReportNumber())
-				.contactPerson(business.getContactPerson());
+				.reportNumber(business.getReportNumber());
 		}
 	}
 }

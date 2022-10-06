@@ -17,7 +17,6 @@ public class FindBizInfo {
 		private String bizName;
 		private String bizAddress;
 		private String reportNumber;
-		private String contactPerson;
 
 		public static ResponseBuilder builder(Business business) {
 			return ResponseBuilder()
@@ -26,8 +25,7 @@ public class FindBizInfo {
 				.bizOwner(business.getBizOwner())
 				.bizName(business.getBizName())
 				.bizAddress(business.getBizAddress())
-				.reportNumber(business.getReportNumber())
-				.contactPerson(business.getContactPerson());
+				.reportNumber(business.getReportNumber());
 		}
 	}
 }
