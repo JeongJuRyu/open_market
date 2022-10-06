@@ -16,7 +16,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.tmax.cm.superstore.item.entity.Item;
-import com.tmax.cm.superstore.mypage.entity.CustomerInquiry;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -59,9 +58,6 @@ public class OrderItem {
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id")
 	private Item item;
-
-	@OneToOne(mappedBy = "orderItem")
-	private CustomerInquiry customerInquiry;
 
 	@ManyToOne(cascade = { CascadeType.PERSIST })
 	@JoinColumn(foreignKey = @ForeignKey(name = "FK_order_item_shipping_fee_id"), name = "shippingFeeId", nullable = true)

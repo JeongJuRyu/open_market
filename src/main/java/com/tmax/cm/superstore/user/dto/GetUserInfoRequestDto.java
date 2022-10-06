@@ -3,8 +3,6 @@ package com.tmax.cm.superstore.user.dto;
 import lombok.Getter;
 
 @Getter
-public class UpdatePasswordRequestDto {
+public class GetUserInfoRequestDto {
 	private String email;
-	private String password;
-	private String newPassword;
 }

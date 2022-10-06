@@ -62,7 +62,7 @@ public class User implements UserDetails {
 	private String userName;
 
 	// @Column(nullable = false)
-	private String nickName;
+	private String name;
 
 	// @OneToOne(fetch = FetchType.LAZY)
 	// @JoinColumn(name = "EMAIL_TOKEN_ID")
@@ -99,6 +99,7 @@ public class User implements UserDetails {
 			.recipient(dto.getRecipient())
 			.user(this)
 			.mobile(dto.getMobile())
+			.requests(dto.getRequests())
 			.isDefaultAddress(isFirstAddress).build();
 		this.getDeliveryAddresses().add(deliveryAddress);
 	}
@@ -111,6 +112,7 @@ public class User implements UserDetails {
 			.recipient(dto.getRecipient())
 			.user(this)
 			.mobile(dto.getMobile())
+			.requests(dto.getRequests())
 			.isDefaultAddress(dto.isDefaultAddress()).build();
 		this.getDeliveryAddresses().remove(deliveryAddress);
 		this.getDeliveryAddresses().add(newDeliveryAddress);

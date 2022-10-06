@@ -15,6 +15,8 @@ import com.tmax.cm.superstore.user.dto.CreateUserResponseDto;
 import com.tmax.cm.superstore.user.dto.DeleteDeliveryInfoRequestDto;
 import com.tmax.cm.superstore.user.dto.EmailAuthRequestDto;
 import com.tmax.cm.superstore.user.dto.EmailAuthResponseDto;
+import com.tmax.cm.superstore.user.dto.GetUserInfoRequestDto;
+import com.tmax.cm.superstore.user.dto.GetUserInfoResponseDto;
 import com.tmax.cm.superstore.user.dto.PostDeliveryRequestDto;
 import com.tmax.cm.superstore.user.dto.UpdateDeliveryInfoRequestDto;
 import com.tmax.cm.superstore.user.dto.UpdateEmailRequestDto;
@@ -26,6 +28,7 @@ import com.tmax.cm.superstore.user.entities.User;
 import com.tmax.cm.superstore.user.error.exception.DeliveryAddressNotFoundException;
 import com.tmax.cm.superstore.user.error.exception.EmailNotFoundException;
 import com.tmax.cm.superstore.user.error.exception.UserAlreadyExistException;
+import com.tmax.cm.superstore.user.error.exception.WrongPasswordException;
 import com.tmax.cm.superstore.user.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -35,7 +38,17 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 	private final UserRepository userRepository;
 	private final EmailService emailService;
-	private final PasswordEncoder passwordEncoder;
+	// private final PasswordEncoder passwordEncoder;
+
+	@Transactional(readOnly = true)
+	public GetUserInfoResponseDto getUserInfo(GetUserInfoRequestDto dto){
+		User user = userRepository.findUserByEmail(dto.getEmail()).orElseThrow(EmailNotFoundException::new);
+		return GetUserInfoResponseDto.builder()
+			.name(user.getName())
+			.email(user.getEmail())
+			.phoneNum(user.getPhoneNum())
+			.build();
+	}
 
 	@Transactional
 	public CreateUserResponseDto createUser(CreateUserRequestDto createUserRequestDto){
@@ -44,7 +57,7 @@ public class UserService {
 		}
 		User user = User.builder()
 			.email(createUserRequestDto.getEmail())
-			.password(passwordEncoder.encode(createUserRequestDto.getPassword()))
+			.password(createUserRequestDto.getPassword())
 			.phoneNum(createUserRequestDto.getUserPhoneNum())
 			.address(createUserRequestDto.getAddress())
 			.build();
@@ -55,21 +68,12 @@ public class UserService {
 	public UpdateEmailResponseDto updateEmail(UpdateEmailRequestDto updateEmailRequestDto){
 		String email = updateEmailRequestDto.getEmail();
 		User user = userRepository.findUserByEmail(email).orElseThrow(EmailNotFoundException::new);
-		if(checkEmailDuplicate(updateEmailRequestDto.getEmail())){
+		if(checkEmailDuplicate(updateEmailRequestDto.getNewEmail())){
 			throw new UserAlreadyExistException();
 		}
-
-		EmailAuthRequestDto emailAuthRequestDto = EmailAuthRequestDto
-			.builder().email(updateEmailRequestDto.getNewEmail()).build();
-		EmailAuthResponseDto dto;
-		try {
-			dto = emailService.authEmail(emailAuthRequestDto);
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
-		user.updateEmail(updateEmailRequestDto.getEmail());
+		user.updateEmail(updateEmailRequestDto.getNewEmail());
 		return UpdateEmailResponseDto.builder()
-			.email(updateEmailRequestDto.getEmail())
+			.email(updateEmailRequestDto.getNewEmail())
 			.build();
 	}
 
@@ -82,20 +86,17 @@ public class UserService {
 	}
 
 	@Transactional
-	public UpdatePasswordResponseDto updatePassword(
+	public void updatePassword(
 		UpdatePasswordRequestDto updatePasswordRequestDto){
 		User user = userRepository
 			.findUserByEmail(updatePasswordRequestDto.getEmail()).orElseThrow(EmailNotFoundException::new);
-		String encodedPassword = passwordEncoder
-			.encode(updatePasswordRequestDto.getPassword());
+		String password = updatePasswordRequestDto.getPassword();
 
-		String encodedNewPassword = passwordEncoder
-			.encode(updatePasswordRequestDto.getUpdatePassword());
-		if(!user.getPassword().equals(encodedPassword)){
-			throw new BadCredentialsException("wrong password.");
+		String newPassword = updatePasswordRequestDto.getNewPassword();
+		if(!user.getPassword().equals(password)){
+			throw new WrongPasswordException();
 		}
-		user.updatePassword(encodedNewPassword);
-		return UpdatePasswordResponseDto.builder().build();
+		user.updatePassword(newPassword);
 	}
 
 	public boolean checkEmailDuplicate(String email){

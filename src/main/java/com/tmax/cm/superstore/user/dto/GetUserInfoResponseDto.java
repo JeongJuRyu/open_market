@@ -5,7 +5,8 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class UpdateEmailResponseDto {
+public class GetUserInfoResponseDto {
+	private String name;
 	private String email;
-	private String newEmail;
+	private String phoneNum;
 }
