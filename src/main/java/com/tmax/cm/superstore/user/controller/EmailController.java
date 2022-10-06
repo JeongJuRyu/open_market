@@ -19,11 +19,9 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/v1/email")
 public class EmailController {
 	private final EmailService emailService;
-
 	@PostMapping
 	public ResponseEntity<EmailAuthResponseDto> emailAuth(
 		@RequestBody EmailAuthRequestDto emailAuthRequestDto) throws IllegalAccessException {
 		return ResponseEntity.ok().body(emailService.authEmail(emailAuthRequestDto));
 	}
-
 }
