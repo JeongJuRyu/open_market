@@ -59,9 +59,6 @@ public class OrderItem {
 	@JoinColumn(name = "id")
 	private Item item;
 
-	@OneToOne(mappedBy = "orderItem")
-	private CustomerInquiry customerInquiry;
-
 	@ManyToOne(cascade = { CascadeType.PERSIST })
 	@JoinColumn(foreignKey = @ForeignKey(name = "FK_order_item_shipping_fee_id"), name = "shippingFeeId", nullable = true)
 	private ShippingFee shippingFee;
