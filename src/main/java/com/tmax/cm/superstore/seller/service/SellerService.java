@@ -150,6 +150,25 @@ public class SellerService {
 		}
 	}
 
+	@Transactional(rollbackFor = Exception.class, readOnly = true)
+	public ResponseDto<FindRepresentativeDeliveryDto.Response> findRepresentativeDelivery(UUID sellerId)
+		throws Exception {
+		try {
+			Seller findSeller = sellerRepository.findSellerBySellerId(sellerId);
+			findSellerValidation(findSeller);
+			SellerDelivery findDelivery = sellerDeliveryRepository.findBySellerIdAndIsRepresentTrue(findSeller);
+			findSellerDeliveryValidation(findDelivery);
+
+			return ResponseDto.<FindRepresentativeDeliveryDto.Response>builder()
+				.responseCode(ResponseCode.SELLER_REPRESENTATIVE_DELIVERY_FIND)
+				.data(FindRepresentativeDeliveryDto.Response.builder(findDelivery).build())
+				.build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
 	@Transactional(rollbackFor = Exception.class)
 	public ResponseDto<ModifyRepresentativeDeliveryDto.Response> modifyRepresentativeDelivery(UUID deliveryId)
 		throws Exception {
@@ -167,7 +186,7 @@ public class SellerService {
 			sellerDeliveryRepository.save(findSellerDelivery);
 
 			return ResponseDto.<ModifyRepresentativeDeliveryDto.Response>builder()
-				.responseCode(ResponseCode.SELLER_DELIVERY_CREATE)
+				.responseCode(ResponseCode.SELLER_REPRESENTATIVE_DELIVERY_MODIFY)
 				.data(ModifyRepresentativeDeliveryDto.Response.builder(findSellerDelivery).build())
 				.build();
 

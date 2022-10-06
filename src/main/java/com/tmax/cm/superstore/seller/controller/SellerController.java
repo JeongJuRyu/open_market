@@ -52,6 +52,11 @@ public class SellerController {
 		return ResponseEntity.ok().body(sellerService.findSellerDeliveryList(sellerId));
 	}
 
+	@GetMapping("/{sellerId}/delivery/represent")
+	public ResponseEntity<ResponseDto<FindRepresentativeDeliveryDto.Response>> findRepresentativeDelviery(@PathVariable UUID sellerId) throws Exception{
+		return ResponseEntity.ok().body(sellerService.findRepresentativeDelivery(sellerId));
+	}
+
 	@PatchMapping("/{deliveryId}/delivery/represent")
 	public ResponseEntity<ResponseDto<ModifyRepresentativeDeliveryDto.Response>> modifyRepresentativeDelivery(@PathVariable UUID deliveryId) throws Exception{
 		return ResponseEntity.ok().body(sellerService.modifyRepresentativeDelivery(deliveryId));
