@@ -39,6 +39,13 @@ public class SellerController {
 		return ResponseEntity.ok().body(sellerService.findBizInfo(sellerId));
 	}
 
+	@PostMapping("/{sellerId}/delivery")
+	public ResponseEntity<ResponseDto<CreateSellerDeliveryDto.Response>> createSellerDelivery(
+		@PathVariable UUID sellerId, @Valid @RequestBody CreateSellerDeliveryDto.Request createSellerDeliveryRequestDto)
+		throws Exception {
+		return ResponseEntity.ok().body(sellerService.createSellerDelivery(sellerId, createSellerDeliveryRequestDto));
+	}
+
 	@GetMapping("/{sellerId}/delivery/list")
 	public ResponseEntity<ResponseDto<FindSellerDeliveryListDto.Response>> findSellerDeliveryList(
 		@PathVariable UUID sellerId) throws Exception {

@@ -1,5 +1,6 @@
 package com.tmax.cm.superstore.seller.entity;
 
+import com.tmax.cm.superstore.seller.dto.CreateSellerDeliveryDto;
 import com.tmax.cm.superstore.seller.dto.CreateSellerDto;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -53,6 +54,15 @@ public class SellerDelivery {
 			.shipmentAddressDetail(createSellerRequestDto.getSellerDeliveryInfo().getShipmentAddressDetail())
 			.returnAddress(createSellerRequestDto.getSellerDeliveryInfo().getReturnAddress())
 			.returnAddressDetail(createSellerRequestDto.getSellerDeliveryInfo().getReturnAddressDetail())
+			.sellerId(seller);
+	}
+
+	public static SellerDeliveryBuilder builder(Seller seller, CreateSellerDeliveryDto.Request createSellerRequestDto) {
+		return SellerDeliveryBuilder()
+			.shipmentAddress(createSellerRequestDto.getShipmentAddress())
+			.shipmentAddressDetail(createSellerRequestDto.getShipmentAddressDetail())
+			.returnAddress(createSellerRequestDto.getReturnAddress())
+			.returnAddressDetail(createSellerRequestDto.getReturnAddressDetail())
 			.sellerId(seller);
 	}
 }

@@ -107,6 +107,26 @@ public class SellerService {
 		}
 	}
 
+	@Transactional(rollbackFor = Exception.class)
+	public ResponseDto<CreateSellerDeliveryDto.Response> createSellerDelivery(UUID sellerID,
+		CreateSellerDeliveryDto.Request createSellerDeliveryRequestDto) throws Exception {
+		try {
+			Seller findSeller = sellerRepository.findSellerBySellerId(sellerID);
+			findSellerValidation(findSeller);
+			SellerDelivery newSellerDelivery = SellerDelivery.builder(findSeller, createSellerDeliveryRequestDto)
+				.build();
+			sellerDeliveryRepository.save(newSellerDelivery);
+
+			return ResponseDto.<CreateSellerDeliveryDto.Response>builder()
+				.responseCode(ResponseCode.SELLER_DELIVERY_CREATE)
+				.data(CreateSellerDeliveryDto.Response.builder(newSellerDelivery).build())
+				.build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
 	@Transactional(rollbackFor = Exception.class, readOnly = true)
 	public ResponseDto<FindSellerDeliveryListDto.Response> findSellerDeliveryList(UUID sellerId) throws Exception {
 		try {
