@@ -39,12 +39,15 @@ public class SellerDelivery {
 	@Column(nullable = false)
 	private boolean isDeleted;
 
+	@Column(nullable = false)
+	private boolean isRepresent;
+
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "sellerId")
 	private Seller sellerId;
 
-	public static SellerDeliveryBuilder builder(Seller seller, CreateSellerDto.Request createSellerRequestDto){
+	public static SellerDeliveryBuilder builder(Seller seller, CreateSellerDto.Request createSellerRequestDto) {
 		return SellerDeliveryBuilder()
 			.shipmentAddress(createSellerRequestDto.getSellerDeliveryInfo().getShipmentAddress())
 			.shipmentAddressDetail(createSellerRequestDto.getSellerDeliveryInfo().getShipmentAddressDetail())

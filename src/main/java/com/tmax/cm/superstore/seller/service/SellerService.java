@@ -2,10 +2,7 @@ package com.tmax.cm.superstore.seller.service;
 
 import com.tmax.cm.superstore.code.ResponseCode;
 import com.tmax.cm.superstore.common.ResponseDto;
-import com.tmax.cm.superstore.seller.dto.CreateSellerDto;
-import com.tmax.cm.superstore.seller.dto.FindBizInfo;
-import com.tmax.cm.superstore.seller.dto.FindSellerListDto;
-import com.tmax.cm.superstore.seller.dto.ModifyBizInfoDto;
+import com.tmax.cm.superstore.seller.dto.*;
 import com.tmax.cm.superstore.seller.entity.Business;
 import com.tmax.cm.superstore.seller.entity.Seller;
 import com.tmax.cm.superstore.seller.entity.SellerDelivery;
@@ -37,12 +34,33 @@ public class SellerService {
 			sellerRepository.save(newSeller);
 			Business newBusiness = Business.builder(newSeller, createSellerRequestDto).build();
 			businessRepository.save(newBusiness);
-			SellerDelivery newSellerDelivery = SellerDelivery.builder(newSeller, createSellerRequestDto).build();
+			SellerDelivery newSellerDelivery = SellerDelivery.builder(newSeller, createSellerRequestDto)
+				.isRepresent(true).build();
 			sellerDeliveryRepository.save(newSellerDelivery);
 
 			return ResponseDto.<CreateSellerDto.Response>builder()
 				.responseCode(ResponseCode.SELLER_CREATE)
 				.data(CreateSellerDto.Response.builder(newSeller, newBusiness, newSellerDelivery).build())
+				.build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Transactional(rollbackFor = Exception.class, readOnly = true)
+	public ResponseDto<FindSellerListDto.Response> findSellerList() throws Exception {
+		try {
+			List<Seller> findSellerList = sellerRepository.findAll();
+			findSellerValidation(findSellerList);
+			List<FindSellerListDto.Response.SellerList> responseSellerList = new ArrayList<>();
+			for (Seller findSeller : findSellerList) {
+				responseSellerList.add(FindSellerListDto.Response.SellerList.builder(findSeller).build());
+			}
+
+			return ResponseDto.<FindSellerListDto.Response>builder()
+				.responseCode(ResponseCode.SELLER_LIST_FIND)
+				.data(FindSellerListDto.Response.builder(responseSellerList).build())
 				.build();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -90,18 +108,21 @@ public class SellerService {
 	}
 
 	@Transactional(rollbackFor = Exception.class, readOnly = true)
-	public ResponseDto<FindSellerListDto.Response> findSellerList() throws Exception {
+	public ResponseDto<FindSellerDeliveryListDto.Response> findSellerDeliveryList(UUID sellerId) throws Exception {
 		try {
-			List<Seller> findSellerList = sellerRepository.findAll();
-			findSellerValidation(findSellerList);
-			List<FindSellerListDto.Response.SellerList> responseSellerList = new ArrayList<>();
-			for (Seller findSeller : findSellerList) {
-				responseSellerList.add(FindSellerListDto.Response.SellerList.builder(findSeller).build());
+			Seller findSeller = sellerRepository.findSellerBySellerId(sellerId);
+			findSellerValidation(findSeller);
+			List<SellerDelivery> findSellerDeliveryList = sellerDeliveryRepository.findAllBySellerId(findSeller);
+			findSellerDeliveryValidation(findSellerDeliveryList);
+			List<FindSellerDeliveryListDto.Response.SellerDeliveryList> responseSellerDeliveryList = new ArrayList<>();
+			for (SellerDelivery findSellerDelivery : findSellerDeliveryList) {
+				responseSellerDeliveryList.add(
+					FindSellerDeliveryListDto.Response.SellerDeliveryList.builder(findSellerDelivery).build());
 			}
 
-			return ResponseDto.<FindSellerListDto.Response>builder()
-				.responseCode(ResponseCode.SELLER_LIST_FIND)
-				.data(FindSellerListDto.Response.builder(responseSellerList).build())
+			return ResponseDto.<FindSellerDeliveryListDto.Response>builder()
+				.responseCode(ResponseCode.SELLER_DELIVERY_LIST_FIND)
+				.data(FindSellerDeliveryListDto.Response.builder(responseSellerDeliveryList).build())
 				.build();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -74,7 +74,7 @@ public class InitDb {
 			sellerRepository.save(seller1);
 			Business business1 = Business.builder(seller1, createSellerRequestDto).build();
 			businessRepository.save(business1);
-			SellerDelivery sellerDelivery1 = SellerDelivery.builder(seller1, createSellerRequestDto).build();
+			SellerDelivery sellerDelivery1 = SellerDelivery.builder(seller1, createSellerRequestDto).isRepresent(true).build();
 			sellerDeliveryRepository.save(sellerDelivery1);
 
 			// 예약상품 생성
@@ -149,7 +149,7 @@ public class InitDb {
 			sellerRepository.save(seller2);
 			Business business2 = Business.builder(seller2, createSellerRequestDto).build();
 			businessRepository.save(business2);
-			SellerDelivery sellerDelivery2 = SellerDelivery.builder(seller2, createSellerRequestDto).build();
+			SellerDelivery sellerDelivery2 = SellerDelivery.builder(seller2, createSellerRequestDto).isRepresent(true).build();
 			sellerDeliveryRepository.save(sellerDelivery2);
 
 			// 예약상품 생성
