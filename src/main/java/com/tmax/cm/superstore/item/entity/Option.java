@@ -28,6 +28,7 @@ import lombok.Setter;
 @Where(clause = "is_deleted = false")
 @SQLDelete(sql = "UPDATE item_option SET is_deleted = true WHERE id = ?")
 public class Option {
+    
     @Id
     @GeneratedValue
     @Column(columnDefinition = "BINARY(16)")
