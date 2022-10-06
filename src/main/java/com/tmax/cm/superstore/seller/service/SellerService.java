@@ -3,6 +3,7 @@ package com.tmax.cm.superstore.seller.service;
 import com.tmax.cm.superstore.code.ResponseCode;
 import com.tmax.cm.superstore.common.ResponseDto;
 import com.tmax.cm.superstore.seller.dto.CreateSellerDto;
+import com.tmax.cm.superstore.seller.dto.FindBizInfo;
 import com.tmax.cm.superstore.seller.dto.FindSellerListDto;
 import com.tmax.cm.superstore.seller.dto.ModifyBizInfoDto;
 import com.tmax.cm.superstore.seller.entity.Business;
@@ -50,12 +51,27 @@ public class SellerService {
 			Seller findSeller = sellerRepository.findSellerBySellerId(sellerId);
 			Business findBusiness = businessRepository.findBusinessBySellerId(findSeller);
 			findBusiness.modifyBizInfo(modifyBizInfoRequestDto);
-			System.out.println("get Biz Name : " + findBusiness.getBizName());
 			businessRepository.save(findBusiness);
 
 			return ResponseDto.<ModifyBizInfoDto.Response>builder()
 				.responseCode(ResponseCode.BUSINESS_MODIFY)
 				.data(ModifyBizInfoDto.Response.builder(findBusiness).build())
+				.build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Transactional(rollbackFor = Exception.class, readOnly = true)
+	public ResponseDto<FindBizInfo.Response> findBizInfo(UUID sellerId) throws Exception {
+		try {
+			Seller findSeller = sellerRepository.findSellerBySellerId(sellerId);
+			Business findBusiness = businessRepository.findBusinessBySellerId(findSeller);
+
+			return ResponseDto.<FindBizInfo.Response>builder()
+				.responseCode(ResponseCode.BUSINESS_FIND)
+				.data(FindBizInfo.Response.builder(findBusiness).build())
 				.build();
 		} catch (Exception e) {
 			e.printStackTrace();
