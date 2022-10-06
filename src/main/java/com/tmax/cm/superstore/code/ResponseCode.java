@@ -73,9 +73,15 @@ public enum ResponseCode implements Code {
 
 	// Error - ItemImage
 	ERROR_ITEM_IMAGE_NOT_FOUND("ERROR", "EIM000", "Item Image not found","해당 상품의 이미지을 찾지 못함"),
+
 	// Error - Seller
 	ERROR_SELLER_ALREADY_DELETED("ERROR", "ES000", "SellerId already deleted", "해당 판매자 계정은 이미 삭제되었음"),
 	ERROR_SELLER_NOT_FOUND("ERROR", "ES001", "SellerId not found", "해당 판매자 아이디를 찾을 수 없음"),
+	ERROR_SELLER_LIST_NOT_FOUND("ERROR", "ES002", "SellerList not found", "등록된 판매자가 없음"),
+	ERROR_SELLER_DELIVERY_ALREADY_DELETED("ERROR", "ES003", "SellerDeliveryId already deleted", "해당 배송지 정보는 이미 삭제되었음"),
+	ERROR_SELLER_DELIVERY_NOT_FOUND("ERROR", "ES004", "SellerDeliveryId not found", "해당 판매자 배송지 아이디를 찾을 수 없음"),
+	ERROR_SELLER_DELIVERY_LIST_NOT_FOUND("ERROR", "ES005", "SelleDeliveryList not found", "해당 판매자의 배송지 리스트가 없음"),
+	ERROR_BUSINESS_NOT_FOUND("ERROR", "EB000", "Business not found", "해당 판매자의 사업자 정보가 없음"),
 
 	// Error - Reservation
 	ERROR_NO_MORE_RESERVATION("ERROR", "ER000", "Cannot make reservation", "예약이 다 차있음"),

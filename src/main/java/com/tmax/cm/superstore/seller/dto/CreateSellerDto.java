@@ -41,17 +41,16 @@ public class CreateSellerDto {
 		}
 	}
 
-
 	@Builder(builderMethodName = "BizInfoBuilder")
 	@Getter
-	public static class BizInfo{
+	public static class BizInfo {
 		private String bizNum;
 		private String bizName;
 		private String bizOwner;
 		private String bizAddress;
 		private String reportNumber;
 
-		public static BizInfoBuilder builder(Business business){
+		public static BizInfoBuilder builder(Business business) {
 			return BizInfoBuilder()
 				.bizNum(business.getBizNum())
 				.bizName(business.getBizName())
@@ -63,14 +62,14 @@ public class CreateSellerDto {
 
 	@Builder(builderMethodName = "SellerInfoBuilder")
 	@Getter
-	public static class SellerInfo{
+	public static class SellerInfo {
 		private String loginId;
 		private String password;
 		private String sellerName;
 		private String sellerEmail;
 		private String sellerPhoneNum;
 
-		public static SellerInfoBuilder builder(Seller seller){
+		public static SellerInfoBuilder builder(Seller seller) {
 			return SellerInfoBuilder()
 				.loginId(seller.getLoginId())
 				.password(seller.getPassword())
@@ -82,13 +81,13 @@ public class CreateSellerDto {
 
 	@Builder(builderMethodName = "SellerDeliveryInfoBuilder")
 	@Getter
-	public static class SellerDeliveryInfo{
+	public static class SellerDeliveryInfo {
 		private String shipmentAddress;
 		private String shipmentAddressDetail;
 		private String returnAddress;
 		private String returnAddressDetail;
 
-		public static SellerDeliveryInfoBuilder builder(SellerDelivery sellerDelivery){
+		public static SellerDeliveryInfoBuilder builder(SellerDelivery sellerDelivery) {
 			return SellerDeliveryInfoBuilder()
 				.shipmentAddress(sellerDelivery.getShipmentAddress())
 				.shipmentAddressDetail(sellerDelivery.getShipmentAddressDetail())

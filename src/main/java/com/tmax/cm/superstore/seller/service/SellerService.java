@@ -9,6 +9,7 @@ import com.tmax.cm.superstore.seller.dto.ModifyBizInfoDto;
 import com.tmax.cm.superstore.seller.entity.Business;
 import com.tmax.cm.superstore.seller.entity.Seller;
 import com.tmax.cm.superstore.seller.entity.SellerDelivery;
+import com.tmax.cm.superstore.seller.error.exception.*;
 import com.tmax.cm.superstore.seller.repository.BusinessRepository;
 import com.tmax.cm.superstore.seller.repository.SellerDeliveryRepository;
 import com.tmax.cm.superstore.seller.repository.SellerRepository;
@@ -54,7 +55,9 @@ public class SellerService {
 		ModifyBizInfoDto.Request modifyBizInfoRequestDto) throws Exception {
 		try {
 			Seller findSeller = sellerRepository.findSellerBySellerId(sellerId);
+			findSellerValidation(findSeller);
 			Business findBusiness = businessRepository.findBusinessBySellerId(findSeller);
+			findBusinessValidation(findBusiness);
 			findBusiness.modifyBizInfo(modifyBizInfoRequestDto);
 			businessRepository.save(findBusiness);
 
@@ -72,7 +75,9 @@ public class SellerService {
 	public ResponseDto<FindBizInfo.Response> findBizInfo(UUID sellerId) throws Exception {
 		try {
 			Seller findSeller = sellerRepository.findSellerBySellerId(sellerId);
+			findSellerValidation(findSeller);
 			Business findBusiness = businessRepository.findBusinessBySellerId(findSeller);
+			findBusinessValidation(findBusiness);
 
 			return ResponseDto.<FindBizInfo.Response>builder()
 				.responseCode(ResponseCode.BUSINESS_FIND)
@@ -88,6 +93,7 @@ public class SellerService {
 	public ResponseDto<FindSellerListDto.Response> findSellerList() throws Exception {
 		try {
 			List<Seller> findSellerList = sellerRepository.findAll();
+			findSellerValidation(findSellerList);
 			List<FindSellerListDto.Response.SellerList> responseSellerList = new ArrayList<>();
 			for (Seller findSeller : findSellerList) {
 				responseSellerList.add(FindSellerListDto.Response.SellerList.builder(findSeller).build());
@@ -100,6 +106,43 @@ public class SellerService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
+		}
+	}
+
+	/**
+	 * 공용메소드
+	 */
+	private void findSellerValidation(Seller seller) {
+		if (seller == null) {
+			throw new SellerNotFoundException();
+		} else if (seller.isDeleted()) {
+			throw new SellerAlreadyDeletedException();
+		}
+	}
+
+	private void findSellerValidation(List<Seller> sellerList) {
+		if (sellerList.isEmpty()) {
+			throw new SellerListNotFoundException();
+		}
+	}
+
+	private void findBusinessValidation(Business business) {
+		if (business == null) {
+			throw new BusinessNotFoundException();
+		}
+	}
+
+	private void findSellerDeliveryValidation(SellerDelivery sellerDelivery) {
+		if (sellerDelivery == null) {
+			throw new SellerDeliveryNotFoundException();
+		} else if (sellerDelivery.isDeleted()) {
+			throw new SellerDeliveryAlreadyDeletedException();
+		}
+	}
+
+	private void findSellerDeliveryValidation(List<SellerDelivery> sellerDeliveriesList) {
+		if (sellerDeliveriesList.isEmpty()) {
+			throw new SellerDeliveryListNotFoundException();
 		}
 	}
 }
