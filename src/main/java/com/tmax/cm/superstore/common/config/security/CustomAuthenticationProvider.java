@@ -23,10 +23,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken)authentication;
 		String userEmail = token.getName();
-		CharSequence userPw = (String) token.getCredentials();
+		CharSequence userPw = (String)token.getCredentials();
 
 		User user = (User)userDetailsService.loadUserByUsername(userEmail);
-		if(!bCryptPasswordEncoder.matches(userPw, user.getPassword())){
+		if(!userPw.equals(user.getPassword())){
 			throw new WrongPasswordException();
 		}
 		return new UsernamePasswordAuthenticationToken(user, userPw, user.getAuthorities());

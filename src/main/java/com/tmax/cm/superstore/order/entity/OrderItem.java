@@ -16,7 +16,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.tmax.cm.superstore.item.entity.Item;
-import com.tmax.cm.superstore.mypage.entity.CustomerInquiry;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -39,6 +39,8 @@ public class DeliveryAddress {
 	@Column(nullable = false)
 	private String address;
 
+	private String requests;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "USER_ID")
 	private User user;

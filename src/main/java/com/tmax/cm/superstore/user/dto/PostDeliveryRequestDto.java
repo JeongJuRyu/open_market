@@ -24,4 +24,6 @@ public class PostDeliveryRequestDto {
 
 	@NotNull
 	private String address;
+
+	private String requests;
 }

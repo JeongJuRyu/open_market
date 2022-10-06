@@ -27,4 +27,6 @@ public class UpdateDeliveryInfoRequestDto {
 
 	@NotNull
 	private String address;
+
+	private String requests;
 }

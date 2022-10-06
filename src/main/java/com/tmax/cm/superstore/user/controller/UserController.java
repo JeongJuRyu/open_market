@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tmax.cm.superstore.user.dto.CreateUserRequestDto;
 import com.tmax.cm.superstore.user.dto.CreateUserResponseDto;
 import com.tmax.cm.superstore.user.dto.DeleteDeliveryInfoRequestDto;
+import com.tmax.cm.superstore.user.dto.GetUserInfoRequestDto;
+import com.tmax.cm.superstore.user.dto.GetUserInfoResponseDto;
 import com.tmax.cm.superstore.user.dto.PostDeliveryRequestDto;
 import com.tmax.cm.superstore.user.dto.UpdateDeliveryInfoRequestDto;
 import com.tmax.cm.superstore.user.dto.UpdateEmailRequestDto;
@@ -31,6 +34,10 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/v1/users")
 public class UserController {
 	private final UserService userService;
+	@GetMapping
+	public ResponseEntity<GetUserInfoResponseDto> getUser(@RequestBody GetUserInfoRequestDto getUserInfoRequestDto) {
+		return ResponseEntity.ok().body(userService.getUserInfo(getUserInfoRequestDto));
+	}
 
 	@PostMapping
 	public ResponseEntity<CreateUserResponseDto> createUser(
@@ -45,9 +52,10 @@ public class UserController {
 	}
 
 	@PatchMapping("/password")
-	public ResponseEntity<UpdatePasswordResponseDto> updatePassword(@RequestBody
+	public ResponseEntity<Object> updatePassword(@RequestBody
 		UpdatePasswordRequestDto updatePasswordRequestDto){
-		return ResponseEntity.ok().body(userService.updatePassword(updatePasswordRequestDto));
+		userService.updatePassword(updatePasswordRequestDto);
+		return ResponseEntity.ok().body(null);
 	}
 
 	@PostMapping("/delivery")
