@@ -6,5 +6,5 @@ import lombok.Getter;
 public class UpdatePasswordRequestDto {
 	private String email;
 	private String password;
-	private String updatePassword;
+	private String newPassword;
 }

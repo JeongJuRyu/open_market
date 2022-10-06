@@ -59,7 +59,6 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
 		//3개의 파라미터를 모두 넘겨야 isAuthenticated가 true가 된다.
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userLoginRequestDto.getEmail(),
 													userLoginRequestDto.getPassword());
-		System.out.println(token);
 		return getAuthenticationManager().authenticate(token);
 	}
 

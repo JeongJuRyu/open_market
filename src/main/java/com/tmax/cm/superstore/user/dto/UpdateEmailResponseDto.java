@@ -7,4 +7,5 @@ import lombok.Getter;
 @Builder
 public class UpdateEmailResponseDto {
 	private String email;
+	private String newEmail;
 }
