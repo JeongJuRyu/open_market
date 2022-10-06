@@ -62,6 +62,7 @@ public enum ResponseCode implements Code {
 	WISHLIST_ITEM_READ("SUCCESS", "WISHLIST_ITEM_READ", "Read wishlist item", "찜한 상품 조회"),
 	WISHLIST_GROUP_DELETE("SUCCESS", "WISHLIST_GROUP_DELETE", "Delete wishlist group", "찜 그룹 삭제"),
 	WISHLIST_ITEM_DELETE("SUCCESS", "WISHLIST_ITEM_DELETE", "Delete wishlist item", "찜 아이템 삭제"),
+	WISHLIST_ITEM_CREATE("SUCCESS", "WISHLIST_ITEM_CREATE", "Create wishlist item", "찜한 상품 생성"),
 
 
 	// Error - Item
@@ -100,10 +101,11 @@ public enum ResponseCode implements Code {
 
 
 	// Error - User
-	ERROR_EMAIL_NOT_FOUND("ERROR", "EU001", "Email not found", "존재 하지 않는 이메일"),
+	ERROR_EMAIL_NOT_FOUND("ERROR", "EU001", "Email not found", "해당 이메일이 존재하지 않음"),
 	ERROR_EMAIL_ALREADY_EXIST("ERROR", "EU002", "Already existed email", "이미 존재 하는 이메일"),
 	ERROR_EMAIL_NOT_EXPIRED_EXCEPTION("ERROR", "EU003", "authentication email not expired", "인증용 이메일이 만료되지 않음."),
-	ERROR_PASSWORD_NOT_MATCHED("ERROR", "EU004", "Password is not matched", "비밀번호 불일치."),
+	ERROR_PASSWORD_NOT_MATCHED("ERROR", "EU004", "Password is not matched", "해당 비밀번호가 일치하지 않음."),
+	ERROR_DELIVERY_ADDRESS_NOT_FOUND("ERROR", "EU005", "Delivery address not found", "해당 배송지 정보가 존재하지 않음"),
 
     // Error - Common
     ERROR_COMMON_RUNTIME("ERROR", "EC000", "Runtime Exception", "Runtime Exception 발생한 경우"),

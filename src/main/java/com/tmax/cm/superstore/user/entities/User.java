@@ -11,24 +11,20 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
 
-import com.tmax.cm.superstore.wishlist.entity.WishlistGroup;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.tmax.cm.superstore.user.dto.UpdateDeliveryRequestDto;
+import com.tmax.cm.superstore.user.dto.PostDeliveryRequestDto;
+import com.tmax.cm.superstore.user.dto.UpdateDeliveryInfoRequestDto;
+import com.tmax.cm.superstore.user.error.exception.DeliveryAddressNotFoundException;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -72,7 +68,7 @@ public class User implements UserDetails {
 	// @JoinColumn(name = "EMAIL_TOKEN_ID")
 	// private EmailToken emailToken;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	@Builder.Default
 	private List<DeliveryAddress> deliveryAddresses = new ArrayList<>();
 
@@ -97,19 +93,37 @@ public class User implements UserDetails {
 		this.password = newPassword;
 	}
 
-	public void updateDeliveryAddress(UpdateDeliveryRequestDto updateDeliveryRequestDto){
-		this.getDeliveryAddresses().clear();
-		List<UpdateDeliveryRequestDto.DeliveryAddress> deliveryAddresses = updateDeliveryRequestDto
-			.getDeliveryAddresses();
-		for(UpdateDeliveryRequestDto.DeliveryAddress newDeliveryAddress : deliveryAddresses){
-			DeliveryAddress newAddress = DeliveryAddress.builder()
-				.address(newDeliveryAddress.getAddress())
-				.user(this)
-				.name(newDeliveryAddress.getName())
-				.phoneNum(newDeliveryAddress.getPhoneNum())
-				.build();
-			this.getDeliveryAddresses().add(newAddress);
-		}
+	public void postDeliveryAddress(PostDeliveryRequestDto dto){
+		Boolean isFirstAddress = this.deliveryAddresses.size() == 0 ? true : dto.isDefaultAddress();
+		DeliveryAddress deliveryAddress = DeliveryAddress.builder()
+			.recipient(dto.getRecipient())
+			.user(this)
+			.mobile(dto.getMobile())
+			.isDefaultAddress(isFirstAddress).build();
+		this.getDeliveryAddresses().add(deliveryAddress);
+	}
+
+	public void updateDeliveryAddress(UpdateDeliveryInfoRequestDto dto){
+		DeliveryAddress deliveryAddress = this.getDeliveryAddresses()
+			.stream().filter(address -> address.getId() == dto.getShippingAddressId())
+			.findAny().orElseThrow(DeliveryAddressNotFoundException::new);
+		DeliveryAddress newDeliveryAddress = DeliveryAddress.builder()
+			.recipient(dto.getRecipient())
+			.user(this)
+			.mobile(dto.getMobile())
+			.isDefaultAddress(dto.isDefaultAddress()).build();
+		this.getDeliveryAddresses().remove(deliveryAddress);
+		this.getDeliveryAddresses().add(newDeliveryAddress);
+	}
+
+	public void setDeliveryAddress(UUID id){
+		DeliveryAddress newDeliveryAddress = this.getDeliveryAddresses()
+			.stream().filter(address -> address.getId() == id)
+			.findAny().orElseThrow(DeliveryAddressNotFoundException::new);
+		DeliveryAddress oldDeliveryAddress = this.getDeliveryAddresses()
+			.stream().filter(address -> address.getIsDefaultAddress())
+			.findAny().orElseThrow(DeliveryAddressNotFoundException::new);
+		newDeliveryAddress.setDefaultAddress(oldDeliveryAddress);
 	}
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
