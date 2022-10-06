@@ -10,4 +10,8 @@ import java.util.UUID;
 public interface SellerDeliveryRepository extends JpaRepository<SellerDelivery, UUID> {
 
 	List<SellerDelivery> findAllBySellerId(Seller sellerId);
+
+	SellerDelivery findBySellerDeliveryId(UUID sellerDeliveryId);
+
+	SellerDelivery findBySellerIdAndIsRepresentTrue(Seller sellerId);
 }

@@ -31,6 +31,7 @@ public enum ResponseCode implements Code {
 	SELLER_LIST_FIND("SUCCESS", "SELLER_LIST_FIND", "Find seller List", "판매자 리스트 가져오기"),
 	SELLER_DELIVERY_CREATE("SUCCESS", "SELLER_DELIVERY_CREATE", "Create sellerDelivery", "판매자 배송지 생성"),
 	SELLER_DELIVERY_LIST_FIND("SUCCESS", "SELLER_DELIVERY_LIST_FIND", "Find sellerDelivery List", "판매자 배송지 리스트 가져오기"),
+	SELLER_DELIVERY_REPRESENT_MODIFY("SUCCESS", "SELLER_DELIVERY_REPRESENT_MODIFY", "Modify sellerDelivery represent", "대표 배송지 변경"),
 	BUSINESS_MODIFY("SUCCESS", "BUSINESS_MODIFY", "Modify business info", "사업자 정보 수정"),
 	BUSINESS_FIND("SUCCESS", "BUSINESS_FIND", "Find business info", "사업자 정보 가져오기"),
 

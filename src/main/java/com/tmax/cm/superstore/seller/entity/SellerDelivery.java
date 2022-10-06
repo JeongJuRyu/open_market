@@ -65,4 +65,12 @@ public class SellerDelivery {
 			.returnAddressDetail(createSellerRequestDto.getReturnAddressDetail())
 			.sellerId(seller);
 	}
+
+	public void modifyRepresent() {
+		if (this.isRepresent) {
+			this.isRepresent = false;
+		} else {
+			this.isRepresent = true;
+		}
+	}
 }

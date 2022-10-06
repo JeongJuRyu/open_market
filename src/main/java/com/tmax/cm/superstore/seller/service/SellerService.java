@@ -150,6 +150,33 @@ public class SellerService {
 		}
 	}
 
+	@Transactional(rollbackFor = Exception.class)
+	public ResponseDto<ModifyRepresentativeDeliveryDto.Response> modifyRepresentativeDelivery(UUID deliveryId)
+		throws Exception {
+		try {
+			SellerDelivery findSellerDelivery = sellerDeliveryRepository.findBySellerDeliveryId(deliveryId);
+			findSellerDeliveryValidation(findSellerDelivery);
+			Seller findSeller = sellerRepository.findSellerBySellerId(findSellerDelivery.getSellerId().getSellerId());
+			findSellerValidation(findSeller);
+			SellerDelivery findRepresentativeSellerDelivery = sellerDeliveryRepository.findBySellerIdAndIsRepresentTrue(
+				findSeller);
+			findSellerDeliveryValidation(findRepresentativeSellerDelivery);
+			findRepresentativeSellerDelivery.modifyRepresent();
+			sellerDeliveryRepository.save(findRepresentativeSellerDelivery);
+			findSellerDelivery.modifyRepresent();
+			sellerDeliveryRepository.save(findSellerDelivery);
+
+			return ResponseDto.<ModifyRepresentativeDeliveryDto.Response>builder()
+				.responseCode(ResponseCode.SELLER_DELIVERY_CREATE)
+				.data(ModifyRepresentativeDeliveryDto.Response.builder(findSellerDelivery).build())
+				.build();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
 	/**
 	 * 공용메소드
 	 */

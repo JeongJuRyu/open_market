@@ -51,4 +51,9 @@ public class SellerController {
 		@PathVariable UUID sellerId) throws Exception {
 		return ResponseEntity.ok().body(sellerService.findSellerDeliveryList(sellerId));
 	}
+
+	@PatchMapping("/{deliveryId}/delivery/represent")
+	public ResponseEntity<ResponseDto<ModifyRepresentativeDeliveryDto.Response>> modifyRepresentativeDelivery(@PathVariable UUID deliveryId) throws Exception{
+		return ResponseEntity.ok().body(sellerService.modifyRepresentativeDelivery(deliveryId));
+	}
 }
