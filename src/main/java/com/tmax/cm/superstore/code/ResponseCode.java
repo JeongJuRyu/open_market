@@ -61,6 +61,7 @@ public enum ResponseCode implements Code {
 	WISHLIST_GROUP_DELETE("SUCCESS", "WISHLIST_GROUP_DELETE", "Delete wishlist group", "찜 그룹 삭제"),
 	WISHLIST_ITEM_DELETE("SUCCESS", "WISHLIST_ITEM_DELETE", "Delete wishlist item", "찜 아이템 삭제"),
 	WISHLIST_ITEM_CREATE("SUCCESS", "WISHLIST_ITEM_CREATE", "Create wishlist item", "찜한 상품 생성"),
+	WISHLIST_ITEM_CHECK_READ("SUCCESS", "WISHLIST_ITEM_CHECK_READ", "Read and check wishlist item", "찜한 상품 여부 조회"),
 
 
 	// Error - Item
@@ -110,9 +111,10 @@ public enum ResponseCode implements Code {
     ERROR_COMMON_CONCURRENCY("ERROR","EC001", "Request occurred simultaneously", "동시 요청으로 인한 오류"),
     ERROR_INVALID_FIELD("ERROR","EC003", "Field is invalid", "@Valid 통과 실패, 유효하지 않은 필드값"),
     ERROR_ENTITY_NOT_FOUND("ERROR","EC004", "Class entity not found", "존재하지 않는 엔티티"),
-	ERROR_INTERNAL_SERVER_ERROR("ERROR", "EC005", "Internal server error", "내부 서버 오류");
+	ERROR_INTERNAL_SERVER_ERROR("ERROR", "EC005", "Internal server error", "내부 서버 오류"),
 
 	// Error - Wishlist
+	ERROR_WISHLIST_ITEM_ALREADY_EXIST("ERROR", "EW000", "Wishlist Item already exists", "이미 존재하는 엔티티");
 
     private String status; // API response
     private String code; // API response
