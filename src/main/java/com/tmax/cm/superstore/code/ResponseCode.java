@@ -29,6 +29,12 @@ public enum ResponseCode implements Code {
 	// Seller
 	SELLER_CREATE("SUCCESS", "SELLER_CREATE", "Create seller", "판매자 계정 생성"),
 	SELLER_LIST_FIND("SUCCESS", "SELLER_LIST_FIND", "Find seller List", "판매자 리스트 가져오기"),
+	SELLER_DELIVERY_CREATE("SUCCESS", "SELLER_DELIVERY_CREATE", "Create sellerDelivery", "판매자 배송지 생성"),
+	SELLER_DELIVERY_LIST_FIND("SUCCESS", "SELLER_DELIVERY_LIST_FIND", "Find sellerDelivery List", "판매자 배송지 리스트 가져오기"),
+	SELLER_REPRESENTATIVE_DELIVERY_FIND("SUCCESS", "SELLER_REPRESENTATIVE_DELIVERY_FIND", "Find representativeDelivery", "대표 배송지 가져오기"),
+	SELLER_REPRESENTATIVE_DELIVERY_MODIFY("SUCCESS", "SELLER_REPRESENTATIVE_DELIVERY_MODIFY", "Modify representativeDelivery", "대표 배송지 변경"),
+	BUSINESS_MODIFY("SUCCESS", "BUSINESS_MODIFY", "Modify business info", "사업자 정보 수정"),
+	BUSINESS_FIND("SUCCESS", "BUSINESS_FIND", "Find business info", "사업자 정보 가져오기"),
 
 	// Reservation
 	RESERVATION_ITEM_CREATE("SUCCESS", "RESERVATION_ITEM_CREATE", "Create reservationItem", "예약 상품 생성"),
@@ -72,9 +78,15 @@ public enum ResponseCode implements Code {
 
 	// Error - ItemImage
 	ERROR_ITEM_IMAGE_NOT_FOUND("ERROR", "EIM000", "Item Image not found","해당 상품의 이미지을 찾지 못함"),
+
 	// Error - Seller
 	ERROR_SELLER_ALREADY_DELETED("ERROR", "ES000", "SellerId already deleted", "해당 판매자 계정은 이미 삭제되었음"),
 	ERROR_SELLER_NOT_FOUND("ERROR", "ES001", "SellerId not found", "해당 판매자 아이디를 찾을 수 없음"),
+	ERROR_SELLER_LIST_NOT_FOUND("ERROR", "ES002", "SellerList not found", "등록된 판매자가 없음"),
+	ERROR_SELLER_DELIVERY_ALREADY_DELETED("ERROR", "ES003", "SellerDeliveryId already deleted", "해당 배송지 정보는 이미 삭제되었음"),
+	ERROR_SELLER_DELIVERY_NOT_FOUND("ERROR", "ES004", "SellerDeliveryId not found", "해당 판매자 배송지 아이디를 찾을 수 없음"),
+	ERROR_SELLER_DELIVERY_LIST_NOT_FOUND("ERROR", "ES005", "SelleDeliveryList not found", "해당 판매자의 배송지 리스트가 없음"),
+	ERROR_BUSINESS_NOT_FOUND("ERROR", "EB000", "Business not found", "해당 판매자의 사업자 정보가 없음"),
 
 	// Error - Reservation
 	ERROR_NO_MORE_RESERVATION("ERROR", "ER000", "Cannot make reservation", "예약이 다 차있음"),
