@@ -1,9 +1,6 @@
 package com.tmax.cm.superstore.reservation.dto;
 
 import com.tmax.cm.superstore.reservation.entity.Reservation;
-import com.tmax.cm.superstore.reservation.entity.ReservationItem;
-import com.tmax.cm.superstore.reservation.entity.ReservationItemOption;
-import com.tmax.cm.superstore.seller.entity.Seller;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

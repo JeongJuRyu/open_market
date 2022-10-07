@@ -43,7 +43,7 @@ public class Seller {
 	@Column(nullable = false)
 	private boolean isDeleted;
 
-	public static SellerBuilder builder(CreateSellerDto.Request createSellerRequestDto){
+	public static SellerBuilder builder(CreateSellerDto.Request createSellerRequestDto) {
 		return SellerBuilder()
 			.loginId(createSellerRequestDto.getSellerInfo().getLoginId())
 			.password(createSellerRequestDto.getSellerInfo().getPassword())

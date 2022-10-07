@@ -16,7 +16,11 @@ import com.tmax.cm.superstore.seller.entity.Seller;
 import com.tmax.cm.superstore.seller.error.exception.SellerAlreadyDeletedException;
 import com.tmax.cm.superstore.seller.error.exception.SellerNotFoundException;
 import com.tmax.cm.superstore.seller.repository.SellerRepository;
+import com.tmax.cm.superstore.user.entities.User;
+import com.tmax.cm.superstore.user.error.exception.EmailNotFoundException;
+import com.tmax.cm.superstore.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +42,7 @@ public class ReservationService {
 	private final ReservationItemOptionRepository reservationItemOptionRepository;
 	private final ReservationRepository reservationRepository;
 	private final SellerRepository sellerRepository;
+	private final UserRepository userRepository;
 
 	/**
 	 * 예약 상품
@@ -402,8 +407,10 @@ public class ReservationService {
 			findReservationItemOptionValidation(findReservationItemOption);
 			Seller findSeller = sellerRepository.findSellerBySellerId(findReservationItem.getSellerId().getSellerId());
 			findSellerValidation(findSeller);
+			String email = (String)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			User findUser = userRepository.findUserByEmail(email).orElseThrow(EmailNotFoundException::new);
 			Reservation newReservation = Reservation.builder(makeReservationRequestDto, findReservationItem,
-				findReservationItemOption, findSeller).build();
+				findReservationItemOption, findSeller, findUser).build();
 			reservationRepository.save(newReservation);
 
 			return ResponseDto.<MakeReservationDto.Response>builder()
