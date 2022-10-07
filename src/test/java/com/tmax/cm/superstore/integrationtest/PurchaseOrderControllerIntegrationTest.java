@@ -71,4 +71,54 @@ public class PurchaseOrderControllerIntegrationTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(EasyRestDocumentation.document("postPurchaseOrderCart", "장바구니에서 주문 화면으로 전환", this.tag));
     }
+
+    @Test
+    void testPostPurchaseOrderBuyNow() throws Exception {
+        // given
+        JSONObject request = new JSONObject() {
+            {
+                put("itemId", "169f84f8-8862-477c-ad27-0b79871deb27");
+                put("sendType", "shipping");
+                put("selectedOptions", new JSONArray() {
+                    {
+                        put(new JSONObject() {
+                            {
+                                put("count", 1);
+                                put("cartOptionGroups", new JSONArray() {
+                                    {
+                                        put(new JSONObject() {
+                                            {
+                                                put("optionGroupId", "62cfa7ab-26f5-46cf-af80-f9dedfda5693");
+                                                put("cartOptions", new JSONArray() {
+                                                    {
+                                                        put(new JSONObject() {
+                                                            {
+                                                                put("optionId", "d8b52a5a-45e7-424a-beaa-7f281081f1c6");
+                                                                put("count", 1);
+                                                            }
+                                                        });
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        };
+
+        // when
+        ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
+                .post("/v1/purchaseOrder/buyNow")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(request.toString()));
+
+        // then
+        result.andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(EasyRestDocumentation.document("postPurchaseOrderBuyNow", "바로 구매로 주문 화면으로 전환", this.tag));
+    }
 }
