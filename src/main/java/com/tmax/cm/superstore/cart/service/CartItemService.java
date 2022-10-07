@@ -1,6 +1,7 @@
 package com.tmax.cm.superstore.cart.service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -120,6 +121,11 @@ public class CartItemService {
     public CartItem read(UUID cartItemId) {
 
         return this.cartItemRepository.findById(cartItemId).orElseThrow(CartItemNotFoundException::new);
+    }
+
+    @Transactional
+    public List<CartItem> read(List<UUID> cartItemIds) {
+        return this.cartItemRepository.findByIdIn(cartItemIds);
     }
 
     @Transactional

@@ -26,6 +26,10 @@ public enum ResponseCode implements Code {
 	CART_RESERVATION_ITEM_UPDATE("SUCCESS", "CART_RESERVATION_ITEM_UPDATE", "Update cart reservation item", "카트 예약 수정"),
 	CART_ITEMS_DELETE("SUCCESS", "CART_ITEMS_DELETE", "Delete cart items", "카트 상품 대량 삭제"),
 
+	// PurchaseOrder
+	PURCHASE_ORDER_CART_CREATE("SUCCESS", "PURCHASE_ORDER_CART_CREATE", "Create purchase order from cart", "장바구니 화면에서 주문서 생성"),
+	PURCHASE_ORDER_BUY_NOW_CREATE("SUCCESS", "PURCHASE_ORDER_BUY_NOW_CREATE", "Create purchase order from buy now", "바로 구매 기능으로 주문서 생성"),
+
 	// Seller
 	SELLER_CREATE("SUCCESS", "SELLER_CREATE", "Create seller", "판매자 계정 생성"),
 	SELLER_LIST_FIND("SUCCESS", "SELLER_LIST_FIND", "Find seller List", "판매자 리스트 가져오기"),
@@ -109,7 +113,6 @@ public enum ResponseCode implements Code {
 	ERROR_ITEM_INQUIRY_NOT_FOUND("ERROR", "EM104", "Item inquiry not found", "상품 문의가 존재 하지 않음."),
 	ERROR_ITEM_INQUIRY_REPLY_NOT_FOUND("ERROR", "EM105", "Item inquiry reply not found", "상품 문의 답변이 존재 하지 않음."),
 	ERROR_CUSTOMER_INQUIRY_REPLY_NOT_FOUND("ERROR", "EM106", "Customer inquiry reply not found", "해당 고객센터 문의 답변이 존재 하지 않음"),
-
 
 	// Error - User
 	ERROR_EMAIL_NOT_FOUND("ERROR", "EU001", "Email not found", "해당 이메일이 존재하지 않음"),
