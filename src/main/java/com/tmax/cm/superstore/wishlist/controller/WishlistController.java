@@ -2,7 +2,9 @@ package com.tmax.cm.superstore.wishlist.controller;
 
 import com.tmax.cm.superstore.code.ResponseCode;
 import com.tmax.cm.superstore.common.ResponseDto;
+import com.tmax.cm.superstore.item.entity.Item;
 import com.tmax.cm.superstore.wishlist.dto.*;
+import com.tmax.cm.superstore.wishlist.dto.mapper.GetIsWishlistItemDtoMapper;
 import com.tmax.cm.superstore.wishlist.dto.mapper.GetWishlistGroupAllDtoMapper;
 import com.tmax.cm.superstore.wishlist.dto.mapper.GetWishlistItemDtoMapper;
 import com.tmax.cm.superstore.wishlist.dto.mapper.PostWishlistGroupDtoMapper;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
@@ -27,6 +30,7 @@ public class WishlistController {
     private final GetWishlistGroupAllDtoMapper getWishlistGroupAllDtoMapper;
     private final GetWishlistItemDtoMapper getWishlistItemDtoMapper;
     private final PostWishlistGroupDtoMapper postWishlistGroupDtoMapper;
+    private final GetIsWishlistItemDtoMapper getIsWishlistItemDtoMapper;
 
 
     @GetMapping("/wishlistGroup")
@@ -46,6 +50,13 @@ public class WishlistController {
     public ResponseDto<Void> createWishlistItem(@Valid @RequestBody PostCreateWishlistItemDto.Request itemDto) {
         WishlistItem wishlistItem = this.wishlistItemService.create(itemDto);
         return new ResponseDto<>(ResponseCode.WISHLIST_ITEM_CREATE, null);
+    }
+
+    @GetMapping("/wishlistItem/isItem/{itemId}")
+    public ResponseDto<GetIsWishlistItemDto.Response> isWishlistItem(@Valid @PathVariable UUID itemId) {
+        Boolean result = this.wishlistItemService.checkItem(itemId);
+        GetIsWishlistItemDto.Response response = this.getIsWishlistItemDtoMapper.toResponse(result);
+        return new ResponseDto<>(ResponseCode.WISHLIST_ITEM_CHECK_READ, response);
     }
 
     @GetMapping("/wishlistItem")
@@ -83,6 +94,12 @@ public class WishlistController {
     @DeleteMapping("/wishlistItem")
     public ResponseDto<Void> deleteWishlistItem(@Valid @RequestBody DeleteWishlistItemsDto.Request request) {
         this.wishlistItemService.delete(request);
+        return new ResponseDto<>(ResponseCode.WISHLIST_ITEM_DELETE, null);
+    }
+
+    @DeleteMapping("/wishlistItem/item")
+    public ResponseDto<Void> deleteWishlistItemByItemId(@Valid @RequestBody DeleteWishlistItemDto.Request request) {
+        this.wishlistItemService.deleteByItemId(request);
         return new ResponseDto<>(ResponseCode.WISHLIST_ITEM_DELETE, null);
     }
 }
