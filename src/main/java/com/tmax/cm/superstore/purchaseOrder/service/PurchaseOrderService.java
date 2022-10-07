@@ -71,4 +71,55 @@ public class PurchaseOrderService {
 
         return purchaseOrderDto;
     }
+
+    @Transactional
+    public PurchaseOrderDto read(CartItem cartItem) {
+
+        int totalItemAmount = 0;
+        int totalShippingFee = 0;
+
+        PurchaseOrderDto.CartItemDtosMap shippings = new PurchaseOrderDto.CartItemDtosMap();
+        PurchaseOrderDto.CartItemDtosMap visits = new PurchaseOrderDto.CartItemDtosMap();
+        PurchaseOrderDto.CartItemDtosMap deliveries = new PurchaseOrderDto.CartItemDtosMap();
+        PurchaseOrderDto.CartItemDtosMap pickups = new PurchaseOrderDto.CartItemDtosMap();
+
+        Shop shop = cartItem.getItem().getShop();
+        PurchaseOrderDto.CartItemDto cartItemDto = this.purchaseOrderDtoMapper.toDto(cartItem, 3000);
+
+        switch (cartItem.getSendType()) {
+            case SHIPPING:
+                shippings.add(shop, cartItemDto);
+                break;
+            case VISIT:
+                visits.add(shop, cartItemDto);
+                break;
+            case DELIVERY:
+                deliveries.add(shop, cartItemDto);
+                break;
+            case PICKUP:
+                pickups.add(shop, cartItemDto);
+                break;
+            default:
+                break;
+        }
+
+        totalShippingFee += 3000;
+        totalItemAmount += cartItemDto.getAmount();
+
+        PurchaseOrderDto.PaymentInfoDto paymentInfoDto = PurchaseOrderDto.PaymentInfoDto.builder()
+                .totalItemAmount(totalItemAmount)
+                .totalShippingFee(totalShippingFee)
+                .totalPaymentAmount(totalItemAmount + totalShippingFee)
+                .build();
+
+        PurchaseOrderDto purchaseOrderDto = PurchaseOrderDto.builder()
+                .paymentInfo(paymentInfoDto)
+                .shippings(shippings)
+                .visits(visits)
+                .deliveries(deliveries)
+                .pickups(pickups)
+                .build();
+
+        return purchaseOrderDto;
+    }
 }

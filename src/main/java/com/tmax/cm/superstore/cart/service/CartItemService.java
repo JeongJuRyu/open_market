@@ -59,9 +59,7 @@ public class CartItemService {
 
         for (CreateSelectedOptionDto createSelectedOptionDto : createCartItemDto.getSelectedOptions()) {
 
-            SelectedOption selectedOption = this.selectedOptionService.create(createSelectedOptionDto, cartItem);
-
-            cartItem.getSelectedOptions().add(selectedOption);
+            this.selectedOptionService.create(createSelectedOptionDto, cartItem);
         }
 
         cart.getCartItems().add(cartItem);

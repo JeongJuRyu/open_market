@@ -13,7 +13,9 @@ import com.tmax.cm.superstore.cart.entity.CartItem;
 import com.tmax.cm.superstore.cart.service.CartItemService;
 import com.tmax.cm.superstore.code.ResponseCode;
 import com.tmax.cm.superstore.common.ResponseDto;
+import com.tmax.cm.superstore.purchaseOrder.controller.dto.PostPurchaseOrderBuyNowDto;
 import com.tmax.cm.superstore.purchaseOrder.controller.dto.PostPurchaseOrderCartDto;
+import com.tmax.cm.superstore.purchaseOrder.controller.dto.mapper.PostPurchaseOrderBuyNowDtoMapper;
 import com.tmax.cm.superstore.purchaseOrder.controller.dto.mapper.PostPurchaseOrderCartDtoMapper;
 import com.tmax.cm.superstore.purchaseOrder.service.PurchaseOrderService;
 import com.tmax.cm.superstore.purchaseOrder.service.dto.PurchaseOrderDto;
@@ -29,6 +31,7 @@ public class PurchaseOrderController {
     private final CartItemService cartItemService;
 
     private final PostPurchaseOrderCartDtoMapper postPurchaseOrderCartDtoMapper;
+    private final PostPurchaseOrderBuyNowDtoMapper postPurchaseOrderBuyNowDtoMapper;
 
     @PostMapping("/cart")
     public ResponseDto<PostPurchaseOrderCartDto.Response> postPurchaseOrderCart(
@@ -40,5 +43,17 @@ public class PurchaseOrderController {
 
         return new ResponseDto<>(ResponseCode.PURCHASE_ORDER_CART_CREATE,
                 this.postPurchaseOrderCartDtoMapper.toResponse(purchaseOrderDto));
+    }
+
+    @PostMapping("/buyNow")
+    public ResponseDto<PostPurchaseOrderBuyNowDto.Response> postPurchaseOrderBuyNow(
+            @Valid @RequestBody PostPurchaseOrderBuyNowDto.Request request) {
+
+        CartItem cartItem = this.cartItemService.create(request);
+
+        PurchaseOrderDto purchaseOrderDto = this.purchaseOrderService.read(cartItem);
+
+        return new ResponseDto<>(ResponseCode.PURCHASE_ORDER_BUY_NOW_CREATE,
+                this.postPurchaseOrderBuyNowDtoMapper.toResponse(purchaseOrderDto));
     }
 }
