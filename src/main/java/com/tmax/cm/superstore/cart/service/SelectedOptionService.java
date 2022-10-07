@@ -7,7 +7,6 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.tmax.cm.superstore.cart.entity.CartItem;
-import com.tmax.cm.superstore.cart.entity.CartOptionGroup;
 import com.tmax.cm.superstore.cart.entity.SelectedOption;
 import com.tmax.cm.superstore.cart.repository.SelectedOptionRepository;
 import com.tmax.cm.superstore.cart.service.dto.CreateCartOptionGroupDto;
@@ -32,13 +31,9 @@ public class SelectedOptionService {
                 .count(createSelectedOptionDto.getCount())
                 .build();
 
-        cartItem.getSelectedOptions().add(selectedOption);
-
         for (CreateCartOptionGroupDto createCartOptionGroupDto : createSelectedOptionDto.getCartOptionGroups()) {
 
-            CartOptionGroup cartOptionGroup = this.cartOptionGroupService.create(createCartOptionGroupDto, selectedOption);
-
-            selectedOption.getCartOptionGroups().add(cartOptionGroup);
+            this.cartOptionGroupService.create(createCartOptionGroupDto, selectedOption);
         }
 
         cartItem.getSelectedOptions().add(selectedOption);
