@@ -10,10 +10,12 @@ import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.tmax.cm.superstore.payment.entity.Payment;
+import com.tmax.cm.superstore.user.entities.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -47,6 +49,10 @@ public class Order {
 
     @Column(nullable = false)
     private String buyerPhoneNumber;
+
+    @ManyToOne
+    @JoinColumn(foreignKey = @ForeignKey(name = "FK_orders_user_id"), name = "userId", nullable = false)
+    private User user;
 
     @OneToOne(cascade = { CascadeType.PERSIST })
     @JoinColumn(foreignKey = @ForeignKey(name = "FK_orders_payment_id"), name = "paymentId", nullable = true)
