@@ -1,10 +1,15 @@
-package com.tmax.cm.superstore.ship.entity;
+package com.tmax.cm.superstore.shipping.entity;
 
+import com.tmax.cm.superstore.code.ShippingType;
 import com.tmax.cm.superstore.order.entity.Order;
+import com.tmax.cm.superstore.order.entity.ShippingOrder;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Entity
@@ -13,7 +18,7 @@ import java.util.UUID;
 @Setter
 @Getter
 @Builder
-public class Ship {
+public class Shipping {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -22,8 +27,31 @@ public class Ship {
     private UUID id;
 
     @OneToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_ship_order_id"), name = "order_id", nullable = false)
-    private Order order;
+    @JoinColumn(foreignKey = @ForeignKey(name = "FK_ship_shipping_order_id"), name = "order_id", nullable = false)
+    private ShippingOrder order;
+
+    private Map<ShippingType, LocalDateTime> statusmap = new HashMap<>();
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private ShippingType finalstatus;
+
+
+    public void acceptStatus() {
+        if(this.getFinalstatus() == ShippingType.SHIPPING_WAITING) {
+            setFinalstatus(ShippingType.SHIPPING_ACCEPT);
+            this.getStatusmap().put(ShippingType.SHIPPING_ACCEPT, LocalDateTime.now());
+            setFinalstatus(ShippingType.SHIPPING_ACCEPT);
+        }
+    }
+
+    public void refuseStatus() {
+        if(this.getFinalstatus() == ShippingType.SHIPPING_WAITING) {
+            setFinalstatus(ShippingType.SHIPPING_REFUSE);
+            this.getStatusmap().put(ShippingType.SHIPPING_REFUSE, LocalDateTime.now());
+            setFinalstatus(ShippingType.SHIPPING_REFUSE);
+        }
+    }
 
 
 }
