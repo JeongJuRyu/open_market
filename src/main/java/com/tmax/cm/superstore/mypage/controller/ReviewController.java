@@ -34,15 +34,16 @@ public class ReviewController {
 	}
 
 	@PostMapping
-	public ResponseEntity<UUID> createReview(
+	public ResponseEntity<Object> createReview(
 		@RequestBody @Valid PostReviewRequestDto postReviewRequestDto) {
-		System.out.println(postReviewRequestDto.getReviewImages());
 		return ResponseEntity.ok().body(reviewService.postReview(postReviewRequestDto));
 	}
+
 	@PatchMapping
-	public ResponseEntity<UUID> updateReview(
+	public ResponseEntity<Object> updateReview(
 		@RequestBody UpdateReviewRequestDto updateReviewRequestDto){
-		return ResponseEntity.ok().body(reviewService.updateReview(updateReviewRequestDto));
+		reviewService.updateReview(updateReviewRequestDto);
+		return ResponseEntity.ok().body(null);
 	}
 
 	@DeleteMapping("/{reviewId}")

@@ -16,15 +16,7 @@ public class GetReviewResponseDto {
 	public static class Review {
 		private UUID id;
 
-		private String title;
 		private String content;
-		private List<ReviewImage> reviewImages;
-
-		@Getter
-		@Builder
-		public static class ReviewImage {
-			private String url;
-		}
 		private ReviewReply reviewReply;
 
 		@Getter

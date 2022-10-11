@@ -15,16 +15,9 @@ public class GetAllReviewForSellerResponseDto {
 	public static class Review {
 		private String itemName;
 		private Float starRating;
-		private List<ReviewImage> reviewImages;
 		private String content;
 		private Long isUseful;
 		private LocalDateTime createdAt;
 		private LocalDateTime modifiedAt;
-
-		@Getter
-		@Builder
-		public static class ReviewImage {
-			private String url;
-		}
 	}
 }
