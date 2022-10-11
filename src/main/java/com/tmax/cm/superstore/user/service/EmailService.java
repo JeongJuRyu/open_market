@@ -32,7 +32,7 @@ public class EmailService {
 			// 	throw new EmailNotExpiredException();
 			// }
 			javaMailSender.send(message);
-			// Duration duration = Duration.ofMinutes(1valueOperations.set(emailAuthRequestDto.getEmail(), "valid", duration);
+			// Duration duration = Duration.ofMinutes(valueOperations.set(emailAuthRequestDto.getEmail(), "valid", duration);
 		} catch (MessagingException e) {
 			throw new IllegalAccessException();
 		}

@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import com.auth0.jwt.JWT;
 import com.tmax.cm.superstore.user.entities.User;
 
 import io.jsonwebtoken.Claims;
