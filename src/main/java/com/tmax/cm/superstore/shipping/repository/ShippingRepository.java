@@ -1,9 +1,9 @@
-package com.tmax.cm.superstore.ship.repository;
+package com.tmax.cm.superstore.shipping.repository;
 
-import com.tmax.cm.superstore.ship.entity.Ship;
+import com.tmax.cm.superstore.shipping.entity.Shipping;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public interface ShipRepository extends JpaRepository<Ship, UUID> {
+public interface ShippingRepository extends JpaRepository<Shipping, UUID> {
 }
