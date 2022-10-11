@@ -16,18 +16,8 @@ public class GetAllReviewResponseDto {
     public static class Review{
         private UUID id;
 
-        private String title;
-
         private String content;
 
         private LocalDateTime createdAt;
-
-        private List<ReviewImage> reviewImages;
-
-        @Getter
-        @Builder
-        public static class ReviewImage{
-            private String url;
-        }
     }
 }

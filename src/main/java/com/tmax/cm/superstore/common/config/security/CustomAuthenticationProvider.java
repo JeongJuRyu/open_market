@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 	private final UserDetailsService userDetailsService;
-	private final PasswordEncoder bCryptPasswordEncoder;
+	// private final PasswordEncoder bCryptPasswordEncoder;
 
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {

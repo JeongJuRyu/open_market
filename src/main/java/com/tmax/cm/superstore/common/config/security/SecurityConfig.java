@@ -42,7 +42,7 @@ public class SecurityConfig {
 			.csrf().disable()
 
 			.authorizeRequests()
-			.antMatchers("/v1/auth/test", "/v1/wishlist/**").authenticated()
+			.antMatchers("/v1/auth/test", "/v1/wishlist/**", "/v1/review/**").authenticated()
 			.anyRequest().permitAll()
 			.and()
 			.sessionManagement()

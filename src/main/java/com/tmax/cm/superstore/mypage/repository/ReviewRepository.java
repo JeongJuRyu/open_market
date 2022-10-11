@@ -21,6 +21,6 @@ public interface ReviewRepository extends JpaRepository<Review, UUID> {
 
     List<Review> findAllByItemId(UUID itemId);
 
-    @Query(value = "select r from Review r where r.seller.sellerId =:sellerId and r.createdAt >= :localDateTime")
-    List<Review> findAllBySellerId(UUID sellerId, LocalDateTime localDateTime);
+    @Query(value = "select r from Review r where r.createdAt >= :localDateTime")
+    List<Review> findAllBySellerId(LocalDateTime localDateTime);
 }
