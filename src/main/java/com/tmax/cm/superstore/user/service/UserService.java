@@ -15,6 +15,7 @@ import com.tmax.cm.superstore.user.dto.CreateUserResponseDto;
 import com.tmax.cm.superstore.user.dto.DeleteDeliveryInfoRequestDto;
 import com.tmax.cm.superstore.user.dto.EmailAuthRequestDto;
 import com.tmax.cm.superstore.user.dto.EmailAuthResponseDto;
+import com.tmax.cm.superstore.user.dto.GetUserDeliveryInfoResponseDto;
 import com.tmax.cm.superstore.user.dto.GetUserInfoRequestDto;
 import com.tmax.cm.superstore.user.dto.GetUserInfoResponseDto;
 import com.tmax.cm.superstore.user.dto.PostDeliveryRequestDto;
@@ -29,6 +30,7 @@ import com.tmax.cm.superstore.user.error.exception.DeliveryAddressNotFoundExcept
 import com.tmax.cm.superstore.user.error.exception.EmailNotFoundException;
 import com.tmax.cm.superstore.user.error.exception.UserAlreadyExistException;
 import com.tmax.cm.superstore.user.error.exception.WrongPasswordException;
+import com.tmax.cm.superstore.user.mapper.DeliveryMapper;
 import com.tmax.cm.superstore.user.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -38,6 +40,7 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 	private final UserRepository userRepository;
 	private final EmailService emailService;
+	private final DeliveryMapper deliveryMapper;
 	// private final PasswordEncoder passwordEncoder;
 
 	@Transactional(readOnly = true)
@@ -60,6 +63,7 @@ public class UserService {
 			.password(createUserRequestDto.getPassword())
 			.phoneNum(createUserRequestDto.getUserPhoneNum())
 			.address(createUserRequestDto.getAddress())
+			.name(createUserRequestDto.getName())
 			.build();
 		userRepository.save(user);
 		return null;
@@ -103,6 +107,15 @@ public class UserService {
 		return userRepository.existsByEmail(email);
 	}
 
+	@Transactional(readOnly = true)
+	public GetUserDeliveryInfoResponseDto getUserDeliveryInfo(){
+		String email = (String)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		User user = userRepository
+			.findUserByEmail(email).orElseThrow(EmailNotFoundException::new);
+		return GetUserDeliveryInfoResponseDto.builder()
+			.deliveryAddresses(deliveryMapper.toDeliveriesDto(user.getDeliveryAddresses()))
+			.build();
+	}
 	@Transactional
 	public void postDeliveryInfo(
 		PostDeliveryRequestDto dto){
