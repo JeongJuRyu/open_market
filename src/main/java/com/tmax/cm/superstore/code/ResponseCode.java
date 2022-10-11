@@ -73,6 +73,11 @@ public enum ResponseCode implements Code {
 	WISHLIST_ITEM_CREATE("SUCCESS", "WISHLIST_ITEM_CREATE", "Create wishlist item", "찜한 상품 생성"),
 	WISHLIST_ITEM_CHECK_READ("SUCCESS", "WISHLIST_ITEM_CHECK_READ", "Read and check wishlist item", "찜한 상품 여부 조회"),
 
+	// Ship
+	SHIP_CREATE("SUCCESS", "SHIP_CREATE", "Create ship", "배송 목록 생성"),
+	SHIP_READ("SUCCESS", "SHIP_READ", "Read ship", "배송 목록 조회"),
+	SHIP_STATUS_UPDATE("SUCCESS", "SHIP_STATUS_UPDATE", "Update ship's status", "배송 상태 변경"),
+	SHIP_UPDATE("SUCCESS", "SHIP_UPDATE", "Update ship", "배송 목록 수정"),
 
 	// Error - Item
 	ERROR_ITEM_NOT_FOUND("ERROR", "EI000", "Item not found", "해당 상품이 저장되어 있지 않음"),
