@@ -30,7 +30,7 @@ public class Shipping {
     @JoinColumn(foreignKey = @ForeignKey(name = "FK_ship_shipping_order_id"), name = "order_id", nullable = false)
     private ShippingOrder order;
 
-    private Map<ShippingType, LocalDateTime> statusmap = new HashMap<>();
+//    private Map<ShippingType, LocalDateTime> statusmap = new HashMap<>();
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -40,7 +40,7 @@ public class Shipping {
     public void acceptStatus() {
         if(this.getFinalstatus() == ShippingType.SHIPPING_WAITING) {
             setFinalstatus(ShippingType.SHIPPING_ACCEPT);
-            this.getStatusmap().put(ShippingType.SHIPPING_ACCEPT, LocalDateTime.now());
+//            this.getStatusmap().put(ShippingType.SHIPPING_ACCEPT, LocalDateTime.now());
             setFinalstatus(ShippingType.SHIPPING_ACCEPT);
         }
     }
@@ -48,7 +48,7 @@ public class Shipping {
     public void refuseStatus() {
         if(this.getFinalstatus() == ShippingType.SHIPPING_WAITING) {
             setFinalstatus(ShippingType.SHIPPING_REFUSE);
-            this.getStatusmap().put(ShippingType.SHIPPING_REFUSE, LocalDateTime.now());
+//            this.getStatusmap().put(ShippingType.SHIPPING_REFUSE, LocalDateTime.now());
             setFinalstatus(ShippingType.SHIPPING_REFUSE);
         }
     }
