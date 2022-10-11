@@ -23,14 +23,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class JWTAccessTokenFilter extends BasicAuthenticationFilter {
-	private final UserDetailsService userDetailsService;
-	private final UserLoginInfoRepository userLoginInfoRepository;
-	public JWTAccessTokenFilter(AuthenticationManager authenticationManager,
-		UserDetailsService userDetailsService,
-		UserLoginInfoRepository userLoginInfoRepository) {
+	public JWTAccessTokenFilter(AuthenticationManager authenticationManager) {
 		super(authenticationManager);
-		this.userDetailsService = userDetailsService;
-		this.userLoginInfoRepository = userLoginInfoRepository;
 	}
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws
@@ -39,16 +33,10 @@ public class JWTAccessTokenFilter extends BasicAuthenticationFilter {
 		String JwtToken = JwtUtil.resolveToken(request);
 		VerifyResult verifiedResult = JwtUtil.validateToken(JwtToken);
 		String userName = verifiedResult.getUsername();
-		if(verifiedResult.isSuccess()){
-			UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-				userName, null, null
-			);
-			SecurityContextHolder.getContext().setAuthentication(token);
-		} else {
-			log.error(AuthErrorCode.INVALID_ACCESS_TOKEN.getMessage());
-			request.setAttribute("exception", AuthErrorCode.INVALID_ACCESS_TOKEN);
-		}
+		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+			userName, null, null
+		);
+		SecurityContextHolder.getContext().setAuthentication(token);
 		chain.doFilter(request,response);
 	}
-
 }

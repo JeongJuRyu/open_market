@@ -19,17 +19,8 @@ public class PostReviewRequestDto {
     @NotNull
     private Float starRating;
     @NotNull
-    private UUID itemId;
+    private UUID orderItemId;
     @NotNull
     private UUID userId;
     private UUID sellerId;
-    private List<ReviewImage> reviewImages;
-
-    @Getter
-    @Builder
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class ReviewImage {
-        private String url;
-    }
 }
