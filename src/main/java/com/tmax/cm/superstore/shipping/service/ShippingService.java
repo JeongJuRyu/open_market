@@ -24,29 +24,10 @@ public class ShippingService {
                 .mobile(mobile)
                 .requests(request)
                 .finalstatus(ShippingType.SHIPPING_WAITING)
-                .timestamp(LocalDateTime.now())
                 .build();
 
         repository.save(shipping);
         return shipping;
-    }
-
-    @Transactional
-    public Shipping create(String recipient, String address, String mobile) {
-        Shipping shipping = Shipping.builder()
-                .address(address)
-                .recipient(recipient)
-                .mobile(mobile)
-                .finalstatus(ShippingType.SHIPPING_WAITING)
-                .build();
-
-        repository.save(shipping);
-        return shipping;
-    }
-
-    @Transactional
-    public void update() {
-
     }
 
     @Transactional
