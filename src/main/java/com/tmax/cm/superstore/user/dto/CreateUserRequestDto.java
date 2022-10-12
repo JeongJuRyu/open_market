@@ -21,4 +21,7 @@ public class CreateUserRequestDto {
 
 	@NotNull
 	private String address;
+
+	@NotNull
+	private String name;
 }

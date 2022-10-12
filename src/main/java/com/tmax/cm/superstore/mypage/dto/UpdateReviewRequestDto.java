@@ -14,13 +14,4 @@ public class UpdateReviewRequestDto {
 	private UUID id;
 	private String title;
 	private String content;
-	private List<PostReviewRequestDto.ReviewImage> reviewImages;
-
-	@Getter
-	@Builder
-	@AllArgsConstructor
-	@NoArgsConstructor
-	public static class ReviewImage {
-		private String url;
-	}
 }

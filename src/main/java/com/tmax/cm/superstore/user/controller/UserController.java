@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tmax.cm.superstore.user.dto.CreateUserRequestDto;
 import com.tmax.cm.superstore.user.dto.CreateUserResponseDto;
 import com.tmax.cm.superstore.user.dto.DeleteDeliveryInfoRequestDto;
+import com.tmax.cm.superstore.user.dto.GetUserDeliveryInfoResponseDto;
 import com.tmax.cm.superstore.user.dto.GetUserInfoRequestDto;
 import com.tmax.cm.superstore.user.dto.GetUserInfoResponseDto;
 import com.tmax.cm.superstore.user.dto.PostDeliveryRequestDto;
@@ -56,6 +57,11 @@ public class UserController {
 		UpdatePasswordRequestDto updatePasswordRequestDto){
 		userService.updatePassword(updatePasswordRequestDto);
 		return ResponseEntity.ok().body(null);
+	}
+
+	@GetMapping("/delivery")
+	public ResponseEntity<GetUserDeliveryInfoResponseDto> getDeliveryInfo(){
+		return ResponseEntity.ok().body(userService.getUserDeliveryInfo());
 	}
 
 	@PostMapping("/delivery")

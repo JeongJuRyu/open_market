@@ -53,7 +53,7 @@ public class Item extends BaseTimeEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<Review> reviews =new ArrayList<>();
+    private List<Review> reviews = new ArrayList<>();
 
     @JsonManagedReference
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
