@@ -3,6 +3,7 @@ package com.tmax.cm.superstore.order.entity;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -32,6 +33,9 @@ public class VisitOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
+    private Integer amount;
 
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "FK_visit_order_order_id"), name = "orderId", nullable = false)
