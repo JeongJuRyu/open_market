@@ -21,29 +21,46 @@ import java.util.UUID;
 public class Shipping {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @GeneratedValue
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @OneToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_ship_shipping_order_id"), name = "order_id", nullable = false)
-    private ShippingOrder order;
+    @Column(nullable = false)
+    private String recipient;
+
+    @Column(nullable = false)
+    private String mobile;
+
+    @Column(nullable = false)
+    private String address;
+
+    private String requests;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ShippingType finalstatus;
 
+    @Column(nullable = false)
+    private LocalDateTime timestamp;
 
     public void acceptStatus() {
         if(this.getFinalstatus() == ShippingType.SHIPPING_WAITING) {
             setFinalstatus(ShippingType.SHIPPING_ACCEPT);
+            setTimestamp(LocalDateTime.now());
         }
     }
 
     public void refuseStatus() {
         if(this.getFinalstatus() == ShippingType.SHIPPING_WAITING) {
             setFinalstatus(ShippingType.SHIPPING_REFUSE);
+            setTimestamp(LocalDateTime.now());
+        }
+    }
+
+    public void doneStatus() {
+        if(this.getFinalstatus().equals(ShippingType.SHIPPING_ACCEPT)) {
+            setFinalstatus(ShippingType.SHIPPING_DONE);
+            setTimestamp(LocalDateTime.now());
         }
     }
 
