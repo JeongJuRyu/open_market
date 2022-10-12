@@ -189,4 +189,9 @@ public class CartItemService {
             this.cartItemRepository.delete(cartItem);
         }
     }
+
+    @Transactional
+    public void delete(List<CartItem> cartItems) {
+        this.cartItemRepository.deleteAll(cartItems);
+    }
 }

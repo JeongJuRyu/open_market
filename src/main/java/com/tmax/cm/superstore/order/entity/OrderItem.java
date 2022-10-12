@@ -43,17 +43,11 @@ public class OrderItem {
 	private Integer price;
 
 	@Column(nullable = false)
-	private Integer count;
-
-	@Column(nullable = false)
 	private Integer amount;
 
 	@OneToMany(cascade = { CascadeType.PERSIST })
 	@JoinColumn(foreignKey = @ForeignKey(name = "FK_order_selected_option_order_item_id"), name = "orderItemId", nullable = false)
 	private List<OrderSelectedOption> orderSelectedOptions;
-
-	@Column(nullable = false)
-	private String imageUrl;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id")
@@ -62,5 +56,4 @@ public class OrderItem {
 	@ManyToOne(cascade = { CascadeType.PERSIST })
 	@JoinColumn(foreignKey = @ForeignKey(name = "FK_order_item_shipping_fee_id"), name = "shippingFeeId", nullable = true)
 	private ShippingFee shippingFee;
-
 }

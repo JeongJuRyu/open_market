@@ -30,6 +30,9 @@ public enum ResponseCode implements Code {
 	PURCHASE_ORDER_CART_CREATE("SUCCESS", "PURCHASE_ORDER_CART_CREATE", "Create purchase order from cart", "장바구니 화면에서 주문서 생성"),
 	PURCHASE_ORDER_BUY_NOW_CREATE("SUCCESS", "PURCHASE_ORDER_BUY_NOW_CREATE", "Create purchase order from buy now", "바로 구매 기능으로 주문서 생성"),
 
+	// Order
+	ORDER_CREATE("SUCCESS", "ORDER_CREATE", "Create order", "주문 생성"),
+
 	// Seller
 	SELLER_CREATE("SUCCESS", "SELLER_CREATE", "Create seller", "판매자 계정 생성"),
 	SELLER_LIST_FIND("SUCCESS", "SELLER_LIST_FIND", "Find seller List", "판매자 리스트 가져오기"),
