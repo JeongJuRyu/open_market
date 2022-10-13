@@ -33,6 +33,9 @@ public class Shop {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = true)
+    private String address;
+
     @Column(nullable = false)
     @Builder.Default
     private Boolean isDeleted = false;

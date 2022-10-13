@@ -58,10 +58,7 @@ public class User implements UserDetails {
 	@Column(nullable = false)
 	private String address;
 
-	// @Column(nullable = false)
-	private String userName;
-
-	// @Column(nullable = false)
+	@Column(nullable = false)
 	private String name;
 
 	// @OneToOne(fetch = FetchType.LAZY)
