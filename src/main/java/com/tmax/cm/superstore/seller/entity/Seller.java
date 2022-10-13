@@ -58,4 +58,8 @@ public class Seller {
 		this.sellerEmail = modifySellerInfoRequestDto.getSellerEmail();
 		this.sellerPhoneNum = modifySellerInfoRequestDto.getSellerPhoneNum();
 	}
+
+	public void deleteSeller(){
+		this.isDeleted = true;
+	}
 }

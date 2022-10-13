@@ -23,6 +23,11 @@ public class SellerController {
 		return ResponseEntity.ok().body(sellerService.createSeller(createSellerRequestDto));
 	}
 
+	@DeleteMapping("/{sellerId}")
+	public ResponseEntity<ResponseDto<DeleteSellerDto.Response>> deleteSeller(@PathVariable UUID sellerId) throws Exception{
+		return ResponseEntity.ok().body(sellerService.deleteSeller(sellerId));
+	}
+
 	@PatchMapping("/{sellerId}")
 	public ResponseEntity<ResponseDto<ModifySellerInfoDto.Response>> modifySellerInfo(@PathVariable UUID sellerId,
 		@Valid @RequestBody ModifySellerInfoDto.Request modifySellerInfoRequestDto) throws Exception {

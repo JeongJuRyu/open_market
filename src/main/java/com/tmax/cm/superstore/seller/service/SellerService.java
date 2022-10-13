@@ -49,6 +49,24 @@ public class SellerService {
 	}
 
 	@Transactional(rollbackFor = Exception.class)
+	public ResponseDto<DeleteSellerDto.Response> deleteSeller(UUID sellerId) throws Exception {
+		try {
+			Seller findSeller = sellerRepository.findSellerBySellerId(sellerId);
+			findSellerValidation(findSeller);
+			findSeller.deleteSeller();
+			sellerRepository.save(findSeller);
+
+			return ResponseDto.<DeleteSellerDto.Response>builder()
+				.responseCode(ResponseCode.SELLER_DELETE)
+				.data(DeleteSellerDto.Response.builder(findSeller).build())
+				.build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Transactional(rollbackFor = Exception.class)
 	public ResponseDto<ModifySellerInfoDto.Response> modifySellerInfo(UUID sellerId,
 		ModifySellerInfoDto.Request modifySellerInfoRequestDto) throws Exception {
 		try {
