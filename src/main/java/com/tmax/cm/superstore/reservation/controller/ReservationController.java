@@ -47,6 +47,11 @@ public class ReservationController {
 		return ResponseEntity.ok().body(reservationService.deleteReservationItem(reservationItemId));
 	}
 
+	@GetMapping("/item/all")
+	public ResponseEntity<ResponseDto<FindReservationItemsDto.Response>> findReservationItems() throws Exception{
+		return ResponseEntity.ok().body(reservationService.findReservationItems());
+	}
+
 	@GetMapping("{reservationItemId}/item")
 	public ResponseEntity<ResponseDto<FindReservationItemDto.Response>> findReservationItem(
 		@PathVariable UUID reservationItemId) throws Exception {

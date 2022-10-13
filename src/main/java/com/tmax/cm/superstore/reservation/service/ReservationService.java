@@ -110,6 +110,27 @@ public class ReservationService {
 	}
 
 	@Transactional(rollbackFor = Exception.class, readOnly = true)
+	public ResponseDto<FindReservationItemsDto.Response> findReservationItems() throws Exception {
+		try {
+			List<ReservationItem> findReservationItemList = reservationItemRepository.findAll();
+			findReservationItemValidation(findReservationItemList);
+			List<FindReservationItemsDto.Response.ReservationItemList> reservationItemList = new ArrayList<>();
+			for (ReservationItem reservationItem : findReservationItemList) {
+				reservationItemList.add(
+					FindReservationItemsDto.Response.ReservationItemList.builder(reservationItem).build());
+			}
+
+			return ResponseDto.<FindReservationItemsDto.Response>builder()
+				.responseCode(ResponseCode.RESERVATION_ITEM_ALL_FIND)
+				.data(FindReservationItemsDto.Response.builder(reservationItemList).build())
+				.build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Transactional(rollbackFor = Exception.class, readOnly = true)
 	public ResponseDto<FindReservationItemDto.Response> findReservationItem(UUID reservationItemId) throws Exception {
 		try {
 			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
