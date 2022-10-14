@@ -11,7 +11,7 @@ import com.tmax.cm.superstore.cart.entity.SelectedOption;
 import com.tmax.cm.superstore.cart.repository.CartOptionGroupRepository;
 import com.tmax.cm.superstore.cart.service.dto.CreateCartOptionDto;
 import com.tmax.cm.superstore.cart.service.dto.CreateCartOptionGroupDto;
-import com.tmax.cm.superstore.error.exception.OptionGroupNotFoundException;
+import com.tmax.cm.superstore.item.error.exception.OptionGroupNotFoundException;
 import com.tmax.cm.superstore.item.entity.OptionGroup;
 import com.tmax.cm.superstore.item.repository.OptionGroupRepository;
 

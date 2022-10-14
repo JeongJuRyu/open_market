@@ -1,6 +1,6 @@
 package com.tmax.cm.superstore.mypage.service;
 
-import com.tmax.cm.superstore.error.exception.ItemNotFoundException;
+import com.tmax.cm.superstore.item.error.exception.ItemNotFoundException;
 import com.tmax.cm.superstore.item.entity.Item;
 import com.tmax.cm.superstore.item.repository.ItemRepository;
 import com.tmax.cm.superstore.mypage.dto.GetAllReviewForSellerResponseDto;
@@ -12,7 +12,6 @@ import com.tmax.cm.superstore.mypage.dto.UpdateReviewRequestDto;
 import com.tmax.cm.superstore.mypage.entity.Review;
 import com.tmax.cm.superstore.mypage.entity.ReviewImage;
 import com.tmax.cm.superstore.mypage.mapper.ReviewMapper;
-import com.tmax.cm.superstore.mypage.repository.ReviewReplyRepository;
 import com.tmax.cm.superstore.seller.entity.Seller;
 import com.tmax.cm.superstore.user.entities.User;
 import org.springframework.security.core.context.SecurityContextHolder;

@@ -22,7 +22,7 @@ import com.tmax.cm.superstore.cart.service.dto.UpdateCartReservationItemDto;
 import com.tmax.cm.superstore.code.CartType;
 import com.tmax.cm.superstore.code.SendType;
 import com.tmax.cm.superstore.error.exception.CartItemNotFoundException;
-import com.tmax.cm.superstore.error.exception.ItemNotFoundException;
+import com.tmax.cm.superstore.item.error.exception.ItemNotFoundException;
 import com.tmax.cm.superstore.item.entity.Item;
 import com.tmax.cm.superstore.item.repository.ItemRepository;
 
