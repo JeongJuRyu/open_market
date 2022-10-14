@@ -15,6 +15,8 @@ public enum ResponseCode implements Code {
 	ITEM_CREATE("SUCCESS","ITEM_CREATE", "Create item", "상품 생성"),
 	ITEM_READ("SUCCESS","ITEM_READ", "Read item", "특정 상품 조회"),
 	ITEM_READ_ALL("SUCCESS","ITEM_READ_ALL", "Read item all", "모든 상품 조회"),
+	ITEM_DELETE("SUCCESS","ITEM_DELETE","Delete item","상품 삭제"),
+	ITEM_UPDATE("SUCCESS", "ITEM_UPDATE","Update item", "상품 수정"),
 
 	// Cart
 	CART_READ("SUCCESS", "CART_READ", "Read cart", "카트 조회"),
@@ -54,6 +56,11 @@ public enum ResponseCode implements Code {
 	WISHLIST_GROUP_DELETE("SUCCESS", "WISHLIST_GROUP_DELETE", "Delete wishlist group", "찜 그룹 삭제"),
 	WISHLIST_ITEM_DELETE("SUCCESS", "WISHLIST_ITEM_DELETE", "Delete wishlist item", "찜 아이템 삭제"),
 
+	// Error - category
+	ERROR_CATEGORY_NOT_FOUND("ERROR", "ECT000", "Category not found", "해당 카테고리가 존재하지 않습니다."),
+
+	// Error - shop
+	ERROR_SHOP_NOT_FOUND("ERROR", "ES000", "Shop not found", "해당 가게는 존재하지 않습니다."),
 
 	// Error - Item
 	ERROR_ITEM_NOT_FOUND("ERROR", "EI000", "Item not found", "해당 상품이 저장되어 있지 않음"),
