@@ -1,24 +1,27 @@
 package com.tmax.cm.superstore.item.service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
 
+import com.tmax.cm.superstore.category.error.exception.CategoryNotFoundException;
+import com.tmax.cm.superstore.category.repository.CategoryRepository;
 import com.tmax.cm.superstore.item.dto.FileInfo;
 import com.tmax.cm.superstore.item.dto.GetItemAllByCategoryDto;
+import com.tmax.cm.superstore.item.dto.UpdateItemDto;
 import com.tmax.cm.superstore.item.dto.mapper.GetItemAllByCategoryDtoMapper;
 import com.tmax.cm.superstore.item.entity.*;
 import com.tmax.cm.superstore.mypage.service.ReviewService;
+import com.tmax.cm.superstore.shop.error.exception.ShopNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.tmax.cm.superstore.category.entity.Category;
 import com.tmax.cm.superstore.category.entity.dto.CategoryDto;
 import com.tmax.cm.superstore.category.service.CategoryService;
 import com.tmax.cm.superstore.code.SendType;
-import com.tmax.cm.superstore.error.exception.ItemNotFoundException;
+import com.tmax.cm.superstore.item.error.exception.ItemNotFoundException;
 import com.tmax.cm.superstore.item.dto.PostItemDto;
 import com.tmax.cm.superstore.item.repository.ItemRepository;
 import com.tmax.cm.superstore.shop.entity.Shop;
@@ -33,6 +36,7 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
     private final ShopRepository shopRepository;
+    private final CategoryRepository categoryRepository;
 
     private final CategoryService categoryService;
     private final ImageService imageService;
@@ -154,5 +158,64 @@ public class ItemService {
         }
 
         return getItemAllByCategoryDtoMapper.toResponse(items, avgStars, reviewCounts);
+    }
+
+    @Transactional
+    public Item updateItem(UUID itemId, UpdateItemDto.Request updateItemDto){
+        Item item = itemRepository.findById(itemId)
+                .orElseThrow(ItemNotFoundException::new);
+
+        Shop shop = shopRepository.findById(updateItemDto.getShopId())
+                .orElseThrow(ShopNotFoundException::new);
+
+        Category category = categoryRepository.findById(updateItemDto.getCategoryId())
+                .orElseThrow(CategoryNotFoundException::new);
+
+        item.getItemSendTypes().clear();
+
+        for (SendType sendType: updateItemDto.getPossibleSendType()) {
+            ItemSendType itemSendType = ItemSendType.builder()
+                    .sendType(sendType)
+                    .item(item)
+                    .build();
+
+            item.getItemSendTypes().add(itemSendType);
+        }
+
+        item.getOptionGroups().clear();
+
+        for (UpdateItemDto.Request.PostOptionGroupDto postOptionGroupDto : updateItemDto.getOptionGroups()) {
+            OptionGroup optionGroup = OptionGroup.builder()
+                    .name(postOptionGroupDto.getName())
+                    .isNecessary(postOptionGroupDto.getIsNecessary())
+                    .options(new ArrayList<>())
+                    .item(item)
+                    .build();
+
+            for (UpdateItemDto.Request.PostOptionGroupDto.PostOptionDto postOptionDto : postOptionGroupDto.getOptions()) {
+                Option option = Option.builder()
+                        .name(postOptionDto.getName())
+                        .price(postOptionDto.getPrice())
+                        .description(postOptionDto.getDescription())
+                        .optionGroup(optionGroup)
+                        .build();
+
+                optionGroup.getOptions().add(option);
+            }
+
+            item.getOptionGroups().add(optionGroup);
+        }
+
+        item.updateItem(shop, category, updateItemDto.getName(), updateItemDto.getPrice(), updateItemDto.getItemState());
+
+        this.itemRepository.save(item);
+
+        return item;
+    }
+
+    @Transactional
+    public void deleteItem(UUID itemId){
+        Item item = itemRepository.findById(itemId).orElseThrow(ItemNotFoundException::new);
+        itemRepository.delete(item);
     }
 }

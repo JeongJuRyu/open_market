@@ -7,6 +7,7 @@ import java.util.UUID;
 import javax.persistence.*;
 
 import com.tmax.cm.superstore.category.entity.Category;
+import com.tmax.cm.superstore.item.code.ItemState;
 import com.tmax.cm.superstore.common.entity.BaseTimeEntity;
 import com.tmax.cm.superstore.mypage.entity.Review;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -14,7 +15,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import com.tmax.cm.superstore.code.SendType;
-import com.tmax.cm.superstore.error.exception.ItemSendTypeImpossibleException;
+import com.tmax.cm.superstore.item.error.exception.ItemSendTypeImpossibleException;
 import com.tmax.cm.superstore.shop.entity.Shop;
 
 import lombok.AllArgsConstructor;
@@ -37,10 +38,10 @@ public class Item extends BaseTimeEntity {
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @OneToMany(mappedBy = "item", cascade = { CascadeType.PERSIST })
+    @OneToMany(mappedBy = "item", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, orphanRemoval = true)
     private List<OptionGroup> optionGroups;
 
-    @OneToMany(mappedBy = "item", cascade = { CascadeType.PERSIST })
+    @OneToMany(mappedBy = "item", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, orphanRemoval = true)
     private List<ItemSendType> itemSendTypes;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -69,6 +70,10 @@ public class Item extends BaseTimeEntity {
     @Builder.Default
     private Boolean isDeleted = false;
 
+    @Column(nullable = false, columnDefinition = "varchar(255) default 'WAITING'")
+    @Enumerated(EnumType.STRING)
+    private ItemState itemState;
+
     public void validateSendType(SendType sendType) {
         boolean isSendTypeContain = this.itemSendTypes.stream()
                 .anyMatch((element) -> {
@@ -83,6 +88,14 @@ public class Item extends BaseTimeEntity {
     public void addItemImage(ItemImage itemImage) {
         this.itemImages.add(itemImage);
         itemImage.setItem(this);
+    }
+
+    public void updateItem(Shop shop, Category category, String name, Integer price, ItemState itemState){
+        this.shop = shop;
+        this.category = category;
+        this.name = name;
+        this.price = price;
+        this.itemState = itemState;
     }
 
 }

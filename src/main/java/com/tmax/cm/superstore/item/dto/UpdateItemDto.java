@@ -1,41 +1,33 @@
 package com.tmax.cm.superstore.item.dto;
 
+import com.tmax.cm.superstore.category.entity.Category;
+import com.tmax.cm.superstore.item.code.ItemState;
+import com.tmax.cm.superstore.code.SendType;
+import lombok.Builder;
+import lombok.Getter;
+
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PositiveOrZero;
-
-import com.tmax.cm.superstore.item.code.ItemState;
-import com.tmax.cm.superstore.code.SendType;
-
-import lombok.*;
-
-public class PostItemDto {
+public class UpdateItemDto {
 
     @Getter
+    @Builder
     public static class Request {
+        private UUID shopId;
 
-        @NotNull
-        private String shopName; // TODO 가게 생성 타 API로 분리
-
-        @NotNull
         private String name;
 
-        @NotNull
-        @PositiveOrZero
         private Integer price;
 
         private Set<SendType> possibleSendType;
 
-        private List<PostOptionGroupDto> optionGroups;
+        private ItemState itemState;
 
-        @NotNull
         private Long categoryId;
 
-        @NotNull
-        private ItemState itemState;
+        private List<PostOptionGroupDto> optionGroups;
 
         @Getter
         public static class PostOptionGroupDto {
@@ -50,7 +42,7 @@ public class PostItemDto {
             public static class PostOptionDto {
 
                 private String name;
-                
+
                 private Integer price;
 
                 private String description;
@@ -58,10 +50,10 @@ public class PostItemDto {
         }
     }
 
-    @Builder
     @Getter
+    @Builder
     public static class Response {
-
-        private UUID itemId;
+        UUID itemId;
     }
+
 }
