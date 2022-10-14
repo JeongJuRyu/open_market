@@ -146,6 +146,11 @@ public class ReservationController {
 		return ResponseEntity.ok().body(reservationService.makeReservation(makeReservationRequestDto));
 	}
 
+	@GetMapping("/{sellerId}/list")
+	public ResponseEntity<ResponseDto<FindReservationBySellerDto.Response>> findReservationBySeller(@PathVariable UUID sellerId) throws Exception{
+		return ResponseEntity.ok().body(reservationService.findReservationBySeller(sellerId));
+	}
+
 	/**
 	 * 장바구니 구현을 위한 임시 예약
 	 */

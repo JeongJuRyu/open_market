@@ -444,6 +444,30 @@ public class ReservationService {
 		}
 	}
 
+	@Transactional(rollbackFor = Exception.class, readOnly = true)
+	public ResponseDto<FindReservationBySellerDto.Response> findReservationBySeller(UUID sellerId) throws Exception {
+		try {
+			Seller findSeller = sellerRepository.findSellerBySellerId(sellerId);
+			findSellerValidation(findSeller);
+			List<Optional<Reservation>> findReservationList = reservationRepository.findAllBySellerIdAndReservationTimeBetween(
+				findSeller, LocalDateTime.now(), LocalDateTime.now().plusDays(30));
+
+			List<FindReservationBySellerDto.Response.ReservationList> responseReservationList = new ArrayList<>();
+			for (Optional<Reservation> reservation : findReservationList) {
+				Optional<User> findUser = userRepository.findUserByEmail(reservation.get().getUserId().getEmail());
+				responseReservationList.add(
+					FindReservationBySellerDto.Response.ReservationList.builder(findUser, reservation).build());
+			}
+			return ResponseDto.<FindReservationBySellerDto.Response>builder()
+				.responseCode(ResponseCode.RESERVATION_LIST_BY_SELLER_FIND)
+				.data(FindReservationBySellerDto.Response.builder(responseReservationList).build())
+				.build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
 	/**
 	 * 공용메소드
 	 */

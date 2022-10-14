@@ -62,6 +62,7 @@ public enum ResponseCode implements Code {
 	RESERVATION_POSSIBLE_DAYS_FIND("SUCCESS","RESERVATION_POSSIBLE_DAYS_FIND","Find reservationPossibleDays","예약 가능 일자 찾기"),
 	RESERVATION_POSSIBLE_TIMES_FIND("SUCCESS","RESERVATION_POSSIBLE_TIMES_FIND","Find reservationPossibleTimes","예약 가능 시간 찾기"),
 	RESERVATION_MAKE("SUCCESS","RESERVATION_MAKE_SUCCESS","Make reservation","예약 하기"),
+	RESERVATION_LIST_BY_SELLER_FIND("SUCCESS", "RESERVATION_LIST_BY_SELLER_FIND","Find reservationList by Seller", "판매자에게 예약 내역 보여주기"),
 
 	// TempReservation
 	RESERVATION_DATE_READ("SUCCESS", "Reservation_DATE_READ", "Read reservable dates", "예약 가능한 날짜 조회"),
