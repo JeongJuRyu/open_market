@@ -25,6 +25,7 @@ public class FindReservationBySellerDto {
 		@Getter
 		@Builder(builderMethodName = "ReservationListBuilder")
 		public static class ReservationList {
+			private UUID reservationId;
 			private String userName;
 			private String userEmail;
 			private String userPhoneNum;
@@ -36,6 +37,7 @@ public class FindReservationBySellerDto {
 
 			public static ReservationListBuilder builder(Optional<User> user, Optional<Reservation> reservation) {
 				return ReservationListBuilder()
+					.reservationId(reservation.get().getReservationId())
 					.userName(user.get().getName())
 					.userEmail(user.get().getEmail())
 					.userPhoneNum(user.get().getPhoneNum())

@@ -16,6 +16,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, UUID> 
 	Optional<List<Reservation>> findAllByReservationItemIdAndReservationTime(ReservationItem reservationItemId,
 		LocalDateTime reservationTime);
 
+	Optional<Reservation> findByReservationId(UUID reservationId);
+
 	List<Optional<Reservation>> findAllBySellerIdAndReservationTimeBetweenOrderByReservationTimeDesc(Seller sellerId, LocalDateTime start,
 		LocalDateTime end);
 

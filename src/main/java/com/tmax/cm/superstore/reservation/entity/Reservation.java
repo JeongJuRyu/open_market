@@ -1,6 +1,7 @@
 package com.tmax.cm.superstore.reservation.entity;
 
 import com.tmax.cm.superstore.reservation.dto.MakeReservationDto;
+import com.tmax.cm.superstore.reservation.dto.ModifyReservationDto;
 import com.tmax.cm.superstore.seller.entity.Seller;
 import com.tmax.cm.superstore.user.entities.User;
 import lombok.AllArgsConstructor;
@@ -68,5 +69,14 @@ public class Reservation {
 			.userId(user)
 			.reservationItemId(reservationItem)
 			.reservationItemOptionId(reservationItemOption);
+	}
+
+	public void modifyReservation(ModifyReservationDto.Request modifyReservationRequestDto,
+		ReservationItem reservationItem, ReservationItemOption reservationItemOption) {
+		this.reservationTime = modifyReservationRequestDto.getReservationTime();
+		this.numberOfPeople = modifyReservationRequestDto.getNumberOfPeople();
+		this.customerRequest = modifyReservationRequestDto.getCustomerRequest();
+		this.reservationItemId = reservationItem;
+		this.reservationItemOptionId = reservationItemOption;
 	}
 }

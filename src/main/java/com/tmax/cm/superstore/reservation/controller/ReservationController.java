@@ -146,6 +146,12 @@ public class ReservationController {
 		return ResponseEntity.ok().body(reservationService.makeReservation(makeReservationRequestDto));
 	}
 
+	@PatchMapping("/{reservationId}/change")
+	public ResponseEntity<ResponseDto<ModifyReservationDto.Response>> modifyReservation(@PathVariable UUID reservationId,
+		@Valid @RequestBody ModifyReservationDto.Request modifyReservationRequestDto) throws Exception{
+		return ResponseEntity.ok().body(reservationService.modifyReservation(reservationId, modifyReservationRequestDto));
+	}
+
 	@GetMapping("/{sellerId}/list")
 	public ResponseEntity<ResponseDto<FindReservationBySellerDto.Response>> findReservationBySeller(@PathVariable UUID sellerId) throws Exception{
 		return ResponseEntity.ok().body(reservationService.findReservationBySeller(sellerId));

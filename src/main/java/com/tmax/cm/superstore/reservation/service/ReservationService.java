@@ -444,6 +444,31 @@ public class ReservationService {
 		}
 	}
 
+	@Transactional(rollbackFor = Exception.class)
+	public ResponseDto<ModifyReservationDto.Response> modifyReservation(UUID reservationId, ModifyReservationDto.Request modifyReservationRequestDto) throws Exception {
+		try {
+			Optional<Reservation> findReservation = reservationRepository.findByReservationId(reservationId);
+			findReservationValidation(findReservation);
+			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(modifyReservationRequestDto.getReservationItemId());
+			findReservationItemValidation(findReservationItem);
+			if(!findReservationItem.getSellerId().equals(findReservation.get().getSellerId())){
+				throw new ModifyReservationMustBeSameSellerException();
+			}
+			ReservationItemOption findReservationItemOption = reservationItemOptionRepository.findReservationItemOptionByOptionId(modifyReservationRequestDto.getReservationItemOptionId());
+			findReservationItemOptionValidation(findReservationItemOption);
+			findReservation.get().modifyReservation(modifyReservationRequestDto, findReservationItem, findReservationItemOption);
+			reservationRepository.save(findReservation.get());
+
+			return ResponseDto.<ModifyReservationDto.Response>builder()
+				.responseCode(ResponseCode.RESERVATION_ITEM_MODIFY)
+				.data(ModifyReservationDto.Response.builder(findReservation).build())
+				.build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
 	@Transactional(rollbackFor = Exception.class, readOnly = true)
 	public ResponseDto<FindReservationBySellerDto.Response> findReservationBySeller(UUID sellerId) throws Exception {
 		try {
@@ -535,6 +560,14 @@ public class ReservationService {
 	private void findReservationItemOptionValidation(List<ReservationItemOption> reservationItemOptionsList) {
 		if (reservationItemOptionsList.isEmpty()) {
 			throw new ReservationItemOptionListNotFoundException();
+		}
+	}
+
+	private void findReservationValidation(Optional<Reservation> reservation){
+		if(reservation.isEmpty()){
+			throw new ReservationNotFoundException();
+		} else if (reservation.get().getReservationTime().isBefore(LocalDateTime.now())) {
+			throw new ReservationExpiredException();
 		}
 	}
 }
