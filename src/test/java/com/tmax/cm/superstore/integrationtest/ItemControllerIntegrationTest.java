@@ -65,6 +65,7 @@ public class ItemControllerIntegrationTest {
                     }
                 });
                 put("categoryId", 8);
+                put("itemState", "for_sale");
                 put("optionGroups", new JSONArray() {
                     {
                         put(new JSONObject() {
@@ -126,7 +127,7 @@ public class ItemControllerIntegrationTest {
 
 
         // when
-        ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders.multipart("/v1/item")
+        ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders.multipart("/v1/item/create")
                         .file(file1)
                         .file(requestJson));
 
@@ -158,5 +159,23 @@ public class ItemControllerIntegrationTest {
         result.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(EasyRestDocumentation.document("getItemAll", "모든 상품 조회", this.tag));
+    }
+
+//    @Test
+//    void testUpdateItem() throws Exception {
+//        ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
+//                .patch()
+//
+//    }
+
+    @Test
+    void testDeleteItem() throws Exception {
+        ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
+                .delete("/v1/item/delete/{itemId}", "1523bc68-e8f7-4140-b7dd-cbfe622e068a"));
+
+        result.andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(EasyRestDocumentation.document("deleteItem", "상품 삭제", this.tag));
+
     }
 }

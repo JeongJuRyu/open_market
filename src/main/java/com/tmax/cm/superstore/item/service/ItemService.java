@@ -60,6 +60,7 @@ public class ItemService {
                 .name(postItemDto.getName())
                 .price(postItemDto.getPrice())
                 .itemImages(new ArrayList<>())
+                .itemState(postItemDto.getItemState())
                 .optionGroups(new ArrayList<>())
                 .itemSendTypes(new ArrayList<>())
                 .category(category)
