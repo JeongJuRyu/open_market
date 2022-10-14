@@ -151,6 +151,11 @@ public class ReservationController {
 		return ResponseEntity.ok().body(reservationService.findReservationBySeller(sellerId));
 	}
 
+	@GetMapping("/list/user")
+	public ResponseEntity<ResponseDto<FindReservationByUserDto.Response>> findReservationByUser() throws Exception{
+		return ResponseEntity.ok().body(reservationService.findReservationByUser());
+	}
+
 	/**
 	 * 장바구니 구현을 위한 임시 예약
 	 */

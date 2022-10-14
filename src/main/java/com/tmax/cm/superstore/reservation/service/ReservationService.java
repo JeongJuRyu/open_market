@@ -449,7 +449,7 @@ public class ReservationService {
 		try {
 			Seller findSeller = sellerRepository.findSellerBySellerId(sellerId);
 			findSellerValidation(findSeller);
-			List<Optional<Reservation>> findReservationList = reservationRepository.findAllBySellerIdAndReservationTimeBetween(
+			List<Optional<Reservation>> findReservationList = reservationRepository.findAllBySellerIdAndReservationTimeBetweenOrderByReservationTimeDesc(
 				findSeller, LocalDateTime.now(), LocalDateTime.now().plusDays(30));
 
 			List<FindReservationBySellerDto.Response.ReservationList> responseReservationList = new ArrayList<>();
@@ -461,6 +461,31 @@ public class ReservationService {
 			return ResponseDto.<FindReservationBySellerDto.Response>builder()
 				.responseCode(ResponseCode.RESERVATION_LIST_BY_SELLER_FIND)
 				.data(FindReservationBySellerDto.Response.builder(responseReservationList).build())
+				.build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Transactional(rollbackFor = Exception.class, readOnly = true)
+	public ResponseDto<FindReservationByUserDto.Response> findReservationByUser() throws Exception {
+		try {
+			String email = (String)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			User findUser = userRepository.findUserByEmail(email).orElseThrow(EmailNotFoundException::new);
+			List<Optional<Reservation>> findReservationList = reservationRepository.findAllByUserIdAndReservationTimeBetweenOrderByReservationTimeDesc(
+				findUser, LocalDateTime.now(), LocalDateTime.now().plusDays(30));
+
+			List<FindReservationByUserDto.Response.ReservationList> responseReservationList = new ArrayList<>();
+			for (Optional<Reservation> reservation : findReservationList) {
+				Seller findSeller = sellerRepository.findSellerBySellerId(
+					reservation.get().getSellerId().getSellerId());
+				responseReservationList.add(
+					FindReservationByUserDto.Response.ReservationList.builder(findSeller, reservation).build());
+			}
+			return ResponseDto.<FindReservationByUserDto.Response>builder()
+				.responseCode(ResponseCode.RESERVATION_LIST_BY_USER_FIND)
+				.data(FindReservationByUserDto.Response.builder(responseReservationList).build())
 				.build();
 		} catch (Exception e) {
 			e.printStackTrace();
