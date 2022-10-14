@@ -30,16 +30,20 @@ public class ModifyReservationDto {
 		private LocalDateTime reservationTime;
 		private Integer numberOfPeople;
 		private String customerRequest;
-		private UUID reservationItemId;
-		private UUID reservationItemOptionId;
+		private String reservationItemName;
+		private String reservationItemOptionName;
+//		private UUID reservationItemId;
+//		private UUID reservationItemOptionId;
 
 		public static ResponseBuilder builder(Optional<Reservation> reservation) {
 			return ResponseBuilder()
 				.reservationTime(reservation.get().getReservationTime())
 				.numberOfPeople(reservation.get().getNumberOfPeople())
 				.customerRequest(reservation.get().getCustomerRequest())
-				.reservationItemId(reservation.get().getReservationItemId().getReservationItemId())
-				.reservationItemOptionId(reservation.get().getReservationItemOptionId().getOptionId());
+				.reservationItemName(reservation.get().getReservationItemId().getReservationItemName())
+				.reservationItemOptionName(reservation.get().getReservationItemOptionId().getOptionName());
+//				.reservationItemId(reservation.get().getReservationItemId().getReservationItemId())
+//				.reservationItemOptionId(reservation.get().getReservationItemOptionId().getOptionId());
 		}
 	}
 }
