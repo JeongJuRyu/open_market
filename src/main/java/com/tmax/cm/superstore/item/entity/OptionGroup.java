@@ -40,7 +40,7 @@ public class OptionGroup {
     @JoinColumn(foreignKey = @ForeignKey(name = "FK_option_group_item_id"), name = "itemId", nullable = false)
     private Item item;
 
-    @OneToMany(mappedBy = "optionGroup", cascade = { CascadeType.PERSIST })
+    @OneToMany(mappedBy = "optionGroup", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, orphanRemoval = true)
     private List<Option> options;
 
     @Column(nullable = false)
