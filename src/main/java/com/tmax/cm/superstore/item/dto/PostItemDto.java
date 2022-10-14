@@ -7,11 +7,10 @@ import java.util.UUID;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
+import com.tmax.cm.superstore.item.code.ItemState;
 import com.tmax.cm.superstore.code.SendType;
 
 import lombok.*;
-import org.springframework.web.multipart.MultipartFile;
-import reactor.util.annotation.Nullable;
 
 public class PostItemDto {
 
@@ -34,6 +33,9 @@ public class PostItemDto {
 
         @NotNull
         private Long categoryId;
+
+        @NotNull
+        private ItemState itemState;
 
         @Getter
         public static class PostOptionGroupDto {
