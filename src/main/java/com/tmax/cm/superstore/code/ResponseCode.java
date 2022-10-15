@@ -135,6 +135,8 @@ public enum ResponseCode implements Code {
     ERROR_INVALID_FIELD("ERROR","EC003", "Field is invalid", "@Valid 통과 실패, 유효하지 않은 필드값"),
     ERROR_ENTITY_NOT_FOUND("ERROR","EC004", "Class entity not found", "존재하지 않는 엔티티"),
 	ERROR_INTERNAL_SERVER_ERROR("ERROR", "EC005", "Internal server error", "내부 서버 오류"),
+	ERROR_UNAUTHENTICATED("ERROR", "EC006", "Unauthenticated", "spring security 인증 실패"),
+	ERROR_UNAUTHORIZED("ERROR", "EC007", "Unauthorized", "spring security 인가 실패"),
 
 	// Error - Wishlist
 	ERROR_WISHLIST_ITEM_ALREADY_EXIST("ERROR", "EW000", "Wishlist Item already exists", "이미 존재하는 엔티티");
