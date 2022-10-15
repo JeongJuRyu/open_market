@@ -5,7 +5,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.tmax.cm.superstore.user.entities.User;
@@ -21,15 +20,17 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-		UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken)authentication;
-		String userEmail = token.getName();
-		CharSequence userPw = (String)token.getCredentials();
+		UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
 
-		User user = (User)userDetailsService.loadUserByUsername(userEmail);
-		if(!userPw.equals(user.getPassword())){
+		String userEmail = token.getName();
+		User user = (User) userDetailsService.loadUserByUsername(userEmail);
+
+		CharSequence userPw = (String) token.getCredentials();
+		if (!userPw.equals(user.getPassword())) {
 			throw new WrongPasswordException();
 		}
-		return new UsernamePasswordAuthenticationToken(user, userPw, user.getAuthorities());
+
+		return new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 	}
 
 	@Override
