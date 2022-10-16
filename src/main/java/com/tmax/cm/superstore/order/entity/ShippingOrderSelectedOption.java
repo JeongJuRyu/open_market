@@ -1,20 +1,18 @@
 package com.tmax.cm.superstore.order.entity;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
-import com.tmax.cm.superstore.shop.entity.Shop;
+import com.tmax.cm.superstore.shipping.entity.Shipping;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,24 +26,26 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class ShippingOrder {
+public class ShippingOrderSelectedOption {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue
+    @Column(columnDefinition = "BINARY(16)")
+    private UUID id;
 
     @Column(nullable = false)
-    private Integer amount;
+    @Builder.Default
+    private Integer count = 0;
 
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    private Order order;
-
-    @OneToOne(cascade = { CascadeType.PERSIST })
-    @JoinColumn(nullable = false)
-    private Shop shop;
+    @Column(nullable = false)
+    @Builder.Default
+    private Integer amount = 0;
 
     @OneToMany(cascade = { CascadeType.PERSIST })
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_shipping_order_item_shipping_order_id"))
-    private List<ShippingOrderItem> shippingOrderItems;
+    @JoinColumn(name = "shippingOrderSelectedOptionId")
+    private List<OrderOptionGroup> orderOptionGroups;
+
+    @ManyToOne
+    @JoinColumn(nullable = false) // TODO column name
+    private Shipping shipping;
 }
