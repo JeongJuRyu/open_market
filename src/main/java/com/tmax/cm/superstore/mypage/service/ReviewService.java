@@ -12,7 +12,7 @@ import com.tmax.cm.superstore.mypage.dto.GetReviewResponseDto;
 import com.tmax.cm.superstore.mypage.dto.UpdateReviewRequestDto;
 import com.tmax.cm.superstore.mypage.entity.Review;
 import com.tmax.cm.superstore.mypage.mapper.ReviewMapper;
-import com.tmax.cm.superstore.order.entity.OrderItem;
+import com.tmax.cm.superstore.order.entity.PickupOrderItem;
 import com.tmax.cm.superstore.user.entities.User;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -75,7 +75,7 @@ public class ReviewService {
 	public UUID postReview(PostReviewRequestDto dto){
 		String email = (String)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		User user = userRepository.findUserByEmail(email).orElseThrow(EmailNotFoundException::new);
-		OrderItem orderItem = orderItemRepository.findById(dto.getOrderItemId()).orElseThrow(ItemNotFoundException::new);
+		PickupOrderItem orderItem = orderItemRepository.findById(dto.getOrderItemId()).orElseThrow(ItemNotFoundException::new);
 		Review review = Review.ReviewBuilder()
 				.orderItem(orderItem)
 			.title(dto.getTitle())

@@ -39,17 +39,17 @@ public class Reservation {
 
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "sellerId")
+	@JoinColumn()
 	private Seller sellerId;
 
 	@NotNull
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "reservationItemId")
+	@JoinColumn()
 	private ReservationItem reservationItemId;
 
 	@NotNull
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "reservationItemOptionId")
+	@JoinColumn()
 	private ReservationItemOption reservationItemOptionId;
 
 	public static ReservationBuilder builder(MakeReservationDto.Request makeReservationRequestDto,
