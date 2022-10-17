@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tmax.cm.superstore.common.ResponseDto;
 import com.tmax.cm.superstore.mypage.dto.PostReviewReplyRequestDto;
 import com.tmax.cm.superstore.mypage.dto.UpdateReviewReplyRequestDto;
 import com.tmax.cm.superstore.mypage.service.ReviewReplyService;
@@ -24,19 +25,19 @@ public class ReviewReplyController {
 	private final ReviewReplyService reviewReplyService;
 
 	@PostMapping
-	public ResponseEntity<UUID> createReviewReply(
+	public ResponseEntity<ResponseDto<Object>> createReviewReply(
 		@RequestBody PostReviewReplyRequestDto postReviewReplyRequestDto) {
 		return ResponseEntity.ok().body(reviewReplyService.postReviewReply(postReviewReplyRequestDto));
 	}
 
 	@PatchMapping
-	public ResponseEntity<UUID> updateReviewReply(
+	public ResponseEntity<ResponseDto<Object>> updateReviewReply(
 		@RequestBody UpdateReviewReplyRequestDto updateReviewReplyRequestDto) {
 		return ResponseEntity.ok().body(reviewReplyService.updateReviewReply(updateReviewReplyRequestDto));
 	}
 
 	@DeleteMapping("/{reviewId}")
-	public ResponseEntity<UUID> deleteReviewReply(@PathVariable UUID reviewId){
+	public ResponseEntity<ResponseDto<Object>> deleteReviewReply(@PathVariable UUID reviewId){
 		return ResponseEntity.ok().body(reviewReplyService.deleteReviewReply(reviewId));
 	}
 }

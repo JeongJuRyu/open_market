@@ -5,10 +5,11 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tmax.cm.superstore.code.ResponseCode;
+import com.tmax.cm.superstore.common.ResponseDto;
 import com.tmax.cm.superstore.mypage.dto.PostReviewReplyRequestDto;
 import com.tmax.cm.superstore.mypage.dto.UpdateReviewReplyRequestDto;
 import com.tmax.cm.superstore.mypage.entity.Review;
-import com.tmax.cm.superstore.mypage.entity.ReviewReply;
 import com.tmax.cm.superstore.mypage.error.exception.ReviewNotFoundException;
 import com.tmax.cm.superstore.mypage.repository.ReviewReplyRepository;
 import com.tmax.cm.superstore.mypage.repository.ReviewRepository;
@@ -23,24 +24,29 @@ public class ReviewReplyService {
 
 
 	@Transactional
-	public UUID postReviewReply(PostReviewReplyRequestDto dto){
+	public ResponseDto<Object> postReviewReply(PostReviewReplyRequestDto dto){
 		Review review = reviewRepository.findById(dto.getReviewId()).orElseThrow(ReviewNotFoundException::new);
 		review.setReviewReply(dto);
-		return reviewRepository.save(review).getId();
+		reviewRepository.save(review);
+		return ResponseDto.builder().responseCode(ResponseCode.REVIEW_REPLY_CREATE)
+			.data(null).build();
 	}
 
 	@Transactional
-	public UUID updateReviewReply(UpdateReviewReplyRequestDto dto){
+	public ResponseDto<Object> updateReviewReply(UpdateReviewReplyRequestDto dto){
 		Review review = reviewRepository.findById(dto.getReviewId()).orElseThrow(ReviewNotFoundException::new);
 		review.updateReviewReply(dto);
-		return reviewRepository.save(review).getId();
+		reviewRepository.save(review);
+		return ResponseDto.builder()
+			.responseCode(ResponseCode.REVIEW_REPLY_UPDATE)
+			.data(null).build();
 	}
 
-	public UUID deleteReviewReply(UUID reviewId) {
+	public ResponseDto<Object> deleteReviewReply(UUID reviewId) {
 		Review review = reviewRepository.findById(reviewId).orElseThrow(ReviewNotFoundException::new);
-		ReviewReply reviewReply = reviewReplyRepository.findByReview(reviewId);
 		review.deleteReviewReply();
-		reviewReplyRepository.delete(reviewReply);
-		return reviewReply.getId();
+		return ResponseDto.builder()
+			.responseCode(ResponseCode.REVIEW_REPLY_DELETE)
+			.data(null).build();
 	}
 }

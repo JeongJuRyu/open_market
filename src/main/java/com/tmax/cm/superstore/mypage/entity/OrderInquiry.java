@@ -17,6 +17,9 @@ import org.hibernate.annotations.GenericGenerator;
 import com.tmax.cm.superstore.common.entity.BaseTimeEntity;
 import com.tmax.cm.superstore.mypage.dto.UpdateOrderInquiryRequestDto;
 import com.tmax.cm.superstore.order.entity.PickupOrderItem;
+import com.tmax.cm.superstore.order.entity.PickupOrderSelectedOption;
+import com.tmax.cm.superstore.order.entity.ShippingOrderItem;
+import com.tmax.cm.superstore.order.entity.ShippingOrderSelectedOption;
 import com.tmax.cm.superstore.user.entities.User;
 
 import lombok.AccessLevel;
@@ -45,9 +48,13 @@ public class OrderInquiry extends BaseTimeEntity {
 	@Column(nullable = false)
 	private Boolean isAnswered;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn()
-	private PickupOrderItem orderItem;
+	private PickupOrderSelectedOption pickupOrderSelectedOption;
+
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn()
+	private ShippingOrderSelectedOption shippingOrderSelectedOption;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn()
