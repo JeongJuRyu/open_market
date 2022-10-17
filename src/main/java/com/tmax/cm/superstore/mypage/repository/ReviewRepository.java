@@ -1,23 +1,21 @@
 package com.tmax.cm.superstore.mypage.repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.tmax.cm.superstore.mypage.entity.Review;
-import com.tmax.cm.superstore.user.entities.User;
 
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 public interface ReviewRepository extends JpaRepository<Review, UUID> {
-    @Query("select r from Review r where r.user.id =:userId")
-    List<Review> findByUserId(UUID userId);
-
-    // List<Review> findByUser(User user);
+    @Query("select r from Review r where r.user.id =:userId"
+        + " and r.createdAt >=:startDate"
+        + " and r.isReplied =:isReplied")
+    List<Review> findByUserId(UUID userId, LocalDate startDate, Boolean isReplied);
 
     List<Review> findAllByItemId(UUID itemId);
 
