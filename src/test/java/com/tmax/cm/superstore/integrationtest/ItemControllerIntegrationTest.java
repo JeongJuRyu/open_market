@@ -95,11 +95,9 @@ public class ItemControllerIntegrationTest extends AbstractIntegrationTest {
                 request.toString().getBytes(StandardCharsets.UTF_8));
 
         // when
-<<<<<<< src/test/java/com/tmax/cm/superstore/integrationtest/ItemControllerIntegrationTest.java
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders.multipart("/v1/item/create")
                 .file(file1)
                 .file(requestJson));
->>>>>>> src/test/java/com/tmax/cm/superstore/integrationtest/ItemControllerIntegrationTest.java
 
         // then
         result.andDo(MockMvcResultHandlers.print())
