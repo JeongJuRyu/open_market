@@ -144,21 +144,40 @@ public class ItemService {
     public GetItemAllByCategoryDto.Response readSimpleItem(Long categoryId){
         List<Item> items = readItemsByCategory(categoryId);
 
+        List<Double> avgStars = getAvgStars(items);
+        List<Integer> reviewCounts = getReviewCounts(items);
+
+        return getItemAllByCategoryDtoMapper.toResponse(items, avgStars, reviewCounts);
+    }
+
+    public List<Double> getAvgStars(List<Item> items){
         List<Double> avgStars = new ArrayList<>();
-        List<Integer> reviewCounts = new ArrayList<>();
 
         for(Item item : items){
             if(item.getReviews().isEmpty()){
                 avgStars.add(0.0);
-                reviewCounts.add(0);
             }
             else{
                 avgStars.add(reviewService.getAvgStarRating(item.getId()));
+            }
+        }
+
+        return avgStars;
+    }
+
+    public List<Integer> getReviewCounts(List<Item> items){
+        List<Integer> reviewCounts = new ArrayList<>();
+
+        for(Item item : items){
+            if(item.getReviews().isEmpty()){
+                reviewCounts.add(0);
+            }
+            else{
                 reviewCounts.add(item.getReviews().size());
             }
         }
 
-        return getItemAllByCategoryDtoMapper.toResponse(items, avgStars, reviewCounts);
+        return reviewCounts;
     }
 
     @Transactional

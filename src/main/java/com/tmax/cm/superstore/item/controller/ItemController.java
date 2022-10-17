@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import com.tmax.cm.superstore.item.dto.GetItemAllByCategoryDto;
 import com.tmax.cm.superstore.item.dto.mapper.*;
+import com.tmax.cm.superstore.item.service.ItemSearchService;
 import org.hibernate.sql.Update;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ItemController {
 
     private final ItemService itemService;
+    private final ItemSearchService itemSearchService;
 
     private final PostItemDtoMapper postItemDtoMapper;
     private final GetItemDtoMapper getItemDtoMapper;
@@ -72,4 +74,15 @@ public class ItemController {
     public ResponseDto<GetItemAllByCategoryDto.Response> getItemByCategory(@RequestParam("categoryId") Long categoryId) {
         return new ResponseDto<>(ResponseCode.ITEM_READ_ALL, itemService.readSimpleItem(categoryId));
     }
+
+//    @GetMapping("/search/keyword/{keyword}")
+//    public ResponseDto<GetItemAllByCategoryDto.Response> searchItemByKeyword(@PathVariable String keyword, @RequestParam("categoryId") Long categoryId){
+//        return new ResponseDto<>(ResponseCode.ITEM_READ_ALL, itemSearchService.searchItemByKeyword(keyword, categoryId));
+//    }
+
+    @GetMapping("/search/keyword/{name}")
+    public ResponseDto<GetItemAllByCategoryDto.Response> searchItemByName(@PathVariable String name){
+        return new ResponseDto<>(ResponseCode.ITEM_READ_ALL, itemSearchService.searchItemByName(name));
+    }
+
 }
