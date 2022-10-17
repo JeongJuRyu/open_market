@@ -1,6 +1,7 @@
 package com.tmax.cm.superstore.seller.entity;
 
 import com.tmax.cm.superstore.seller.dto.CreateSellerDto;
+import com.tmax.cm.superstore.seller.dto.ModifySellerInfoDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -43,12 +44,22 @@ public class Seller {
 	@Column(nullable = false)
 	private boolean isDeleted;
 
-	public static SellerBuilder builder(CreateSellerDto.Request createSellerRequestDto){
+	public static SellerBuilder builder(CreateSellerDto.Request createSellerRequestDto) {
 		return SellerBuilder()
 			.loginId(createSellerRequestDto.getSellerInfo().getLoginId())
 			.password(createSellerRequestDto.getSellerInfo().getPassword())
 			.sellerName(createSellerRequestDto.getSellerInfo().getSellerName())
 			.sellerEmail(createSellerRequestDto.getSellerInfo().getSellerEmail())
 			.sellerPhoneNum(createSellerRequestDto.getSellerInfo().getSellerPhoneNum());
+	}
+
+	public void modifySellerInfo(ModifySellerInfoDto.Request modifySellerInfoRequestDto) {
+		this.password = modifySellerInfoRequestDto.getPassword();
+		this.sellerEmail = modifySellerInfoRequestDto.getSellerEmail();
+		this.sellerPhoneNum = modifySellerInfoRequestDto.getSellerPhoneNum();
+	}
+
+	public void deleteSeller(){
+		this.isDeleted = true;
 	}
 }

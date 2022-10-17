@@ -7,9 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
-public class MakeReservationDto {
+public class ModifyReservationDto {
 
 	@Getter
 	@AllArgsConstructor
@@ -34,15 +35,15 @@ public class MakeReservationDto {
 //		private UUID reservationItemId;
 //		private UUID reservationItemOptionId;
 
-		public static ResponseBuilder builder(Reservation reservation) {
+		public static ResponseBuilder builder(Optional<Reservation> reservation) {
 			return ResponseBuilder()
-				.reservationTime(reservation.getReservationTime())
-				.numberOfPeople(reservation.getNumberOfPeople())
-				.customerRequest(reservation.getCustomerRequest())
-				.reservationItemName(reservation.getReservationItemId().getReservationItemName())
-				.reservationItemOptionName(reservation.getReservationItemOptionId().getOptionName());
-//				.reservationItemId(reservation.getReservationItemId().getReservationItemId())
-//				.reservationItemOptionId(reservation.getReservationItemOptionId().getOptionId());
+				.reservationTime(reservation.get().getReservationTime())
+				.numberOfPeople(reservation.get().getNumberOfPeople())
+				.customerRequest(reservation.get().getCustomerRequest())
+				.reservationItemName(reservation.get().getReservationItemId().getReservationItemName())
+				.reservationItemOptionName(reservation.get().getReservationItemOptionId().getOptionName());
+//				.reservationItemId(reservation.get().getReservationItemId().getReservationItemId())
+//				.reservationItemOptionId(reservation.get().getReservationItemOptionId().getOptionId());
 		}
 	}
 }

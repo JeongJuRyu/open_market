@@ -23,6 +23,17 @@ public class SellerController {
 		return ResponseEntity.ok().body(sellerService.createSeller(createSellerRequestDto));
 	}
 
+	@DeleteMapping("/{sellerId}")
+	public ResponseEntity<ResponseDto<DeleteSellerDto.Response>> deleteSeller(@PathVariable UUID sellerId) throws Exception{
+		return ResponseEntity.ok().body(sellerService.deleteSeller(sellerId));
+	}
+
+	@PatchMapping("/{sellerId}")
+	public ResponseEntity<ResponseDto<ModifySellerInfoDto.Response>> modifySellerInfo(@PathVariable UUID sellerId,
+		@Valid @RequestBody ModifySellerInfoDto.Request modifySellerInfoRequestDto) throws Exception {
+		return ResponseEntity.ok().body(sellerService.modifySellerInfo(sellerId, modifySellerInfoRequestDto));
+	}
+
 	@GetMapping("/list")
 	public ResponseEntity<ResponseDto<FindSellerListDto.Response>> findSellerList() throws Exception {
 		return ResponseEntity.ok().body(sellerService.findSellerList());
@@ -53,12 +64,14 @@ public class SellerController {
 	}
 
 	@GetMapping("/{sellerId}/delivery/represent")
-	public ResponseEntity<ResponseDto<FindRepresentativeDeliveryDto.Response>> findRepresentativeDelviery(@PathVariable UUID sellerId) throws Exception{
+	public ResponseEntity<ResponseDto<FindRepresentativeDeliveryDto.Response>> findRepresentativeDelviery(
+		@PathVariable UUID sellerId) throws Exception {
 		return ResponseEntity.ok().body(sellerService.findRepresentativeDelivery(sellerId));
 	}
 
 	@PatchMapping("/{deliveryId}/delivery/represent")
-	public ResponseEntity<ResponseDto<ModifyRepresentativeDeliveryDto.Response>> modifyRepresentativeDelivery(@PathVariable UUID deliveryId) throws Exception{
+	public ResponseEntity<ResponseDto<ModifyRepresentativeDeliveryDto.Response>> modifyRepresentativeDelivery(
+		@PathVariable UUID deliveryId) throws Exception {
 		return ResponseEntity.ok().body(sellerService.modifyRepresentativeDelivery(deliveryId));
 	}
 }
