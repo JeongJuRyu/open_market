@@ -192,6 +192,19 @@ public class CartItemService {
 
     @Transactional
     public void delete(List<CartItem> cartItems) {
-        this.cartItemRepository.deleteAll(cartItems);
+        for (CartItem cartItem : cartItems) {
+            cartItem.setIsDeleted(true);
+        }
+
+        // NOTE OrderController.postCreateCartItem 에서 동작 안함
+        // this.cartItemRepository.deleteAll(cartItems);
+    }
+
+    @Transactional
+    public void delete(CartItem cartItem) {
+        cartItem.setIsDeleted(true);
+
+        // NOTE OrderController.postCreateCartItem 에서 동작 안함
+        // this.cartItemRepository.delete(cartItem);
     }
 }

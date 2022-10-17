@@ -46,6 +46,6 @@ public class ShippingOrderSelectedOption {
     private List<OrderOptionGroup> orderOptionGroups;
 
     @ManyToOne
-    @JoinColumn(nullable = false) // TODO column name
+    @JoinColumn(nullable = false)
     private Shipping shipping;
 }

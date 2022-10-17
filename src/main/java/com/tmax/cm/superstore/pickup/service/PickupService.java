@@ -1,15 +1,17 @@
 package com.tmax.cm.superstore.pickup.service;
 
+import javax.transaction.Transactional;
+
+import org.springframework.stereotype.Service;
+
 import com.tmax.cm.superstore.code.PickupType;
 import com.tmax.cm.superstore.pickup.entity.Pickup;
 import com.tmax.cm.superstore.pickup.repository.PickupRepository;
+
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
-import javax.transaction.Transactional;
-
-@Setter
 @RequiredArgsConstructor
+@Service
 public class PickupService {
 
     private final PickupRepository pickUpRepository;

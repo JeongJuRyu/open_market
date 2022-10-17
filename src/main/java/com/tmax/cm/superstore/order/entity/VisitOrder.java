@@ -45,6 +45,6 @@ public class VisitOrder {
     private Shop shop;
 
     @OneToMany(cascade = { CascadeType.PERSIST })
-    @JoinColumn(nullable = true)
+    @JoinColumn(name = "visitOrderId")
     private List<PickupOrderItem> pickupOrderItems;
 }

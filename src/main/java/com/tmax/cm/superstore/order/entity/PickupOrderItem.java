@@ -6,7 +6,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -45,7 +44,7 @@ public class PickupOrderItem {
 	private Integer amount;
 
 	@OneToMany(cascade = { CascadeType.PERSIST })
-	@JoinColumn(foreignKey = @ForeignKey(name = "FK_pickup_order_selected_option_pickup_order_item_id"))
+	@JoinColumn(name = "pickupOrderItemId")
 	private List<PickupOrderSelectedOption> pickupOrderSelectedOptions;
 
 	@OneToOne(fetch = FetchType.LAZY)

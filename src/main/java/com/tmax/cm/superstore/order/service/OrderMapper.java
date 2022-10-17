@@ -24,6 +24,7 @@ import com.tmax.cm.superstore.order.entity.ShippingOrderItem;
 import com.tmax.cm.superstore.order.entity.ShippingOrderSelectedOption;
 import com.tmax.cm.superstore.order.entity.VisitOrder;
 import com.tmax.cm.superstore.payment.entity.Payment;
+import com.tmax.cm.superstore.pickup.entity.Pickup;
 import com.tmax.cm.superstore.purchaseOrder.service.dto.PurchaseOrderDto;
 import com.tmax.cm.superstore.shipping.entity.Shipping;
 import com.tmax.cm.superstore.shop.entity.Shop;
@@ -32,7 +33,8 @@ import com.tmax.cm.superstore.user.entities.User;
 @Mapper(config = CommonMapperConfig.class)
 interface OrderMapper {
 
-    default Order toOrder(PurchaseOrderDto purchaseOrderDto, Payment payment, User user, Shipping shipping) {
+    default Order toOrder(PurchaseOrderDto purchaseOrderDto, Payment payment, User user, Shipping shippingOrderShipping,
+            Pickup visitOrderPickup, Shipping deliveryOrderShipping, Pickup pickupOrderPickup) {
 
         Order order = Order.builder()
                 .user(user)
@@ -43,10 +45,10 @@ interface OrderMapper {
                 .pickupOrders(null)
                 .build();
 
-        order.setShippingOrders(this.toShippingOrders(purchaseOrderDto.getShippings(), order, shipping));
-        order.setVisitOrders(this.toVisitOrders(purchaseOrderDto.getVisits(), order));
-        order.setDeliveryOrders(this.toDeliveryOrders(purchaseOrderDto.getDeliveries(), order, shipping));
-        order.setPickupOrders(this.toPickupOrders(purchaseOrderDto.getPickups(), order));
+        order.setShippingOrders(this.toShippingOrders(purchaseOrderDto.getShippings(), order, shippingOrderShipping));
+        order.setVisitOrders(this.toVisitOrders(purchaseOrderDto.getVisits(), order, visitOrderPickup));
+        order.setDeliveryOrders(this.toDeliveryOrders(purchaseOrderDto.getDeliveries(), order, deliveryOrderShipping));
+        order.setPickupOrders(this.toPickupOrders(purchaseOrderDto.getPickups(), order, pickupOrderPickup));
 
         return order;
     }
@@ -70,7 +72,8 @@ interface OrderMapper {
         return shippingOrders;
     }
 
-    default List<VisitOrder> toVisitOrders(PurchaseOrderDto.CartItemDtosMap cartItemDtosMap, Order order) {
+    default List<VisitOrder> toVisitOrders(PurchaseOrderDto.CartItemDtosMap cartItemDtosMap, Order order,
+            Pickup pickup) {
 
         List<VisitOrder> visitOrders = new ArrayList<>();
 
@@ -78,7 +81,7 @@ interface OrderMapper {
             VisitOrder visitOrder = VisitOrder.builder()
                     .amount(entry.getValue().getAmount())
                     .order(order)
-                    .pickupOrderItems(this.toPickupOrderItems(entry.getValue().getCartItemDtos()))
+                    .pickupOrderItems(this.toPickupOrderItems(entry.getValue().getCartItemDtos(), pickup))
                     .shop(entry.getKey())
                     .build();
 
@@ -107,7 +110,8 @@ interface OrderMapper {
         return deliveryOrders;
     }
 
-    default List<PickupOrder> toPickupOrders(PurchaseOrderDto.CartItemDtosMap cartItemDtosMap, Order order) {
+    default List<PickupOrder> toPickupOrders(PurchaseOrderDto.CartItemDtosMap cartItemDtosMap, Order order,
+            Pickup pickup) {
 
         List<PickupOrder> pickupOrders = new ArrayList<>();
 
@@ -115,7 +119,7 @@ interface OrderMapper {
             PickupOrder pickupOrder = PickupOrder.builder()
                     .amount(entry.getValue().getAmount())
                     .order(order)
-                    .pickupOrderItems(this.toPickupOrderItems(entry.getValue().getCartItemDtos()))
+                    .pickupOrderItems(this.toPickupOrderItems(entry.getValue().getCartItemDtos(), pickup))
                     .shop(entry.getKey())
                     .build();
 
@@ -137,19 +141,38 @@ interface OrderMapper {
         return shippingOrderItems;
     }
 
-    List<PickupOrderItem> toPickupOrderItems(List<PurchaseOrderDto.CartItemDto> cartItemDtos);
+    default List<PickupOrderItem> toPickupOrderItems(List<PurchaseOrderDto.CartItemDto> cartItemDtos, Pickup pickup) {
+        List<PickupOrderItem> pickupOrderItems = new ArrayList<>();
+
+        for (PurchaseOrderDto.CartItemDto cartItemDto : cartItemDtos) {
+            pickupOrderItems.add(this.toPickupOrderItem(cartItemDto, pickup));
+        }
+
+        return pickupOrderItems;
+    }
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = ".", source = "cartItemDto.cartItem")
     @Mapping(target = ".", source = "cartItemDto.cartItem.item")
     @Mapping(target = "pickupOrderSelectedOptions", source = "cartItemDto.selectedOptionDtos")
-    PickupOrderItem toPickupOrderItem(PurchaseOrderDto.CartItemDto cartItemDto);
+    PickupOrderItem toPickupOrderItem(PurchaseOrderDto.CartItemDto cartItemDto, @Context Pickup pickup);
+
+    default List<PickupOrderSelectedOption> toSelectedOptionDtos(
+            List<PurchaseOrderDto.CartItemDto.SelectedOptionDto> selectedOptionDtos, @Context Pickup pickup) {
+        List<PickupOrderSelectedOption> pickupOrderSelectedOptions = new ArrayList<>();
+
+        for (PurchaseOrderDto.CartItemDto.SelectedOptionDto selectedOptionDto : selectedOptionDtos) {
+            pickupOrderSelectedOptions.add(this.toPickupOrderSelectedOption(selectedOptionDto, pickup));
+        }
+
+        return pickupOrderSelectedOptions;
+    }
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = ".", source = "selectedOption")
-    @Mapping(target = "orderOptionGroups", source = "selectedOption.cartOptionGroups")
+    @Mapping(target = ".", source = "selectedOptionDto.selectedOption")
+    @Mapping(target = "orderOptionGroups", source = "selectedOptionDto.selectedOption.cartOptionGroups")
     PickupOrderSelectedOption toPickupOrderSelectedOption(
-            PurchaseOrderDto.CartItemDto.SelectedOptionDto selectedOptionDto);
+            PurchaseOrderDto.CartItemDto.SelectedOptionDto selectedOptionDto, Pickup pickup);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = ".", source = "cartItemDto.cartItem")
@@ -172,8 +195,7 @@ interface OrderMapper {
     @Mapping(target = ".", source = "selectedOptionDto.selectedOption")
     @Mapping(target = "orderOptionGroups", source = "selectedOptionDto.selectedOption.cartOptionGroups")
     ShippingOrderSelectedOption toShippingOrderSelectedOption(
-            PurchaseOrderDto.CartItemDto.SelectedOptionDto selectedOptionDto,
-            Shipping shipping);
+            PurchaseOrderDto.CartItemDto.SelectedOptionDto selectedOptionDto, Shipping shipping);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = ".", source = "optionGroup")
