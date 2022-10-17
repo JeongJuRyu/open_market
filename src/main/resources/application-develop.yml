@@ -108,6 +108,8 @@ spring:
     password: tmax
   # https://docs.spring.io/spring-boot/docs/2.7.2/reference/htmlsingle/#howto.data-initialization.using-basic-sql-scripts
   jpa:
+    hibernate:
+      ddl-auto: update
     defer-datasource-initialization: true
   sql:
     init:

@@ -45,6 +45,6 @@ public class DeliveryOrder {
     private Shop shop;
 
     @OneToMany(cascade = { CascadeType.PERSIST })
-    @JoinColumn(nullable = true)
+    @JoinColumn(name = "deliveryOrderId")
     private List<ShippingOrderItem> shippingOrderItems;
 }
