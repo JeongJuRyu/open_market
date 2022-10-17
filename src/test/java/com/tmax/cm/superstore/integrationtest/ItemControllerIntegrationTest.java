@@ -97,10 +97,6 @@ public class ItemControllerIntegrationTest extends AbstractIntegrationTest {
         // when
 <<<<<<< src/test/java/com/tmax/cm/superstore/integrationtest/ItemControllerIntegrationTest.java
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders.multipart("/v1/item/create")
-                        .file(file1)
-                        .file(requestJson));
-=======
-        ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders.multipart("/v1/item")
                 .file(file1)
                 .file(requestJson));
 >>>>>>> src/test/java/com/tmax/cm/superstore/integrationtest/ItemControllerIntegrationTest.java
