@@ -20,7 +20,4 @@ public class PostReviewRequestDto {
     private Float starRating;
     @NotNull
     private UUID orderItemId;
-    @NotNull
-    private UUID userId;
-    private UUID sellerId;
 }

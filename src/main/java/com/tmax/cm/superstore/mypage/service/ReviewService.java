@@ -1,8 +1,8 @@
 package com.tmax.cm.superstore.mypage.service;
 
-import com.tmax.cm.superstore.item.error.exception.ItemNotFoundException;
-import com.tmax.cm.superstore.item.entity.Item;
-import com.tmax.cm.superstore.item.repository.ItemRepository;
+import com.tmax.cm.superstore.code.ResponseCode;
+import com.tmax.cm.superstore.common.ResponseDto;
+import com.tmax.cm.superstore.error.exception.ItemNotFoundException;
 import com.tmax.cm.superstore.item.repository.OrderItemRepository;
 import com.tmax.cm.superstore.mypage.dto.GetAllReviewForSellerResponseDto;
 import com.tmax.cm.superstore.mypage.error.exception.ReviewNotFoundException;
@@ -14,17 +14,16 @@ import com.tmax.cm.superstore.mypage.entity.Review;
 import com.tmax.cm.superstore.mypage.mapper.ReviewMapper;
 import com.tmax.cm.superstore.order.entity.PickupOrderItem;
 import com.tmax.cm.superstore.user.entities.User;
-import org.springframework.security.core.context.SecurityContextHolder;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tmax.cm.superstore.mypage.repository.ReviewRepository;
-import com.tmax.cm.superstore.user.error.exception.EmailNotFoundException;
 import com.tmax.cm.superstore.user.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -38,13 +37,13 @@ public class ReviewService {
 	private final UserRepository userRepository;
 
 	@Transactional(readOnly = true)
-	public GetAllReviewResponseDto getAllReview(){
-		String email = (String)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		User user = userRepository.findUserByEmail(email).orElseThrow(EmailNotFoundException::new);
-		List<Review> reviews = reviewRepository.findByUserId(user.getId());
-		// List<Review> reviews = reviewRepository.findByUserId(UUID.fromString("672ffb8c-f952-49ec-b65b-4fe3a9c37b28"));
-		return GetAllReviewResponseDto.builder()
-				.reviews(reviewMapper.toReviewsDto(reviews)).build();
+	public ResponseDto<GetAllReviewResponseDto> getAllReview(String startDate, Boolean isReplied, User user){
+		List<Review> reviews = reviewRepository.findByUserId(user.getId(), LocalDate.parse(startDate), isReplied);
+		return ResponseDto.<GetAllReviewResponseDto>builder()
+			.responseCode(ResponseCode.REVIEW_READ_ALL)
+			.data(GetAllReviewResponseDto.builder()
+				.reviews(reviewMapper.toReviewsDto(reviews)).build())
+			.build();
 	}
 
 	@Transactional(readOnly = true)
@@ -55,8 +54,9 @@ public class ReviewService {
 	}
 
 	@Transactional(readOnly = true)
-	public GetAllReviewForSellerResponseDto getAllReviewForSeller(Long filterDay){
-		String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	public GetAllReviewForSellerResponseDto getAllReviewForSeller(LocalDate startDate){
+		// seller의 형식이 정해져 있지 않아서 기다려야 함
+		// String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		// sellerRepository.findByEmail(email);
 		// List<Review> reviews = reviewRepository.findAllBySellerId(seller.getSellerId(), LocalDateTime.now().minusDays(filterDay));
 		List<Review> reviews = null;
@@ -65,16 +65,17 @@ public class ReviewService {
 	}
 
 	@Transactional(readOnly = true)
-	public GetReviewResponseDto getReview(UUID reviewId){
+	public ResponseDto<GetReviewResponseDto> getReview(UUID reviewId){
 		Review review = reviewRepository.findById(reviewId).orElseThrow(ReviewNotFoundException::new);
-		return GetReviewResponseDto.builder()
-			.review(reviewMapper.toReviewDto(review)).build();
+		return ResponseDto.<GetReviewResponseDto>builder()
+			.responseCode(ResponseCode.REVIEW_READ)
+			.data(GetReviewResponseDto.builder()
+				.review(reviewMapper.toReviewDto(review)).build())
+			.build();
 	}
 
 	@Transactional
-	public UUID postReview(PostReviewRequestDto dto){
-		String email = (String)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		User user = userRepository.findUserByEmail(email).orElseThrow(EmailNotFoundException::new);
+	public ResponseDto<Object> postReview(PostReviewRequestDto dto, User user){
 		PickupOrderItem orderItem = orderItemRepository.findById(dto.getOrderItemId()).orElseThrow(ItemNotFoundException::new);
 		Review review = Review.ReviewBuilder()
 				.orderItem(orderItem)
@@ -83,20 +84,29 @@ public class ReviewService {
 			.starRating(dto.getStarRating())
 			.user(user)
 			.build();
-		return reviewRepository.save(review).getId();
+		reviewRepository.save(review);
+		return ResponseDto.builder()
+			.responseCode(ResponseCode.REVIEW_CREATE)
+			.data(null).build();
 	}
 
 	@Transactional
-	public void updateReview(UpdateReviewRequestDto dto){
+	public ResponseDto<Object> updateReview(UpdateReviewRequestDto dto){
 		Review review = reviewRepository.findById(dto.getId()).orElseThrow(ReviewNotFoundException::new);
 		review.updateReview(dto);
+		return ResponseDto.builder()
+			.responseCode(ResponseCode.REVIEW_UPDATE)
+			.data(null).build();
 	}
 
 	@Transactional
-	public void deleteReview(UUID reviewId){
+	public ResponseDto<Object> deleteReview(UUID reviewId){
 		Review review = reviewRepository.findById(reviewId).orElseThrow(ReviewNotFoundException::new);
 		review.deleteReviewReply();
 		reviewRepository.delete(review); // 리뷰 ID 리턴
+		return ResponseDto.builder()
+			.responseCode(ResponseCode.REVIEW_DELETE)
+			.data(null).build();
 	}
 
 	@Transactional

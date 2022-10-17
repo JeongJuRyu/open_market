@@ -34,9 +34,6 @@ public class OrderInquiryReply extends BaseTimeEntity {
 	private UUID id;
 
 	@Column(nullable = false)
-	private String title;
-
-	@Column(nullable = false)
 	private String content;
 
 	@OneToOne(fetch = FetchType.LAZY)

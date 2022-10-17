@@ -4,15 +4,13 @@ import java.util.UUID;
 
 import javax.security.auth.DestroyFailedException;
 
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tmax.cm.superstore.code.ResponseCode;
+import com.tmax.cm.superstore.common.ResponseDto;
 import com.tmax.cm.superstore.user.dto.CreateUserRequestDto;
-import com.tmax.cm.superstore.user.dto.CreateUserResponseDto;
-import com.tmax.cm.superstore.user.dto.DeleteDeliveryInfoRequestDto;
 import com.tmax.cm.superstore.user.dto.EmailAuthRequestDto;
 import com.tmax.cm.superstore.user.dto.EmailAuthResponseDto;
 import com.tmax.cm.superstore.user.dto.GetUserDeliveryInfoResponseDto;
@@ -23,7 +21,6 @@ import com.tmax.cm.superstore.user.dto.UpdateDeliveryInfoRequestDto;
 import com.tmax.cm.superstore.user.dto.UpdateEmailRequestDto;
 import com.tmax.cm.superstore.user.dto.UpdateEmailResponseDto;
 import com.tmax.cm.superstore.user.dto.UpdatePasswordRequestDto;
-import com.tmax.cm.superstore.user.dto.UpdatePasswordResponseDto;
 import com.tmax.cm.superstore.user.entities.DeliveryAddress;
 import com.tmax.cm.superstore.user.entities.User;
 import com.tmax.cm.superstore.user.error.exception.DeliveryAddressNotFoundException;
@@ -41,20 +38,22 @@ public class UserService {
 	private final UserRepository userRepository;
 	private final EmailService emailService;
 	private final DeliveryMapper deliveryMapper;
-	// private final PasswordEncoder passwordEncoder;
 
 	@Transactional(readOnly = true)
-	public GetUserInfoResponseDto getUserInfo(GetUserInfoRequestDto dto){
+	public ResponseDto<GetUserInfoResponseDto> getUserInfo(GetUserInfoRequestDto dto){
 		User user = userRepository.findUserByEmail(dto.getEmail()).orElseThrow(EmailNotFoundException::new);
-		return GetUserInfoResponseDto.builder()
-			.name(user.getName())
-			.email(user.getEmail())
-			.phoneNum(user.getPhoneNum())
-			.build();
+		return ResponseDto.<GetUserInfoResponseDto>builder()
+				.responseCode(ResponseCode.USER_INFO_READ)
+				.data(GetUserInfoResponseDto.builder()
+					.name(user.getName())
+					.email(user.getEmail())
+					.phoneNum(user.getPhoneNum())
+					.build())
+				.build();
 	}
 
 	@Transactional
-	public CreateUserResponseDto createUser(CreateUserRequestDto createUserRequestDto){
+	public ResponseDto<Object> createUser(CreateUserRequestDto createUserRequestDto){
 		if(checkEmailDuplicate(createUserRequestDto.getEmail())){
 			throw new UserAlreadyExistException();
 		}
@@ -66,18 +65,23 @@ public class UserService {
 			.name(createUserRequestDto.getName())
 			.build();
 		userRepository.save(user);
-		return null;
+		return ResponseDto.builder()
+			.responseCode(ResponseCode.USER_CREATE)
+			.data(null).build();
 	}
 	@Transactional
-	public UpdateEmailResponseDto updateEmail(UpdateEmailRequestDto updateEmailRequestDto){
+	public ResponseDto<UpdateEmailResponseDto> updateEmail(UpdateEmailRequestDto updateEmailRequestDto){
 		String email = updateEmailRequestDto.getEmail();
 		User user = userRepository.findUserByEmail(email).orElseThrow(EmailNotFoundException::new);
 		if(checkEmailDuplicate(updateEmailRequestDto.getNewEmail())){
 			throw new UserAlreadyExistException();
 		}
 		user.updateEmail(updateEmailRequestDto.getNewEmail());
-		return UpdateEmailResponseDto.builder()
-			.email(updateEmailRequestDto.getNewEmail())
+		return ResponseDto.<UpdateEmailResponseDto>builder()
+			.responseCode(ResponseCode.USER_EMAIL_UPDATE)
+			.data(UpdateEmailResponseDto.builder()
+				.email(updateEmailRequestDto.getNewEmail())
+				.build())
 			.build();
 	}
 
@@ -108,43 +112,59 @@ public class UserService {
 	}
 
 	@Transactional(readOnly = true)
-	public GetUserDeliveryInfoResponseDto getUserDeliveryInfo(){
+	public ResponseDto<GetUserDeliveryInfoResponseDto> getUserDeliveryInfo(){
 		String email = (String)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		User user = userRepository
 			.findUserByEmail(email).orElseThrow(EmailNotFoundException::new);
-		return GetUserDeliveryInfoResponseDto.builder()
-			.deliveryAddresses(deliveryMapper.toDeliveriesDto(user.getDeliveryAddresses()))
+		return ResponseDto.<GetUserDeliveryInfoResponseDto>builder()
+			.responseCode(ResponseCode.USER_DELIVERY_READ)
+			.data(GetUserDeliveryInfoResponseDto.builder()
+				.deliveryAddresses(deliveryMapper.toDeliveriesDto(user.getDeliveryAddresses()))
+				.build())
 			.build();
 	}
 	@Transactional
-	public void postDeliveryInfo(
+	public ResponseDto<Object> postDeliveryInfo(
 		PostDeliveryRequestDto dto){
 		User user = userRepository
 			.findUserByEmail(dto.getEmail()).orElseThrow(EmailNotFoundException::new);
 		user.postDeliveryAddress(dto);
+		return ResponseDto.builder()
+			.responseCode(ResponseCode.USER_DELIVERY_CREATE)
+			.data(null).build();
 	}
 
 	@Transactional
-	public void updateDeliveryInfo(UpdateDeliveryInfoRequestDto dto){
+	public ResponseDto<Object> updateDeliveryInfo(UpdateDeliveryInfoRequestDto dto){
 		User user = userRepository.findUserByEmail(dto.getEmail())
 			.orElseThrow(EmailNotFoundException::new);
 		user.updateDeliveryAddress(dto);
+		return ResponseDto.builder()
+			.responseCode(ResponseCode.USER_DELIVERY_UPDATE)
+			.data(null).build();
 	}
 
 	@Transactional
-	public void deleteDeliveryInfo(DeleteDeliveryInfoRequestDto dto){
-		User user = userRepository.findUserByEmail(dto.getEmail())
-			.orElseThrow(EmailNotFoundException::new);
+	public ResponseDto<Object> deleteDeliveryInfo(UUID id){
+		String email = (String)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		User user = userRepository
+			.findUserByEmail(email).orElseThrow(EmailNotFoundException::new);
 		DeliveryAddress deliveryAddress = user.getDeliveryAddresses().stream()
-			.filter(address -> address.getId() == dto.getShippingAddressId())
+			.filter(address -> address.getId() == id)
 			.findAny().orElseThrow(DeliveryAddressNotFoundException::new);
 		user.getDeliveryAddresses().remove(deliveryAddress);
+		return ResponseDto.builder()
+			.responseCode(ResponseCode.USER_DELIVERY_DELETE)
+			.data(null).build();
 	}
 
 	@Transactional
-	public void setDefaultDelivery(UUID id){
+	public ResponseDto<Object> setDefaultDelivery(UUID id){
 		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		User newUser = userRepository.findUserByEmail(user.getEmail()).orElseThrow(EmailNotFoundException::new);
 		newUser.setDeliveryAddress(id);
+		return ResponseDto.builder()
+			.responseCode(ResponseCode.USER_DEFAULT_DELIVERY_SET)
+			.data(null).build();
 	}
 }

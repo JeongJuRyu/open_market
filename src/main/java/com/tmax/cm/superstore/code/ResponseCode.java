@@ -89,6 +89,37 @@ public enum ResponseCode implements Code {
 	// Error - shop
 	ERROR_SHOP_NOT_FOUND("ERROR", "ES000", "Shop not found", "해당 가게는 존재하지 않습니다."),
 
+	// User
+	USER_CREATE("SUCCESS", "USER_CREATE", "Create user", "유저 회원가입"),
+	USER_EMAIL_UPDATE("SUCCESS", "USER_EMAIL_UPDATE", "Update user email", "유저 이메일 변경"),
+	USER_INFO_READ("SUCCESS", "USER_INFO_READ", "Read user info", "유저 정보 조회"),
+	USER_DELIVERY_READ("SUCCESS", "USER_DELIVERY_READ", "Read user delivery", "유저 배송지 조회"),
+	USER_DELIVERY_CREATE("SUCCESS", "USER_DELIVERY_CREATE", "Create user delivery", "유저 배송지 추가"),
+	USER_DELIVERY_UPDATE("SUCCESS", "USER_DELIVERY_UPDATE", "Update user delivery", "유저 배송지 변경"),
+	USER_DELIVERY_DELETE("SUCCESS", "USER_DELIVERY_DELETE", "Delete user delivery", "유저 배송지 삭제"),
+	USER_DEFAULT_DELIVERY_SET("SUCCESS", "USER_DEFAULT_DELIVERY_SET", "Set user default delivery", "유저 기본 배송지 지정"),
+	USER_LOGIN("SUCCESS", "USER_LOGIN", "Login user", "유저 로그인"),
+	USER_PASSWORD_UPDATE("SUCCESS", "USER_PASSWORD_UPDATE", "update user password", "유저 비밀번호 변경"),
+
+	// My-page
+	REVIEW_READ_ALL("SUCCESS", "REVIEW_READ_ALL", "Read all review", "리뷰 전체 조회"),
+	REVIEW_READ("SUCCESS", "REVIEW_READ", "Read review", "리뷰 단건 조회"),
+	REVIEW_CREATE("SUCCESS", "REVIEW_CREATE", "Create review", "리뷰 작성"),
+	REVIEW_UPDATE("SUCCESS", "REVIEW_UPDATE", "Update review", "리뷰 수정"),
+	REVIEW_DELETE("SUCCESS", "REVIEW_DELETE", "Delete review", "리뷰 삭제"),
+	REVIEW_REPLY_CREATE("SUCCESS", "REVIEW_REPLY_CREATE", "Create review reply", "리뷰 답변 작성"),
+	REVIEW_REPLY_UPDATE("SUCCESS", "REVIEW_REPLY_UPDATE", "Update review reply", "리뷰 답변 수정"),
+	REVIEW_REPLY_DELETE("SUCCESS", "REVIEW_REPLY_DELETE", "Delete review reply", "리뷰 답변 삭제"),
+	ORDER_ITEM_INQUIRY_READ_ALL("SUCCESS", "ORDER_ITEM_INQUIRY_READ_ALL", "Read all order item inquiry", "주문 상품 문의 전체 조회"),
+	ORDER_ITEM_INQUIRY_READ("SUCCESS", "ORDER_ITEM_INQUIRY_READ", "Read order item inquiry", "주문 상품 문의 단건 조회"),
+	ORDER_ITEM_INQUIRY_CREATE("SUCCESS", "ORDER_ITEM_INQUIRY_CREATE", "Create order item inquiry", "주문 상품 문의 작성"),
+	ORDER_ITEM_INQUIRY_UPDATE("SUCCESS", "ORDER_ITEM_INQUIRY_UPDATE", "Update order item inquiry", "주문 상품 문의 수정"),
+	ORDER_ITEM_INQUIRY_DELETE("SUCCESS", "ORDER_ITEM_INQUIRY_DELETE", "Delete order item inquiry", "주문 상품 문의 삭제"),
+	ORDER_ITEM_INQUIRY_REPLY_CREATE("SUCCESS", "ORDER_ITEM_INQUIRY_REPLY_CREATE", "Create order item inquiry reply", "주문 상품 문의 답변 작성"),
+	ORDER_ITEM_INQUIRY_REPLY_UPDATE("SUCCESS", "ORDER_ITEM_INQUIRY_REPLY_UPDATE", "Update order item inquiry reply", "주문 상품 문의 답변 수정"),
+	ORDER_ITEM_INQUIRY_REPLY_DELETE("SUCCESS", "ORDER_ITEM_INQUIRY_REPLY_DELETE", "Delete order item inquiry reply", "주문 상품 문의 답변 삭제"),
+
+
 	// Ship
 	SHIP_CREATE("SUCCESS", "SHIP_CREATE", "Create ship", "배송 목록 생성"),
 	SHIP_READ("SUCCESS", "SHIP_READ", "Read ship", "배송 목록 조회"),

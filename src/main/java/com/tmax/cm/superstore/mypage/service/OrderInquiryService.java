@@ -53,7 +53,6 @@ public class OrderInquiryService {
 		PickupOrderItem orderItem = orderItemRepository.findById(dto.getOrderItemId())
 			.orElseThrow(IllegalArgumentException::new);
 		OrderInquiry orderInquiry = OrderInquiry.builder()
-			.orderItem(orderItem)
 			.content(dto.getContent())
 			.title(dto.getTitle())
 			.isAnswered(false)
