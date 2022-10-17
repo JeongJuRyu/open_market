@@ -48,151 +48,146 @@ public class InitDb {
 		private final ReservationItemImageRepository reservationItemImageRepository;
 
 		public void dbInit1() {
-			CreateSellerDto.SellerInfo sellerInfo = CreateSellerDto.SellerInfo.SellerInfoBuilder()
-				.loginId("rala")
-				.password("rala123")
-				.sellerName("랄라샌드위치")
-				.sellerEmail("rala@naver.com")
-				.sellerPhoneNum("0507-1367-2348").build();
-
-			CreateSellerDto.BizInfo bizInfo = CreateSellerDto.BizInfo.BizInfoBuilder()
-				.bizNum("사업자등록번호")
-				.bizName("상호명")
-				.bizOwner("대표자명")
-				.bizAddress("사업장소재지")
-				.reportNumber("통신판매업번호").build();
-
-			CreateSellerDto.SellerDeliveryInfo sellerDeliveryInfo = CreateSellerDto.SellerDeliveryInfo.SellerDeliveryInfoBuilder()
-				.shipmentAddress("출고지 주소")
-				.shipmentAddressDetail("출고지 상세주소")
-				.returnAddress("반품지 주소")
-				.returnAddressDetail("반품지 상세주소").build();
-
-			CreateSellerDto.Request createSellerRequestDto = new CreateSellerDto.Request(sellerInfo, bizInfo, sellerDeliveryInfo);
-
-			Seller seller1 = Seller.builder(createSellerRequestDto).build();
-			sellerRepository.save(seller1);
-			Business business1 = Business.builder(seller1, createSellerRequestDto).build();
-			businessRepository.save(business1);
-			SellerDelivery sellerDelivery1 = SellerDelivery.builder(seller1, createSellerRequestDto).isRepresent(true).build();
-			sellerDeliveryRepository.save(sellerDelivery1);
+			CreateSellerDto.SellerInfo sellerInfo = createSellerInfo("rala", "rala123", "랄라샌드위치", "rala@naver.com",
+				"0507-1367-2348");
+			CreateSellerDto.BizInfo bizInfo = createBizInfo("사업자등록번호", "상호명", "대표명", "사업장소재지", "통신판매업번호");
+			CreateSellerDto.SellerDeliveryInfo sellerDeliveryInfo = createSellerDeliveryInfo("출고지 주소", "출고지 상세 주소",
+				"반품지 주소", "반품지 상세주소");
+			CreateSellerDto.Request createSellerRequestDto = new CreateSellerDto.Request(sellerInfo, bizInfo,
+				sellerDeliveryInfo);
+			Seller seller1 = createSeller(createSellerRequestDto);
 
 			// 예약상품 생성
-			ReservationItem reservationItem1 = ReservationItem.builder(
-				new CreateReservationItemDto.Request("치킨텐더 샌드위치", "5500", "치킨텐더가 들어간 샌드위치 입니다",
-					"토마토, 양상추 등의 야채가 들어가니 주의하세요", 1, "30",
-					LocalTime.of(8, 00), LocalTime.of(20, 00)), seller1).build();
-			reservationItemRepository.save(reservationItem1);
+			ReservationItem reservationItem1 = createReservationItem("치킨텐더 샌드위치", "5500", "치킨텐더가 들어간 샌드위치 입니다",
+				"토마토, 양상추 등의 야채가 들어가니 주의하세요", 1, "30",
+				LocalTime.of(8, 00), LocalTime.of(20, 00), seller1);
+
 			// 예약상품 이미지 등록
-			ReservationItemImage reservationItem1Image = ReservationItemImage.builder(
-				new CreateReservationItemImageDto.Request(
-					UUID.randomUUID(), "치킨센더 샌드위치"), reservationItem1).build();
-			reservationItemImageRepository.save(reservationItem1Image);
+			createReservationItemImage(reservationItem1, "치킨센더 샌드위치");
 
 			// 예약상품 옵션 생성
-			ReservationItemOption reservationItem1Option1 = ReservationItemOption.builder(
-					new CreateReservationItemOptionDto.Request("계란추가", "500", "계란 후라이 형태로 추가됩니다."), reservationItem1)
-				.build();
-			reservationItemOptionRepository.save(reservationItem1Option1);
-			ReservationItemOption reservationItem1Option2 = ReservationItemOption.builder(
-				new CreateReservationItemOptionDto.Request("아이스 아메리카노 추가", "1500", "커피와 세트메뉴로 제공됩니다."),
-				reservationItem1).build();
-			reservationItemOptionRepository.save(reservationItem1Option2);
+			createReservationItemOption(reservationItem1, "기본", "0", "기본 구성입니다.");
+			createReservationItemOption(reservationItem1, "계란추가", "500", "계란 후라이 형태로 추가됩니다.");
+			createReservationItemOption(reservationItem1, "아이스 아메리카노 추가", "1500", "커피와 세트메뉴로 제공됩니다.");
 
 			// 예약상품 생성
-			ReservationItem reservationItem2 = ReservationItem.builder(
-				new CreateReservationItemDto.Request("푸실리 샐러드", "5500", "푸실리드가 들어간 샐러드 입니다",
-					"토마토, 양상추 등의 야채가 들어가니 주의하세요", 2, "60",
-					LocalTime.of(8, 00), LocalTime.of(20, 00)), seller1).build();
-			reservationItemRepository.save(reservationItem2);
+			ReservationItem reservationItem2 = createReservationItem("푸실리 샐러드", "5500", "푸실리드가 들어간 샐러드 입니다",
+				"토마토, 양상추 등의 야채가 들어가니 주의하세요", 2, "60",
+				LocalTime.of(8, 00), LocalTime.of(20, 00), seller1);
+
 			// 예약상품 이미지 등록
-			ReservationItemImage reservationItem2Image = ReservationItemImage.builder(
-				new CreateReservationItemImageDto.Request(
-					UUID.randomUUID(), "푸실리 샐러드"), reservationItem2).build();
-			reservationItemImageRepository.save(reservationItem2Image);
+			createReservationItemImage(reservationItem2, "푸실리 샐러드");
 
 			// 예약상품 옵션 생성
-			ReservationItemOption reservationItem2Option1 = ReservationItemOption.builder(
-					new CreateReservationItemOptionDto.Request("계란추가", "500", "삶은 계란 슬라이스 형태로 추가됩니다."), reservationItem2)
-				.build();
-			reservationItemOptionRepository.save(reservationItem2Option1);
-			ReservationItemOption reservationItem2Option2 = ReservationItemOption.builder(
-				new CreateReservationItemOptionDto.Request("아이스 아메리카노 추가", "1500", "커피와 세트메뉴로 제공됩니다."),
-				reservationItem2).build();
-			reservationItemOptionRepository.save(reservationItem2Option2);
+			createReservationItemOption(reservationItem2, "기본", "0", "기본 구성입니다.");
+			createReservationItemOption(reservationItem2, "계란추가", "500", "삶은 계란 슬라이스 형태로 추가됩니다.");
+			createReservationItemOption(reservationItem2, "아이스 아메리카노 추가", "1500", "커피와 세트메뉴로 제공됩니다.");
 		}
 
 		public void dbInit2() {
-			CreateSellerDto.SellerInfo sellerInfo = CreateSellerDto.SellerInfo.SellerInfoBuilder()
-				.loginId("byulme")
-				.password("byulme123")
-				.sellerName("별미")
-				.sellerEmail("byulme@naver.com")
-				.sellerPhoneNum("031-782-9588").build();
-
-			CreateSellerDto.BizInfo bizInfo = CreateSellerDto.BizInfo.BizInfoBuilder()
-				.bizNum("사업자등록번호")
-				.bizName("상호명")
-				.bizOwner("대표자명")
-				.bizAddress("사업장소재지")
-				.reportNumber("통신판매업번호").build();
-
-			CreateSellerDto.SellerDeliveryInfo sellerDeliveryInfo = CreateSellerDto.SellerDeliveryInfo.SellerDeliveryInfoBuilder()
-				.shipmentAddress("출고지 주소")
-				.shipmentAddressDetail("출고지 상세주소")
-				.returnAddress("반품지 주소")
-				.returnAddressDetail("반품지 상세주소").build();
-
-			CreateSellerDto.Request createSellerRequestDto = new CreateSellerDto.Request(sellerInfo, bizInfo, sellerDeliveryInfo);
-
-			Seller seller2 = Seller.builder(createSellerRequestDto).build();
-			sellerRepository.save(seller2);
-			Business business2 = Business.builder(seller2, createSellerRequestDto).build();
-			businessRepository.save(business2);
-			SellerDelivery sellerDelivery2 = SellerDelivery.builder(seller2, createSellerRequestDto).isRepresent(true).build();
-			sellerDeliveryRepository.save(sellerDelivery2);
+			CreateSellerDto.SellerInfo sellerInfo = createSellerInfo("byulme", "byulme123", "별미", "byulme@naver.com",
+				"031-782-9588");
+			CreateSellerDto.BizInfo bizInfo = createBizInfo("사업자등록번호", "상호명", "대표명", "사업장소재지", "통신판매업번호");
+			CreateSellerDto.SellerDeliveryInfo sellerDeliveryInfo = createSellerDeliveryInfo("출고지 주소", "출고지 상세 주소",
+				"반품지 주소", "반품지 상세주소");
+			CreateSellerDto.Request createSellerRequestDto = new CreateSellerDto.Request(sellerInfo, bizInfo,
+				sellerDeliveryInfo);
+			Seller seller2 = createSeller(createSellerRequestDto);
 
 			// 예약상품 생성
-			ReservationItem reservationItem1 = ReservationItem.builder(
-				new CreateReservationItemDto.Request("직화제육 덮밥", "7500", "직화제육이 들어간 덮밥 입니다",
-					"밥 양이 많으니 적게 드실 분은 미리 말씀해주세", 3, "30",
-					LocalTime.of(11, 00), LocalTime.of(20, 00)), seller2).build();
-			reservationItemRepository.save(reservationItem1);
+			ReservationItem reservationItem1 = createReservationItem("직화제육 덮밥", "7500", "직화제육이 들어간 덮밥 입니다",
+				"밥 양이 많으니 적게 드실 분은 미리 말씀해주세", 3, "30",
+				LocalTime.of(11, 00), LocalTime.of(20, 00), seller2);
+
 			// 예약상품 이미지 등록
-			ReservationItemImage reservationItem1Image = ReservationItemImage.builder(
-				new CreateReservationItemImageDto.Request(
-					UUID.randomUUID(), "직화제육 덮밥"), reservationItem1).build();
-			reservationItemImageRepository.save(reservationItem1Image);
+			createReservationItemImage(reservationItem1, "직화제육 덮밥");
 
 			// 예약상품 옵션 생성
-			ReservationItemOption reservationItem1Option1 = ReservationItemOption.builder(
-					new CreateReservationItemOptionDto.Request("계란 후라이 추가", "500", "계란 후라이가 덮밥에 추가됩니다."), reservationItem1)
-				.build();
-			reservationItemOptionRepository.save(reservationItem1Option1);
-			ReservationItemOption reservationItem1Option2 = ReservationItemOption.builder(
-				new CreateReservationItemOptionDto.Request("직화제육 추가", "2000", "곱배기 메뉴입니다."), reservationItem1).build();
-			reservationItemOptionRepository.save(reservationItem1Option2);
+			createReservationItemOption(reservationItem1, "기본", "0", "기본 구성입니다.");
+			createReservationItemOption(reservationItem1, "계란 후라이 추가", "500", "계란 후라이가 덮밥에 추가됩니다.");
+			createReservationItemOption(reservationItem1, "직화제육 추가", "2000", "곱배기 메뉴입니다.");
 
 			// 예약상품 생성
-			ReservationItem reservationItem2 = ReservationItem.builder(
-				new CreateReservationItemDto.Request("회오리 오무라이스", "7000", "회오리 형태 오무라이스 입니다", "볶음밥에 새우가 들어가니 주의하세요.",
-					2, "30",
-					LocalTime.of(11, 00), LocalTime.of(20, 00)), seller2).build();
-			reservationItemRepository.save(reservationItem2);
+			ReservationItem reservationItem2 = createReservationItem("회오리 오무라이스", "7000", "회오리 형태 오무라이스 입니다",
+				"볶음밥에 새우가 들어가니 주의하세요.",
+				2, "30",
+				LocalTime.of(11, 00), LocalTime.of(20, 00), seller2);
+
 			// 예약상품 이미지 등록
-			ReservationItemImage reservationItem2Image = ReservationItemImage.builder(
-				new CreateReservationItemImageDto.Request(
-					UUID.randomUUID(), "회오리 오무라이스"), reservationItem2).build();
-			reservationItemImageRepository.save(reservationItem2Image);
+			createReservationItemImage(reservationItem2, "회오리 오무라이스");
 
 			// 예약상품 옵션 생성
-			ReservationItemOption reservationItem2Option1 = ReservationItemOption.builder(
-					new CreateReservationItemOptionDto.Request("계란 추가", "1000", "계란 지단이 한 장 추가됩니다."), reservationItem2)
+			createReservationItemOption(reservationItem2, "기본", "0", "기본 구성입니다.");
+			createReservationItemOption(reservationItem2, "계란 추가", "1000", "계란 지단이 한 장 추가됩니다.");
+			createReservationItemOption(reservationItem2, "곱배기", "1500", "곱배기 메뉴입니다.");
+		}
+
+		private CreateSellerDto.SellerInfo createSellerInfo(String loginId, String password, String sellerName,
+			String sellerEmail,
+			String sellerPhoneNum) {
+			return CreateSellerDto.SellerInfo.SellerInfoBuilder()
+				.loginId(loginId)
+				.password(password)
+				.sellerName(sellerName)
+				.sellerEmail(sellerEmail)
+				.sellerPhoneNum(sellerPhoneNum).build();
+		}
+
+		private CreateSellerDto.BizInfo createBizInfo(String bizNum, String bizName, String bizOwner, String bizAddress,
+			String reportNumber) {
+			return CreateSellerDto.BizInfo.BizInfoBuilder()
+				.bizNum(bizNum)
+				.bizName(bizName)
+				.bizOwner(bizOwner)
+				.bizAddress(bizAddress)
+				.reportNumber(reportNumber).build();
+		}
+
+		private CreateSellerDto.SellerDeliveryInfo createSellerDeliveryInfo(String shipmentAddress,
+			String shipmentAddressDetail, String returnAddress, String returnAddressDetail) {
+			return CreateSellerDto.SellerDeliveryInfo.SellerDeliveryInfoBuilder()
+				.shipmentAddress(shipmentAddress)
+				.shipmentAddressDetail(shipmentAddressDetail)
+				.returnAddress(returnAddress)
+				.returnAddressDetail(returnAddressDetail).build();
+		}
+
+		private Seller createSeller(CreateSellerDto.Request createSellerRequestDto) {
+			Seller seller = Seller.builder(createSellerRequestDto).build();
+			sellerRepository.save(seller);
+			Business business = Business.builder(seller, createSellerRequestDto).build();
+			businessRepository.save(business);
+			SellerDelivery sellerDelivery = SellerDelivery.builder(seller, createSellerRequestDto).isRepresent(true)
 				.build();
-			reservationItemOptionRepository.save(reservationItem2Option1);
-			ReservationItemOption reservationItem2Option2 = ReservationItemOption.builder(
-				new CreateReservationItemOptionDto.Request("곱배기", "1500", "곱배기 메뉴입니다."), reservationItem2).build();
-			reservationItemOptionRepository.save(reservationItem2Option2);
+			sellerDeliveryRepository.save(sellerDelivery);
+			return seller;
+		}
+
+		public ReservationItem createReservationItem(String reservationItemName, String reservationItemPrice,
+			String reservationItemDescription, String reservationItemNotice, Integer allowReservationNumberPerInterval,
+			String reservationInterval, LocalTime start, LocalTime end, Seller seller) {
+			ReservationItem reservationItem = ReservationItem.builder(
+					new CreateReservationItemDto.Request(reservationItemName, reservationItemPrice,
+						reservationItemDescription,
+						reservationItemNotice, allowReservationNumberPerInterval, reservationInterval, start, end), seller)
+				.build();
+			reservationItemRepository.save(reservationItem);
+			return reservationItem;
+		}
+
+		private void createReservationItemImage(ReservationItem reservationItem, String imageName) {
+			ReservationItemImage reservationItemImage = ReservationItemImage.builder(
+				new CreateReservationItemImageDto.Request(
+					UUID.randomUUID(), imageName), reservationItem).build();
+			reservationItemImageRepository.save(reservationItemImage);
+		}
+
+		private void createReservationItemOption(ReservationItem reservationItem, String optionName, String optionPrice,
+			String optionDescription) {
+			ReservationItemOption reservationItemOption = ReservationItemOption.builder(
+					new CreateReservationItemOptionDto.Request(optionName, optionPrice, optionDescription), reservationItem)
+				.build();
+			reservationItemOptionRepository.save(reservationItemOption);
 		}
 	}
 }
