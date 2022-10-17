@@ -6,8 +6,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum PickUpType implements Code {
-
+public enum PickupType {
     PICKUP_WAITING("PICKUP_WAITING", "주문 접수", "pickup/waiting"),
     PICKUP_ACCEPT("PICKUP_ACCEPT", "접수 완료 및 준비 중", "pickup/accepted"),
     PICKUP_READY("PICKUP_READY", "준비 완료", "pickup/done"),
@@ -19,4 +18,5 @@ public enum PickUpType implements Code {
 
     @JsonValue
     private String jsonValue;
+
 }

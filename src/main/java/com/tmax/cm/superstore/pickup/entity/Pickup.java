@@ -1,7 +1,6 @@
 package com.tmax.cm.superstore.pickup.entity;
 
-import com.tmax.cm.superstore.code.PickUpType;
-import com.tmax.cm.superstore.common.entity.BaseTimeEntity;
+import com.tmax.cm.superstore.code.PickupType;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,7 +12,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class PickUp extends BaseTimeEntity {
+public class Pickup {
 
     @Id
     @GeneratedValue
@@ -33,29 +32,30 @@ public class PickUp extends BaseTimeEntity {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private PickUpType pickUpType;
+    private PickupType pickUpType;
 
     public void acceptState() {
-        if(getPickUpType() == PickUpType.PICKUP_WAITING) {
-            setPickUpType(PickUpType.PICKUP_ACCEPT);
+        if(getPickUpType() == PickupType.PICKUP_WAITING) {
+            setPickUpType(PickupType.PICKUP_ACCEPT);
         }
     }
 
     public void refuseState() {
-        if(getPickUpType() == PickUpType.PICKUP_WAITING) {
-            setPickUpType(PickUpType.PICKUP_REFUSE);
+        if(getPickUpType() == PickupType.PICKUP_WAITING) {
+            setPickUpType(PickupType.PICKUP_REFUSE);
         }
     }
 
     public void doneState() {
-        if(getPickUpType() == PickUpType.PICKUP_READY) {
-            setPickUpType(PickUpType.PICKUP_DONE);
+        if(getPickUpType() == PickupType.PICKUP_READY) {
+            setPickUpType(PickupType.PICKUP_DONE);
         }
     }
 
     public void readyState() {
-        if(getPickUpType() == PickUpType.PICKUP_ACCEPT) {
-            setPickUpType(PickUpType.PICKUP_READY);
+        if(getPickUpType() == PickupType.PICKUP_ACCEPT) {
+            setPickUpType(PickupType.PICKUP_READY);
         }
     }
+
 }

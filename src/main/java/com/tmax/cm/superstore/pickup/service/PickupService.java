@@ -1,8 +1,8 @@
 package com.tmax.cm.superstore.pickup.service;
 
-import com.tmax.cm.superstore.code.PickUpType;
-import com.tmax.cm.superstore.pickup.entity.PickUp;
-import com.tmax.cm.superstore.pickup.repository.PickUpRepository;
+import com.tmax.cm.superstore.code.PickupType;
+import com.tmax.cm.superstore.pickup.entity.Pickup;
+import com.tmax.cm.superstore.pickup.repository.PickupRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
@@ -10,18 +10,18 @@ import javax.transaction.Transactional;
 
 @Setter
 @RequiredArgsConstructor
-public class PickUpService {
+public class PickupService {
 
-    private final PickUpRepository pickUpRepository;
+    private final PickupRepository pickUpRepository;
 
     @Transactional
-    public PickUp create(String recipient, String address, String mobile, String request) {
-        PickUp pickUp = PickUp.builder()
+    public Pickup create(String recipient, String address, String mobile, String request) {
+        Pickup pickUp = Pickup.builder()
                 .recipient(recipient)
                 .address(address)
                 .mobile(mobile)
                 .requests(request)
-                .pickUpType(PickUpType.PICKUP_WAITING)
+                .pickUpType(PickupType.PICKUP_WAITING)
                 .build();
 
         pickUpRepository.save(pickUp);
@@ -29,22 +29,23 @@ public class PickUpService {
     }
 
     @Transactional
-    public void acceptPick(PickUp pickUp) {
+    public void acceptPick(Pickup pickUp) {
         pickUp.acceptState();
     }
 
     @Transactional
-    public void refusePick(PickUp pickUp) {
+    public void refusePick(Pickup pickUp) {
         pickUp.refuseState();
     }
 
     @Transactional
-    public void readyPick(PickUp pickUp) {
+    public void readyPick(Pickup pickUp) {
         pickUp.readyState();
     }
 
     @Transactional
-    public void donePick(PickUp pickUp) {
+    public void donePick(Pickup pickUp) {
         pickUp.doneState();
     }
+
 }
