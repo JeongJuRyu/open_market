@@ -52,6 +52,9 @@ public class Review extends BaseTimeEntity {
 	@Column(nullable = false)
 	private Long isUseful;
 
+	@Column
+	private Boolean isReplied;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn()
 	private User user;

@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tmax.cm.superstore.code.ResponseCode;
+import com.tmax.cm.superstore.common.ResponseDto;
 import com.tmax.cm.superstore.user.dto.CreateUserRequestDto;
-import com.tmax.cm.superstore.user.dto.CreateUserResponseDto;
-import com.tmax.cm.superstore.user.dto.DeleteDeliveryInfoRequestDto;
 import com.tmax.cm.superstore.user.dto.GetUserDeliveryInfoResponseDto;
 import com.tmax.cm.superstore.user.dto.GetUserInfoRequestDto;
 import com.tmax.cm.superstore.user.dto.GetUserInfoResponseDto;
@@ -25,7 +25,6 @@ import com.tmax.cm.superstore.user.dto.UpdateDeliveryInfoRequestDto;
 import com.tmax.cm.superstore.user.dto.UpdateEmailRequestDto;
 import com.tmax.cm.superstore.user.dto.UpdateEmailResponseDto;
 import com.tmax.cm.superstore.user.dto.UpdatePasswordRequestDto;
-import com.tmax.cm.superstore.user.dto.UpdatePasswordResponseDto;
 import com.tmax.cm.superstore.user.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -36,58 +35,57 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
 	private final UserService userService;
 	@GetMapping
-	public ResponseEntity<GetUserInfoResponseDto> getUser(@RequestBody GetUserInfoRequestDto getUserInfoRequestDto) {
+	public ResponseEntity<ResponseDto<GetUserInfoResponseDto>> getUser(@RequestBody GetUserInfoRequestDto getUserInfoRequestDto) {
 		return ResponseEntity.ok().body(userService.getUserInfo(getUserInfoRequestDto));
 	}
 
 	@PostMapping
-	public ResponseEntity<CreateUserResponseDto> createUser(
+	public ResponseEntity<ResponseDto<Object>> createUser(
 		@Valid @RequestBody CreateUserRequestDto createUserRequestDto){
-		return ResponseEntity.ok().body(userService.createUser(createUserRequestDto));
+		return ResponseEntity.ok()
+			.body(userService.createUser(createUserRequestDto));
 	}
 
 	@PatchMapping("/email")
-	public ResponseEntity<UpdateEmailResponseDto> updateEmail(
+	public ResponseEntity<ResponseDto<UpdateEmailResponseDto>> updateEmail(
 		@RequestBody UpdateEmailRequestDto updateEmailRequestDto){
-		return ResponseEntity.ok().body(userService.updateEmail(updateEmailRequestDto));
+		return ResponseEntity.ok()
+			.body(userService.updateEmail(updateEmailRequestDto));
 	}
 
 	@PatchMapping("/password")
-	public ResponseEntity<Object> updatePassword(@RequestBody
+	public ResponseEntity<ResponseDto<Object>> updatePassword(@RequestBody
 		UpdatePasswordRequestDto updatePasswordRequestDto){
 		userService.updatePassword(updatePasswordRequestDto);
-		return ResponseEntity.ok().body(null);
+		return ResponseEntity.ok()
+			.body(ResponseDto.builder().responseCode(ResponseCode.USER_PASSWORD_UPDATE).data(null).build());
 	}
 
 	@GetMapping("/delivery")
-	public ResponseEntity<GetUserDeliveryInfoResponseDto> getDeliveryInfo(){
+	public ResponseEntity<ResponseDto<GetUserDeliveryInfoResponseDto>> getDeliveryInfo(){
 		return ResponseEntity.ok().body(userService.getUserDeliveryInfo());
 	}
 
 	@PostMapping("/delivery")
-	public ResponseEntity<Object> postDeliveryInfo(
+	public ResponseEntity<ResponseDto<Object>> postDeliveryInfo(
 		@RequestBody PostDeliveryRequestDto postDeliveryInfo){
-		userService.postDeliveryInfo(postDeliveryInfo);
-		return ResponseEntity.ok().body(null);
+		return ResponseEntity.ok().body(userService.postDeliveryInfo(postDeliveryInfo));
 	}
 
 	@PatchMapping("/delivery/{id}")
-	public ResponseEntity<Object> updateDeliveryInfo(
+	public ResponseEntity<ResponseDto<Object>> updateDeliveryInfo(
 		@RequestBody UpdateDeliveryInfoRequestDto updateDeliveryInfoRequestDto){
-		userService.updateDeliveryInfo(updateDeliveryInfoRequestDto);
-		return ResponseEntity.ok().body(null);
+		return ResponseEntity.ok().body(userService.updateDeliveryInfo(updateDeliveryInfoRequestDto));
 	}
 
 
 	@DeleteMapping("/delivery/{id}")
-	public ResponseEntity<Object> deleteDeliveryInfo(@RequestBody DeleteDeliveryInfoRequestDto deleteDeliveryInfoRequestDto){
-		userService.deleteDeliveryInfo(deleteDeliveryInfoRequestDto);
-		return ResponseEntity.ok().body(null);
+	public ResponseEntity<ResponseDto<Object>> deleteDeliveryInfo(@PathVariable UUID id){
+		return ResponseEntity.ok().body(userService.deleteDeliveryInfo(id));
 	}
 
 	@PostMapping("/delivery/{id}")
-	public ResponseEntity<Object> setDefaultADelivery(@PathVariable UUID id){
-		userService.setDefaultDelivery(id);
-		return ResponseEntity.ok().body(null);
+	public ResponseEntity<ResponseDto<Object>> setDefaultADelivery(@PathVariable UUID id){
+		return ResponseEntity.ok().body(userService.setDefaultDelivery(id));
 	}
 }
