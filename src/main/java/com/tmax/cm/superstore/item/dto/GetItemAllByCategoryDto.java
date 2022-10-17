@@ -2,6 +2,7 @@ package com.tmax.cm.superstore.item.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.tmax.cm.superstore.code.SendType;
+import com.tmax.cm.superstore.item.code.ItemState;
 import com.tmax.cm.superstore.item.entity.ItemImage;
 import lombok.Builder;
 import lombok.Getter;
@@ -57,6 +58,8 @@ public class GetItemAllByCategoryDto {
             private LocalDateTime createdAt;
 
             private LocalDateTime modifiedAt;
+
+            private ItemState itemState;
         }
 
     }

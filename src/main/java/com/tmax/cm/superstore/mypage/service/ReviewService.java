@@ -1,6 +1,6 @@
 package com.tmax.cm.superstore.mypage.service;
 
-import com.tmax.cm.superstore.error.exception.ItemNotFoundException;
+import com.tmax.cm.superstore.item.error.exception.ItemNotFoundException;
 import com.tmax.cm.superstore.item.entity.Item;
 import com.tmax.cm.superstore.item.repository.ItemRepository;
 import com.tmax.cm.superstore.item.repository.OrderItemRepository;

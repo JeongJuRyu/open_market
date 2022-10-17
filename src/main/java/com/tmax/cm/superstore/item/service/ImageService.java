@@ -1,7 +1,7 @@
 package com.tmax.cm.superstore.item.service;
 
 import com.tmax.cm.superstore.code.ResponseCode;
-import com.tmax.cm.superstore.error.exception.InternalServerErrorException;
+import com.tmax.cm.superstore.item.error.exception.InternalServerErrorException;
 import com.tmax.cm.superstore.item.dto.FileInfo;
 import com.tmax.cm.superstore.item.dto.MediaResponse;
 

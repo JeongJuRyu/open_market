@@ -50,6 +50,7 @@ public interface GetItemAllByCategoryDtoMapper {
     @Mapping(target = "categoryId", source = "item.category.id")
     @Mapping(target = "createdAt", source = "item.createdAt")
     @Mapping(target = "modifiedAt", source = "item.modifiedAt")
+    @Mapping(target = "itemState", source = "item.itemState")
     GetItemAllByCategoryDto.Response.GetItemSimpleDto toGetItemSimpleDto(Item item, List<GetItemAllByCategoryDto.Response.GetItemSimpleDto.GetItemImageDto> images);
 
     default Set<SendType> toSendTypes(List<ItemSendType> itemSendTypes) {
@@ -64,15 +65,6 @@ public interface GetItemAllByCategoryDtoMapper {
 
     @Mapping(target = "fileId", source = "fileId")
     GetItemAllByCategoryDto.Response.GetItemSimpleDto.GetItemImageDto toGetItemImage(ItemImage itemImage);
-
-//    @Mapping(target = ".", source = "avgScore")
-//    @Mapping(target = ".", source = "reviewCount")
-//    List<GetItemAllByCategoryDto.Response.GetSimpleReviewDto> toGetSimpleReviewDtos(List<Float> avgScore, List<Integer> reviewCount);
-//
-//    @Mapping(target = "avgScore", source = "avgScore")
-//    @Mapping(target = "reviewCount", source = "reviewCount")
-//    GetItemAllByCategoryDto.Response.GetSimpleReviewDto toGetSimpleReviewDto(Float avgScore, Integer reviewCount);
-
 
     default List<GetItemAllByCategoryDto.Response.GetSimpleReviewDto> toGetSimpleReviewDtos(List<Double> avgScore, List<Integer> reviewCount) {
         List<GetItemAllByCategoryDto.Response.GetSimpleReviewDto> dtos = new ArrayList<>();

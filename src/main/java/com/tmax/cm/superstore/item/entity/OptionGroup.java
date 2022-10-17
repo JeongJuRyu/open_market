@@ -38,7 +38,7 @@ public class OptionGroup {
     @ManyToOne
     private Item item;
 
-    @OneToMany(mappedBy = "optionGroup", cascade = { CascadeType.PERSIST })
+    @OneToMany(mappedBy = "optionGroup", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, orphanRemoval = true)
     private List<Option> options;
 
     @Column(nullable = false)

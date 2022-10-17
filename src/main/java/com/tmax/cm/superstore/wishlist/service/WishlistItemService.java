@@ -1,8 +1,8 @@
 package com.tmax.cm.superstore.wishlist.service;
 
 import com.tmax.cm.superstore.error.exception.EntityNotFoundException;
-import com.tmax.cm.superstore.error.exception.ItemNotFoundException;
 import com.tmax.cm.superstore.item.entity.Item;
+import com.tmax.cm.superstore.item.error.exception.ItemNotFoundException;
 import com.tmax.cm.superstore.item.repository.ItemRepository;
 import com.tmax.cm.superstore.wishlist.dto.DeleteWishlistItemsDto;
 import com.tmax.cm.superstore.wishlist.dto.PostCreateWishlistItemDto;
