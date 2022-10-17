@@ -2,7 +2,6 @@ package com.tmax.cm.superstore.wishlist.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,11 +33,11 @@ public class WishlistItem {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_wishlist_item_item_id"), name = "itemId", nullable = false)
+    @JoinColumn(nullable = false)
     private Item item;
 
     @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_wishlist_item_wishlist_group_id"), name = "wishlistGroupId", nullable = true)
+    @JoinColumn(nullable = true)
     private WishlistGroup wishlistGroup;
 
     @Column(nullable = false)
@@ -46,7 +45,7 @@ public class WishlistItem {
     private Boolean isDeleted = false;
 
     public void setGroup(WishlistGroup group) {
-        if(this.wishlistGroup != null) {
+        if (this.wishlistGroup != null) {
             this.wishlistGroup.getWishlistItems().remove(this);
         }
 

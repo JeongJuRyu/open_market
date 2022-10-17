@@ -17,7 +17,7 @@ import com.tmax.cm.superstore.mypage.entity.OrderInquiry;
 import com.tmax.cm.superstore.mypage.error.exception.OrderInquiryNotFound;
 import com.tmax.cm.superstore.mypage.mapper.OrderInquiryMapper;
 import com.tmax.cm.superstore.mypage.repository.OrderInquiryRepository;
-import com.tmax.cm.superstore.order.entity.OrderItem;
+import com.tmax.cm.superstore.order.entity.PickupOrderItem;
 import com.tmax.cm.superstore.user.entities.User;
 
 import lombok.RequiredArgsConstructor;
@@ -50,7 +50,7 @@ public class OrderInquiryService {
 		//로직 재 검증 필요
 		User user = (User)SecurityContextHolder.getContext().getAuthentication()
 			.getPrincipal();
-		OrderItem orderItem = orderItemRepository.findById(dto.getOrderItemId())
+		PickupOrderItem orderItem = orderItemRepository.findById(dto.getOrderItemId())
 			.orElseThrow(IllegalArgumentException::new);
 		OrderInquiry orderInquiry = OrderInquiry.builder()
 			.orderItem(orderItem)

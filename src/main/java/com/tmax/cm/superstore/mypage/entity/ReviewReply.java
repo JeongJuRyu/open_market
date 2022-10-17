@@ -35,7 +35,7 @@ public class ReviewReply {
 	private String content;
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "REIVEW_ID")
+	@JoinColumn()
 	private Review review;
 
 	public void updateReviewReply(UpdateReviewReplyRequestDto dto) {

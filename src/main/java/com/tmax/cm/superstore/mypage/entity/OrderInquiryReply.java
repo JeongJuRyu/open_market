@@ -40,6 +40,6 @@ public class OrderInquiryReply extends BaseTimeEntity {
 	private String content;
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ORDER_INQUIRY_ID")
+	@JoinColumn()
 	private OrderInquiry orderInquiry;
 }

@@ -38,7 +38,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Table(name="users")
+@Table(name = "users")
 public class User implements UserDetails {
 	@Id
 	@GeneratedValue(generator = "UUID")
@@ -61,6 +61,16 @@ public class User implements UserDetails {
 	@Column(nullable = false)
 	private String name;
 
+	@Column(nullable = false)
+	@Builder.Default
+	// false면 계정 만료
+	private Boolean accountNonExpired = true;
+
+	@Column(nullable = false)
+	@Builder.Default
+	// false면 계정 잠김
+	private Boolean accountNonLocked = true;
+
 	// @OneToOne(fetch = FetchType.LAZY)
 	// @JoinColumn(name = "EMAIL_TOKEN_ID")
 	// private EmailToken emailToken;
@@ -70,60 +80,59 @@ public class User implements UserDetails {
 	private List<DeliveryAddress> deliveryAddresses = new ArrayList<>();
 
 	@ManyToMany
-	@JoinTable(
-		name = "user_authority",
-		joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID")},
-		inverseJoinColumns = {@JoinColumn(name = "AUTHORITY_NAME", referencedColumnName = "AUTHORITY_NAME")}
-	)
+	@JoinTable(name = "user_authority", joinColumns = {
+			@JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID") }, inverseJoinColumns = {
+					@JoinColumn(name = "AUTHORITY_NAME", referencedColumnName = "AUTHORITY_NAME") })
 	private Set<Authority> authorities;
 
-//	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-//	@Builder.Default
-//	private List<WishlistGroup> wishlistGroups = new ArrayList<>();
+	// @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval =
+	// true)
+	// @Builder.Default
+	// private List<WishlistGroup> wishlistGroups = new ArrayList<>();
 
-
-	public void updateEmail(String email){
+	public void updateEmail(String email) {
 		this.email = email;
 	}
 
-	public void updatePassword(String newPassword){
+	public void updatePassword(String newPassword) {
 		this.password = newPassword;
 	}
 
-	public void postDeliveryAddress(PostDeliveryRequestDto dto){
+	public void postDeliveryAddress(PostDeliveryRequestDto dto) {
 		Boolean isFirstAddress = this.deliveryAddresses.size() == 0 ? true : dto.isDefaultAddress();
 		DeliveryAddress deliveryAddress = DeliveryAddress.builder()
-			.recipient(dto.getRecipient())
-			.user(this)
-			.mobile(dto.getMobile())
-			.requests(dto.getRequests())
-			.isDefaultAddress(isFirstAddress).build();
+				.recipient(dto.getRecipient())
+				.user(this)
+				.mobile(dto.getMobile())
+				.requests(dto.getRequests())
+				.isDefaultAddress(isFirstAddress).build();
 		this.getDeliveryAddresses().add(deliveryAddress);
 	}
 
-	public void updateDeliveryAddress(UpdateDeliveryInfoRequestDto dto){
+	public void updateDeliveryAddress(UpdateDeliveryInfoRequestDto dto) {
 		DeliveryAddress deliveryAddress = this.getDeliveryAddresses()
-			.stream().filter(address -> address.getId() == dto.getShippingAddressId())
-			.findAny().orElseThrow(DeliveryAddressNotFoundException::new);
+				.stream().filter(address -> address.getId() == dto.getShippingAddressId())
+				.findAny().orElseThrow(DeliveryAddressNotFoundException::new);
 		DeliveryAddress newDeliveryAddress = DeliveryAddress.builder()
-			.recipient(dto.getRecipient())
-			.user(this)
-			.mobile(dto.getMobile())
-			.requests(dto.getRequests())
-			.isDefaultAddress(dto.isDefaultAddress()).build();
+				.recipient(dto.getRecipient())
+				.user(this)
+				.mobile(dto.getMobile())
+				.requests(dto.getRequests())
+				.isDefaultAddress(dto.isDefaultAddress()).build();
 		this.getDeliveryAddresses().remove(deliveryAddress);
 		this.getDeliveryAddresses().add(newDeliveryAddress);
 	}
 
-	public void setDeliveryAddress(UUID id){
+	public void setDeliveryAddress(UUID id) {
 		DeliveryAddress newDeliveryAddress = this.getDeliveryAddresses()
-			.stream().filter(address -> address.getId() == id)
-			.findAny().orElseThrow(DeliveryAddressNotFoundException::new);
+				.stream().filter(address -> address.getId() == id)
+				.findAny().orElseThrow(DeliveryAddressNotFoundException::new);
 		DeliveryAddress oldDeliveryAddress = this.getDeliveryAddresses()
-			.stream().filter(address -> address.getIsDefaultAddress())
-			.findAny().orElseThrow(DeliveryAddressNotFoundException::new);
+				.stream().filter(address -> address.getIsDefaultAddress())
+				.findAny().orElseThrow(DeliveryAddressNotFoundException::new);
 		newDeliveryAddress.setDefaultAddress(oldDeliveryAddress);
 	}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return null;
@@ -136,22 +145,21 @@ public class User implements UserDetails {
 
 	@Override
 	public boolean isAccountNonExpired() {
-		return false;
+		return this.accountNonExpired;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		return false;
+		return this.accountNonLocked;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return false;
+		return true;
 	}
-
 }
