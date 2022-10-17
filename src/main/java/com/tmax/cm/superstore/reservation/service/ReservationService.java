@@ -17,10 +17,8 @@ import com.tmax.cm.superstore.seller.error.exception.SellerAlreadyDeletedExcepti
 import com.tmax.cm.superstore.seller.error.exception.SellerNotFoundException;
 import com.tmax.cm.superstore.seller.repository.SellerRepository;
 import com.tmax.cm.superstore.user.entities.User;
-import com.tmax.cm.superstore.user.error.exception.EmailNotFoundException;
 import com.tmax.cm.superstore.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -413,7 +411,7 @@ public class ReservationService {
 
 	@Transactional(rollbackFor = Exception.class)
 	public ResponseDto<MakeReservationDto.Response> makeReservation(
-		MakeReservationDto.Request makeReservationRequestDto) throws Exception {
+		User user, MakeReservationDto.Request makeReservationRequestDto) throws Exception {
 		try {
 			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
 				makeReservationRequestDto.getReservationItemId());
@@ -428,10 +426,8 @@ public class ReservationService {
 			findReservationItemOptionValidation(findReservationItemOption);
 			Seller findSeller = sellerRepository.findSellerBySellerId(findReservationItem.getSellerId().getSellerId());
 			findSellerValidation(findSeller);
-			String email = (String)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			User findUser = userRepository.findUserByEmail(email).orElseThrow(EmailNotFoundException::new);
 			Reservation newReservation = Reservation.builder(makeReservationRequestDto, findReservationItem,
-				findReservationItemOption, findSeller, findUser).build();
+				findReservationItemOption, findSeller, user).build();
 			reservationRepository.save(newReservation);
 
 			return ResponseDto.<MakeReservationDto.Response>builder()
@@ -445,18 +441,25 @@ public class ReservationService {
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	public ResponseDto<ModifyReservationDto.Response> modifyReservation(UUID reservationId, ModifyReservationDto.Request modifyReservationRequestDto) throws Exception {
+	public ResponseDto<ModifyReservationDto.Response> modifyReservation(User user, UUID reservationId,
+		ModifyReservationDto.Request modifyReservationRequestDto) throws Exception {
 		try {
 			Optional<Reservation> findReservation = reservationRepository.findByReservationId(reservationId);
 			findReservationValidation(findReservation);
-			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(modifyReservationRequestDto.getReservationItemId());
+			if (!user.getId().equals(findReservation.get().getUserId().getId())) {
+				throw new ModifyReservationMustBeSameUserException();
+			}
+			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
+				modifyReservationRequestDto.getReservationItemId());
 			findReservationItemValidation(findReservationItem);
-			if(!findReservationItem.getSellerId().equals(findReservation.get().getSellerId())){
+			if (!findReservationItem.getSellerId().equals(findReservation.get().getSellerId())) {
 				throw new ModifyReservationMustBeSameSellerException();
 			}
-			ReservationItemOption findReservationItemOption = reservationItemOptionRepository.findReservationItemOptionByOptionId(modifyReservationRequestDto.getReservationItemOptionId());
+			ReservationItemOption findReservationItemOption = reservationItemOptionRepository.findReservationItemOptionByOptionId(
+				modifyReservationRequestDto.getReservationItemOptionId());
 			findReservationItemOptionValidation(findReservationItemOption);
-			findReservation.get().modifyReservation(modifyReservationRequestDto, findReservationItem, findReservationItemOption);
+			findReservation.get()
+				.modifyReservation(modifyReservationRequestDto, findReservationItem, findReservationItemOption);
 			reservationRepository.save(findReservation.get());
 
 			return ResponseDto.<ModifyReservationDto.Response>builder()
@@ -494,12 +497,10 @@ public class ReservationService {
 	}
 
 	@Transactional(rollbackFor = Exception.class, readOnly = true)
-	public ResponseDto<FindReservationByUserDto.Response> findReservationByUser() throws Exception {
+	public ResponseDto<FindReservationByUserDto.Response> findReservationByUser(User user) throws Exception {
 		try {
-			String email = (String)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			User findUser = userRepository.findUserByEmail(email).orElseThrow(EmailNotFoundException::new);
 			List<Optional<Reservation>> findReservationList = reservationRepository.findAllByUserIdAndReservationTimeBetweenOrderByReservationTimeDesc(
-				findUser, LocalDateTime.now(), LocalDateTime.now().plusDays(30));
+				user, LocalDateTime.now(), LocalDateTime.now().plusDays(30));
 
 			List<FindReservationByUserDto.Response.ReservationList> responseReservationList = new ArrayList<>();
 			for (Optional<Reservation> reservation : findReservationList) {
@@ -563,8 +564,8 @@ public class ReservationService {
 		}
 	}
 
-	private void findReservationValidation(Optional<Reservation> reservation){
-		if(reservation.isEmpty()){
+	private void findReservationValidation(Optional<Reservation> reservation) {
+		if (reservation.isEmpty()) {
 			throw new ReservationNotFoundException();
 		} else if (reservation.get().getReservationTime().isBefore(LocalDateTime.now())) {
 			throw new ReservationExpiredException();

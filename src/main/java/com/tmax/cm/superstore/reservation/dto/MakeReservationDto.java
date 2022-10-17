@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -26,23 +27,21 @@ public class MakeReservationDto {
 	@Getter
 	@Builder(builderMethodName = "ResponseBuilder")
 	public static class Response {
+		private LocalDate reservationDay;
 		private LocalDateTime reservationTime;
 		private Integer numberOfPeople;
 		private String customerRequest;
 		private String reservationItemName;
 		private String reservationItemOptionName;
-//		private UUID reservationItemId;
-//		private UUID reservationItemOptionId;
 
 		public static ResponseBuilder builder(Reservation reservation) {
 			return ResponseBuilder()
+				.reservationDay(reservation.getReservationDay())
 				.reservationTime(reservation.getReservationTime())
 				.numberOfPeople(reservation.getNumberOfPeople())
 				.customerRequest(reservation.getCustomerRequest())
 				.reservationItemName(reservation.getReservationItemId().getReservationItemName())
 				.reservationItemOptionName(reservation.getReservationItemOptionId().getOptionName());
-//				.reservationItemId(reservation.getReservationItemId().getReservationItemId())
-//				.reservationItemOptionId(reservation.getReservationItemOptionId().getOptionId());
 		}
 	}
 }
