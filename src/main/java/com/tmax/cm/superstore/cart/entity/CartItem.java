@@ -8,7 +8,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -43,11 +42,11 @@ public class CartItem {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_cart_item_cart_id"), name = "cartId", nullable = false)
+    @JoinColumn(nullable = false)
     private Cart cart;
 
     @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_cart_item_item_id"), name = "itemId", nullable = false)
+    @JoinColumn(nullable = false)
     private Item item;
 
     @OneToOne(mappedBy = "cartItem", cascade = { CascadeType.PERSIST, CascadeType.MERGE })

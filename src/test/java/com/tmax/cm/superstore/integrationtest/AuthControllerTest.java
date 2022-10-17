@@ -1,87 +1,135 @@
 package com.tmax.cm.superstore.integrationtest;
 
-import javax.transaction.Transactional;
-
-import org.junit.jupiter.api.BeforeEach;
+import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.restdocs.RestDocumentationContextProvider;
-import org.springframework.restdocs.RestDocumentationExtension;
-import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
-import org.springframework.security.test.context.support.WithUserDetails;
-import org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers;
-import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.filter.CharacterEncodingFilter;
 
 import com.tmax.cm.superstore.EasyRestDocumentation;
 
-@Transactional
-@SpringBootTest
-@ExtendWith(RestDocumentationExtension.class)
-@ActiveProfiles("develop-integration-test")
-public class AuthControllerTest {
-
-    @Autowired
-    private WebApplicationContext context;
-
-    private MockMvc mvc;
+public class AuthControllerTest extends AbstractIntegrationTest{
 
     private String tag = "Auth";
 
-    @BeforeEach
-    public void setUp(RestDocumentationContextProvider restDocumentation) throws Exception {
-        this.mvc = MockMvcBuilders.webAppContextSetup(context)
-                .addFilter(new CharacterEncodingFilter("UTF-8", true))
-                .apply(MockMvcRestDocumentation.documentationConfiguration(restDocumentation))
-                .apply(SecurityMockMvcConfigurers.springSecurity())
-                .build();
-    }
-
     @Test
-    @WithUserDetails("totw2018@naver.com")
     void testTest() throws Exception {
         // when
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
-                .get("/v1/auth/test"));
+                .get("/v1/auth/test")
+                .header(HttpHeaders.AUTHORIZATION, this.testJwtGenerator.generate("totw2018@naver.com")));
 
         // then
         result.andDo(MockMvcResultHandlers.print())
-                .andExpect(SecurityMockMvcResultMatchers.authenticated())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(EasyRestDocumentation.document("test", "인증 테스트", this.tag));
+                // NOTE jwt 토큰 인증을 swagger에 반영하려면 document() 대신 documentWithJwt() 메소드 사용
+                .andDo(EasyRestDocumentation.documentWithJwt("test", "인증 테스트", this.tag));
     }
 
     @Test
-    void testTestFailedWithUnauthorized() throws Exception {
+    void testTestFailedWithNoJwt() throws Exception {
         // when
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
                 .get("/v1/auth/test"));
 
         // then
         result.andDo(MockMvcResultHandlers.print())
-                .andExpect(SecurityMockMvcResultMatchers.unauthenticated())
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized())
-                .andDo(EasyRestDocumentation.document("testFailedWithUnauthorized", "인증 테스트", this.tag));
+                .andDo(EasyRestDocumentation.document("testFailedWithNoJwt", "인증 테스트", this.tag));
     }
 
     @Test
-    void testTest1() throws Exception {
+    void testTestFailedWithExpiredJwt() throws Exception {
         // when
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
-                .get("/v1/auth/test1"));
+                .get("/v1/auth/test")
+                .header(HttpHeaders.AUTHORIZATION, this.testJwtGenerator.generateExpiredToken("totw2018@naver.com")));
 
         // then
         result.andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk());
+                .andExpect(MockMvcResultMatchers.status().isUnauthorized())
+                .andDo(EasyRestDocumentation.documentWithJwt("testFailedWithExpiredJwt", "인증 테스트", this.tag));
+    }
+
+    @Test
+    void testTestFailedWithNotFoundEmail() throws Exception {
+        // when
+        ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
+                .get("/v1/auth/test")
+                .header(HttpHeaders.AUTHORIZATION, this.testJwtGenerator.generate("asdf@naver.com")));
+
+        // then
+        result.andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isUnauthorized())
+                .andDo(EasyRestDocumentation.documentWithJwt("testFailedWithNotFoundEmail", "인증 테스트", this.tag));
+    }
+
+    @Test
+    void testLogin() throws Exception {
+        // given
+        JSONObject request = new JSONObject() {
+            {
+                put("email", "totw2018@naver.com");
+                put("password", "1234");
+            }
+        };
+
+        // when
+        ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
+                .post("/v1/auth/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(request.toString()));
+
+        // then
+        result.andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(EasyRestDocumentation.document("login", "로그인", this.tag));
+    }
+
+    @Test
+    void testLoginFailedWithWrongPassword() throws Exception {
+        // given
+        JSONObject request = new JSONObject() {
+            {
+                put("email", "totw2018@naver.com");
+                put("password", "asdf");
+            }
+        };
+
+        // when
+        ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
+                .post("/v1/auth/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(request.toString()));
+
+        // then
+        result.andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isUnauthorized())
+                .andDo(EasyRestDocumentation.document("loginFailedWithWrongPassword", "로그인", this.tag));
+    }
+
+    @Test
+    void testLoginFailedWithWrongEmail() throws Exception {
+        // given
+        JSONObject request = new JSONObject() {
+            {
+                put("email", "asdf@naver.com");
+                put("password", "1234");
+            }
+        };
+
+        // when
+        ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
+                .post("/v1/auth/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(request.toString()));
+
+        // then
+        result.andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isUnauthorized())
+                .andDo(EasyRestDocumentation.document("loginFailedWithWrongEmail", "로그인", this.tag));
     }
 }

@@ -2,7 +2,6 @@ package com.tmax.cm.superstore.order.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -40,6 +39,6 @@ public class OrderOption {
     private Integer price;
 
     @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_order_option_option_id"), name = "optionId", nullable = false)
+    @JoinColumn(nullable = false)
     private Option option;
 }

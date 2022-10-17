@@ -39,12 +39,12 @@ public class OrderOptionGroup {
     @Column(nullable = false)
     @Builder.Default
     private Boolean isNecessary = false;
-    
+
     @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_order_option_group_option_group_id"), name = "optionGroupId", nullable = false)
+    @JoinColumn(nullable = false)
     private OptionGroup optionGroup;
-    
+
     @OneToMany(cascade = { CascadeType.PERSIST })
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_order_option_order_option_group_id"), name = "orderOptionGroupId", nullable = false)
+    @JoinColumn(foreignKey = @ForeignKey(name = "FK_order_option_order_option_group_id"), nullable = false)
     private List<OrderOption> orderOptions;
 }

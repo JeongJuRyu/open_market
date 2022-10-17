@@ -6,7 +6,6 @@ import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -33,14 +32,14 @@ public class CartOptionGroup {
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST})
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_cart_option_group_selected_option_id"), name = "selectedOptionId", nullable = false)
+    @ManyToOne(cascade = { CascadeType.PERSIST })
+    @JoinColumn(nullable = false)
     private SelectedOption selectedOption;
 
     @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_cart_option_group_option_group_id"), name = "optionGroupId", nullable = false)
+    @JoinColumn(nullable = false)
     private OptionGroup optionGroup;
 
-    @OneToMany(mappedBy = "cartOptionGroup", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	private List<CartOption> cartOptions;
+    @OneToMany(mappedBy = "cartOptionGroup", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    private List<CartOption> cartOptions;
 }
