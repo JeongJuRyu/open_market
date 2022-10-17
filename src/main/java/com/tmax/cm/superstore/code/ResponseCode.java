@@ -35,6 +35,8 @@ public enum ResponseCode implements Code {
 
 	// Seller
 	SELLER_CREATE("SUCCESS", "SELLER_CREATE", "Create seller", "판매자 계정 생성"),
+	SELLER_DELETE("SUCCESS", "SELLER_DELETE", "Delete seller", "판매자 계정 회원탈퇴"),
+	SELLER_INFO_MODIFY("SUCCESS", "SELLER_INFO_MODIFY", "Modify seller Info", "판매자 정보 수정하기"),
 	SELLER_LIST_FIND("SUCCESS", "SELLER_LIST_FIND", "Find seller List", "판매자 리스트 가져오기"),
 	SELLER_DELIVERY_CREATE("SUCCESS", "SELLER_DELIVERY_CREATE", "Create sellerDelivery", "판매자 배송지 생성"),
 	SELLER_DELIVERY_LIST_FIND("SUCCESS", "SELLER_DELIVERY_LIST_FIND", "Find sellerDelivery List", "판매자 배송지 리스트 가져오기"),
@@ -47,6 +49,7 @@ public enum ResponseCode implements Code {
 	RESERVATION_ITEM_CREATE("SUCCESS", "RESERVATION_ITEM_CREATE", "Create reservationItem", "예약 상품 생성"),
 	RESERVATION_ITEM_MODIFY("SUCCESS", "RESERVATION_ITEM_MODIFY", "Modify reservationItem", "예약 상품 수정"),
 	RESERVATION_ITEM_DELETE("SUCCESS", "RESERVATION_ITEM_DELETE", "Delete reservationItem", "예약 상품 삭제"),
+	RESERVATION_ITEM_ALL_FIND("SUCCESS", "RESERVATION_ITEM_ALL_FIND","Find All reservationItem", "모든 예약 상품 리스트 가져오기"),
 	RESERVATION_ITEM_FIND("SUCCESS", "RESERVATION_ITEM_FIND","Find reservationItem", "예약 상품 가져오기"),
 	RESERVATION_ITEM_LIST_FIND("SUCCESS", "RESERVATION_ITEM_LIST_FIND","Find reservationItemList", "예약 상품 리스트 가져오기"),
 	RESERVATION_ITEM_OPTION_CREATE("SUCCESS", "RESERVATION_ITEM_OPTION_CREATE", "Create reservationItemOption", "예약 상품 옵션 생성"),
@@ -59,6 +62,8 @@ public enum ResponseCode implements Code {
 	RESERVATION_POSSIBLE_DAYS_FIND("SUCCESS","RESERVATION_POSSIBLE_DAYS_FIND","Find reservationPossibleDays","예약 가능 일자 찾기"),
 	RESERVATION_POSSIBLE_TIMES_FIND("SUCCESS","RESERVATION_POSSIBLE_TIMES_FIND","Find reservationPossibleTimes","예약 가능 시간 찾기"),
 	RESERVATION_MAKE("SUCCESS","RESERVATION_MAKE_SUCCESS","Make reservation","예약 하기"),
+	RESERVATION_LIST_BY_SELLER_FIND("SUCCESS", "RESERVATION_LIST_BY_SELLER_FIND","Find reservationList by Seller", "판매자에게 예약 내역 보여주기"),
+	RESERVATION_LIST_BY_USER_FIND("SUCCESS", "RESERVATION_LIST_BY_USER_FIND","Find reservationList by User", "유저에게 예약 내역 보여주기"),
 
 	// TempReservation
 	RESERVATION_DATE_READ("SUCCESS", "Reservation_DATE_READ", "Read reservable dates", "예약 가능한 날짜 조회"),
@@ -102,6 +107,9 @@ public enum ResponseCode implements Code {
 
 	// Error - Reservation
 	ERROR_NO_MORE_RESERVATION("ERROR", "ER000", "Cannot make reservation", "예약이 다 차있음"),
+	ERROR_RESERVATION_NOT_FOUND("ERROR","ER001","ReservationId not found", "해당 예약을 찾을 수 없음"),
+	ERROR_RESERVATION_EXPIRED("ERROR","ER002","ReservationTime expired", "해당 예약은 이미 시간이 지난 예약입니다."),
+	ERROR_RESERVATION_MODIFY_MUST_BE_SAME_SELLER("ERROR","ER003","Reservation Modify must be same seller", "예약 상품 변경은 같은 판매자의 상품만 가능합니다."),
 	ERROR_RESERVATION_ITEM_ALREADY_DELETED("ERROR","ER100","ReservationItemId already deleted", "해당 예약 상품은 이미 삭제되었음"),
 	ERROR_RESERVATION_ITEM_NOT_FOUND("ERROR","ER101","ReservationItemId not found", "해당 예약 상품을 찾을 수 없음"),
 	ERROR_RESERVATION_ITEM_LIST_NOT_FOUND("ERROR","ER102","ReservationItemList not found", "해당 판매자의 예약 상품 리스트를 찾을 수 없음"),
