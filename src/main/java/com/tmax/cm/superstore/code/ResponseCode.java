@@ -83,12 +83,7 @@ public enum ResponseCode implements Code {
 	WISHLIST_ITEM_CREATE("SUCCESS", "WISHLIST_ITEM_CREATE", "Create wishlist item", "찜한 상품 생성"),
 	WISHLIST_ITEM_CHECK_READ("SUCCESS", "WISHLIST_ITEM_CHECK_READ", "Read and check wishlist item", "찜한 상품 여부 조회"),
 
-	// Error - category
-	ERROR_CATEGORY_NOT_FOUND("ERROR", "ECT000", "Category not found", "해당 카테고리가 존재하지 않습니다."),
-
-	// Error - shop
-	ERROR_SHOP_NOT_FOUND("ERROR", "ES000", "Shop not found", "해당 가게는 존재하지 않습니다."),
-
+<<<<<<< src/main/java/com/tmax/cm/superstore/code/ResponseCode.java
 	// User
 	USER_CREATE("SUCCESS", "USER_CREATE", "Create user", "유저 회원가입"),
 	USER_EMAIL_UPDATE("SUCCESS", "USER_EMAIL_UPDATE", "Update user email", "유저 이메일 변경"),
@@ -119,6 +114,11 @@ public enum ResponseCode implements Code {
 	ORDER_ITEM_INQUIRY_REPLY_UPDATE("SUCCESS", "ORDER_ITEM_INQUIRY_REPLY_UPDATE", "Update order item inquiry reply", "주문 상품 문의 답변 수정"),
 	ORDER_ITEM_INQUIRY_REPLY_DELETE("SUCCESS", "ORDER_ITEM_INQUIRY_REPLY_DELETE", "Delete order item inquiry reply", "주문 상품 문의 답변 삭제"),
 
+	// Error - category
+	ERROR_CATEGORY_NOT_FOUND("ERROR", "ECT000", "Category not found", "해당 카테고리가 존재하지 않습니다."),
+
+	// Error - shop
+	ERROR_SHOP_NOT_FOUND("ERROR", "ES000", "Shop not found", "해당 가게는 존재하지 않습니다."),
 
 	// Ship
 	SHIP_CREATE("SUCCESS", "SHIP_CREATE", "Create ship", "배송 목록 생성"),
