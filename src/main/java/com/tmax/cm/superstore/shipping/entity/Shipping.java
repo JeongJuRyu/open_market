@@ -1,16 +1,22 @@
 package com.tmax.cm.superstore.shipping.entity;
 
-import com.tmax.cm.superstore.code.ShippingType;
-import com.tmax.cm.superstore.order.entity.Order;
-import com.tmax.cm.superstore.order.entity.ShippingOrder;
-import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+import com.tmax.cm.superstore.code.ShippingType;
+import com.tmax.cm.superstore.common.entity.BaseTimeEntity;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @AllArgsConstructor
@@ -18,7 +24,7 @@ import java.util.UUID;
 @Setter
 @Getter
 @Builder
-public class Shipping {
+public class Shipping extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
@@ -40,29 +46,22 @@ public class Shipping {
     @Enumerated(EnumType.STRING)
     private ShippingType finalstatus;
 
-    @Column(nullable = false)
-    private LocalDateTime timestamp;
-
     public void acceptStatus() {
-        if(this.getFinalstatus() == ShippingType.SHIPPING_WAITING) {
+        if (this.getFinalstatus() == ShippingType.SHIPPING_WAITING) {
             setFinalstatus(ShippingType.SHIPPING_ACCEPT);
-            setTimestamp(LocalDateTime.now());
         }
     }
 
     public void refuseStatus() {
-        if(this.getFinalstatus() == ShippingType.SHIPPING_WAITING) {
+        if (this.getFinalstatus() == ShippingType.SHIPPING_WAITING) {
             setFinalstatus(ShippingType.SHIPPING_REFUSE);
-            setTimestamp(LocalDateTime.now());
         }
     }
 
     public void doneStatus() {
-        if(this.getFinalstatus().equals(ShippingType.SHIPPING_ACCEPT)) {
+        if (this.getFinalstatus().equals(ShippingType.SHIPPING_ACCEPT)) {
             setFinalstatus(ShippingType.SHIPPING_DONE);
-            setTimestamp(LocalDateTime.now());
         }
     }
-
 
 }

@@ -6,7 +6,6 @@ import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -41,21 +40,12 @@ public class Order {
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @Column(nullable = false)
-    private String buyerName;
-
-    @Column(nullable = false)
-    private String buyerEmail;
-
-    @Column(nullable = false)
-    private String buyerPhoneNumber;
-
     @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_orders_user_id"), name = "userId", nullable = false)
+    @JoinColumn(nullable = false)
     private User user;
 
     @OneToOne(cascade = { CascadeType.PERSIST })
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_orders_payment_id"), name = "paymentId", nullable = true)
+    @JoinColumn(nullable = true)
     private Payment payment;
 
     @OneToMany(mappedBy = "order", cascade = { CascadeType.PERSIST })

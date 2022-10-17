@@ -10,11 +10,24 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tmax.cm.superstore.code.ResponseCode;
+import com.tmax.cm.superstore.common.ResponseDto;
+
 @Component
 public class JwtAccessDeniedHandler implements AccessDeniedHandler {
+
+	private ResponseDto<String> responseDto = new ResponseDto<String>(ResponseCode.ERROR_UNAUTHORIZED, null);
+	private ObjectMapper mapper = new ObjectMapper();
+	private static final String APPLICATION_JSON_UTF8_VALUE = "application/json;charset=UTF-8"; // should be deprecated
+
 	@Override
 	public void handle(HttpServletRequest request, HttpServletResponse response,
 		AccessDeniedException accessDeniedException) throws IOException, ServletException {
-		response.sendError(HttpServletResponse.SC_FORBIDDEN);
+
+		this.responseDto.setData(accessDeniedException.getMessage());
+		response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+		response.setContentType(APPLICATION_JSON_UTF8_VALUE);
+		response.getWriter().write(this.mapper.writeValueAsString(this.responseDto));
 	}
 }

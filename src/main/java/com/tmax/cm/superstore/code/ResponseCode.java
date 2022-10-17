@@ -30,6 +30,9 @@ public enum ResponseCode implements Code {
 	PURCHASE_ORDER_CART_CREATE("SUCCESS", "PURCHASE_ORDER_CART_CREATE", "Create purchase order from cart", "장바구니 화면에서 주문서 생성"),
 	PURCHASE_ORDER_BUY_NOW_CREATE("SUCCESS", "PURCHASE_ORDER_BUY_NOW_CREATE", "Create purchase order from buy now", "바로 구매 기능으로 주문서 생성"),
 
+	// Order
+	ORDER_CREATE("SUCCESS", "ORDER_CREATE", "Create order", "주문 생성"),
+
 	// Seller
 	SELLER_CREATE("SUCCESS", "SELLER_CREATE", "Create seller", "판매자 계정 생성"),
 	SELLER_LIST_FIND("SUCCESS", "SELLER_LIST_FIND", "Find seller List", "판매자 리스트 가져오기"),
@@ -132,6 +135,8 @@ public enum ResponseCode implements Code {
     ERROR_INVALID_FIELD("ERROR","EC003", "Field is invalid", "@Valid 통과 실패, 유효하지 않은 필드값"),
     ERROR_ENTITY_NOT_FOUND("ERROR","EC004", "Class entity not found", "존재하지 않는 엔티티"),
 	ERROR_INTERNAL_SERVER_ERROR("ERROR", "EC005", "Internal server error", "내부 서버 오류"),
+	ERROR_UNAUTHENTICATED("ERROR", "EC006", "Unauthenticated", "spring security 인증 실패"),
+	ERROR_UNAUTHORIZED("ERROR", "EC007", "Unauthorized", "spring security 인가 실패"),
 
 	// Error - Wishlist
 	ERROR_WISHLIST_ITEM_ALREADY_EXIST("ERROR", "EW000", "Wishlist Item already exists", "이미 존재하는 엔티티");

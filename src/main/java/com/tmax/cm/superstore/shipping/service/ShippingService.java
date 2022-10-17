@@ -1,14 +1,14 @@
 package com.tmax.cm.superstore.shipping.service;
 
+import javax.transaction.Transactional;
+
+import org.springframework.stereotype.Service;
+
 import com.tmax.cm.superstore.code.ShippingType;
 import com.tmax.cm.superstore.shipping.entity.Shipping;
 import com.tmax.cm.superstore.shipping.repository.ShippingRepository;
-import lombok.RequiredArgsConstructor;
-import net.bytebuddy.asm.Advice;
-import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.time.LocalDateTime;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
@@ -24,29 +24,10 @@ public class ShippingService {
                 .mobile(mobile)
                 .requests(request)
                 .finalstatus(ShippingType.SHIPPING_WAITING)
-                .timestamp(LocalDateTime.now())
                 .build();
 
         repository.save(shipping);
         return shipping;
-    }
-
-    @Transactional
-    public Shipping create(String recipient, String address, String mobile) {
-        Shipping shipping = Shipping.builder()
-                .address(address)
-                .recipient(recipient)
-                .mobile(mobile)
-                .finalstatus(ShippingType.SHIPPING_WAITING)
-                .build();
-
-        repository.save(shipping);
-        return shipping;
-    }
-
-    @Transactional
-    public void update() {
-
     }
 
     @Transactional

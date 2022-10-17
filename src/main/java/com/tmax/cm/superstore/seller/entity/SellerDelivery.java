@@ -45,7 +45,6 @@ public class SellerDelivery {
 
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "sellerId")
 	private Seller sellerId;
 
 	public static SellerDeliveryBuilder builder(Seller seller, CreateSellerDto.Request createSellerRequestDto) {

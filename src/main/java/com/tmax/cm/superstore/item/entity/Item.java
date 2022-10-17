@@ -44,11 +44,11 @@ public class Item extends BaseTimeEntity {
     private List<ItemSendType> itemSendTypes;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_item_shop_id"), name = "shopId", nullable = false)
+    @JoinColumn(nullable = false)
     private Shop shop;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_item_category_id"), name = "categoryId", nullable = false)
+    @JoinColumn(nullable = false)
     private Category category;
 
     @Builder.Default
