@@ -2,7 +2,6 @@ package com.tmax.cm.superstore.mypage.service;
 
 import com.tmax.cm.superstore.code.ResponseCode;
 import com.tmax.cm.superstore.common.ResponseDto;
-import com.tmax.cm.superstore.error.exception.ItemNotFoundException;
 import com.tmax.cm.superstore.item.repository.OrderItemRepository;
 import com.tmax.cm.superstore.mypage.dto.GetAllReviewForSellerResponseDto;
 import com.tmax.cm.superstore.mypage.error.exception.ReviewNotFoundException;
@@ -76,9 +75,7 @@ public class ReviewService {
 
 	@Transactional
 	public ResponseDto<Object> postReview(PostReviewRequestDto dto, User user){
-		PickupOrderItem orderItem = orderItemRepository.findById(dto.getOrderItemId()).orElseThrow(ItemNotFoundException::new);
 		Review review = Review.ReviewBuilder()
-				.orderItem(orderItem)
 			.title(dto.getTitle())
 			.content(dto.getContent())
 			.starRating(dto.getStarRating())
