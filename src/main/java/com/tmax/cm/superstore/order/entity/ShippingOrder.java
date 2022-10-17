@@ -38,14 +38,14 @@ public class ShippingOrder {
     private Integer amount;
 
     @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_shipping_order_order_id"), name = "orderId", nullable = false)
+    @JoinColumn(nullable = false)
     private Order order;
-    
+
     @OneToOne(cascade = { CascadeType.PERSIST })
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_shipping_order_shop_id"), name = "shopId", nullable = false)
+    @JoinColumn(nullable = false)
     private Shop shop;
 
     @OneToMany(cascade = { CascadeType.PERSIST })
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_order_item_shipping_order_id"), name = "shippingOrderId", nullable = true)
-    private List<OrderItem> orderItems;
+    @JoinColumn(foreignKey = @ForeignKey(name = "FK_shipping_order_item_shipping_order_id"))
+    private List<ShippingOrderItem> shippingOrderItems;
 }

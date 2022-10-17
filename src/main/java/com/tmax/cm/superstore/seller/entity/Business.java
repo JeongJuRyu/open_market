@@ -40,7 +40,6 @@ public class Business {
 
 	@NotNull
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "sellerId")
 	private Seller sellerId;
 
 	public static BusinessBuilder builder(Seller seller, CreateSellerDto.Request createSellerRequestDto) {

@@ -52,7 +52,7 @@ public class ReservationItem {
 
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "sellerId")
+	@JoinColumn()
 	private Seller sellerId;
 
 	@Column

@@ -21,6 +21,8 @@ import com.tmax.cm.superstore.payment.entity.Payment;
 import com.tmax.cm.superstore.payment.service.PaymentService;
 import com.tmax.cm.superstore.purchaseOrder.service.PurchaseOrderService;
 import com.tmax.cm.superstore.purchaseOrder.service.dto.PurchaseOrderDto;
+import com.tmax.cm.superstore.shipping.entity.Shipping;
+import com.tmax.cm.superstore.shipping.service.ShippingService;
 import com.tmax.cm.superstore.user.entities.User;
 
 import lombok.RequiredArgsConstructor;
@@ -34,6 +36,7 @@ public class OrderController {
     private final PaymentService paymentService;
     private final PurchaseOrderService purchaseOrderService;
     private final CartItemService cartItemService;
+    private final ShippingService shippingService;
 
     @PostMapping
     public ResponseDto<Void> postCreateCartItem(
@@ -51,7 +54,9 @@ public class OrderController {
         Payment payment = this.paymentService.create(request);
         PurchaseOrderDto purchaseOrderDto = this.purchaseOrderService.read(cartItems);
 
-        this.orderService.create(user, payment, purchaseOrderDto);
+        Shipping shipping = this.shippingService.create("null", "null", "null", "null");
+
+        this.orderService.create(user, payment, purchaseOrderDto, shipping);
 
         this.cartItemService.delete(cartItems);
     }

@@ -1,7 +1,9 @@
 package com.tmax.cm.superstore.reservation.entity;
 
 import com.tmax.cm.superstore.reservation.dto.MakeReservationDto;
+import com.tmax.cm.superstore.reservation.dto.ModifyReservationDto;
 import com.tmax.cm.superstore.seller.entity.Seller;
+import com.tmax.cm.superstore.user.entities.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -39,27 +41,42 @@ public class Reservation {
 
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "sellerId")
+	@JoinColumn()
 	private Seller sellerId;
 
 	@NotNull
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "userId")
+	private User userId;
+
+	@NotNull
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "reservationItemId")
+	@JoinColumn()
 	private ReservationItem reservationItemId;
 
 	@NotNull
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "reservationItemOptionId")
+	@JoinColumn()
 	private ReservationItemOption reservationItemOptionId;
 
 	public static ReservationBuilder builder(MakeReservationDto.Request makeReservationRequestDto,
-		ReservationItem reservationItem, ReservationItemOption reservationItemOption, Seller seller) {
+		ReservationItem reservationItem, ReservationItemOption reservationItemOption, Seller seller, User user) {
 		return ReservationBuilder()
 			.reservationTime(makeReservationRequestDto.getReservationTime())
 			.numberOfPeople(makeReservationRequestDto.getNumberOfPeople())
 			.customerRequest(makeReservationRequestDto.getCustomerRequest())
 			.sellerId(seller)
+			.userId(user)
 			.reservationItemId(reservationItem)
 			.reservationItemOptionId(reservationItemOption);
+	}
+
+	public void modifyReservation(ModifyReservationDto.Request modifyReservationRequestDto,
+		ReservationItem reservationItem, ReservationItemOption reservationItemOption) {
+		this.reservationTime = modifyReservationRequestDto.getReservationTime();
+		this.numberOfPeople = modifyReservationRequestDto.getNumberOfPeople();
+		this.customerRequest = modifyReservationRequestDto.getCustomerRequest();
+		this.reservationItemId = reservationItem;
+		this.reservationItemOptionId = reservationItemOption;
 	}
 }
