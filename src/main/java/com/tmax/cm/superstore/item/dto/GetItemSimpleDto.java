@@ -1,6 +1,7 @@
 package com.tmax.cm.superstore.item.dto;
 
 import com.tmax.cm.superstore.code.SendType;
+import com.tmax.cm.superstore.item.code.ItemState;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -30,5 +31,7 @@ public class GetItemSimpleDto {
         private LocalDateTime createdAt;
 
         private LocalDateTime modifiedAt;
+
+        private ItemState itemState;
     }
 }

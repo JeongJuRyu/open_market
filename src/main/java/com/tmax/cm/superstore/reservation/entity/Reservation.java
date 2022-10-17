@@ -12,6 +12,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -29,6 +30,9 @@ public class Reservation {
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
 	@Column(columnDefinition = "BINARY(16)")
 	private UUID reservationId;
+
+	@Column
+	private LocalDate reservationDay;
 
 	@Column
 	private LocalDateTime reservationTime;
@@ -62,6 +66,7 @@ public class Reservation {
 	public static ReservationBuilder builder(MakeReservationDto.Request makeReservationRequestDto,
 		ReservationItem reservationItem, ReservationItemOption reservationItemOption, Seller seller, User user) {
 		return ReservationBuilder()
+			.reservationDay(LocalDate.now())
 			.reservationTime(makeReservationRequestDto.getReservationTime())
 			.numberOfPeople(makeReservationRequestDto.getNumberOfPeople())
 			.customerRequest(makeReservationRequestDto.getCustomerRequest())
@@ -73,6 +78,7 @@ public class Reservation {
 
 	public void modifyReservation(ModifyReservationDto.Request modifyReservationRequestDto,
 		ReservationItem reservationItem, ReservationItemOption reservationItemOption) {
+		this.reservationDay = LocalDate.now();
 		this.reservationTime = modifyReservationRequestDto.getReservationTime();
 		this.numberOfPeople = modifyReservationRequestDto.getNumberOfPeople();
 		this.customerRequest = modifyReservationRequestDto.getCustomerRequest();

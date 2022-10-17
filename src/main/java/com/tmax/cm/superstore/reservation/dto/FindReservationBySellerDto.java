@@ -5,6 +5,7 @@ import com.tmax.cm.superstore.user.entities.User;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -29,13 +30,12 @@ public class FindReservationBySellerDto {
 			private String userName;
 			private String userEmail;
 			private String userPhoneNum;
+			private LocalDate reservationDay;
 			private LocalDateTime reservationTime;
 			private Integer numberOfPeople;
 			private String customerRequest;
 			private String reservationItemName;
 			private String reservationItemOptionName;
-//			private UUID reservationItemId;
-//			private UUID reservationItemOptionId;
 
 			public static ReservationListBuilder builder(Optional<User> user, Optional<Reservation> reservation) {
 				return ReservationListBuilder()
@@ -43,13 +43,12 @@ public class FindReservationBySellerDto {
 					.userName(user.get().getName())
 					.userEmail(user.get().getEmail())
 					.userPhoneNum(user.get().getPhoneNum())
+					.reservationDay(reservation.get().getReservationDay())
 					.reservationTime(reservation.get().getReservationTime())
 					.numberOfPeople(reservation.get().getNumberOfPeople())
 					.customerRequest(reservation.get().getCustomerRequest())
 					.reservationItemName(reservation.get().getReservationItemId().getReservationItemName())
 					.reservationItemOptionName(reservation.get().getReservationItemOptionId().getOptionName());
-//					.reservationItemId(reservation.get().getReservationItemId().getReservationItemId())
-//					.reservationItemOptionId(reservation.get().getReservationItemOptionId().getOptionId());
 			}
 		}
 	}

@@ -15,6 +15,8 @@ public enum ResponseCode implements Code {
 	ITEM_CREATE("SUCCESS","ITEM_CREATE", "Create item", "상품 생성"),
 	ITEM_READ("SUCCESS","ITEM_READ", "Read item", "특정 상품 조회"),
 	ITEM_READ_ALL("SUCCESS","ITEM_READ_ALL", "Read item all", "모든 상품 조회"),
+	ITEM_DELETE("SUCCESS","ITEM_DELETE","Delete item","상품 삭제"),
+	ITEM_UPDATE("SUCCESS", "ITEM_UPDATE","Update item", "상품 수정"),
 
 	// Cart
 	CART_READ("SUCCESS", "CART_READ", "Read cart", "카트 조회"),
@@ -81,6 +83,7 @@ public enum ResponseCode implements Code {
 	WISHLIST_ITEM_CREATE("SUCCESS", "WISHLIST_ITEM_CREATE", "Create wishlist item", "찜한 상품 생성"),
 	WISHLIST_ITEM_CHECK_READ("SUCCESS", "WISHLIST_ITEM_CHECK_READ", "Read and check wishlist item", "찜한 상품 여부 조회"),
 
+<<<<<<< src/main/java/com/tmax/cm/superstore/code/ResponseCode.java
 	// User
 	USER_CREATE("SUCCESS", "USER_CREATE", "Create user", "유저 회원가입"),
 	USER_EMAIL_UPDATE("SUCCESS", "USER_EMAIL_UPDATE", "Update user email", "유저 이메일 변경"),
@@ -111,6 +114,11 @@ public enum ResponseCode implements Code {
 	ORDER_ITEM_INQUIRY_REPLY_UPDATE("SUCCESS", "ORDER_ITEM_INQUIRY_REPLY_UPDATE", "Update order item inquiry reply", "주문 상품 문의 답변 수정"),
 	ORDER_ITEM_INQUIRY_REPLY_DELETE("SUCCESS", "ORDER_ITEM_INQUIRY_REPLY_DELETE", "Delete order item inquiry reply", "주문 상품 문의 답변 삭제"),
 
+	// Error - category
+	ERROR_CATEGORY_NOT_FOUND("ERROR", "ECT000", "Category not found", "해당 카테고리가 존재하지 않습니다."),
+
+	// Error - shop
+	ERROR_SHOP_NOT_FOUND("ERROR", "ES000", "Shop not found", "해당 가게는 존재하지 않습니다."),
 
 	// Ship
 	SHIP_CREATE("SUCCESS", "SHIP_CREATE", "Create ship", "배송 목록 생성"),
@@ -141,6 +149,7 @@ public enum ResponseCode implements Code {
 	ERROR_RESERVATION_NOT_FOUND("ERROR","ER001","ReservationId not found", "해당 예약을 찾을 수 없음"),
 	ERROR_RESERVATION_EXPIRED("ERROR","ER002","ReservationTime expired", "해당 예약은 이미 시간이 지난 예약입니다."),
 	ERROR_RESERVATION_MODIFY_MUST_BE_SAME_SELLER("ERROR","ER003","Reservation Modify must be same seller", "예약 상품 변경은 같은 판매자의 상품만 가능합니다."),
+	ERROR_RESERVATION_MODIFY_MUST_BE_SAME_USER("ERROR","ER004","Reservation Modify must be same user", "예약 상품 변경은 같은 유저의 예약만 가능합니다."),
 	ERROR_RESERVATION_ITEM_ALREADY_DELETED("ERROR","ER100","ReservationItemId already deleted", "해당 예약 상품은 이미 삭제되었음"),
 	ERROR_RESERVATION_ITEM_NOT_FOUND("ERROR","ER101","ReservationItemId not found", "해당 예약 상품을 찾을 수 없음"),
 	ERROR_RESERVATION_ITEM_LIST_NOT_FOUND("ERROR","ER102","ReservationItemList not found", "해당 판매자의 예약 상품 리스트를 찾을 수 없음"),

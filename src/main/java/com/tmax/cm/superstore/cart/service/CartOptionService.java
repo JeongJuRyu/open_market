@@ -8,7 +8,7 @@ import com.tmax.cm.superstore.cart.entity.CartOption;
 import com.tmax.cm.superstore.cart.entity.CartOptionGroup;
 import com.tmax.cm.superstore.cart.repository.CartOptionRepository;
 import com.tmax.cm.superstore.cart.service.dto.CreateCartOptionDto;
-import com.tmax.cm.superstore.error.exception.OptionNotFoundException;
+import com.tmax.cm.superstore.item.error.exception.OptionNotFoundException;
 import com.tmax.cm.superstore.item.entity.Option;
 import com.tmax.cm.superstore.item.repository.OptionRepository;
 

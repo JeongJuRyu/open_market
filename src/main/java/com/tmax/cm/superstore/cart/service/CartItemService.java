@@ -23,7 +23,7 @@ import com.tmax.cm.superstore.cart.service.dto.UpdateCartReservationItemDto;
 import com.tmax.cm.superstore.code.CartType;
 import com.tmax.cm.superstore.code.SendType;
 import com.tmax.cm.superstore.error.exception.CartItemNotFoundException;
-import com.tmax.cm.superstore.error.exception.ItemNotFoundException;
+import com.tmax.cm.superstore.item.error.exception.ItemNotFoundException;
 import com.tmax.cm.superstore.item.entity.Item;
 import com.tmax.cm.superstore.item.repository.ItemRepository;
 
@@ -192,6 +192,19 @@ public class CartItemService {
 
     @Transactional
     public void delete(List<CartItem> cartItems) {
-        this.cartItemRepository.deleteAll(cartItems);
+        for (CartItem cartItem : cartItems) {
+            cartItem.setIsDeleted(true);
+        }
+
+        // NOTE OrderController.postCreateCartItem 에서 동작 안함
+        // this.cartItemRepository.deleteAll(cartItems);
+    }
+
+    @Transactional
+    public void delete(CartItem cartItem) {
+        cartItem.setIsDeleted(true);
+
+        // NOTE OrderController.postCreateCartItem 에서 동작 안함
+        // this.cartItemRepository.delete(cartItem);
     }
 }

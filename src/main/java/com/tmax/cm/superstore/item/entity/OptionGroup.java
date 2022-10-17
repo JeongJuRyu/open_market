@@ -8,7 +8,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -38,7 +37,7 @@ public class OptionGroup {
     @ManyToOne
     private Item item;
 
-    @OneToMany(mappedBy = "optionGroup", cascade = { CascadeType.PERSIST })
+    @OneToMany(mappedBy = "optionGroup", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, orphanRemoval = true)
     private List<Option> options;
 
     @Column(nullable = false)

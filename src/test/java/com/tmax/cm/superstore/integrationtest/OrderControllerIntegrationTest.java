@@ -29,6 +29,22 @@ public class OrderControllerIntegrationTest extends AbstractIntegrationTest {
                         put("46ac3f0d-c57f-4878-86ec-e0bea0a88fd6");
                     }
                 });
+                put("shippingRecipientInfo", new JSONObject() {
+                    {
+                        put("recipient", "김맥스");
+                        put("address", "오리 연구소");
+                        put("mobile", "010-1234-5678");
+                        put("requests", "문 앞");
+                    }
+                });
+                put("deliveryRecipientInfo", new JSONObject() {
+                    {
+                        put("recipient", "김맥스");
+                        put("address", "미금 연구소");
+                        put("mobile", "010-1234-5678");
+                        put("requests", "문 앞");
+                    }
+                });
             }
         };
 

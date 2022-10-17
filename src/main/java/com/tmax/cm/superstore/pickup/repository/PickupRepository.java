@@ -1,9 +1,9 @@
 package com.tmax.cm.superstore.pickup.repository;
 
-import com.tmax.cm.superstore.pickup.entity.PickUp;
+import com.tmax.cm.superstore.pickup.entity.Pickup;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public interface PickUpRepository extends JpaRepository<PickUp, UUID> {
+public interface PickupRepository extends JpaRepository<Pickup, UUID> {
 }

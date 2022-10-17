@@ -5,9 +5,11 @@ import com.tmax.cm.superstore.common.ResponseDto;
 import com.tmax.cm.superstore.reservation.dto.*;
 import com.tmax.cm.superstore.reservation.dto.GetReservableDatesDto.Response.GetReservableDateDto;
 import com.tmax.cm.superstore.reservation.service.ReservationService;
+import com.tmax.cm.superstore.user.entities.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -48,7 +50,7 @@ public class ReservationController {
 	}
 
 	@GetMapping("/item/all")
-	public ResponseEntity<ResponseDto<FindReservationItemsDto.Response>> findReservationItems() throws Exception{
+	public ResponseEntity<ResponseDto<FindReservationItemsDto.Response>> findReservationItems() throws Exception {
 		return ResponseEntity.ok().body(reservationService.findReservationItems());
 	}
 
@@ -142,24 +144,29 @@ public class ReservationController {
 
 	@PostMapping("/make")
 	public ResponseEntity<ResponseDto<MakeReservationDto.Response>> makeReservation(
-		@Valid @RequestBody MakeReservationDto.Request makeReservationRequestDto) throws Exception {
-		return ResponseEntity.ok().body(reservationService.makeReservation(makeReservationRequestDto));
+		@AuthenticationPrincipal User user, @Valid @RequestBody MakeReservationDto.Request makeReservationRequestDto)
+		throws Exception {
+		return ResponseEntity.ok().body(reservationService.makeReservation(user, makeReservationRequestDto));
 	}
 
 	@PatchMapping("/{reservationId}/change")
-	public ResponseEntity<ResponseDto<ModifyReservationDto.Response>> modifyReservation(@PathVariable UUID reservationId,
-		@Valid @RequestBody ModifyReservationDto.Request modifyReservationRequestDto) throws Exception{
-		return ResponseEntity.ok().body(reservationService.modifyReservation(reservationId, modifyReservationRequestDto));
+	public ResponseEntity<ResponseDto<ModifyReservationDto.Response>> modifyReservation(
+		@AuthenticationPrincipal User user, @PathVariable UUID reservationId,
+		@Valid @RequestBody ModifyReservationDto.Request modifyReservationRequestDto) throws Exception {
+		return ResponseEntity.ok()
+			.body(reservationService.modifyReservation(user, reservationId, modifyReservationRequestDto));
 	}
 
 	@GetMapping("/{sellerId}/list")
-	public ResponseEntity<ResponseDto<FindReservationBySellerDto.Response>> findReservationBySeller(@PathVariable UUID sellerId) throws Exception{
+	public ResponseEntity<ResponseDto<FindReservationBySellerDto.Response>> findReservationBySeller(
+		@PathVariable UUID sellerId) throws Exception {
 		return ResponseEntity.ok().body(reservationService.findReservationBySeller(sellerId));
 	}
 
 	@GetMapping("/list/user")
-	public ResponseEntity<ResponseDto<FindReservationByUserDto.Response>> findReservationByUser() throws Exception{
-		return ResponseEntity.ok().body(reservationService.findReservationByUser());
+	public ResponseEntity<ResponseDto<FindReservationByUserDto.Response>> findReservationByUser(
+		@AuthenticationPrincipal User user) throws Exception {
+		return ResponseEntity.ok().body(reservationService.findReservationByUser(user));
 	}
 
 	/**

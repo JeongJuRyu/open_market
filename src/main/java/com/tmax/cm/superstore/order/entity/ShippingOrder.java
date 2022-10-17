@@ -5,7 +5,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -46,6 +45,6 @@ public class ShippingOrder {
     private Shop shop;
 
     @OneToMany(cascade = { CascadeType.PERSIST })
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_shipping_order_item_shipping_order_id"))
+    @JoinColumn(name = "shippingOrderId")
     private List<ShippingOrderItem> shippingOrderItems;
 }
