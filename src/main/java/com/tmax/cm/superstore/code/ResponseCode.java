@@ -118,6 +118,7 @@ public enum ResponseCode implements Code {
 	ERROR_RESERVATION_NOT_FOUND("ERROR","ER001","ReservationId not found", "해당 예약을 찾을 수 없음"),
 	ERROR_RESERVATION_EXPIRED("ERROR","ER002","ReservationTime expired", "해당 예약은 이미 시간이 지난 예약입니다."),
 	ERROR_RESERVATION_MODIFY_MUST_BE_SAME_SELLER("ERROR","ER003","Reservation Modify must be same seller", "예약 상품 변경은 같은 판매자의 상품만 가능합니다."),
+	ERROR_RESERVATION_MODIFY_MUST_BE_SAME_USER("ERROR","ER004","Reservation Modify must be same user", "예약 상품 변경은 같은 유저의 예약만 가능합니다."),
 	ERROR_RESERVATION_ITEM_ALREADY_DELETED("ERROR","ER100","ReservationItemId already deleted", "해당 예약 상품은 이미 삭제되었음"),
 	ERROR_RESERVATION_ITEM_NOT_FOUND("ERROR","ER101","ReservationItemId not found", "해당 예약 상품을 찾을 수 없음"),
 	ERROR_RESERVATION_ITEM_LIST_NOT_FOUND("ERROR","ER102","ReservationItemList not found", "해당 판매자의 예약 상품 리스트를 찾을 수 없음"),
