@@ -6,7 +6,12 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum PickupType {
+<<<<<<< HEAD
+public enum PickupType implements Code {
+=======
+public enum PickUpType implements Code {
+>>>>>>> 855b3b0 (refactor: 픽업/방문수령 이름 수정)
+
     PICKUP_WAITING("PICKUP_WAITING", "주문 접수", "pickup/waiting"),
     PICKUP_ACCEPT("PICKUP_ACCEPT", "접수 완료 및 준비 중", "pickup/accepted"),
     PICKUP_READY("PICKUP_READY", "준비 완료", "pickup/done"),
@@ -18,5 +23,4 @@ public enum PickupType {
 
     @JsonValue
     private String jsonValue;
-
 }
