@@ -19,7 +19,7 @@ import com.tmax.cm.superstore.item.entity.Item;
 import com.tmax.cm.superstore.mypage.dto.PostReviewReplyRequestDto;
 import com.tmax.cm.superstore.mypage.dto.UpdateReviewReplyRequestDto;
 import com.tmax.cm.superstore.mypage.dto.UpdateReviewRequestDto;
-import com.tmax.cm.superstore.order.entity.PickupOrderItem;
+import com.tmax.cm.superstore.order.entity.ShippingOrderItem;
 import com.tmax.cm.superstore.user.entities.User;
 
 import lombok.AccessLevel;
@@ -65,7 +65,7 @@ public class Review extends BaseTimeEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
-	private PickupOrderItem orderItem;
+	private ShippingOrderItem orderItem;
 
 	@OneToOne(mappedBy = "review", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	private ReviewReply reviewReply;
