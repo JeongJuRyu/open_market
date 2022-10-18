@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import com.tmax.cm.superstore.shop.entity.Shop;
+import com.tmax.cm.superstore.seller.entity.Seller;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,7 +42,7 @@ public class ShippingOrder {
 
     @OneToOne(cascade = { CascadeType.PERSIST })
     @JoinColumn(nullable = false)
-    private Shop shop;
+    private Seller seller;
 
     @OneToMany(cascade = { CascadeType.PERSIST })
     @JoinColumn(name = "shippingOrderId")

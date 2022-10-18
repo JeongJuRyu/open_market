@@ -26,8 +26,8 @@ import com.tmax.cm.superstore.order.entity.VisitOrder;
 import com.tmax.cm.superstore.payment.entity.Payment;
 import com.tmax.cm.superstore.pickup.entity.Pickup;
 import com.tmax.cm.superstore.purchaseOrder.service.dto.PurchaseOrderDto;
+import com.tmax.cm.superstore.seller.entity.Seller;
 import com.tmax.cm.superstore.shipping.entity.Shipping;
-import com.tmax.cm.superstore.shop.entity.Shop;
 import com.tmax.cm.superstore.user.entities.User;
 
 @Mapper(config = CommonMapperConfig.class)
@@ -58,12 +58,12 @@ interface OrderMapper {
 
         List<ShippingOrder> shippingOrders = new ArrayList<>();
 
-        for (Entry<Shop, PurchaseOrderDto.CartItemDtosByShop> entry : cartItemDtosMap.entrySet()) {
+        for (Entry<Seller, PurchaseOrderDto.CartItemDtosByShop> entry : cartItemDtosMap.entrySet()) {
             ShippingOrder shippingOrder = ShippingOrder.builder()
                     .amount(entry.getValue().getAmount())
                     .order(order)
                     .shippingOrderItems(this.toShippingOrderItems(entry.getValue().getCartItemDtos(), shipping))
-                    .shop(entry.getKey())
+                    .seller(entry.getKey())
                     .build();
 
             shippingOrders.add(shippingOrder);
@@ -77,12 +77,12 @@ interface OrderMapper {
 
         List<VisitOrder> visitOrders = new ArrayList<>();
 
-        for (Entry<Shop, PurchaseOrderDto.CartItemDtosByShop> entry : cartItemDtosMap.entrySet()) {
+        for (Entry<Seller, PurchaseOrderDto.CartItemDtosByShop> entry : cartItemDtosMap.entrySet()) {
             VisitOrder visitOrder = VisitOrder.builder()
                     .amount(entry.getValue().getAmount())
                     .order(order)
                     .pickupOrderItems(this.toPickupOrderItems(entry.getValue().getCartItemDtos(), pickup))
-                    .shop(entry.getKey())
+                    .seller(entry.getKey())
                     .build();
 
             visitOrders.add(visitOrder);
@@ -96,12 +96,12 @@ interface OrderMapper {
 
         List<DeliveryOrder> deliveryOrders = new ArrayList<>();
 
-        for (Entry<Shop, PurchaseOrderDto.CartItemDtosByShop> entry : cartItemDtosMap.entrySet()) {
+        for (Entry<Seller, PurchaseOrderDto.CartItemDtosByShop> entry : cartItemDtosMap.entrySet()) {
             DeliveryOrder deliveryOrder = DeliveryOrder.builder()
                     .amount(entry.getValue().getAmount())
                     .order(order)
                     .shippingOrderItems(this.toShippingOrderItems(entry.getValue().getCartItemDtos(), shipping))
-                    .shop(entry.getKey())
+                    .seller(entry.getKey())
                     .build();
 
             deliveryOrders.add(deliveryOrder);
@@ -115,12 +115,12 @@ interface OrderMapper {
 
         List<PickupOrder> pickupOrders = new ArrayList<>();
 
-        for (Entry<Shop, PurchaseOrderDto.CartItemDtosByShop> entry : cartItemDtosMap.entrySet()) {
+        for (Entry<Seller, PurchaseOrderDto.CartItemDtosByShop> entry : cartItemDtosMap.entrySet()) {
             PickupOrder pickupOrder = PickupOrder.builder()
                     .amount(entry.getValue().getAmount())
                     .order(order)
                     .pickupOrderItems(this.toPickupOrderItems(entry.getValue().getCartItemDtos(), pickup))
-                    .shop(entry.getKey())
+                    .seller(entry.getKey())
                     .build();
 
             pickupOrders.add(pickupOrder);

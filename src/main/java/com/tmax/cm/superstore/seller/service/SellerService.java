@@ -28,10 +28,10 @@ public class SellerService {
 
 	@Transactional(rollbackFor = Exception.class)
 	public ResponseDto<CreateSellerDto.Response> createSeller(CreateSellerDto.Request createSellerRequestDto)
-		throws Exception {
+			throws Exception {
 		try {
 			Seller findSeller = sellerRepository.findSellerByLoginId(
-				createSellerRequestDto.getSellerInfo().getLoginId());
+					createSellerRequestDto.getSellerInfo().getLoginId());
 			if (findSeller != null) {
 				throw new DuplicateLoginIdException();
 			}
@@ -40,13 +40,13 @@ public class SellerService {
 			Business newBusiness = Business.builder(newSeller, createSellerRequestDto).build();
 			businessRepository.save(newBusiness);
 			SellerDelivery newSellerDelivery = SellerDelivery.builder(newSeller, createSellerRequestDto)
-				.isRepresent(true).build();
+					.isRepresent(true).build();
 			sellerDeliveryRepository.save(newSellerDelivery);
 
 			return ResponseDto.<CreateSellerDto.Response>builder()
-				.responseCode(ResponseCode.SELLER_CREATE)
-				.data(CreateSellerDto.Response.builder(newSeller, newBusiness, newSellerDelivery).build())
-				.build();
+					.responseCode(ResponseCode.SELLER_CREATE)
+					.data(CreateSellerDto.Response.builder(newSeller, newBusiness, newSellerDelivery).build())
+					.build();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -55,7 +55,7 @@ public class SellerService {
 
 	@Transactional(rollbackFor = Exception.class, readOnly = true)
 	public ResponseDto<LoginSellerDto.Response> loginSeller(LoginSellerDto.Request loginSellerRequestDto)
-		throws Exception {
+			throws Exception {
 		try {
 			Seller findSeller = sellerRepository.findSellerByLoginId(loginSellerRequestDto.getLoginId());
 			if (!findSeller.getPassword().equals(loginSellerRequestDto.getPassword())) {
@@ -63,9 +63,9 @@ public class SellerService {
 			}
 
 			return ResponseDto.<LoginSellerDto.Response>builder()
-				.responseCode(ResponseCode.SELLER_LOGIN)
-				.data(LoginSellerDto.Response.builder(findSeller).build())
-				.build();
+					.responseCode(ResponseCode.SELLER_LOGIN)
+					.data(LoginSellerDto.Response.builder(findSeller).build())
+					.build();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -81,9 +81,9 @@ public class SellerService {
 			sellerRepository.save(findSeller);
 
 			return ResponseDto.<DeleteSellerDto.Response>builder()
-				.responseCode(ResponseCode.SELLER_DELETE)
-				.data(DeleteSellerDto.Response.builder(findSeller).build())
-				.build();
+					.responseCode(ResponseCode.SELLER_DELETE)
+					.data(DeleteSellerDto.Response.builder(findSeller).build())
+					.build();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -92,16 +92,16 @@ public class SellerService {
 
 	@Transactional(rollbackFor = Exception.class)
 	public ResponseDto<ModifySellerInfoDto.Response> modifySellerInfo(UUID sellerId,
-		ModifySellerInfoDto.Request modifySellerInfoRequestDto) throws Exception {
+			ModifySellerInfoDto.Request modifySellerInfoRequestDto) throws Exception {
 		try {
 			Seller findSeller = sellerRepository.findSellerBySellerId(sellerId);
 			findSeller.modifySellerInfo(modifySellerInfoRequestDto);
 			sellerRepository.save(findSeller);
 
 			return ResponseDto.<ModifySellerInfoDto.Response>builder()
-				.responseCode(ResponseCode.SELLER_INFO_MODIFY)
-				.data(ModifySellerInfoDto.Response.builder(findSeller).build())
-				.build();
+					.responseCode(ResponseCode.SELLER_INFO_MODIFY)
+					.data(ModifySellerInfoDto.Response.builder(findSeller).build())
+					.build();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -119,9 +119,9 @@ public class SellerService {
 			}
 
 			return ResponseDto.<FindSellerListDto.Response>builder()
-				.responseCode(ResponseCode.SELLER_LIST_FIND)
-				.data(FindSellerListDto.Response.builder(responseSellerList).build())
-				.build();
+					.responseCode(ResponseCode.SELLER_LIST_FIND)
+					.data(FindSellerListDto.Response.builder(responseSellerList).build())
+					.build();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -130,7 +130,7 @@ public class SellerService {
 
 	@Transactional(rollbackFor = Exception.class)
 	public ResponseDto<ModifyBizInfoDto.Response> modifyBizInfo(UUID sellerId,
-		ModifyBizInfoDto.Request modifyBizInfoRequestDto) throws Exception {
+			ModifyBizInfoDto.Request modifyBizInfoRequestDto) throws Exception {
 		try {
 			Seller findSeller = sellerRepository.findSellerBySellerId(sellerId);
 			findSellerValidation(findSeller);
@@ -140,9 +140,9 @@ public class SellerService {
 			businessRepository.save(findBusiness);
 
 			return ResponseDto.<ModifyBizInfoDto.Response>builder()
-				.responseCode(ResponseCode.BUSINESS_MODIFY)
-				.data(ModifyBizInfoDto.Response.builder(findBusiness).build())
-				.build();
+					.responseCode(ResponseCode.BUSINESS_MODIFY)
+					.data(ModifyBizInfoDto.Response.builder(findBusiness).build())
+					.build();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -158,9 +158,9 @@ public class SellerService {
 			findBusinessValidation(findBusiness);
 
 			return ResponseDto.<FindBizInfo.Response>builder()
-				.responseCode(ResponseCode.BUSINESS_FIND)
-				.data(FindBizInfo.Response.builder(findBusiness).build())
-				.build();
+					.responseCode(ResponseCode.BUSINESS_FIND)
+					.data(FindBizInfo.Response.builder(findBusiness).build())
+					.build();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -169,18 +169,18 @@ public class SellerService {
 
 	@Transactional(rollbackFor = Exception.class)
 	public ResponseDto<CreateSellerDeliveryDto.Response> createSellerDelivery(UUID sellerID,
-		CreateSellerDeliveryDto.Request createSellerDeliveryRequestDto) throws Exception {
+			CreateSellerDeliveryDto.Request createSellerDeliveryRequestDto) throws Exception {
 		try {
 			Seller findSeller = sellerRepository.findSellerBySellerId(sellerID);
 			findSellerValidation(findSeller);
 			SellerDelivery newSellerDelivery = SellerDelivery.builder(findSeller, createSellerDeliveryRequestDto)
-				.build();
+					.build();
 			sellerDeliveryRepository.save(newSellerDelivery);
 
 			return ResponseDto.<CreateSellerDeliveryDto.Response>builder()
-				.responseCode(ResponseCode.SELLER_DELIVERY_CREATE)
-				.data(CreateSellerDeliveryDto.Response.builder(newSellerDelivery).build())
-				.build();
+					.responseCode(ResponseCode.SELLER_DELIVERY_CREATE)
+					.data(CreateSellerDeliveryDto.Response.builder(newSellerDelivery).build())
+					.build();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -197,13 +197,13 @@ public class SellerService {
 			List<FindSellerDeliveryListDto.Response.SellerDeliveryList> responseSellerDeliveryList = new ArrayList<>();
 			for (SellerDelivery findSellerDelivery : findSellerDeliveryList) {
 				responseSellerDeliveryList.add(
-					FindSellerDeliveryListDto.Response.SellerDeliveryList.builder(findSellerDelivery).build());
+						FindSellerDeliveryListDto.Response.SellerDeliveryList.builder(findSellerDelivery).build());
 			}
 
 			return ResponseDto.<FindSellerDeliveryListDto.Response>builder()
-				.responseCode(ResponseCode.SELLER_DELIVERY_LIST_FIND)
-				.data(FindSellerDeliveryListDto.Response.builder(responseSellerDeliveryList).build())
-				.build();
+					.responseCode(ResponseCode.SELLER_DELIVERY_LIST_FIND)
+					.data(FindSellerDeliveryListDto.Response.builder(responseSellerDeliveryList).build())
+					.build();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -212,7 +212,7 @@ public class SellerService {
 
 	@Transactional(rollbackFor = Exception.class, readOnly = true)
 	public ResponseDto<FindRepresentativeDeliveryDto.Response> findRepresentativeDelivery(UUID sellerId)
-		throws Exception {
+			throws Exception {
 		try {
 			Seller findSeller = sellerRepository.findSellerBySellerId(sellerId);
 			findSellerValidation(findSeller);
@@ -220,9 +220,9 @@ public class SellerService {
 			findSellerDeliveryValidation(findDelivery);
 
 			return ResponseDto.<FindRepresentativeDeliveryDto.Response>builder()
-				.responseCode(ResponseCode.SELLER_REPRESENTATIVE_DELIVERY_FIND)
-				.data(FindRepresentativeDeliveryDto.Response.builder(findDelivery).build())
-				.build();
+					.responseCode(ResponseCode.SELLER_REPRESENTATIVE_DELIVERY_FIND)
+					.data(FindRepresentativeDeliveryDto.Response.builder(findDelivery).build())
+					.build();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -231,14 +231,14 @@ public class SellerService {
 
 	@Transactional(rollbackFor = Exception.class)
 	public ResponseDto<ModifyRepresentativeDeliveryDto.Response> modifyRepresentativeDelivery(UUID deliveryId)
-		throws Exception {
+			throws Exception {
 		try {
 			SellerDelivery findSellerDelivery = sellerDeliveryRepository.findBySellerDeliveryId(deliveryId);
 			findSellerDeliveryValidation(findSellerDelivery);
 			Seller findSeller = sellerRepository.findSellerBySellerId(findSellerDelivery.getSellerId().getSellerId());
 			findSellerValidation(findSeller);
 			SellerDelivery findRepresentativeSellerDelivery = sellerDeliveryRepository.findBySellerIdAndIsRepresentTrue(
-				findSeller);
+					findSeller);
 			findSellerDeliveryValidation(findRepresentativeSellerDelivery);
 			findRepresentativeSellerDelivery.modifyRepresent();
 			sellerDeliveryRepository.save(findRepresentativeSellerDelivery);
@@ -246,14 +246,22 @@ public class SellerService {
 			sellerDeliveryRepository.save(findSellerDelivery);
 
 			return ResponseDto.<ModifyRepresentativeDeliveryDto.Response>builder()
-				.responseCode(ResponseCode.SELLER_REPRESENTATIVE_DELIVERY_MODIFY)
-				.data(ModifyRepresentativeDeliveryDto.Response.builder(findSellerDelivery).build())
-				.build();
+					.responseCode(ResponseCode.SELLER_REPRESENTATIVE_DELIVERY_MODIFY)
+					.data(ModifyRepresentativeDeliveryDto.Response.builder(findSellerDelivery).build())
+					.build();
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
+	}
+	
+	/** 다른 컨트롤러에서 호출되는 메소드 */
+	public Seller findSeller(UUID sellerId) {
+		Seller seller = sellerRepository.findSellerBySellerId(sellerId);
+		findSellerValidation(seller);
+
+		return seller;
 	}
 
 	/**
