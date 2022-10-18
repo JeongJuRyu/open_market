@@ -1,10 +1,21 @@
 package com.tmax.cm.superstore.pickup.entity;
 
-import com.tmax.cm.superstore.code.PickupType;
-import lombok.*;
-
-import javax.persistence.*;
 import java.util.UUID;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+import com.tmax.cm.superstore.code.PickupType;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Setter
@@ -32,29 +43,29 @@ public class Pickup {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private PickupType pickUpType;
+    private PickupType pickupType;
 
     public void acceptState() {
-        if(getPickUpType() == PickupType.PICKUP_WAITING) {
-            setPickUpType(PickupType.PICKUP_ACCEPT);
+        if (getPickupType() == PickupType.PICKUP_WAITING) {
+            setPickupType(PickupType.PICKUP_ACCEPT);
         }
     }
 
     public void refuseState() {
-        if(getPickUpType() == PickupType.PICKUP_WAITING) {
-            setPickUpType(PickupType.PICKUP_REFUSE);
+        if (getPickupType() == PickupType.PICKUP_WAITING) {
+            setPickupType(PickupType.PICKUP_REFUSE);
         }
     }
 
     public void doneState() {
-        if(getPickUpType() == PickupType.PICKUP_READY) {
-            setPickUpType(PickupType.PICKUP_DONE);
+        if (getPickupType() == PickupType.PICKUP_READY) {
+            setPickupType(PickupType.PICKUP_DONE);
         }
     }
 
     public void readyState() {
-        if(getPickUpType() == PickupType.PICKUP_ACCEPT) {
-            setPickUpType(PickupType.PICKUP_READY);
+        if (getPickupType() == PickupType.PICKUP_ACCEPT) {
+            setPickupType(PickupType.PICKUP_READY);
         }
     }
 

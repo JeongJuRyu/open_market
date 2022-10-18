@@ -34,7 +34,8 @@ public enum ResponseCode implements Code {
 
 	// Order
 	ORDER_CREATE("SUCCESS", "ORDER_CREATE", "Create order", "주문 생성"),
-	ORDER_PICKUP_READ("SUCCESS", "ORDER_PICKUP_READ", "Read visit order and pickup order", "방문수령 및 픽업 주문 조회"),
+	ORDER_VISIT_AND_PICKUP_READ("SUCCESS", "ORDER_VISIT_AND_PICKUP_READ", "Read visit order and pickup order", "방문수령 및 픽업 주문 조회"),
+	ORDER_SHIPPING_AND_DELIVERY_READ("SUCCESS", "ORDER_SHIPPING_AND_DELIVERY_READ", "Read shipping order and delivery order", "배송 및 배달 주문 조회"),
 
 	// Seller
 	SELLER_CREATE("SUCCESS", "SELLER_CREATE", "Create seller", "판매자 계정 생성"),
