@@ -6,36 +6,37 @@ import java.util.UUID;
 
 import javax.transaction.Transactional;
 
-import com.tmax.cm.superstore.category.error.exception.CategoryNotFoundException;
-import com.tmax.cm.superstore.category.repository.CategoryRepository;
-import com.tmax.cm.superstore.item.dto.FileInfo;
-import com.tmax.cm.superstore.item.dto.GetItemAllByCategoryDto;
-import com.tmax.cm.superstore.item.dto.UpdateItemDto;
-import com.tmax.cm.superstore.item.dto.mapper.GetItemAllByCategoryDtoMapper;
-import com.tmax.cm.superstore.item.entity.*;
-import com.tmax.cm.superstore.mypage.service.ReviewService;
-import com.tmax.cm.superstore.shop.error.exception.ShopNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.tmax.cm.superstore.category.entity.Category;
 import com.tmax.cm.superstore.category.entity.dto.CategoryDto;
+import com.tmax.cm.superstore.category.error.exception.CategoryNotFoundException;
+import com.tmax.cm.superstore.category.repository.CategoryRepository;
 import com.tmax.cm.superstore.category.service.CategoryService;
 import com.tmax.cm.superstore.code.SendType;
-import com.tmax.cm.superstore.item.error.exception.ItemNotFoundException;
+import com.tmax.cm.superstore.item.dto.FileInfo;
+import com.tmax.cm.superstore.item.dto.GetItemAllByCategoryDto;
 import com.tmax.cm.superstore.item.dto.PostItemDto;
+import com.tmax.cm.superstore.item.dto.UpdateItemDto;
+import com.tmax.cm.superstore.item.dto.mapper.GetItemAllByCategoryDtoMapper;
+import com.tmax.cm.superstore.item.entity.Item;
+import com.tmax.cm.superstore.item.entity.ItemImage;
+import com.tmax.cm.superstore.item.entity.ItemSendType;
+import com.tmax.cm.superstore.item.entity.Option;
+import com.tmax.cm.superstore.item.entity.OptionGroup;
+import com.tmax.cm.superstore.item.error.exception.ItemNotFoundException;
 import com.tmax.cm.superstore.item.repository.ItemRepository;
-import com.tmax.cm.superstore.shop.entity.Shop;
-import com.tmax.cm.superstore.shop.repository.ShopRepository;
+import com.tmax.cm.superstore.mypage.service.ReviewService;
+import com.tmax.cm.superstore.seller.entity.Seller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @Service
 public class ItemService {
 
     private final ItemRepository itemRepository;
-    private final ShopRepository shopRepository;
     private final CategoryRepository categoryRepository;
 
     private final CategoryService categoryService;
@@ -45,18 +46,12 @@ public class ItemService {
     private final GetItemAllByCategoryDtoMapper getItemAllByCategoryDtoMapper;
 
     @Transactional
-    public Item createItem(PostItemDto.Request postItemDto, List<MultipartFile> attachment) {
-
-        Shop shop = Shop.builder()
-                .name(postItemDto.getShopName())
-                .build();
-        
-        this.shopRepository.save(shop);
+    public Item createItem(Seller seller, PostItemDto.Request postItemDto, List<MultipartFile> attachment) {
 
         Category category = this.categoryService.getCategoryEntity(postItemDto.getCategoryId());
 
         Item item = Item.builder()
-                .shop(shop)
+                .seller(seller)
                 .name(postItemDto.getName())
                 .price(postItemDto.getPrice())
                 .itemImages(new ArrayList<>())
@@ -129,11 +124,10 @@ public class ItemService {
 
         List<Item> itemList = new ArrayList<>();
 
-        if(subCategoryList == null){
+        if (subCategoryList == null) {
             return itemRepository.findByCategoryId(categoryId);
-        } else{
-            for (CategoryDto categoryDto:subCategoryList
-            ) {
+        } else {
+            for (CategoryDto categoryDto : subCategoryList) {
                 itemList.addAll(readItemsByCategory(categoryDto.getCategoryId()));
             }
             return itemList;
@@ -141,7 +135,7 @@ public class ItemService {
     }
 
     @Transactional
-    public GetItemAllByCategoryDto.Response readSimpleItem(Long categoryId){
+    public GetItemAllByCategoryDto.Response readSimpleItem(Long categoryId) {
         List<Item> items = readItemsByCategory(categoryId);
 
         List<Double> avgStars = getAvgStars(items);
@@ -150,14 +144,13 @@ public class ItemService {
         return getItemAllByCategoryDtoMapper.toResponse(items, avgStars, reviewCounts);
     }
 
-    public List<Double> getAvgStars(List<Item> items){
+    public List<Double> getAvgStars(List<Item> items) {
         List<Double> avgStars = new ArrayList<>();
 
-        for(Item item : items){
-            if(item.getReviews().isEmpty()){
+        for (Item item : items) {
+            if (item.getReviews().isEmpty()) {
                 avgStars.add(0.0);
-            }
-            else{
+            } else {
                 avgStars.add(reviewService.getAvgStarRating(item.getId()));
             }
         }
@@ -165,14 +158,13 @@ public class ItemService {
         return avgStars;
     }
 
-    public List<Integer> getReviewCounts(List<Item> items){
+    public List<Integer> getReviewCounts(List<Item> items) {
         List<Integer> reviewCounts = new ArrayList<>();
 
-        for(Item item : items){
-            if(item.getReviews().isEmpty()){
+        for (Item item : items) {
+            if (item.getReviews().isEmpty()) {
                 reviewCounts.add(0);
-            }
-            else{
+            } else {
                 reviewCounts.add(item.getReviews().size());
             }
         }
@@ -181,19 +173,15 @@ public class ItemService {
     }
 
     @Transactional
-    public Item updateItem(UUID itemId, UpdateItemDto.Request updateItemDto){
+    public Item updateItem(UUID itemId, UpdateItemDto.Request updateItemDto) {
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(ItemNotFoundException::new);
-
-        Shop shop = shopRepository.findById(updateItemDto.getShopId())
-                .orElseThrow(ShopNotFoundException::new);
-
         Category category = categoryRepository.findById(updateItemDto.getCategoryId())
                 .orElseThrow(CategoryNotFoundException::new);
 
         item.getItemSendTypes().clear();
 
-        for (SendType sendType: updateItemDto.getPossibleSendType()) {
+        for (SendType sendType : updateItemDto.getPossibleSendType()) {
             ItemSendType itemSendType = ItemSendType.builder()
                     .sendType(sendType)
                     .item(item)
@@ -212,7 +200,8 @@ public class ItemService {
                     .item(item)
                     .build();
 
-            for (UpdateItemDto.Request.PostOptionGroupDto.PostOptionDto postOptionDto : postOptionGroupDto.getOptions()) {
+            for (UpdateItemDto.Request.PostOptionGroupDto.PostOptionDto postOptionDto : postOptionGroupDto
+                    .getOptions()) {
                 Option option = Option.builder()
                         .name(postOptionDto.getName())
                         .price(postOptionDto.getPrice())
@@ -226,7 +215,7 @@ public class ItemService {
             item.getOptionGroups().add(optionGroup);
         }
 
-        item.updateItem(shop, category, updateItemDto.getName(), updateItemDto.getPrice(), updateItemDto.getItemState());
+        item.updateItem(category, updateItemDto.getName(), updateItemDto.getPrice(), updateItemDto.getItemState());
 
         this.itemRepository.save(item);
 
@@ -234,7 +223,7 @@ public class ItemService {
     }
 
     @Transactional
-    public void deleteItem(UUID itemId){
+    public void deleteItem(UUID itemId) {
         Item item = itemRepository.findById(itemId).orElseThrow(ItemNotFoundException::new);
         itemRepository.delete(item);
     }

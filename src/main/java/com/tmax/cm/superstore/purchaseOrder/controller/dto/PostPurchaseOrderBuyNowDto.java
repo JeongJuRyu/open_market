@@ -90,7 +90,7 @@ public class PostPurchaseOrderBuyNowDto {
         @Getter
         public static class ShippingDto {
 
-            private UUID shopId;
+            private UUID sellerId;
 
             private String shopName;
 
@@ -103,7 +103,7 @@ public class PostPurchaseOrderBuyNowDto {
         @Getter
         public static class VisitDto {
 
-            private UUID shopId;
+            private UUID sellerId;
 
             private String shopName;
 

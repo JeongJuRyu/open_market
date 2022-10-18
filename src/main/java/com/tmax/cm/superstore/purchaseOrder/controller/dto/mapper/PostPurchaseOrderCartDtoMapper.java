@@ -13,74 +13,75 @@ import com.tmax.cm.superstore.config.CommonMapperConfig;
 import com.tmax.cm.superstore.purchaseOrder.controller.dto.PostPurchaseOrderCartDto;
 import com.tmax.cm.superstore.purchaseOrder.service.dto.PurchaseOrderDto;
 import com.tmax.cm.superstore.purchaseOrder.service.dto.PurchaseOrderDto.CartItemDtosByShop;
-import com.tmax.cm.superstore.shop.entity.Shop;
+import com.tmax.cm.superstore.seller.entity.Seller;
 
 @Mapper(config = CommonMapperConfig.class)
 public interface PostPurchaseOrderCartDtoMapper {
 
-    PostPurchaseOrderCartDto.Response toResponse(PurchaseOrderDto purchaseOrderDto);
+        PostPurchaseOrderCartDto.Response toResponse(PurchaseOrderDto purchaseOrderDto);
 
-    default List<PostPurchaseOrderCartDto.Response.ShippingDto> toShippingDtos(
-            PurchaseOrderDto.CartItemDtosMap cartItemDtosMap) {
+        default List<PostPurchaseOrderCartDto.Response.ShippingDto> toShippingDtos(
+                        PurchaseOrderDto.CartItemDtosMap cartItemDtosMap) {
 
-        List<PostPurchaseOrderCartDto.Response.ShippingDto> shippingDtos = new ArrayList<>();
+                List<PostPurchaseOrderCartDto.Response.ShippingDto> shippingDtos = new ArrayList<>();
 
-        for (Entry<Shop, CartItemDtosByShop> entry : cartItemDtosMap.entrySet()) {
+                for (Entry<Seller, CartItemDtosByShop> entry : cartItemDtosMap.entrySet()) {
 
-            shippingDtos.add(PostPurchaseOrderCartDto.Response.ShippingDto.builder()
-                    .shopId(entry.getKey().getId())
-                    .shopName(entry.getKey().getName())
-                    .cartItemAmount(entry.getValue().getAmount())
-                    .cartItems(this.toCartItemDtos(entry.getValue().getCartItemDtos()))
-                    .build());
+                        shippingDtos.add(PostPurchaseOrderCartDto.Response.ShippingDto.builder()
+                                        .sellerId(entry.getKey().getSellerId())
+                                        .shopName(entry.getKey().getSellerName())
+                                        .cartItemAmount(entry.getValue().getAmount())
+                                        .cartItems(this.toCartItemDtos(entry.getValue().getCartItemDtos()))
+                                        .build());
+                }
+
+                return shippingDtos;
         }
 
-        return shippingDtos;
-    }
+        default List<PostPurchaseOrderCartDto.Response.VisitDto> toVisitDtos(
+                        PurchaseOrderDto.CartItemDtosMap cartItemDtosMap) {
 
-    default List<PostPurchaseOrderCartDto.Response.VisitDto> toVisitDtos(
-            PurchaseOrderDto.CartItemDtosMap cartItemDtosMap) {
+                List<PostPurchaseOrderCartDto.Response.VisitDto> visitDtos = new ArrayList<>();
 
-        List<PostPurchaseOrderCartDto.Response.VisitDto> visitDtos = new ArrayList<>();
+                for (Entry<Seller, CartItemDtosByShop> entry : cartItemDtosMap.entrySet()) {
 
-        for (Entry<Shop, CartItemDtosByShop> entry : cartItemDtosMap.entrySet()) {
+                        visitDtos.add(PostPurchaseOrderCartDto.Response.VisitDto.builder()
+                                        .sellerId(entry.getKey().getSellerId())
+                                        .shopName(entry.getKey().getSellerName())
+                                        .shopAddress(entry.getKey().getAddress())
+                                        .cartItemAmount(entry.getValue().getAmount())
+                                        .cartItems(this.toCartItemDtos(entry.getValue().getCartItemDtos()))
+                                        .build());
+                }
 
-            visitDtos.add(PostPurchaseOrderCartDto.Response.VisitDto.builder()
-                    .shopId(entry.getKey().getId())
-                    .shopName(entry.getKey().getName())
-                    .shopAddress(entry.getKey().getAddress())
-                    .cartItemAmount(entry.getValue().getAmount())
-                    .cartItems(this.toCartItemDtos(entry.getValue().getCartItemDtos()))
-                    .build());
+                return visitDtos;
         }
 
-        return visitDtos;
-    }
+        List<PostPurchaseOrderCartDto.Response.CartItemDto> toCartItemDtos(
+                        List<PurchaseOrderDto.CartItemDto> cartItemDtos);
 
-    List<PostPurchaseOrderCartDto.Response.CartItemDto> toCartItemDtos(List<PurchaseOrderDto.CartItemDto> cartItemDtos);
+        @Mapping(target = "cartItemId", source = "cartItem.id")
+        @Mapping(target = "itemId", source = "cartItem.item.id")
+        @Mapping(target = "itemName", source = "cartItem.item.name")
+        @Mapping(target = "itemThumbnailURL", ignore = true)
+        @Mapping(target = "cartItemAmount", source = "amount")
+        @Mapping(target = "selectedOptions", source = "selectedOptionDtos")
+        PostPurchaseOrderCartDto.Response.CartItemDto toCartItemDto(PurchaseOrderDto.CartItemDto cartItemDto);
 
-    @Mapping(target = "cartItemId", source = "cartItem.id")
-    @Mapping(target = "itemId", source = "cartItem.item.id")
-    @Mapping(target = "itemName", source = "cartItem.item.name")
-    @Mapping(target = "itemThumbnailURL", ignore = true)
-    @Mapping(target = "cartItemAmount", source = "amount")
-    @Mapping(target = "selectedOptions", source = "selectedOptionDtos")
-    PostPurchaseOrderCartDto.Response.CartItemDto toCartItemDto(PurchaseOrderDto.CartItemDto cartItemDto);
+        @Mapping(target = "selectedOptionAmount", source = "amount")
+        @Mapping(target = "selectedOptionCount", source = "selectedOption.count")
+        @Mapping(target = "cartOptionGroups", source = "selectedOption.cartOptionGroups")
+        PostPurchaseOrderCartDto.Response.CartItemDto.SelectedOptionDto toSelectedOptionDto(
+                        PurchaseOrderDto.CartItemDto.SelectedOptionDto selectedOptionDto);
 
-    @Mapping(target = "selectedOptionAmount", source = "amount")
-    @Mapping(target = "selectedOptionCount", source = "selectedOption.count")
-    @Mapping(target = "cartOptionGroups", source = "selectedOption.cartOptionGroups")
-    PostPurchaseOrderCartDto.Response.CartItemDto.SelectedOptionDto toSelectedOptionDto(
-            PurchaseOrderDto.CartItemDto.SelectedOptionDto selectedOptionDto);
+        @Mapping(target = "optionGroupName", source = "optionGroup.name")
+        @Mapping(target = ".", source = "optionGroup")
+        PostPurchaseOrderCartDto.Response.CartItemDto.SelectedOptionDto.CartOptionGroupDto toCartOptionGroupDto(
+                        CartOptionGroup cartOptionGroup);
 
-    @Mapping(target = "optionGroupName", source = "optionGroup.name")
-    @Mapping(target = ".", source = "optionGroup")
-    PostPurchaseOrderCartDto.Response.CartItemDto.SelectedOptionDto.CartOptionGroupDto toCartOptionGroupDto(
-            CartOptionGroup cartOptionGroup);
-
-    @Mapping(target = "optionName", source = "option.name")
-    @Mapping(target = "optionPrice", source = "option.price")
-    @Mapping(target = "cartOptionCount", source = "count")
-    PostPurchaseOrderCartDto.Response.CartItemDto.SelectedOptionDto.CartOptionGroupDto.CartOptionDto toCartOptionDto(
-            CartOption cartOption);
+        @Mapping(target = "optionName", source = "option.name")
+        @Mapping(target = "optionPrice", source = "option.price")
+        @Mapping(target = "cartOptionCount", source = "count")
+        PostPurchaseOrderCartDto.Response.CartItemDto.SelectedOptionDto.CartOptionGroupDto.CartOptionDto toCartOptionDto(
+                        CartOption cartOption);
 }

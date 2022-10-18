@@ -1,20 +1,20 @@
 package com.tmax.cm.superstore.wishlist.dto.mapper;
 
+import java.util.List;
+
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+
 import com.tmax.cm.superstore.config.CommonMapperConfig;
-import com.tmax.cm.superstore.wishlist.dto.GetWishlistGroupAllDto;
 import com.tmax.cm.superstore.wishlist.dto.GetWishlistItemDto;
 import com.tmax.cm.superstore.wishlist.entity.WishlistGroup;
 import com.tmax.cm.superstore.wishlist.entity.WishlistItem;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.springframework.jmx.export.annotation.ManagedOperationParameter;
-
-import java.util.List;
 
 @Mapper(config = CommonMapperConfig.class)
 public interface GetWishlistItemDtoMapper {
 
-    default GetWishlistItemDto.Response toResponse(List<WishlistItem> wishlistItems, List<WishlistGroup> wishlistGroups) {
+    default GetWishlistItemDto.Response toResponse(List<WishlistItem> wishlistItems,
+            List<WishlistGroup> wishlistGroups) {
         return GetWishlistItemDto.Response.builder()
                 .wishlistItemDtos(toWishlistItems(wishlistItems))
                 .wishlistGroupDtos(toWishlistGroups(wishlistGroups))
@@ -30,8 +30,8 @@ public interface GetWishlistItemDtoMapper {
     @Mapping(target = "wishlistItemId", source = "wishlistItem.id")
     @Mapping(target = "wishlistGroupId", source = "wishlistItem.wishlistGroup.id")
     @Mapping(target = "wishlistGroupName", source = "wishlistItem.wishlistGroup.name")
-    @Mapping(target = "shopId", source = "wishlistItem.item.shop.id")
-    @Mapping(target = "shopName", source = "wishlistItem.item.shop.name")
+    @Mapping(target = "shopId", source = "wishlistItem.item.seller.sellerId")
+    @Mapping(target = "shopName", source = "wishlistItem.item.seller.sellerName")
     @Mapping(target = "itemId", source = "wishlistItem.item.id")
     @Mapping(target = "itemThumbnailURL", ignore = true)
     @Mapping(target = "itemName", source = "wishlistItem.item.name")

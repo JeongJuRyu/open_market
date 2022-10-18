@@ -13,7 +13,7 @@ import com.tmax.cm.superstore.config.CommonMapperConfig;
 import com.tmax.cm.superstore.purchaseOrder.controller.dto.PostPurchaseOrderBuyNowDto;
 import com.tmax.cm.superstore.purchaseOrder.service.dto.PurchaseOrderDto;
 import com.tmax.cm.superstore.purchaseOrder.service.dto.PurchaseOrderDto.CartItemDtosByShop;
-import com.tmax.cm.superstore.shop.entity.Shop;
+import com.tmax.cm.superstore.seller.entity.Seller;
 
 @Mapper(config = CommonMapperConfig.class)
 public interface PostPurchaseOrderBuyNowDtoMapper {
@@ -25,11 +25,11 @@ public interface PostPurchaseOrderBuyNowDtoMapper {
 
         List<PostPurchaseOrderBuyNowDto.Response.ShippingDto> shippingDtos = new ArrayList<>();
 
-        for (Entry<Shop, PurchaseOrderDto.CartItemDtosByShop> entry : cartItemDtosMap.entrySet()) {
+        for (Entry<Seller, PurchaseOrderDto.CartItemDtosByShop> entry : cartItemDtosMap.entrySet()) {
 
             shippingDtos.add(PostPurchaseOrderBuyNowDto.Response.ShippingDto.builder()
-                    .shopId(entry.getKey().getId())
-                    .shopName(entry.getKey().getName())
+                    .sellerId(entry.getKey().getSellerId())
+                    .shopName(entry.getKey().getSellerName())
                     .cartItemAmount(entry.getValue().getAmount())
                     .cartItems(this.toCartItemDtos(entry.getValue().getCartItemDtos()))
                     .build());
@@ -43,11 +43,11 @@ public interface PostPurchaseOrderBuyNowDtoMapper {
 
         List<PostPurchaseOrderBuyNowDto.Response.VisitDto> visitDtos = new ArrayList<>();
 
-        for (Entry<Shop, CartItemDtosByShop> entry : cartItemDtosMap.entrySet()) {
+        for (Entry<Seller, CartItemDtosByShop> entry : cartItemDtosMap.entrySet()) {
 
             visitDtos.add(PostPurchaseOrderBuyNowDto.Response.VisitDto.builder()
-                    .shopId(entry.getKey().getId())
-                    .shopName(entry.getKey().getName())
+                    .sellerId(entry.getKey().getSellerId())
+                    .shopName(entry.getKey().getSellerName())
                     .shopAddress(entry.getKey().getAddress())
                     .cartItemAmount(entry.getValue().getAmount())
                     .cartItems(this.toCartItemDtos(entry.getValue().getCartItemDtos()))

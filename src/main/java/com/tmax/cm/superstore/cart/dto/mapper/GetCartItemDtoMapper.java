@@ -13,8 +13,8 @@ import com.tmax.cm.superstore.config.CommonMapperConfig;
 @Mapper(config = CommonMapperConfig.class)
 public interface GetCartItemDtoMapper {
 
-    @Mapping(target = "shopId", source = "item.shop.id")
-    @Mapping(target = "shopName", source = "item.shop.name")
+    @Mapping(target = "shopId", source = "item.seller.sellerId")
+    @Mapping(target = "shopName", source = "item.seller.sellerName")
     @Mapping(target = "itemId", source = "item.id")
     @Mapping(target = "itemName", source = "item.name")
     @Mapping(target = "itemThumbnailURL", ignore = true)
