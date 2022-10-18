@@ -11,5 +11,7 @@ import java.util.UUID;
 public interface SellerRepository extends JpaRepository<Seller, UUID> {
 	Seller findSellerBySellerId(UUID sellerId);
 
+	Seller findSellerByLoginId(String loginId);
+
 	List<Seller> findAll();
 }

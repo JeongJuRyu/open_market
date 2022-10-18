@@ -68,6 +68,7 @@ public class CreateSellerDto {
 		private String sellerName;
 		private String sellerEmail;
 		private String sellerPhoneNum;
+		private String address;
 
 		public static SellerInfoBuilder builder(Seller seller) {
 			return SellerInfoBuilder()
@@ -75,7 +76,8 @@ public class CreateSellerDto {
 				.password(seller.getPassword())
 				.sellerName(seller.getSellerName())
 				.sellerEmail(seller.getSellerEmail())
-				.sellerPhoneNum(seller.getSellerPhoneNum());
+				.sellerPhoneNum(seller.getSellerPhoneNum())
+				.address(seller.getAddress());
 		}
 	}
 
