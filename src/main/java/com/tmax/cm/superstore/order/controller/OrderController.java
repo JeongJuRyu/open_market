@@ -1,10 +1,13 @@
 package com.tmax.cm.superstore.order.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.validation.Valid;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +18,10 @@ import com.tmax.cm.superstore.cart.service.CartItemService;
 import com.tmax.cm.superstore.code.ResponseCode;
 import com.tmax.cm.superstore.common.ResponseDto;
 import com.tmax.cm.superstore.common.util.TransactionHandler;
+import com.tmax.cm.superstore.order.controller.dto.GetPickupOrderSelectedOptionAllByShopDto;
 import com.tmax.cm.superstore.order.controller.dto.PostOrderDto;
+import com.tmax.cm.superstore.order.entity.PickupOrder;
+import com.tmax.cm.superstore.order.entity.VisitOrder;
 import com.tmax.cm.superstore.order.service.OrderService;
 import com.tmax.cm.superstore.payment.entity.Payment;
 import com.tmax.cm.superstore.payment.service.PaymentService;
@@ -23,6 +29,8 @@ import com.tmax.cm.superstore.pickup.entity.Pickup;
 import com.tmax.cm.superstore.pickup.service.PickupService;
 import com.tmax.cm.superstore.purchaseOrder.service.PurchaseOrderService;
 import com.tmax.cm.superstore.purchaseOrder.service.dto.PurchaseOrderDto;
+import com.tmax.cm.superstore.seller.entity.Seller;
+import com.tmax.cm.superstore.seller.service.SellerService;
 import com.tmax.cm.superstore.shipping.entity.Shipping;
 import com.tmax.cm.superstore.shipping.service.ShippingService;
 import com.tmax.cm.superstore.user.entities.User;
@@ -40,6 +48,7 @@ public class OrderController {
     private final CartItemService cartItemService;
     private final ShippingService shippingService;
     private final PickupService pickupService;
+    private final SellerService sellerService;
 
     private final TransactionHandler transactionHandler;
 
@@ -87,5 +96,19 @@ public class OrderController {
         });
 
         return new ResponseDto<>(ResponseCode.ORDER_CREATE, null);
+    }
+
+    @GetMapping("/pickup/seller/{sellerId}")
+    public ResponseDto<GetPickupOrderSelectedOptionAllByShopDto.Response> getPickupOrderSelectedOptionAll(
+            @PathVariable UUID sellerId) {
+
+        Seller seller = this.sellerService.findSeller(sellerId);
+
+        List<PickupOrder> pickupOrders = this.orderService.readPickupOrders(seller);
+        List<VisitOrder> visitOrders = this.orderService.readVisitOrders(seller);
+
+        GetPickupOrderSelectedOptionAllByShopDto.Response response = null;
+
+        return new ResponseDto<>(ResponseCode.ORDER_PICKUP_READ, response);
     }
 }

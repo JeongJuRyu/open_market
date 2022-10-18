@@ -172,7 +172,8 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     properties:
       hibernate:
-        ddl-auto: create-drop
+        #        ddl-auto: create
+        ddl-auto: create
         format_sql: true
       javax:
         persistence:
