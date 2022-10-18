@@ -24,12 +24,15 @@ public class SellerController {
 	}
 
 	@GetMapping
-	public ResponseEntity<ResponseDto<LoginSellerDto.Response>> loginSeller(@Valid @RequestBody LoginSellerDto.Request loginSellerRequestDto) throws Exception{
-		return ResponseEntity.ok().body(sellerService.loginSeller(loginSellerRequestDto));
+	public ResponseEntity<ResponseDto<LoginSellerDto.Response>> loginSeller(
+		@RequestParam(value = "loginId") String loginId, @RequestParam(value = "password") String password)
+		throws Exception {
+		return ResponseEntity.ok().body(sellerService.loginSeller(loginId, password));
 	}
 
 	@DeleteMapping("/{sellerId}")
-	public ResponseEntity<ResponseDto<DeleteSellerDto.Response>> deleteSeller(@PathVariable UUID sellerId) throws Exception{
+	public ResponseEntity<ResponseDto<DeleteSellerDto.Response>> deleteSeller(@PathVariable UUID sellerId)
+		throws Exception {
 		return ResponseEntity.ok().body(sellerService.deleteSeller(sellerId));
 	}
 
