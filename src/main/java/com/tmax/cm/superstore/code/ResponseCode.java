@@ -83,7 +83,6 @@ public enum ResponseCode implements Code {
 	WISHLIST_ITEM_CREATE("SUCCESS", "WISHLIST_ITEM_CREATE", "Create wishlist item", "찜한 상품 생성"),
 	WISHLIST_ITEM_CHECK_READ("SUCCESS", "WISHLIST_ITEM_CHECK_READ", "Read and check wishlist item", "찜한 상품 여부 조회"),
 
-<<<<<<< src/main/java/com/tmax/cm/superstore/code/ResponseCode.java
 	// User
 	USER_CREATE("SUCCESS", "USER_CREATE", "Create user", "유저 회원가입"),
 	USER_EMAIL_UPDATE("SUCCESS", "USER_EMAIL_UPDATE", "Update user email", "유저 이메일 변경"),
