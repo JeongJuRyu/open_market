@@ -1,4 +1,0 @@
-INSERT INTO shop(id, name, is_deleted, address) VALUES (UUID_TO_BIN('2d68d1d0-ed27-46d2-b858-da3f0aa2e430'), '써머슈슈즈', 0, '경기도 성남시 분당구 탄천상로151번길 20, 월드쇼핑타워 A동 4-5층');
-INSERT INTO shop(id, name, is_deleted, address) VALUES (UUID_TO_BIN('8d41c42a-011b-4525-9864-b24481f985c5'), 'BBK치킨', 0, '경기도 성남시 분당구 탄천상로151번길 20, 월드쇼핑타워 A동 4-5층');
-INSERT INTO shop(id, name, is_deleted, address) VALUES (UUID_TO_BIN('8d41c42a-011b-4525-9864-b24481f985c6'), '플라워스토어', 0, '경기도 성남시 분당구 탄천상로151번길 20, 월드쇼핑타워 A동 4-5층');
-INSERT INTO shop(id, name, is_deleted, address) VALUES (UUID_TO_BIN('54717bb2-2850-40e5-9889-d17d227f1606'), '마루돈가', 0, '경기도 성남시 분당구 탄천상로151번길 20, 월드쇼핑타워 A동 4-5층');
