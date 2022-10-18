@@ -49,7 +49,7 @@ public class InitDb {
 
 		public void dbInit1() {
 			CreateSellerDto.SellerInfo sellerInfo = createSellerInfo("rala", "rala123", "랄라샌드위치", "rala@naver.com",
-				"0507-1367-2348");
+				"0507-1367-2348", "탄천상로151번길 20");
 			CreateSellerDto.BizInfo bizInfo = createBizInfo("사업자등록번호", "상호명", "대표명", "사업장소재지", "통신판매업번호");
 			CreateSellerDto.SellerDeliveryInfo sellerDeliveryInfo = createSellerDeliveryInfo("출고지 주소", "출고지 상세 주소",
 				"반품지 주소", "반품지 상세주소");
@@ -86,7 +86,7 @@ public class InitDb {
 
 		public void dbInit2() {
 			CreateSellerDto.SellerInfo sellerInfo = createSellerInfo("byulme", "byulme123", "별미", "byulme@naver.com",
-				"031-782-9588");
+				"031-782-9588","탄천상로151번길 20");
 			CreateSellerDto.BizInfo bizInfo = createBizInfo("사업자등록번호", "상호명", "대표명", "사업장소재지", "통신판매업번호");
 			CreateSellerDto.SellerDeliveryInfo sellerDeliveryInfo = createSellerDeliveryInfo("출고지 주소", "출고지 상세 주소",
 				"반품지 주소", "반품지 상세주소");
@@ -123,14 +123,14 @@ public class InitDb {
 		}
 
 		private CreateSellerDto.SellerInfo createSellerInfo(String loginId, String password, String sellerName,
-			String sellerEmail,
-			String sellerPhoneNum) {
+			String sellerEmail, String sellerPhoneNum, String address) {
 			return CreateSellerDto.SellerInfo.SellerInfoBuilder()
 				.loginId(loginId)
 				.password(password)
 				.sellerName(sellerName)
 				.sellerEmail(sellerEmail)
-				.sellerPhoneNum(sellerPhoneNum).build();
+				.sellerPhoneNum(sellerPhoneNum)
+				.address(address).build();
 		}
 
 		private CreateSellerDto.BizInfo createBizInfo(String bizNum, String bizName, String bizOwner, String bizAddress,

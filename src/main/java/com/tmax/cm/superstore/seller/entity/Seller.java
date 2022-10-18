@@ -41,6 +41,9 @@ public class Seller {
 	@Column
 	private String sellerPhoneNum;
 
+	@Column
+	private String address;
+
 	@Column(nullable = false)
 	private boolean isDeleted;
 
@@ -50,16 +53,18 @@ public class Seller {
 			.password(createSellerRequestDto.getSellerInfo().getPassword())
 			.sellerName(createSellerRequestDto.getSellerInfo().getSellerName())
 			.sellerEmail(createSellerRequestDto.getSellerInfo().getSellerEmail())
-			.sellerPhoneNum(createSellerRequestDto.getSellerInfo().getSellerPhoneNum());
+			.sellerPhoneNum(createSellerRequestDto.getSellerInfo().getSellerPhoneNum())
+			.address(createSellerRequestDto.getSellerInfo().getAddress());
 	}
 
 	public void modifySellerInfo(ModifySellerInfoDto.Request modifySellerInfoRequestDto) {
 		this.password = modifySellerInfoRequestDto.getPassword();
 		this.sellerEmail = modifySellerInfoRequestDto.getSellerEmail();
 		this.sellerPhoneNum = modifySellerInfoRequestDto.getSellerPhoneNum();
+		this.address = modifySellerInfoRequestDto.getAddress();
 	}
 
-	public void deleteSeller(){
+	public void deleteSeller() {
 		this.isDeleted = true;
 	}
 }
