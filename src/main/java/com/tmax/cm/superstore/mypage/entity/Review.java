@@ -60,9 +60,6 @@ public class Review extends BaseTimeEntity {
 	private Item item;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	// @JoinColumn(nullable = false)
-	private PickupOrderItem orderItem;
-	
 	@JoinColumn(nullable = false)
 	private ShippingOrderItem orderItem;
 
