@@ -41,15 +41,11 @@ public class Review extends BaseTimeEntity {
 	private UUID id;
 
 	@Column(nullable = false)
-	private String title;
-
-	@Column(nullable = false)
 	private String content;
 
 	@Column(nullable = false)
 	private Float starRating;
 
-	@Column(nullable = false)
 	private Long isUseful;
 
 	@Column
@@ -64,6 +60,9 @@ public class Review extends BaseTimeEntity {
 	private Item item;
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	// @JoinColumn(nullable = false)
+	private PickupOrderItem orderItem;
+	
 	@JoinColumn(nullable = false)
 	private ShippingOrderItem orderItem;
 
@@ -71,7 +70,6 @@ public class Review extends BaseTimeEntity {
 	private ReviewReply reviewReply;
 
 	public void updateReview(UpdateReviewRequestDto dto) {
-		this.title = dto.getTitle();
 		this.content = dto.getContent();
 	}
 

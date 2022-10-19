@@ -76,7 +76,6 @@ public class ReviewService {
 	@Transactional
 	public ResponseDto<Object> postReview(PostReviewRequestDto dto, User user){
 		Review review = Review.ReviewBuilder()
-			.title(dto.getTitle())
 			.content(dto.getContent())
 			.starRating(dto.getStarRating())
 			.user(user)
