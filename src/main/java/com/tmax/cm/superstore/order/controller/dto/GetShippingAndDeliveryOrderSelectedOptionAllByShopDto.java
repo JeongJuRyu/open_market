@@ -1,5 +1,6 @@
 package com.tmax.cm.superstore.order.controller.dto;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,6 +42,8 @@ public class GetShippingAndDeliveryOrderSelectedOptionAllByShopDto {
             private String requests;
 
             private ShippingType shippingType;
+
+            private LocalDateTime createdAt;
 
             private List<GetOrderOptionGroupDto> orderOptionGroups;
 
