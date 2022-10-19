@@ -19,6 +19,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -39,6 +41,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @Table(name = "users")
+@Where(clause = "is_deleted = false")
+@SQLDelete(sql = "UPDATE users SET is_deleted = true WHERE user_id = ?")
 public class User implements UserDetails {
 	@Id
 	@GeneratedValue(generator = "UUID")
@@ -63,6 +67,10 @@ public class User implements UserDetails {
 
 	@Column(nullable = false)
 	@Builder.Default
+	private Boolean isDeleted = false;
+
+	@Column(nullable = false)
+	@Builder.Default
 	// false면 계정 만료
 	private Boolean accountNonExpired = true;
 
@@ -71,7 +79,7 @@ public class User implements UserDetails {
 	// false면 계정 잠김
 	private Boolean accountNonLocked = true;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	@Builder.Default
 	private List<DeliveryAddress> deliveryAddresses = new ArrayList<>();
 
@@ -128,7 +136,7 @@ public class User implements UserDetails {
 				.stream().filter(address -> address.getId() == id)
 				.findAny().orElseThrow(DeliveryAddressNotFoundException::new);
 		DeliveryAddress oldDeliveryAddress = this.getDeliveryAddresses()
-				.stream().filter(address -> address.getIsDefaultAddress())
+				.stream().filter(DeliveryAddress::getIsDefaultAddress)
 				.findAny().orElseThrow(DeliveryAddressNotFoundException::new);
 	}
 
