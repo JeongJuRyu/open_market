@@ -82,7 +82,7 @@ VALUES (
 INSERT INTO delivery_address(
         id,
         address,
-        is_basic_address,
+        is_default_address,
         name,
         phone_num,
         user_user_id

@@ -5,14 +5,13 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 
 import com.tmax.cm.superstore.item.entity.Item;
 
@@ -20,13 +19,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
-@Setter
 @Entity
 public class ShippingOrderItem {
 
@@ -45,9 +42,10 @@ public class ShippingOrderItem {
 
 	@OneToMany(cascade = { CascadeType.PERSIST })
 	@JoinColumn(name = "shippingOrderItemId")
+	@OrderBy("createdAt DESC")
 	private List<ShippingOrderSelectedOption> shippingOrderSelectedOptions;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	private Item item;
 
 	@ManyToOne(cascade = { CascadeType.PERSIST })
