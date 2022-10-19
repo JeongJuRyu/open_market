@@ -147,6 +147,7 @@ spring:
     init:
       data-locations: classpath:develop_sql/*
       mode: always
+      continue-on-error: true
       # continue-on-error: true
       # continue-on-error: false
 

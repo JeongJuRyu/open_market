@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import javax.transaction.Transactional;
 
+import net.bytebuddy.description.field.FieldDescription;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -227,4 +228,10 @@ public class ItemService {
         Item item = itemRepository.findById(itemId).orElseThrow(ItemNotFoundException::new);
         itemRepository.delete(item);
     }
+
+    @Transactional
+    public Long getItemCount() {
+        return itemRepository.count();
+    }
+
 }
