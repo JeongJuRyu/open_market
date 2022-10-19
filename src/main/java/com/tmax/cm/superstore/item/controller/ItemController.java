@@ -101,6 +101,11 @@ public class ItemController {
         return new ResponseDto<>(ResponseCode.ITEM_READ_ALL, itemService.readSimpleItem(categoryId));
     }
 
+    @GetMapping("/count")
+    public ResponseDto<Long> getItemCount(){
+        return new ResponseDto<>(ResponseCode.ITEM_READ_ALL, itemService.getItemCount());
+    }
+
     // @GetMapping("/search/keyword/{keyword}")
     // public ResponseDto<GetItemAllByCategoryDto.Response>
     // searchItemByKeyword(@PathVariable String keyword, @RequestParam("categoryId")
