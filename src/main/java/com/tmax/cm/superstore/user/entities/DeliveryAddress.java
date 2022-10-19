@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.tmax.cm.superstore.common.entity.BaseTimeEntity;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,9 +24,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class DeliveryAddress {
-	@Id @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+public class DeliveryAddress extends BaseTimeEntity {
+	@Id
 	@GeneratedValue(generator = "UUID")
+	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+	@Column(columnDefinition = "BINARY(16)")
 	private UUID id;
 
 	@Column(nullable = false)
@@ -44,8 +48,7 @@ public class DeliveryAddress {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private User user;
 
-	public void setDefaultAddress(DeliveryAddress deliveryAddress){
-		this.isDefaultAddress = true;
-		deliveryAddress.isDefaultAddress = false;
+	public void setDefaultAddress(Boolean isDefaultAddress){
+		this.isDefaultAddress = isDefaultAddress;
 	}
 }
