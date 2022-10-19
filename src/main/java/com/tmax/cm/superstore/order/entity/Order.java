@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.tmax.cm.superstore.common.entity.BaseTimeEntity;
 import com.tmax.cm.superstore.payment.entity.Payment;
 import com.tmax.cm.superstore.user.entities.User;
 
@@ -33,7 +34,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity(name = "orders")
-public class Order {
+public class Order extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
