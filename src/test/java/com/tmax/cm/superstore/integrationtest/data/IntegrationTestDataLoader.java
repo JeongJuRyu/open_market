@@ -19,8 +19,8 @@ import com.tmax.cm.superstore.item.entity.ItemSendType;
 import com.tmax.cm.superstore.item.entity.Option;
 import com.tmax.cm.superstore.item.entity.OptionGroup;
 import com.tmax.cm.superstore.item.repository.ItemRepository;
-import com.tmax.cm.superstore.shop.entity.Shop;
-import com.tmax.cm.superstore.shop.repository.ShopRepository;
+import com.tmax.cm.superstore.seller.entity.Seller;
+import com.tmax.cm.superstore.seller.repository.SellerRepository;
 
 @TestConfiguration
 public class IntegrationTestDataLoader {
@@ -30,21 +30,18 @@ public class IntegrationTestDataLoader {
     @Autowired
     private ItemRepository itemRepository;
     @Autowired
-    private ShopRepository shopRepository;
+    private SellerRepository sellerRepository;
 
     @Bean
     public IntegrationTestData integrationTestData() {
 
         IntegrationTestData data = new IntegrationTestData();
+        Seller seller = Seller.SellerBuilder().sellerName("써머슈슈즈").build();
 
-        Shop shop = Shop.builder()
-                .name("써머슈슈즈")
-                .build();
-
-        this.shopRepository.save(shop);
+        this.sellerRepository.save(seller);
 
         Item item = Item.builder()
-                .shop(shop)
+                .seller(seller)
                 .name("로토 스르르트 썸머 슈즈")
                 .price(81000)
                 .optionGroups(new ArrayList<>())
@@ -125,7 +122,7 @@ public class IntegrationTestDataLoader {
         data.setItemId(item.getId());
         data.setOptionGroupId(optionGroup1.getId());
         data.setOptionId(option1.getId());
-        data.setShopId(shop.getId());
+        data.setSellerId(seller.getSellerId());
 
         Cart cart = Cart.builder()
                 .cartType(CartType.SHIPPING_VISIT)

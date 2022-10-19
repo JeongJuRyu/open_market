@@ -1,7 +1,10 @@
 package com.tmax.cm.superstore.shipping.service;
 
+import java.util.UUID;
+
 import javax.transaction.Transactional;
 
+import org.springframework.dao.PessimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
 import com.tmax.cm.superstore.code.ShippingType;
@@ -23,7 +26,7 @@ public class ShippingService {
                 .recipient(recipient)
                 .mobile(mobile)
                 .requests(request)
-                .finalstatus(ShippingType.SHIPPING_WAITING)
+                .shippingType(ShippingType.SHIPPING_WAITING)
                 .build();
 
         repository.save(shipping);
@@ -31,17 +34,20 @@ public class ShippingService {
     }
 
     @Transactional
-    public void acceptShipping(Shipping shipping) {
+    public void acceptShipping(UUID shippingId) throws PessimisticLockingFailureException {
+        Shipping shipping = this.repository.findWithIdForUpdate(shippingId);
         shipping.acceptStatus();
     }
 
     @Transactional
-    public void rejectShipping(Shipping shipping) {
+    public void rejectShipping(UUID shippingId) throws PessimisticLockingFailureException {
+        Shipping shipping = this.repository.findWithIdForUpdate(shippingId);
         shipping.refuseStatus();
     }
 
     @Transactional
-    public void doneShipping(Shipping shipping) {
+    public void doneShipping(UUID shippingId) throws PessimisticLockingFailureException {
+        Shipping shipping = this.repository.findWithIdForUpdate(shippingId);
         shipping.doneStatus();
     }
 }

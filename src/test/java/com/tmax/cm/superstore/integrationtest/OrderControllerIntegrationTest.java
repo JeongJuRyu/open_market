@@ -16,6 +16,8 @@ public class OrderControllerIntegrationTest extends AbstractIntegrationTest {
 
     private String tag = "Order";
 
+    private String sellerId = "2d68d1d0-ed27-46d2-b858-da3f0aa2e430";
+
     @Test
     void testPostOrder() throws Exception {
         // given
@@ -59,5 +61,35 @@ public class OrderControllerIntegrationTest extends AbstractIntegrationTest {
         result.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(EasyRestDocumentation.documentWithJwt("postOrder", "주문하기", this.tag));
+    }
+
+    @Test
+    void testGetVisitAndPickupOrderSelectedOptionAll() throws Exception {
+        // given
+
+        // when
+        ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
+                .get("/v1/order/visitAndPickup/seller/{sellerId}", this.sellerId)
+                .header(HttpHeaders.AUTHORIZATION, this.testJwtGenerator.generate()));
+
+        // then
+        result.andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(EasyRestDocumentation.documentWithJwt("getVisitAndPickupOrderSelectedOptionAll", "가게별 방문수령 및 픽업 주문 조회", this.tag));
+    }
+
+    @Test
+    void testGetShippingAndDeliveryOrderSelectedOptionAll() throws Exception {
+        // given
+
+        // when
+        ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
+                .get("/v1/order/shippingAndDelivery/seller/{sellerId}", this.sellerId)
+                .header(HttpHeaders.AUTHORIZATION, this.testJwtGenerator.generate()));
+
+        // then
+        result.andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(EasyRestDocumentation.documentWithJwt("getShippingAndDeliveryOrderSelectedOptionAll", "가게별 배송 및 배달 주문 조회", this.tag));
     }
 }

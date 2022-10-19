@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class IntegrationTestData {
 
-    private UUID shopId;
+    private UUID sellerId;
 
     private UUID itemId;
 

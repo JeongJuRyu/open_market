@@ -30,6 +30,11 @@ public class SellerService {
 	public ResponseDto<CreateSellerDto.Response> createSeller(CreateSellerDto.Request createSellerRequestDto)
 		throws Exception {
 		try {
+			Seller findSeller = sellerRepository.findSellerByLoginId(
+				createSellerRequestDto.getSellerInfo().getLoginId());
+			if (findSeller != null) {
+				throw new DuplicateLoginIdException();
+			}
 			Seller newSeller = Seller.builder(createSellerRequestDto).build();
 			sellerRepository.save(newSeller);
 			Business newBusiness = Business.builder(newSeller, createSellerRequestDto).build();
@@ -41,6 +46,25 @@ public class SellerService {
 			return ResponseDto.<CreateSellerDto.Response>builder()
 				.responseCode(ResponseCode.SELLER_CREATE)
 				.data(CreateSellerDto.Response.builder(newSeller, newBusiness, newSellerDelivery).build())
+				.build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Transactional(rollbackFor = Exception.class, readOnly = true)
+	public ResponseDto<LoginSellerDto.Response> loginSeller(String loginId, String password)
+		throws Exception {
+		try {
+			Seller findSeller = sellerRepository.findSellerByLoginId(loginId);
+			if (!findSeller.getPassword().equals(password)) {
+				throw new InvalidSellerPasswordException();
+			}
+
+			return ResponseDto.<LoginSellerDto.Response>builder()
+				.responseCode(ResponseCode.SELLER_LOGIN)
+				.data(LoginSellerDto.Response.builder(findSeller).build())
 				.build();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -230,6 +254,14 @@ public class SellerService {
 			e.printStackTrace();
 			throw e;
 		}
+	}
+
+	/** 다른 컨트롤러에서 호출되는 메소드 */
+	public Seller findSeller(UUID sellerId) {
+		Seller seller = sellerRepository.findSellerBySellerId(sellerId);
+		findSellerValidation(seller);
+
+		return seller;
 	}
 
 	/**

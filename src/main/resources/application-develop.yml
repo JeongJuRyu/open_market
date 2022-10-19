@@ -147,6 +147,7 @@ spring:
     init:
       data-locations: classpath:develop_sql/*
       mode: always
+      continue-on-error: true
       # continue-on-error: true
       # continue-on-error: false
 
@@ -172,8 +173,13 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     properties:
       hibernate:
+        #        ddl-auto: create
         ddl-auto: create
         format_sql: true
+      javax:
+        persistence:
+          query:
+            timeout: 5000
   sql:
     init:
       data-locations: classpath:develop_sql/*

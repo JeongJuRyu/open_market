@@ -16,6 +16,7 @@ public class ModifySellerInfoDto {
 		private String password;
 		private String sellerEmail;
 		private String sellerPhoneNum;
+		private String address;
 	}
 
 	@Getter
@@ -26,6 +27,7 @@ public class ModifySellerInfoDto {
 		private String sellerName;
 		private String sellerEmail;
 		private String sellerPhoneNum;
+		private String address;
 
 		public static ResponseBuilder builder(Seller seller) {
 			return ResponseBuilder()
@@ -33,7 +35,8 @@ public class ModifySellerInfoDto {
 				.password(seller.getPassword())
 				.sellerName(seller.getSellerName())
 				.sellerEmail(seller.getSellerEmail())
-				.sellerPhoneNum(seller.getSellerPhoneNum());
+				.sellerPhoneNum(seller.getSellerPhoneNum())
+				.address(seller.getAddress());
 		}
 	}
 

@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.tmax.cm.superstore.cart.entity.CartItem;
 import com.tmax.cm.superstore.cart.entity.SelectedOption;
-import com.tmax.cm.superstore.shop.entity.Shop;
+import com.tmax.cm.superstore.seller.entity.Seller;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -36,8 +36,8 @@ public class PurchaseOrderDto {
         private Integer totalPaymentAmount;
     }
 
-    public static class CartItemDtosMap extends HashMap<Shop, CartItemDtosByShop> {
-        public void add(Shop key, CartItemDto value) {
+    public static class CartItemDtosMap extends HashMap<Seller, CartItemDtosByShop> {
+        public void add(Seller key, CartItemDto value) {
             if (!super.containsKey(key)) {
                 super.put(key, CartItemDtosByShop.builder().amount(0).cartItemDtos(new ArrayList<>()).build());
             }

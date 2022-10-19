@@ -23,8 +23,16 @@ public class SellerController {
 		return ResponseEntity.ok().body(sellerService.createSeller(createSellerRequestDto));
 	}
 
+	@GetMapping
+	public ResponseEntity<ResponseDto<LoginSellerDto.Response>> loginSeller(
+		@RequestParam(value = "loginId") String loginId, @RequestParam(value = "password") String password)
+		throws Exception {
+		return ResponseEntity.ok().body(sellerService.loginSeller(loginId, password));
+	}
+
 	@DeleteMapping("/{sellerId}")
-	public ResponseEntity<ResponseDto<DeleteSellerDto.Response>> deleteSeller(@PathVariable UUID sellerId) throws Exception{
+	public ResponseEntity<ResponseDto<DeleteSellerDto.Response>> deleteSeller(@PathVariable UUID sellerId)
+		throws Exception {
 		return ResponseEntity.ok().body(sellerService.deleteSeller(sellerId));
 	}
 

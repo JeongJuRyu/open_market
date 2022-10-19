@@ -1,21 +1,19 @@
 package com.tmax.cm.superstore.item.dto;
 
-import com.tmax.cm.superstore.category.entity.Category;
-import com.tmax.cm.superstore.item.code.ItemState;
-import com.tmax.cm.superstore.code.SendType;
-import lombok.Builder;
-import lombok.Getter;
-
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import com.tmax.cm.superstore.code.SendType;
+import com.tmax.cm.superstore.item.code.ItemState;
+
+import lombok.Builder;
+import lombok.Getter;
+
 public class UpdateItemDto {
 
     @Getter
-    @Builder
     public static class Request {
-        private UUID shopId;
 
         private String name;
 

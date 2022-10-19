@@ -34,9 +34,12 @@ public enum ResponseCode implements Code {
 
 	// Order
 	ORDER_CREATE("SUCCESS", "ORDER_CREATE", "Create order", "주문 생성"),
+	ORDER_VISIT_AND_PICKUP_READ("SUCCESS", "ORDER_VISIT_AND_PICKUP_READ", "Read visit order and pickup order", "방문수령 및 픽업 주문 조회"),
+	ORDER_SHIPPING_AND_DELIVERY_READ("SUCCESS", "ORDER_SHIPPING_AND_DELIVERY_READ", "Read shipping order and delivery order", "배송 및 배달 주문 조회"),
 
 	// Seller
 	SELLER_CREATE("SUCCESS", "SELLER_CREATE", "Create seller", "판매자 계정 생성"),
+	SELLER_LOGIN("SUCCESS", "SELLER_LOGIN", "Login seller", "판매자 계정 로그인"),
 	SELLER_DELETE("SUCCESS", "SELLER_DELETE", "Delete seller", "판매자 계정 회원탈퇴"),
 	SELLER_INFO_MODIFY("SUCCESS", "SELLER_INFO_MODIFY", "Modify seller Info", "판매자 정보 수정하기"),
 	SELLER_LIST_FIND("SUCCESS", "SELLER_LIST_FIND", "Find seller List", "판매자 리스트 가져오기"),
@@ -142,6 +145,8 @@ public enum ResponseCode implements Code {
 	ERROR_SELLER_DELIVERY_ALREADY_DELETED("ERROR", "ES003", "SellerDeliveryId already deleted", "해당 배송지 정보는 이미 삭제되었음"),
 	ERROR_SELLER_DELIVERY_NOT_FOUND("ERROR", "ES004", "SellerDeliveryId not found", "해당 판매자 배송지 아이디를 찾을 수 없음"),
 	ERROR_SELLER_DELIVERY_LIST_NOT_FOUND("ERROR", "ES005", "SelleDeliveryList not found", "해당 판매자의 배송지 리스트가 없음"),
+	ERROR_SELLER_PASSWORD_INVALID("ERROR", "ES006", "SellerPassword invalid", "해당 계정의 비밀번호가 일치하지 않습니다."),
+	ERROR_SELLER_LOGIN_ID_DUPLICATE("ERROR", "ES007", "SellerLoginId is duplicated", "해당 아이디는 이미 사용중입니다."),
 	ERROR_BUSINESS_NOT_FOUND("ERROR", "EB000", "Business not found", "해당 판매자의 사업자 정보가 없음"),
 
 	// Error - Reservation

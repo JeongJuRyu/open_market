@@ -5,21 +5,36 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
-import com.tmax.cm.superstore.item.dto.GetItemAllByCategoryDto;
-import com.tmax.cm.superstore.item.dto.mapper.*;
-import com.tmax.cm.superstore.item.service.ItemSearchService;
-import org.hibernate.sql.Update;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-import com.tmax.cm.superstore.item.dto.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.tmax.cm.superstore.code.ResponseCode;
 import com.tmax.cm.superstore.common.ResponseDto;
+import com.tmax.cm.superstore.common.util.TransactionHandler;
+import com.tmax.cm.superstore.item.dto.GetItemAllByCategoryDto;
+import com.tmax.cm.superstore.item.dto.GetItemAllDto;
+import com.tmax.cm.superstore.item.dto.GetItemDto;
+import com.tmax.cm.superstore.item.dto.PostItemDto;
+import com.tmax.cm.superstore.item.dto.UpdateItemDto;
+import com.tmax.cm.superstore.item.dto.mapper.GetItemAllDtoMapper;
+import com.tmax.cm.superstore.item.dto.mapper.GetItemDtoMapper;
+import com.tmax.cm.superstore.item.dto.mapper.PostItemDtoMapper;
+import com.tmax.cm.superstore.item.dto.mapper.UpdateItemDtoMapper;
 import com.tmax.cm.superstore.item.entity.Item;
+import com.tmax.cm.superstore.item.service.ItemSearchService;
 import com.tmax.cm.superstore.item.service.ItemService;
+import com.tmax.cm.superstore.seller.entity.Seller;
+import com.tmax.cm.superstore.seller.service.SellerService;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @RestController
@@ -28,17 +43,26 @@ public class ItemController {
 
     private final ItemService itemService;
     private final ItemSearchService itemSearchService;
+    private final SellerService sellerService;
+
+    private final TransactionHandler transactionHandler;
 
     private final PostItemDtoMapper postItemDtoMapper;
     private final GetItemDtoMapper getItemDtoMapper;
     private final GetItemAllDtoMapper getItemAllDtoMapper;
     private final UpdateItemDtoMapper updateItemDtoMapper;
 
-    @PostMapping("/create")
+    @PostMapping("/seller/{sellerId}/create")
     public ResponseDto<PostItemDto.Response> postCreateItem(
-            @Valid @RequestPart("request") PostItemDto.Request request, @RequestPart(value = "attachment", required = false) List<MultipartFile> attachment){
+            @PathVariable UUID sellerId,
+            @Valid @RequestPart("request") PostItemDto.Request request,
+            @RequestPart(value = "attachment", required = false) List<MultipartFile> attachment) {
 
-        Item item = this.itemService.createItem(request, attachment);
+        Item item = this.transactionHandler.runInSameTransaction(() -> {
+            Seller seller = this.sellerService.findSeller(sellerId);
+
+            return this.itemService.createItem(seller, request, attachment);
+        });
 
         return new ResponseDto<>(ResponseCode.ITEM_CREATE, this.postItemDtoMapper.toResponse(item));
     }
@@ -59,29 +83,39 @@ public class ItemController {
     }
 
     @DeleteMapping("/delete/{itemId}")
-    public void deleteItem(@PathVariable UUID itemId){
+    public void deleteItem(@PathVariable UUID itemId) {
         this.itemService.deleteItem(itemId);
     }
 
     @PatchMapping("/update/{itemId}")
-    public ResponseDto<UpdateItemDto.Response> updateItem(@RequestPart("request") UpdateItemDto.Request request, @PathVariable UUID itemId){
+    public ResponseDto<UpdateItemDto.Response> updateItem(@RequestPart("request") UpdateItemDto.Request request,
+            @PathVariable UUID itemId) {
         Item item = this.itemService.updateItem(itemId, request);
 
         return new ResponseDto<>(ResponseCode.ITEM_UPDATE, this.updateItemDtoMapper.toResponse(item));
     }
 
     @GetMapping("/simpleItems")
-    public ResponseDto<GetItemAllByCategoryDto.Response> getItemByCategory(@RequestParam("categoryId") Long categoryId) {
+    public ResponseDto<GetItemAllByCategoryDto.Response> getItemByCategory(
+            @RequestParam("categoryId") Long categoryId) {
         return new ResponseDto<>(ResponseCode.ITEM_READ_ALL, itemService.readSimpleItem(categoryId));
     }
 
-//    @GetMapping("/search/keyword/{keyword}")
-//    public ResponseDto<GetItemAllByCategoryDto.Response> searchItemByKeyword(@PathVariable String keyword, @RequestParam("categoryId") Long categoryId){
-//        return new ResponseDto<>(ResponseCode.ITEM_READ_ALL, itemSearchService.searchItemByKeyword(keyword, categoryId));
-//    }
+    @GetMapping("/count")
+    public ResponseDto<Long> getItemCount(){
+        return new ResponseDto<>(ResponseCode.ITEM_READ_ALL, itemService.getItemCount());
+    }
+
+    // @GetMapping("/search/keyword/{keyword}")
+    // public ResponseDto<GetItemAllByCategoryDto.Response>
+    // searchItemByKeyword(@PathVariable String keyword, @RequestParam("categoryId")
+    // Long categoryId){
+    // return new ResponseDto<>(ResponseCode.ITEM_READ_ALL,
+    // itemSearchService.searchItemByKeyword(keyword, categoryId));
+    // }
 
     @GetMapping("/search/keyword/{name}")
-    public ResponseDto<GetItemAllByCategoryDto.Response> searchItemByName(@PathVariable String name){
+    public ResponseDto<GetItemAllByCategoryDto.Response> searchItemByName(@PathVariable String name) {
         return new ResponseDto<>(ResponseCode.ITEM_READ_ALL, itemSearchService.searchItemByName(name));
     }
 
