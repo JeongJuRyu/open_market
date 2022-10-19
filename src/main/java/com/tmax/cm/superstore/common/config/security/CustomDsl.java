@@ -28,7 +28,7 @@ public class CustomDsl extends AbstractHttpConfigurer<CustomDsl, HttpSecurity> {
 	public void configure(HttpSecurity http) {
 		AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
 		JwtAccessTokenFilter jwtAccessTokenFilter = new JwtAccessTokenFilter(this.userDetailsService,
-				this.authenticationEntryPoint);
+				this.authenticationEntryPoint, authenticationManager);
 		JwtLoginFilter jwtLoginFilter = new JwtLoginFilter(authenticationManager, this.userLoginInfoRepository);
 		JwtRefreshTokenFilter jwtRefreshTokenFilter = new JwtRefreshTokenFilter(authenticationManager,
 				this.userDetailsService, this.userLoginInfoRepository);
