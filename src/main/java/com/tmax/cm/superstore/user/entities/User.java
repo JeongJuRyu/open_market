@@ -71,10 +71,6 @@ public class User implements UserDetails {
 	// false면 계정 잠김
 	private Boolean accountNonLocked = true;
 
-	// @OneToOne(fetch = FetchType.LAZY)
-	// @JoinColumn(name = "EMAIL_TOKEN_ID")
-	// private EmailToken emailToken;
-
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	@Builder.Default
 	private List<DeliveryAddress> deliveryAddresses = new ArrayList<>();
@@ -98,15 +94,18 @@ public class User implements UserDetails {
 		this.password = newPassword;
 	}
 
-	public void postDeliveryAddress(PostDeliveryRequestDto dto) {
+	public DeliveryAddress postDeliveryAddress(PostDeliveryRequestDto dto) {
 		Boolean isFirstAddress = this.deliveryAddresses.size() == 0 ? true : dto.isDefaultAddress();
 		DeliveryAddress deliveryAddress = DeliveryAddress.builder()
 				.recipient(dto.getRecipient())
 				.user(this)
+				.address(dto.getAddress())
+			    .recipient(dto.getRecipient())
 				.mobile(dto.getMobile())
 				.requests(dto.getRequests())
 				.isDefaultAddress(isFirstAddress).build();
 		this.getDeliveryAddresses().add(deliveryAddress);
+		return deliveryAddress;
 	}
 
 	public void updateDeliveryAddress(UpdateDeliveryInfoRequestDto dto) {
@@ -115,6 +114,7 @@ public class User implements UserDetails {
 				.findAny().orElseThrow(DeliveryAddressNotFoundException::new);
 		DeliveryAddress newDeliveryAddress = DeliveryAddress.builder()
 				.recipient(dto.getRecipient())
+			    .address(dto.getAddress())
 				.user(this)
 				.mobile(dto.getMobile())
 				.requests(dto.getRequests())
@@ -130,7 +130,6 @@ public class User implements UserDetails {
 		DeliveryAddress oldDeliveryAddress = this.getDeliveryAddresses()
 				.stream().filter(address -> address.getIsDefaultAddress())
 				.findAny().orElseThrow(DeliveryAddressNotFoundException::new);
-		newDeliveryAddress.setDefaultAddress(oldDeliveryAddress);
 	}
 
 	@Override

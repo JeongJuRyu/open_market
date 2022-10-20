@@ -6,6 +6,8 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
+import com.tmax.cm.superstore.code.PickupType;
+import com.tmax.cm.superstore.code.ShippingType;
 import com.tmax.cm.superstore.order.entity.DeliveryOrder;
 import com.tmax.cm.superstore.order.entity.Order;
 import com.tmax.cm.superstore.order.entity.PickupOrder;
@@ -51,18 +53,55 @@ public class OrderService {
 
     @Transactional
     public List<ShippingOrder> readShippingOrders(Seller seller) {
+
         return this.shippingOrderRepository.findBySeller(seller);
     }
+
+    @Transactional
+    public List<ShippingOrder> readShippingOrdersByShippingType(Seller seller, ShippingType shippingType) {
+
+        return this.shippingOrderRepository
+                .findBySellerAndShippingOrderItems_ShippingOrderSelectedOptions_Shipping_ShippingType(seller,
+                        shippingType);
+    }
+
     @Transactional
     public List<VisitOrder> readVisitOrders(Seller seller) {
         return this.visitOrderRepository.findBySeller(seller);
     }
+
+    @Transactional
+    public List<VisitOrder> readVisitOrdersByPickupType(Seller seller, PickupType pickupType) {
+
+        return this.visitOrderRepository
+                .findBySellerAndPickupOrderItems_PickupOrderSelectedOptions_Pickup_PickupType(seller,
+                        pickupType);
+    }
+
     @Transactional
     public List<DeliveryOrder> readDeliveryOrders(Seller seller) {
+
         return this.deliveryOrderRepository.findBySeller(seller);
     }
+
+    @Transactional
+    public List<DeliveryOrder> readDeliveryOrdersByShippingType(Seller seller, ShippingType shippingType) {
+
+        return this.deliveryOrderRepository
+                .findBySellerAndShippingOrderItems_ShippingOrderSelectedOptions_Shipping_ShippingType(seller,
+                        shippingType);
+    }
+
     @Transactional
     public List<PickupOrder> readPickupOrders(Seller seller) {
         return this.pickupOrderRepository.findBySeller(seller);
+    }
+
+    @Transactional
+    public List<PickupOrder> readPickupOrdersByPickupType(Seller seller, PickupType pickupType) {
+
+        return this.pickupOrderRepository
+                .findBySellerAndPickupOrderItems_PickupOrderSelectedOptions_Pickup_PickupType(seller,
+                        pickupType);
     }
 }

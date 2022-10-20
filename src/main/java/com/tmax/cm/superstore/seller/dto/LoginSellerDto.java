@@ -1,23 +1,12 @@
 package com.tmax.cm.superstore.seller.dto;
 
 import com.tmax.cm.superstore.seller.entity.Seller;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
 public class LoginSellerDto {
-
-	@Getter
-	@AllArgsConstructor
-	@NoArgsConstructor
-	@Builder
-	public static class Request {
-		private String loginId;
-		private String password;
-	}
 
 	@Getter
 	@Builder(builderMethodName = "ResponseBuilder")

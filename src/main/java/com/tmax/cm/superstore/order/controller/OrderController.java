@@ -11,16 +11,24 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tmax.cm.superstore.cart.entity.CartItem;
 import com.tmax.cm.superstore.cart.service.CartItemService;
+import com.tmax.cm.superstore.code.PickupType;
 import com.tmax.cm.superstore.code.ResponseCode;
+import com.tmax.cm.superstore.code.ShippingType;
 import com.tmax.cm.superstore.common.ResponseDto;
 import com.tmax.cm.superstore.common.util.TransactionHandler;
-import com.tmax.cm.superstore.order.controller.dto.GetPickupOrderSelectedOptionAllByShopDto;
+import com.tmax.cm.superstore.order.controller.dto.GetShippingAndDeliveryOrderSelectedOptionAllByShopDto;
+import com.tmax.cm.superstore.order.controller.dto.GetVisitAndPickupOrderSelectedOptionAllByShopDto;
 import com.tmax.cm.superstore.order.controller.dto.PostOrderDto;
+import com.tmax.cm.superstore.order.controller.dto.mapper.GetPickupOrderSelectedOptionAllByShopDtoMapper;
+import com.tmax.cm.superstore.order.controller.dto.mapper.GetShippingAndDeliveryOrderSelectedOptionAllByShopDtoMapper;
+import com.tmax.cm.superstore.order.entity.DeliveryOrder;
 import com.tmax.cm.superstore.order.entity.PickupOrder;
+import com.tmax.cm.superstore.order.entity.ShippingOrder;
 import com.tmax.cm.superstore.order.entity.VisitOrder;
 import com.tmax.cm.superstore.order.service.OrderService;
 import com.tmax.cm.superstore.payment.entity.Payment;
@@ -52,8 +60,11 @@ public class OrderController {
 
     private final TransactionHandler transactionHandler;
 
+    private final GetPickupOrderSelectedOptionAllByShopDtoMapper getPickupOrderSelectedOptionAllByShopDtoMapper;
+    private final GetShippingAndDeliveryOrderSelectedOptionAllByShopDtoMapper getShippingAndDeliveryOrderSelectedOptionAllByShopDtoMapper;
+
     @PostMapping
-    public ResponseDto<Void> postCreateCartItem(
+    public ResponseDto<Void> postCreateOrder(
             @AuthenticationPrincipal User user,
             @Valid @RequestBody PostOrderDto.Request request) {
 
@@ -98,17 +109,48 @@ public class OrderController {
         return new ResponseDto<>(ResponseCode.ORDER_CREATE, null);
     }
 
-    @GetMapping("/pickup/seller/{sellerId}")
-    public ResponseDto<GetPickupOrderSelectedOptionAllByShopDto.Response> getPickupOrderSelectedOptionAll(
-            @PathVariable UUID sellerId) {
+    @GetMapping("/visitAndPickup/seller/{sellerId}")
+    public ResponseDto<GetVisitAndPickupOrderSelectedOptionAllByShopDto.Response> getVisitAndPickupOrderSelectedOptionAll(
+            @PathVariable UUID sellerId, @RequestParam(required = false) PickupType pickupType) {
+        List<VisitOrder> visitOrders;
+        List<PickupOrder> pickupOrders;
 
         Seller seller = this.sellerService.findSeller(sellerId);
 
-        List<PickupOrder> pickupOrders = this.orderService.readPickupOrders(seller);
-        List<VisitOrder> visitOrders = this.orderService.readVisitOrders(seller);
+        if (pickupType == null) {
+            visitOrders = this.orderService.readVisitOrders(seller);
+            pickupOrders = this.orderService.readPickupOrders(seller);
+        } else {
+            visitOrders = this.orderService.readVisitOrdersByPickupType(seller, pickupType);
+            pickupOrders = this.orderService.readPickupOrdersByPickupType(seller, pickupType);
+        }
 
-        GetPickupOrderSelectedOptionAllByShopDto.Response response = null;
+        GetVisitAndPickupOrderSelectedOptionAllByShopDto.Response response = this.getPickupOrderSelectedOptionAllByShopDtoMapper
+                .toResponse(visitOrders, pickupOrders);
 
-        return new ResponseDto<>(ResponseCode.ORDER_PICKUP_READ, response);
+        return new ResponseDto<>(ResponseCode.ORDER_VISIT_AND_PICKUP_READ, response);
+    }
+
+    @GetMapping("/shippingAndDelivery/seller/{sellerId}")
+    public ResponseDto<GetShippingAndDeliveryOrderSelectedOptionAllByShopDto.Response> getShippingAndDeliveryOrderSelectedOptionAll(
+            @PathVariable UUID sellerId, @RequestParam(required = false) ShippingType shippingType) {
+
+        List<ShippingOrder> shippingOrders;
+        List<DeliveryOrder> deliveryOrders;
+
+        Seller seller = this.sellerService.findSeller(sellerId);
+
+        if (shippingType == null) {
+            shippingOrders = this.orderService.readShippingOrders(seller);
+            deliveryOrders = this.orderService.readDeliveryOrders(seller);
+        } else {
+            shippingOrders = this.orderService.readShippingOrdersByShippingType(seller, shippingType);
+            deliveryOrders = this.orderService.readDeliveryOrdersByShippingType(seller, shippingType);
+        }
+
+        GetShippingAndDeliveryOrderSelectedOptionAllByShopDto.Response response = this.getShippingAndDeliveryOrderSelectedOptionAllByShopDtoMapper
+                .toResponse(shippingOrders, deliveryOrders);
+
+        return new ResponseDto<>(ResponseCode.ORDER_SHIPPING_AND_DELIVERY_READ, response);
     }
 }
