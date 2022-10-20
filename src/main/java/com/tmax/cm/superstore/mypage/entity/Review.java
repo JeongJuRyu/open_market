@@ -35,7 +35,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Builder(builderMethodName = "ReviewBuilder")
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Review extends BaseTimeEntity {
@@ -51,10 +51,9 @@ public class Review extends BaseTimeEntity {
 	@Column(nullable = false)
 	private Float starRating;
 
-	private Long isUseful;
-
 	@Column
-	private Boolean isReplied;
+	@Builder.Default
+	private Boolean isReplied = false;
 
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
@@ -75,10 +74,6 @@ public class Review extends BaseTimeEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn()
 	private Item item;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(nullable = false)
-	private ShippingOrderItem orderItem;
 
 	@OneToOne(mappedBy = "review", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	private ReviewReply reviewReply;

@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import com.tmax.cm.superstore.order.entity.OrderOption;
 import com.tmax.cm.superstore.user.entities.enumeration.OrderType;
 
 import lombok.Builder;
@@ -18,17 +19,32 @@ public class GetReviewResponseDto {
 	@Builder
 	public static class Review {
 		private UUID id;
+		private OrderType orderType;
+		private OrderItem orderItem;
 
-		// private OrderType orderType;
-		//
-		// private UUID shippingOrderSelectedOptionId;
-		//
-		// private UUID pickupOrderSelectedOptionId;
-		// private String itemName;
-		// //
-		// // private String optionName;
-		//
-		// private Integer count;
+		@Getter
+		@Builder
+		public static class OrderItem {
+			private String name;
+			private Integer price;
+			private Integer count;
+			private List<OrderOptionGroup> orderOptionGroups;
+
+			@Getter
+			@Builder
+			public static class OrderOptionGroup {
+				private String name;
+				private List<OrderOption> orderOptions;
+
+				@Getter
+				@Builder
+				public static class OrderOption {
+					private String name;
+					private Long count;
+					private Long price;
+				}
+			}
+		}
 
 		private String content;
 
