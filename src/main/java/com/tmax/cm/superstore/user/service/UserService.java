@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import javax.security.auth.DestroyFailedException;
 
+import com.tmax.cm.superstore.user.error.exception.UserPhoneNumAlreadyExistException;
 import com.tmax.cm.superstore.wishlist.entity.WishlistGroup;
 import com.tmax.cm.superstore.wishlist.repository.WishlistGroupRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -67,8 +68,9 @@ public class UserService {
 	public ResponseDto<Object> createUser(CreateUserRequestDto createUserRequestDto){
 		if(checkEmailDuplicate(createUserRequestDto.getEmail())){
 			throw new UserAlreadyExistException();
+		} else if(checkPhoneNumDuplicate(createUserRequestDto.getUserPhoneNum())){
+			throw new UserPhoneNumAlreadyExistException();
 		}
-
 		WishlistGroup wishlistGroup = WishlistGroup.builder()
 				.position(0)
 				.name("기본 그룹")
@@ -136,10 +138,6 @@ public class UserService {
 		user.updatePassword(newPassword);
 	}
 
-	public boolean checkEmailDuplicate(String email){
-		return userRepository.existsByEmail(email);
-	}
-
 	@Transactional(readOnly = true)
 	public ResponseDto<GetUserDeliveryInfoResponseDto> getUserDeliveryInfo(User user){
 		user.getDeliveryAddresses().sort(new DeliveryComparator());
@@ -199,4 +197,11 @@ public class UserService {
 			.data(null).build();
 	}
 
+	public boolean checkEmailDuplicate(String email){
+		return userRepository.existsByEmail(email);
+	}
+
+	public Boolean checkPhoneNumDuplicate(String phoneNum){
+		return userRepository.existsByPhoneNum(phoneNum);
+	}
 }
