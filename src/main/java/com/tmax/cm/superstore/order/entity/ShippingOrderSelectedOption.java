@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.tmax.cm.superstore.common.entity.BaseTimeEntity;
+import com.tmax.cm.superstore.seller.entity.Seller;
 import com.tmax.cm.superstore.shipping.entity.Shipping;
 
 import lombok.AllArgsConstructor;
@@ -47,4 +48,8 @@ public class ShippingOrderSelectedOption extends BaseTimeEntity {
     @ManyToOne
     @JoinColumn(nullable = false)
     private Shipping shipping;
+
+    @ManyToOne(cascade = { CascadeType.PERSIST })
+    @JoinColumn(nullable = false)
+    private Seller seller;
 }
