@@ -13,7 +13,6 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
-
 public class Pickup extends BaseTimeEntity {
 
     @Id
@@ -34,29 +33,30 @@ public class Pickup extends BaseTimeEntity {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private PickupType pickUpType;
+    private PickupType pickupType;
 
     public void acceptState() {
-        if(getPickUpType() == PickupType.PICKUP_WAITING) {
-            setPickUpType(PickupType.PICKUP_ACCEPT);
+        if(getPickupType() == PickupType.PICKUP_WAITING) {
+            setPickupType(PickupType.PICKUP_ACCEPT);
         }
     }
 
     public void refuseState() {
-        if(getPickUpType() == PickupType.PICKUP_WAITING) {
-            setPickUpType(PickupType.PICKUP_REFUSE);
+        if(getPickupType() == PickupType.PICKUP_WAITING) {
+            setPickupType(PickupType.PICKUP_REFUSE);
         }
     }
 
     public void doneState() {
-        if(getPickUpType() == PickupType.PICKUP_READY) {
-            setPickUpType(PickupType.PICKUP_DONE);
+        if(getPickupType() == PickupType.PICKUP_READY) {
+            setPickupType(PickupType.PICKUP_DONE);
         }
     }
 
     public void readyState() {
-        if (getPickUpType() == PickupType.PICKUP_ACCEPT) {
-            setPickUpType(PickupType.PICKUP_READY);
+        if(getPickupType() == PickupType.PICKUP_ACCEPT) {
+            setPickupType(PickupType.PICKUP_READY);
         }
     }
+
 }
