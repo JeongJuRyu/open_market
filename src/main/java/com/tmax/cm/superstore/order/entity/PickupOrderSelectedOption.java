@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 
 import com.tmax.cm.superstore.common.entity.BaseTimeEntity;
 import com.tmax.cm.superstore.pickup.entity.Pickup;
+import com.tmax.cm.superstore.seller.entity.Seller;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -47,4 +48,8 @@ public class PickupOrderSelectedOption extends BaseTimeEntity {
     @ManyToOne
     @JoinColumn(nullable = false)
     private Pickup pickup;
+
+    @ManyToOne(cascade = { CascadeType.PERSIST })
+    @JoinColumn(nullable = false)
+    private Seller seller;
 }

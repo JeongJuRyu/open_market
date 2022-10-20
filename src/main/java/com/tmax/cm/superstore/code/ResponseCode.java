@@ -36,6 +36,13 @@ public enum ResponseCode implements Code {
 	ORDER_CREATE("SUCCESS", "ORDER_CREATE", "Create order", "주문 생성"),
 	ORDER_VISIT_AND_PICKUP_READ("SUCCESS", "ORDER_VISIT_AND_PICKUP_READ", "Read visit order and pickup order", "방문수령 및 픽업 주문 조회"),
 	ORDER_SHIPPING_AND_DELIVERY_READ("SUCCESS", "ORDER_SHIPPING_AND_DELIVERY_READ", "Read shipping order and delivery order", "배송 및 배달 주문 조회"),
+	ORDER_ACCEPT_PICK("SUCCESS", "ORDER_ACCEPT_PICK", "Accept order selected option ", "접수 완료 및 준비 중"),
+	ORDER_REFUSE_PICK("SUCCESS", "ORDER_REFUSE_PICK", "Refuse order selected option ", "접수 취소"),
+	ORDER_READY_PICK("SUCCESS", "ORDER_READY_PICK", "Ready order selected option ", "준비 완료"),
+	ORDER_DONE_PICK("SUCCESS", "ORDER_DONE_PICK", "Done order selected option ", "수령 완료"),
+	ORDER_ACCEPT_SHIPPING("SUCCESS", "ORDER_ACCEPT_SHIPPING", "Accept order selected option ", "배송 요청 수락 및 배송 중"),
+	ORDER_REJECT_SHIPPING("SUCCESS", "ORDER_REJECT_SHIPPING", "Refuse order selected option ", "배송 완료"),
+	ORDER_DONE_SHIPPING("SUCCESS", "ORDER_DONE_SHIPPING", "Done order selected option ", "배송 요청 거절"),
 
 	// Seller
 	SELLER_CREATE("SUCCESS", "SELLER_CREATE", "Create seller", "판매자 계정 생성"),
@@ -165,6 +172,9 @@ public enum ResponseCode implements Code {
 
 	// Error - Cart
 	ERROR_CART_ITEM_NOT_FOUND("ERROR", "EC100", "Cart item not found", "해당 카트 상품이 저장되어 있지 않음"),
+
+	// Error - Order
+	ERROR_ORDER_STATE_UNCHANGEABLE("ERROR", "EO001", "Order state unchangeable", "바꿀수 없는 주문 상태"),
 
 	// Error - MyPage
 	ERROR_REVIEW_NOT_FOUND("ERROR", "EM100", "Review not found", "해당 리뷰가 존재 하지 않음"),
