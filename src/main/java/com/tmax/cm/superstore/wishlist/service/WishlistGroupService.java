@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import com.tmax.cm.superstore.wishlist.dto.mapper.GetWishlistGroupAllDtoMapper;
+import com.tmax.cm.superstore.user.entities.User;
 import com.tmax.cm.superstore.wishlist.entity.WishlistItem;
 import com.tmax.cm.superstore.wishlist.repository.WishlistItemRepository;
 import com.tmax.cm.superstore.wishlist.service.dto.UpdateWishlistGroupOrderDto;
@@ -27,13 +27,13 @@ public class WishlistGroupService {
     private final WishlistItemRepository wishlistItemRepository;
 
     @Transactional
-    public WishlistGroup create(CreateWishlistGroupDto createWishlistGroupDto) {
-//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public WishlistGroup create(CreateWishlistGroupDto createWishlistGroupDto, User user) {
         Long totalItemCount = this.wishlistGroupRepository.count();
 
         WishlistGroup wishlistGroup = WishlistGroup.builder()
                 .name(createWishlistGroupDto.getWishlistGroupName())
                 .position(totalItemCount.intValue() + 1)
+                .user(user)
                 .build();
 
         this.wishlistGroupRepository.save(wishlistGroup);
@@ -41,13 +41,12 @@ public class WishlistGroupService {
     }
 
     @Transactional
-    public List<WishlistGroup> readAll() {
-        return this.wishlistGroupRepository.findAllAsc();
+    public List<WishlistGroup> readAll(User user) {
+        return this.wishlistGroupRepository.findAllAsc(user.getId());
     }
 
     @Transactional
     public WishlistGroup update(Long wishlistGroupId, UpdateWishlistGroupDto updateWishlistGroupDto) {
-
         WishlistGroup wishlistGroup = this.wishlistGroupRepository.findById(wishlistGroupId)
                 .orElseThrow(() -> EntityNotFoundException.of(WishlistGroup.class));
 
