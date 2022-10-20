@@ -70,10 +70,6 @@ public class UserService {
 		} else if(checkPhoneNumDuplicate(createUserRequestDto.getUserPhoneNum())){
 			throw new UserPhoneNumAlreadyExistException();
 		}
-		WishlistGroup wishlistGroup = WishlistGroup.builder()
-				.position(0)
-				.name("기본 그룹")
-				.build();
 
 		User user = User.builder()
 			.email(createUserRequestDto.getEmail())
@@ -83,8 +79,13 @@ public class UserService {
 			.name(createUserRequestDto.getName())
 			.build();
 
-		wishlistGroup.setUpUser(user);
+		WishlistGroup wishlistGroup = WishlistGroup.builder()
+				.position(0)
+				.name("기본 그룹")
+				.user(user)
+				.build();
 
+		user.getWishlistGroups().add(wishlistGroup);
 		wishlistGroupRepository.save(wishlistGroup);
 		userRepository.save(user);
 		return ResponseDto.builder()
