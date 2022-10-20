@@ -42,15 +42,13 @@ public class WishlistGroup {
     private Boolean isDeleted = false;
 
     // TODO user ID
-    @ManyToOne(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private User user;
 
     public void setUpUser(User user) {
         setUser(user);
-        if(user.getWishlistGroups().isEmpty()) {
-            user.getWishlistGroups().add(this);
-        }
+        user.getWishlistGroups().add(this);
     }
 
     public void deleteGroup() {

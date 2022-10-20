@@ -82,7 +82,7 @@ public class User implements UserDetails {
 					@JoinColumn(name = "AUTHORITY_NAME", referencedColumnName = "AUTHORITY_NAME") })
 	private Set<Authority> authorities;
 
-	 @OneToMany(mappedBy = "user")
+	 @OneToMany(mappedBy = "user" , cascade = CascadeType.ALL)
 	 @Builder.Default
 	 private List<WishlistGroup> wishlistGroups = new ArrayList<>();
 
