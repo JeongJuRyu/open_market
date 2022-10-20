@@ -2,10 +2,13 @@ package com.tmax.cm.superstore.user.service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Arrays;
 import java.util.UUID;
 
 import javax.security.auth.DestroyFailedException;
 
+import com.tmax.cm.superstore.wishlist.entity.WishlistGroup;
+import com.tmax.cm.superstore.wishlist.repository.WishlistGroupRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,6 +44,7 @@ public class UserService {
 	private final UserRepository userRepository;
 	private final EmailService emailService;
 	private final DeliveryMapper deliveryMapper;
+	private final WishlistGroupRepository wishlistGroupRepository;
 	private final DeliveryRepository deliveryRepository;
 
 	@Transactional(readOnly = true)
@@ -61,6 +65,12 @@ public class UserService {
 		if(checkEmailDuplicate(createUserRequestDto.getEmail())){
 			throw new UserAlreadyExistException();
 		}
+
+		WishlistGroup wishlistGroup = WishlistGroup.builder()
+				.position(0)
+				.name("기본 그룹")
+				.build();
+
 		User user = User.builder()
 			.email(createUserRequestDto.getEmail())
 			.password(createUserRequestDto.getPassword())
@@ -68,6 +78,10 @@ public class UserService {
 			.address(createUserRequestDto.getAddress())
 			.name(createUserRequestDto.getName())
 			.build();
+
+		wishlistGroup.setUpUser(user);
+
+		wishlistGroupRepository.save(wishlistGroup);
 		userRepository.save(user);
 		return ResponseDto.builder()
 			.responseCode(ResponseCode.USER_CREATE)
