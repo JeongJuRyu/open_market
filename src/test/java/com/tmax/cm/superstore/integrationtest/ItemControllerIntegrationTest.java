@@ -25,7 +25,7 @@ public class ItemControllerIntegrationTest extends AbstractIntegrationTest {
 
         JSONObject request = new JSONObject() {
             {
-                put("shopName", "서머슈슈즈");
+                //put("shopName", "서머슈슈즈");
                 put("name", "로토 스르르트 썸머 슈즈");
                 put("price", 82000);
                 put("possibleSendType", new JSONArray() {

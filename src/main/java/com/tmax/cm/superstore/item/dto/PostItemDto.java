@@ -16,9 +16,9 @@ public class PostItemDto {
 
     @Getter
     public static class Request {
-
-        @NotNull
-        private String shopName; // TODO 가게 생성 타 API로 분리
+//
+//        @NotNull
+//        private String shopName; // TODO 가게 생성 타 API로 분리
 
         @NotNull
         private String name;
