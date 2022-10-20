@@ -116,21 +116,6 @@ public class User implements UserDetails {
 		return deliveryAddress;
 	}
 
-	public void updateDeliveryAddress(UpdateDeliveryInfoRequestDto dto) {
-		DeliveryAddress deliveryAddress = this.getDeliveryAddresses()
-				.stream().filter(address -> address.getId() == dto.getShippingAddressId())
-				.findAny().orElseThrow(DeliveryAddressNotFoundException::new);
-		DeliveryAddress newDeliveryAddress = DeliveryAddress.builder()
-				.recipient(dto.getRecipient())
-			    .address(dto.getAddress())
-				.user(this)
-				.mobile(dto.getMobile())
-				.requests(dto.getRequests())
-				.isDefaultAddress(dto.isDefaultAddress()).build();
-		this.getDeliveryAddresses().remove(deliveryAddress);
-		this.getDeliveryAddresses().add(newDeliveryAddress);
-	}
-
 	public void setDeliveryAddress(UUID id) {
 		DeliveryAddress newDeliveryAddress = this.getDeliveryAddresses()
 				.stream().filter(address -> address.getId() == id)

@@ -155,8 +155,10 @@ public class UserService {
 	}
 
 	@Transactional
-	public ResponseDto<Object> updateDeliveryInfo(UpdateDeliveryInfoRequestDto dto, User user){
-		user.updateDeliveryAddress(dto);
+	public ResponseDto<Object> updateDeliveryInfo(UpdateDeliveryInfoRequestDto dto){
+		DeliveryAddress deliveryAddress = deliveryRepository.findById(dto.getShippingAddressId())
+			.orElseThrow(DeliveryAddressNotFoundException::new);
+		deliveryAddress.updateDeliveryAddress(dto);
 		return ResponseDto.builder()
 			.responseCode(ResponseCode.USER_DELIVERY_UPDATE)
 			.data(null).build();
