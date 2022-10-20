@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import javax.transaction.Transactional;
 
+import org.springframework.dao.CannotAcquireLockException;
 import org.springframework.dao.PessimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,8 @@ import com.tmax.cm.superstore.shipping.entity.Shipping;
 import com.tmax.cm.superstore.shipping.repository.ShippingRepository;
 
 import lombok.RequiredArgsConstructor;
+
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service

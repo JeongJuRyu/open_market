@@ -27,5 +27,27 @@ INSERT INTO review_image(review_image_id, url, reivew_id) values (UUID_TO_BIN('7
 INSERT INTO review_reply(review_reply_id, content, reivew_id) values (UUID_TO_BIN('6d269b51-590c-4ae4-95eb-e0b447b47c24'), '감사합니다.', UUID_TO_BIN('ce093467-1e60-45c9-b073-9b684b9dbc06'));
 
 -- 유저 배송지 등록
-INSERT INTO delivery_address(id, address, is_basic_address, name, phone_num, user_id) values (UUID_TO_BIN('143e9261-738b-49a4-99e7-94559560cb35'), '사랑시 고백구 행복동', true, '류정주', '010-4523-6994', UUID_TO_BIN('672ffb8c-f952-49ec-b65b-4fe3a9c37b28'));
-INSERT INTO delivery_address(id, address, is_basic_address, name, phone_num, user_id) values (UUID_TO_BIN('c89ba92a-6417-4478-aa9c-6adc7b2d3698'), '서울시 성북구 솔샘로7길 19, 103호', true, '김덕배', '010-1111-6994', UUID_TO_BIN('672ffb8c-f952-49ec-b65b-4fe3a9c37b28'));
+INSERT INTO delivery_address(
+        id,
+        address,
+        is_default_address,
+        name,
+        phone_num,
+        user_user_id
+    )
+values (
+        UUID_TO_BIN('143e9261-738b-49a4-99e7-94559560cb35'),
+        '사랑시 고백구 행복동',
+        true,
+        '류정주',
+        '010-4523-6994',
+        UUID_TO_BIN('672ffb8c-f952-49ec-b65b-4fe3a9c37b28')
+    ),
+    (
+        UUID_TO_BIN('c89ba92a-6417-4478-aa9c-6adc7b2d3698'),
+        '서울시 성북구 솔샘로7길 19, 103호',
+        true,
+        '김덕배',
+        '010-1111-6994',
+        UUID_TO_BIN('672ffb8c-f952-49ec-b65b-4fe3a9c37b28')
+    );
