@@ -1,6 +1,7 @@
 package com.tmax.cm.superstore.item.repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,4 +19,9 @@ public interface ItemRepository extends JpaRepository<Item, UUID> {
 
     List<Item> findByNameContaining(String name);
 
+    @Query("select i from Item i join ShippingOrderItem soi join ShippingOrderSelectedOption soso where soso.id = :id")
+    Optional<Item> findByShippingOrderSelectedOption(UUID id);
+
+    @Query("select i from Item i join PickupOrderItem poi join PickupOrderSelectedOption poso where poso.id = :id")
+    Optional<Item> findByPickupOrderSelectedOption(UUID id);
 }

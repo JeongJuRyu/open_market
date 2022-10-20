@@ -20,5 +20,5 @@ public class PostReviewRequestDto {
     private OrderType orderType;
 
     @NotNull
-    private UUID selected_option_id;
+    private UUID selectedOptionId;
 }
