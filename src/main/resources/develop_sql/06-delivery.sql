@@ -5,7 +5,7 @@ INSERT INTO delivery_address(
         mobile,
         requests,
         is_default_address,
-        user_user_id,
+        user_id,
         created_at,
         modified_at
 )
