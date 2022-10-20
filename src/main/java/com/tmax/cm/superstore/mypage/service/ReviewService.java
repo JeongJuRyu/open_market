@@ -76,6 +76,7 @@ public class ReviewService {
 	@Transactional
 	public ResponseDto<Object> postReview(PostReviewRequestDto dto, User user){
 		// PickupOrderItem orderItem = orderItemRepository.findById(dto.getOrderItemId()).orElse(null);
+
 		Review review = Review.ReviewBuilder()
 			.starRating(dto.getStarRating())
 			.content(dto.getContent())

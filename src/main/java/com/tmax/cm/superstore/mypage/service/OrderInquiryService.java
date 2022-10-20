@@ -50,11 +50,11 @@ public class OrderInquiryService {
 		//로직 재 검증 필요
 		User user = (User)SecurityContextHolder.getContext().getAuthentication()
 			.getPrincipal();
-		PickupOrderItem orderItem = orderItemRepository.findById(dto.getOrderItemId())
+		PickupOrderItem orderItem = orderItemRepository.findById(dto.getSelected_option_id())
 			.orElseThrow(IllegalArgumentException::new);
 		OrderInquiry orderInquiry = OrderInquiry.builder()
 			.content(dto.getContent())
-			.title(dto.getTitle())
+			// .title(dto.getTitle())
 			.isAnswered(false)
 			.user(user)
 			.build();
