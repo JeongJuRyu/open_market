@@ -43,7 +43,6 @@ public class WishlistGroup {
 
     // TODO user ID
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false)
     private User user;
 
     public void setUpUser(User user) {
