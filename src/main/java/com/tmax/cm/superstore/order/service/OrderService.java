@@ -1,6 +1,7 @@
 package com.tmax.cm.superstore.order.service;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.transaction.Transactional;
 
@@ -8,15 +9,20 @@ import org.springframework.stereotype.Service;
 
 import com.tmax.cm.superstore.code.PickupType;
 import com.tmax.cm.superstore.code.ShippingType;
+import com.tmax.cm.superstore.error.exception.EntityNotFoundException;
 import com.tmax.cm.superstore.order.entity.DeliveryOrder;
 import com.tmax.cm.superstore.order.entity.Order;
 import com.tmax.cm.superstore.order.entity.PickupOrder;
+import com.tmax.cm.superstore.order.entity.PickupOrderSelectedOption;
 import com.tmax.cm.superstore.order.entity.ShippingOrder;
+import com.tmax.cm.superstore.order.entity.ShippingOrderSelectedOption;
 import com.tmax.cm.superstore.order.entity.VisitOrder;
 import com.tmax.cm.superstore.order.repository.DeliveryOrderRepository;
 import com.tmax.cm.superstore.order.repository.OrderRepository;
 import com.tmax.cm.superstore.order.repository.PickupOrderRepository;
+import com.tmax.cm.superstore.order.repository.PickupOrderSelectedOptionRepository;
 import com.tmax.cm.superstore.order.repository.ShippingOrderRepository;
+import com.tmax.cm.superstore.order.repository.ShippingOrderSelectedOptionRepository;
 import com.tmax.cm.superstore.order.repository.VisitOrderRepository;
 import com.tmax.cm.superstore.payment.entity.Payment;
 import com.tmax.cm.superstore.pickup.entity.Pickup;
@@ -36,6 +42,8 @@ public class OrderService {
     private final VisitOrderRepository visitOrderRepository;
     private final DeliveryOrderRepository deliveryOrderRepository;
     private final PickupOrderRepository pickupOrderRepository;
+    private final ShippingOrderSelectedOptionRepository shippingOrderSelectedOptionRepository;
+    private final PickupOrderSelectedOptionRepository pickupOrderSelectedOptionRepository;
 
     private final OrderMapper orderMapper;
 
@@ -49,6 +57,22 @@ public class OrderService {
         this.orderRepository.save(order);
 
         return order;
+    }
+
+    /**
+     * 상태 변경
+     */
+    @Transactional
+    public ShippingOrderSelectedOption readShippingOrderSelectedOption(UUID shippingOrderSelectedOptionId,
+            Seller seller) {
+        return this.shippingOrderSelectedOptionRepository.findByIdAndSeller(shippingOrderSelectedOptionId, seller)
+                .orElseThrow(() -> EntityNotFoundException.of(ShippingOrderSelectedOption.class));
+    }
+
+    @Transactional
+    public PickupOrderSelectedOption readPickupOrderSelectedOption(UUID pickupOrderSelectedOptionId, Seller seller) {
+        return this.pickupOrderSelectedOptionRepository.findByIdAndSeller(pickupOrderSelectedOptionId, seller)
+                .orElseThrow(() -> EntityNotFoundException.of(PickupOrderSelectedOption.class));
     }
 
     /**
