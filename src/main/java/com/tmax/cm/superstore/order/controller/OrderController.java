@@ -258,7 +258,7 @@ public class OrderController {
             PickupOrderSelectedOption pickupOrderSelectedOption = this.orderService
                     .readPickupOrderSelectedOption(selectedOptionId, seller);
 
-            this.pickupService.acceptPick(pickupOrderSelectedOption.getPickup());
+            this.pickupService.acceptPick(pickupOrderSelectedOption.getPickup().getId());
         });
 
         return new ResponseDto<>(ResponseCode.ORDER_ACCEPT_PICK, null);
@@ -273,7 +273,7 @@ public class OrderController {
             PickupOrderSelectedOption pickupOrderSelectedOption = this.orderService
                     .readPickupOrderSelectedOption(selectedOptionId, seller);
 
-            this.pickupService.readyPick(pickupOrderSelectedOption.getPickup());
+            this.pickupService.readyPick(pickupOrderSelectedOption.getPickup().getId());
         });
 
         return new ResponseDto<>(ResponseCode.ORDER_READY_PICK, null);
@@ -288,7 +288,7 @@ public class OrderController {
             PickupOrderSelectedOption pickupOrderSelectedOption = this.orderService
                     .readPickupOrderSelectedOption(selectedOptionId, seller);
 
-            this.pickupService.refusePick(pickupOrderSelectedOption.getPickup());
+            this.pickupService.refusePick(pickupOrderSelectedOption.getPickup().getId());
         });
 
         return new ResponseDto<>(ResponseCode.ORDER_REFUSE_PICK, null);
@@ -303,7 +303,7 @@ public class OrderController {
             PickupOrderSelectedOption pickupOrderSelectedOption = this.orderService
                     .readPickupOrderSelectedOption(selectedOptionId, seller);
 
-            this.pickupService.donePick(pickupOrderSelectedOption.getPickup());
+            this.pickupService.donePick(pickupOrderSelectedOption.getPickup().getId());
         });
 
         return new ResponseDto<>(ResponseCode.ORDER_DONE_PICK, null);
