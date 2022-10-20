@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.tmax.cm.superstore.code.ShippingType;
 import com.tmax.cm.superstore.order.entity.ShippingOrder;
 import com.tmax.cm.superstore.seller.entity.Seller;
+import com.tmax.cm.superstore.user.entities.User;
 
 public interface ShippingOrderRepository extends JpaRepository<ShippingOrder, UUID> {
 
@@ -15,4 +16,9 @@ public interface ShippingOrderRepository extends JpaRepository<ShippingOrder, UU
 
     List<ShippingOrder> findBySellerAndShippingOrderItems_ShippingOrderSelectedOptions_Shipping_ShippingType(
             Seller seller, ShippingType shippingType);
+
+    List<ShippingOrder> findByOrder_User(User user);
+
+    List<ShippingOrder> findByOrder_UserAndShippingOrderItems_ShippingOrderSelectedOptions_Shipping_ShippingType(
+            User user, ShippingType shippingType);
 }
