@@ -82,10 +82,9 @@ public class UserService {
 		WishlistGroup wishlistGroup = WishlistGroup.builder()
 				.position(0)
 				.name("기본 그룹")
-				.user(user)
 				.build();
 
-		user.getWishlistGroups().add(wishlistGroup);
+		wishlistGroup.setUpUser(user);
 		wishlistGroupRepository.save(wishlistGroup);
 		userRepository.save(user);
 		return ResponseDto.builder()
