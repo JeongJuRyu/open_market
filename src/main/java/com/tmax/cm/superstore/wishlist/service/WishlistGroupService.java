@@ -33,9 +33,9 @@ public class WishlistGroupService {
         WishlistGroup wishlistGroup = WishlistGroup.builder()
                 .name(createWishlistGroupDto.getWishlistGroupName())
                 .position(totalItemCount.intValue() + 1)
-                .user(user)
                 .build();
 
+        wishlistGroup.setUpUser(user);
         this.wishlistGroupRepository.save(wishlistGroup);
         return wishlistGroup;
     }
