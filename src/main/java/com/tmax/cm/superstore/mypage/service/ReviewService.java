@@ -37,7 +37,7 @@ public class ReviewService {
 
 	@Transactional(readOnly = true)
 	public ResponseDto<GetAllReviewResponseDto> getAllReview(String startDate, Boolean isReplied, User user){
-		List<Review> reviews = reviewRepository.findByUserId(user.getId(), LocalDate.parse(startDate), isReplied);
+		List<Review> reviews = reviewRepository.findByUserId(user.getId(), LocalDate.parse(startDate).atStartOfDay(), isReplied);
 		return ResponseDto.<GetAllReviewResponseDto>builder()
 			.responseCode(ResponseCode.REVIEW_READ_ALL)
 			.data(GetAllReviewResponseDto.builder()
@@ -75,10 +75,13 @@ public class ReviewService {
 
 	@Transactional
 	public ResponseDto<Object> postReview(PostReviewRequestDto dto, User user){
+		// PickupOrderItem orderItem = orderItemRepository.findById(dto.getOrderItemId()).orElse(null);
+
 		Review review = Review.ReviewBuilder()
-			.content(dto.getContent())
 			.starRating(dto.getStarRating())
+			.content(dto.getContent())
 			.user(user)
+			.orderItem(null)
 			.build();
 		reviewRepository.save(review);
 		return ResponseDto.builder()
