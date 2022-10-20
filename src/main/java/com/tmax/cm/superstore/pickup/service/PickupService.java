@@ -24,7 +24,7 @@ public class PickupService {
                 .address(address)
                 .mobile(mobile)
                 .requests(request)
-                .pickUpType(PickupType.PICKUP_WAITING)
+                .pickupType(PickupType.PICKUP_WAITING)
                 .build();
 
         pickUpRepository.save(pickUp);
