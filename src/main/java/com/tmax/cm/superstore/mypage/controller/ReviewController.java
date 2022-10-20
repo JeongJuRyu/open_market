@@ -66,6 +66,7 @@ public class ReviewController {
 	@GetMapping("/seller")
 	public ResponseEntity<GetAllReviewForSellerResponseDto> getAllReviewForSeller(
 		@RequestParam LocalDate startDate){
-		return ResponseEntity.ok().body(reviewService.getAllReviewForSeller(startDate));
+		// return ResponseEntity.ok().body(reviewService.getAllReviewForSeller(startDate));
+		return ResponseEntity.ok().body(null);
 	}
 }
