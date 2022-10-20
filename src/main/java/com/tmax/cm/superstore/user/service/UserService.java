@@ -1,9 +1,8 @@
 package com.tmax.cm.superstore.user.service;
 
-
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Arrays;
 import java.util.UUID;
 
 import javax.security.auth.DestroyFailedException;
