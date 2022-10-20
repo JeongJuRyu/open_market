@@ -9,6 +9,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,7 +33,9 @@ import com.tmax.cm.superstore.order.controller.dto.mapper.GetShippingAndDelivery
 import com.tmax.cm.superstore.order.controller.dto.mapper.GetShippingAndDeliveryOrderSelectedOptionAllByUserDtoMapper;
 import com.tmax.cm.superstore.order.entity.DeliveryOrder;
 import com.tmax.cm.superstore.order.entity.PickupOrder;
+import com.tmax.cm.superstore.order.entity.PickupOrderSelectedOption;
 import com.tmax.cm.superstore.order.entity.ShippingOrder;
+import com.tmax.cm.superstore.order.entity.ShippingOrderSelectedOption;
 import com.tmax.cm.superstore.order.entity.VisitOrder;
 import com.tmax.cm.superstore.order.service.OrderService;
 import com.tmax.cm.superstore.payment.entity.Payment;
@@ -199,5 +202,110 @@ public class OrderController {
                 .toResponse(shippingOrders, deliveryOrders);
 
         return new ResponseDto<>(ResponseCode.ORDER_SHIPPING_AND_DELIVERY_READ, response);
+    }
+
+    @PutMapping("/shippingAndDelivery/{selectedOptionId}/seller/{sellerId}/acceptShipping")
+    public ResponseDto<Void> putAcceptShipping(@PathVariable UUID selectedOptionId, @PathVariable UUID sellerId) {
+
+        this.transactionHandler.runInSameTransaction(() -> {
+            Seller seller = this.sellerService.findSeller(sellerId);
+
+            ShippingOrderSelectedOption shippingOrderSelectedOption = this.orderService
+                    .readShippingOrderSelectedOption(selectedOptionId, seller);
+
+            this.shippingService.acceptShipping(shippingOrderSelectedOption.getShipping().getId());
+        });
+
+        return new ResponseDto<>(ResponseCode.ORDER_ACCEPT_SHIPPING, null);
+    }
+
+    @PutMapping("/shippingAndDelivery/{selectedOptionId}/seller/{sellerId}/rejectShipping")
+    public ResponseDto<Void> putRejectShipping(@PathVariable UUID selectedOptionId, @PathVariable UUID sellerId) {
+
+        this.transactionHandler.runInSameTransaction(() -> {
+            Seller seller = this.sellerService.findSeller(sellerId);
+
+            ShippingOrderSelectedOption shippingOrderSelectedOption = this.orderService
+                    .readShippingOrderSelectedOption(selectedOptionId, seller);
+
+            this.shippingService.rejectShipping(shippingOrderSelectedOption.getShipping().getId());
+        });
+
+        return new ResponseDto<>(ResponseCode.ORDER_REJECT_SHIPPING, null);
+    }
+
+    @PutMapping("/shippingAndDelivery/{selectedOptionId}/seller/{sellerId}/doneShipping")
+    public ResponseDto<Void> putDoneShipping(@PathVariable UUID selectedOptionId, @PathVariable UUID sellerId) {
+
+        this.transactionHandler.runInSameTransaction(() -> {
+            Seller seller = this.sellerService.findSeller(sellerId);
+
+            ShippingOrderSelectedOption shippingOrderSelectedOption = this.orderService
+                    .readShippingOrderSelectedOption(selectedOptionId, seller);
+
+            this.shippingService.doneShipping(shippingOrderSelectedOption.getShipping().getId());
+        });
+
+        return new ResponseDto<>(ResponseCode.ORDER_DONE_SHIPPING, null);
+    }
+
+    @PutMapping("/visitAndPickup/{selectedOptionId}/seller/{sellerId}/acceptPick")
+    public ResponseDto<Void> putAcceptPick(@PathVariable UUID selectedOptionId, @PathVariable UUID sellerId) {
+
+        this.transactionHandler.runInSameTransaction(() -> {
+            Seller seller = this.sellerService.findSeller(sellerId);
+
+            PickupOrderSelectedOption pickupOrderSelectedOption = this.orderService
+                    .readPickupOrderSelectedOption(selectedOptionId, seller);
+
+            this.pickupService.acceptPick(pickupOrderSelectedOption.getPickup().getId());
+        });
+
+        return new ResponseDto<>(ResponseCode.ORDER_ACCEPT_PICK, null);
+    }
+
+    @PutMapping("/visitAndPickup/{selectedOptionId}/seller/{sellerId}/readyPick")
+    public ResponseDto<Void> putReadyPick(@PathVariable UUID selectedOptionId, @PathVariable UUID sellerId) {
+
+        this.transactionHandler.runInSameTransaction(() -> {
+            Seller seller = this.sellerService.findSeller(sellerId);
+
+            PickupOrderSelectedOption pickupOrderSelectedOption = this.orderService
+                    .readPickupOrderSelectedOption(selectedOptionId, seller);
+
+            this.pickupService.readyPick(pickupOrderSelectedOption.getPickup().getId());
+        });
+
+        return new ResponseDto<>(ResponseCode.ORDER_READY_PICK, null);
+    }
+
+    @PutMapping("/visitAndPickup/{selectedOptionId}/seller/{sellerId}/refusePick")
+    public ResponseDto<Void> putRefusePick(@PathVariable UUID selectedOptionId, @PathVariable UUID sellerId) {
+
+        this.transactionHandler.runInSameTransaction(() -> {
+            Seller seller = this.sellerService.findSeller(sellerId);
+
+            PickupOrderSelectedOption pickupOrderSelectedOption = this.orderService
+                    .readPickupOrderSelectedOption(selectedOptionId, seller);
+
+            this.pickupService.refusePick(pickupOrderSelectedOption.getPickup().getId());
+        });
+
+        return new ResponseDto<>(ResponseCode.ORDER_REFUSE_PICK, null);
+    }
+
+    @PutMapping("/visitAndPickup/{selectedOptionId}/seller/{sellerId}/donePick")
+    public ResponseDto<Void> putDonePick(@PathVariable UUID selectedOptionId, @PathVariable UUID sellerId) {
+
+        this.transactionHandler.runInSameTransaction(() -> {
+            Seller seller = this.sellerService.findSeller(sellerId);
+
+            PickupOrderSelectedOption pickupOrderSelectedOption = this.orderService
+                    .readPickupOrderSelectedOption(selectedOptionId, seller);
+
+            this.pickupService.donePick(pickupOrderSelectedOption.getPickup().getId());
+        });
+
+        return new ResponseDto<>(ResponseCode.ORDER_DONE_PICK, null);
     }
 }
