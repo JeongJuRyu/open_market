@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import com.tmax.cm.superstore.code.PickupType;
+import com.tmax.cm.superstore.common.entity.BaseTimeEntity;
+import lombok.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,7 +25,7 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class Pickup {
+public class Pickup extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
@@ -46,25 +48,25 @@ public class Pickup {
     private PickupType pickupType;
 
     public void acceptState() {
-        if (getPickupType() == PickupType.PICKUP_WAITING) {
+        if(getPickupType() == PickupType.PICKUP_WAITING) {
             setPickupType(PickupType.PICKUP_ACCEPT);
         }
     }
 
     public void refuseState() {
-        if (getPickupType() == PickupType.PICKUP_WAITING) {
+        if(getPickupType() == PickupType.PICKUP_WAITING) {
             setPickupType(PickupType.PICKUP_REFUSE);
         }
     }
 
     public void doneState() {
-        if (getPickupType() == PickupType.PICKUP_READY) {
+        if(getPickupType() == PickupType.PICKUP_READY) {
             setPickupType(PickupType.PICKUP_DONE);
         }
     }
 
     public void readyState() {
-        if (getPickupType() == PickupType.PICKUP_ACCEPT) {
+        if(getPickupType() == PickupType.PICKUP_ACCEPT) {
             setPickupType(PickupType.PICKUP_READY);
         }
     }

@@ -18,6 +18,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.tmax.cm.superstore.wishlist.entity.WishlistGroup;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -81,10 +82,9 @@ public class User implements UserDetails {
 					@JoinColumn(name = "AUTHORITY_NAME", referencedColumnName = "AUTHORITY_NAME") })
 	private Set<Authority> authorities;
 
-	// @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval =
-	// true)
-	// @Builder.Default
-	// private List<WishlistGroup> wishlistGroups = new ArrayList<>();
+	 @OneToMany(mappedBy = "user")
+	 @Builder.Default
+	 private List<WishlistGroup> wishlistGroups = new ArrayList<>();
 
 	public void updateEmail(String email) {
 		this.email = email;

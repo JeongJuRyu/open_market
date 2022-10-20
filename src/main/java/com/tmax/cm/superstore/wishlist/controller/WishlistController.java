@@ -3,6 +3,7 @@ package com.tmax.cm.superstore.wishlist.controller;
 import com.tmax.cm.superstore.code.ResponseCode;
 import com.tmax.cm.superstore.common.ResponseDto;
 import com.tmax.cm.superstore.item.entity.Item;
+import com.tmax.cm.superstore.user.entities.User;
 import com.tmax.cm.superstore.wishlist.dto.*;
 import com.tmax.cm.superstore.wishlist.dto.mapper.GetIsWishlistItemDtoMapper;
 import com.tmax.cm.superstore.wishlist.dto.mapper.GetWishlistGroupAllDtoMapper;
@@ -14,6 +15,7 @@ import com.tmax.cm.superstore.wishlist.service.WishlistGroupService;
 import com.tmax.cm.superstore.wishlist.service.WishlistItemService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -34,35 +36,35 @@ public class WishlistController {
 
 
     @GetMapping("/wishlistGroup")
-    public ResponseDto<GetWishlistGroupAllDto.Response> getWishlistGroupAll() {
-        List<WishlistGroup> wishlistGroups = this.wishlistGroupService.readAll();
+    public ResponseDto<GetWishlistGroupAllDto.Response> getWishlistGroupAll(@AuthenticationPrincipal User user) {
+        List<WishlistGroup> wishlistGroups = this.wishlistGroupService.readAll(user);
         GetWishlistGroupAllDto.Response response = this.getWishlistGroupAllDtoMapper.toResponse(wishlistGroups);
         return new ResponseDto<>(ResponseCode.WISHLIST_GROUP_READ, response);
     }
 
     @PostMapping("/wishlistGroup")
-    public ResponseDto<PostCreateWishlistGroupDto.Response> createWishlistGroup(@Valid @RequestBody PostCreateWishlistGroupDto.Request groupDto) {
-        WishlistGroup wishlistGroup = this.wishlistGroupService.create(groupDto);
+    public ResponseDto<PostCreateWishlistGroupDto.Response> createWishlistGroup(@Valid @RequestBody PostCreateWishlistGroupDto.Request groupDto, @AuthenticationPrincipal User user) {
+        WishlistGroup wishlistGroup = this.wishlistGroupService.create(groupDto, user);
         return new ResponseDto<>(ResponseCode.WISHLIST_GROUP_CREATE, this.postWishlistGroupDtoMapper.toResponse(wishlistGroup));
     }
 
     @PostMapping("/wishlistItem")
-    public ResponseDto<Void> createWishlistItem(@Valid @RequestBody PostCreateWishlistItemDto.Request itemDto) {
-        WishlistItem wishlistItem = this.wishlistItemService.create(itemDto);
+    public ResponseDto<Void> createWishlistItem(@Valid @RequestBody PostCreateWishlistItemDto.Request itemDto, @AuthenticationPrincipal User user) {
+        WishlistItem wishlistItem = this.wishlistItemService.create(itemDto, user);
         return new ResponseDto<>(ResponseCode.WISHLIST_ITEM_CREATE, null);
     }
 
     @GetMapping("/wishlistItem/isItem/{itemId}")
-    public ResponseDto<GetIsWishlistItemDto.Response> isWishlistItem(@Valid @PathVariable UUID itemId) {
-        Boolean result = this.wishlistItemService.checkItem(itemId);
+    public ResponseDto<GetIsWishlistItemDto.Response> isWishlistItem(@Valid @PathVariable UUID itemId, @AuthenticationPrincipal User user) {
+        Boolean result = this.wishlistItemService.checkItem(itemId, user);
         GetIsWishlistItemDto.Response response = this.getIsWishlistItemDtoMapper.toResponse(result);
         return new ResponseDto<>(ResponseCode.WISHLIST_ITEM_CHECK_READ, response);
     }
 
     @GetMapping("/wishlistItem")
-    public ResponseDto<GetWishlistItemDto.Response> getWishlistItem(@Valid @RequestParam(name = "wishlistGroupId", required = false) Long groupId) {
-        List<WishlistGroup> wishlistGroups = this.wishlistGroupService.readAll();
-        List<WishlistItem> wishlistItems = (groupId == null) ? (this.wishlistItemService.readAll()) : (this.wishlistItemService.findByGroupId(groupId));
+    public ResponseDto<GetWishlistItemDto.Response> getWishlistItem(@Valid @RequestParam(name = "wishlistGroupId", required = false) Long groupId, @AuthenticationPrincipal User user) {
+        List<WishlistGroup> wishlistGroups = this.wishlistGroupService.readAll(user);
+        List<WishlistItem> wishlistItems = (groupId == null) ? (this.wishlistItemService.readAll(user)) : (this.wishlistItemService.findByGroupId(groupId));
         GetWishlistItemDto.Response response = this.getWishlistItemDtoMapper.toResponse(wishlistItems, wishlistGroups);
         return new ResponseDto<>(ResponseCode.WISHLIST_ITEM_READ, response);
     }

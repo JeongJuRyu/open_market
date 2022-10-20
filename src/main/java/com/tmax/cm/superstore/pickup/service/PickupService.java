@@ -1,5 +1,6 @@
 package com.tmax.cm.superstore.pickup.service;
 
+
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
@@ -49,5 +50,4 @@ public class PickupService {
     public void donePick(Pickup pickUp) {
         pickUp.doneState();
     }
-
 }
