@@ -15,7 +15,7 @@ public interface ReviewRepository extends JpaRepository<Review, UUID> {
     @Query("select r from Review r where r.user.id =:userId"
         + " and r.createdAt >=:startDate"
         + " and r.isReplied =:isReplied")
-    List<Review> findByUserId(UUID userId, LocalDate startDate, Boolean isReplied);
+    List<Review> findByUserId(UUID userId, LocalDateTime startDate, Boolean isReplied);
 
     List<Review> findAllByItemId(UUID itemId);
 
