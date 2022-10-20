@@ -50,13 +50,15 @@ public class UserService {
 
 	@Transactional(readOnly = true)
 	public ResponseDto<GetUserInfoResponseDto> getUserInfo(User user){
-		System.out.println(user);
+		user.getDeliveryAddresses().sort(new DeliveryComparator());
 		return ResponseDto.<GetUserInfoResponseDto>builder()
 				.responseCode(ResponseCode.USER_INFO_READ)
 				.data(GetUserInfoResponseDto.builder()
 					.name(user.getName())
 					.email(user.getEmail())
 					.phoneNum(user.getPhoneNum())
+					.deliveryAddresses(deliveryMapper.toDeliveriesDto(
+						user.getDeliveryAddresses()))
 					.build())
 				.build();
 	}
@@ -140,7 +142,7 @@ public class UserService {
 
 	@Transactional(readOnly = true)
 	public ResponseDto<GetUserDeliveryInfoResponseDto> getUserDeliveryInfo(User user){
-		Collections.sort(user.getDeliveryAddresses(), new DeliveryComparator());
+		user.getDeliveryAddresses().sort(new DeliveryComparator());
 		return ResponseDto.<GetUserDeliveryInfoResponseDto>builder()
 			.responseCode(ResponseCode.USER_DELIVERY_READ)
 			.data(GetUserDeliveryInfoResponseDto.builder()
@@ -155,8 +157,8 @@ public class UserService {
 		PostDeliveryRequestDto dto, User user){
 		if(user.getDeliveryAddresses().size() >= 1 && dto.isDefaultAddress()){
 			DeliveryAddress oldDeliveryAddress = user.getDeliveryAddresses().stream()
-				.filter(delivery -> delivery.getIsDefaultAddress())
-				.findAny().get();
+				.filter(DeliveryAddress::getIsDefaultAddress)
+				.findAny().orElseThrow(DeliveryAddressNotFoundException::new);
 			oldDeliveryAddress = deliveryRepository.findById(oldDeliveryAddress.getId())
 				.orElseThrow(DeliveryAddressNotFoundException::new);
 			oldDeliveryAddress.setDefaultAddress(false);
@@ -168,8 +170,10 @@ public class UserService {
 	}
 
 	@Transactional
-	public ResponseDto<Object> updateDeliveryInfo(UpdateDeliveryInfoRequestDto dto, User user){
-		user.updateDeliveryAddress(dto);
+	public ResponseDto<Object> updateDeliveryInfo(UpdateDeliveryInfoRequestDto dto){
+		DeliveryAddress deliveryAddress = deliveryRepository.findById(dto.getShippingAddressId())
+			.orElseThrow(DeliveryAddressNotFoundException::new);
+		deliveryAddress.updateDeliveryAddress(dto);
 		return ResponseDto.builder()
 			.responseCode(ResponseCode.USER_DELIVERY_UPDATE)
 			.data(null).build();

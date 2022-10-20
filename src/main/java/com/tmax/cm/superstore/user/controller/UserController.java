@@ -84,11 +84,10 @@ public class UserController {
 		return ResponseEntity.ok().body(userService.postDeliveryInfo(postDeliveryInfo, user));
 	}
 
-	@PatchMapping("/delivery/{id}")
+	@PatchMapping("/delivery")
 	public ResponseEntity<ResponseDto<Object>> updateDeliveryInfo(
-		@RequestBody UpdateDeliveryInfoRequestDto updateDeliveryInfoRequestDto,
-		@AuthenticationPrincipal User user){
-		return ResponseEntity.ok().body(userService.updateDeliveryInfo(updateDeliveryInfoRequestDto, user));
+		@RequestBody UpdateDeliveryInfoRequestDto updateDeliveryInfoRequestDto){
+		return ResponseEntity.ok().body(userService.updateDeliveryInfo(updateDeliveryInfoRequestDto));
 	}
 
 
