@@ -5,14 +5,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.tmax.cm.superstore.item.dto.ItemImageInfo;
-import com.tmax.cm.superstore.item.entity.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import com.tmax.cm.superstore.code.SendType;
 import com.tmax.cm.superstore.config.CommonMapperConfig;
 import com.tmax.cm.superstore.item.dto.GetItemDto;
+import com.tmax.cm.superstore.item.entity.Item;
+import com.tmax.cm.superstore.item.entity.ItemImage;
+import com.tmax.cm.superstore.item.entity.ItemSendType;
+import com.tmax.cm.superstore.item.entity.Option;
+import com.tmax.cm.superstore.item.entity.OptionGroup;
 
 @Mapper(config = CommonMapperConfig.class)
 public interface GetItemDtoMapper {
@@ -28,15 +31,15 @@ public interface GetItemDtoMapper {
                 optionalOptionGroups.add(this.toGetOptionDto(optionGroup));
             }
         }
-        for (ItemImage itemImage : item.getItemImages()){
+        for (ItemImage itemImage : item.getItemImages()) {
             itemImageInfos.add(this.toGetImageDto(itemImage));
         }
 
         return this.toResponse(item, necessaryOptionGroups, optionalOptionGroups, itemImageInfos);
     }
 
-    @Mapping(target = "shopId", source = "item.shop.id")
-    @Mapping(target = "shopName", source = "item.shop.name")
+    @Mapping(target = "shopId", source = "item.seller.sellerId")
+    @Mapping(target = "shopName", source = "item.seller.sellerName")
     @Mapping(target = "itemId", source = "item.id")
     @Mapping(target = "itemName", source = "item.name")
     @Mapping(target = "itemPrice", source = "item.price")
@@ -44,7 +47,8 @@ public interface GetItemDtoMapper {
     @Mapping(target = "categoryId", source = "item.category.id")
     @Mapping(target = "itemState", source = "item.itemState")
     GetItemDto.Response toResponse(Item item, List<GetItemDto.Response.GetOptionGroupDto> necessaryOptionGroups,
-            List<GetItemDto.Response.GetOptionGroupDto> optionalOptionGroups, List<GetItemDto.Response.GetItemImageDto> itemImageInfos);
+            List<GetItemDto.Response.GetOptionGroupDto> optionalOptionGroups,
+            List<GetItemDto.Response.GetItemImageDto> itemImageInfos);
 
     default Set<SendType> toSendTypes(List<ItemSendType> itemSendTypes) {
         Set<SendType> sendTypes = new HashSet<>();

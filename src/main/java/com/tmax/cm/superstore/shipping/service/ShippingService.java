@@ -1,5 +1,7 @@
 package com.tmax.cm.superstore.shipping.service;
 
+import java.util.UUID;
+
 import javax.transaction.Transactional;
 
 import org.springframework.dao.CannotAcquireLockException;
@@ -27,7 +29,7 @@ public class ShippingService {
                 .recipient(recipient)
                 .mobile(mobile)
                 .requests(request)
-                .finalstatus(ShippingType.SHIPPING_WAITING)
+                .shippingType(ShippingType.SHIPPING_WAITING)
                 .build();
 
         repository.save(shipping);

@@ -7,29 +7,42 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.tmax.cm.superstore.common.config.security.JwtUtil;
 import com.tmax.cm.superstore.common.config.security.VerifyResult;
 import com.tmax.cm.superstore.user.entities.User;
 
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 /**
  * access token을 처리하는 필터로서 BasicAuthenticationFilter를 대체한다
  */
-@RequiredArgsConstructor
-public class JwtAccessTokenFilter extends OncePerRequestFilter {
-// public class JwtAccessTokenFilter extends BasicAuthenticationFilter {
+// @RequiredArgsConstructor
+// public class JwtAccessTokenFilter extends OncePerRequestFilter {
+public class JwtAccessTokenFilter extends BasicAuthenticationFilter {
 	
-	private final UserDetailsService userDetailsService;
-	private final AuthenticationEntryPoint authenticationEntryPoint;
+	// private final UserDetailsService userDetailsService;
+	// private final AuthenticationEntryPoint authenticationEntryPoint;
+	private UserDetailsService userDetailsService;
+	private AuthenticationEntryPoint authenticationEntryPoint;
+	public JwtAccessTokenFilter(UserDetailsService userDetailsService,
+		AuthenticationEntryPoint authenticationEntryPoint,
+		AuthenticationManager authenticationManager){
+		super(authenticationManager);
+		this.userDetailsService = userDetailsService;
+		this.authenticationEntryPoint = authenticationEntryPoint;
+	}
+
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)

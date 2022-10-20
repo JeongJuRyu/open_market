@@ -54,11 +54,11 @@ public class SellerService {
 	}
 
 	@Transactional(rollbackFor = Exception.class, readOnly = true)
-	public ResponseDto<LoginSellerDto.Response> loginSeller(LoginSellerDto.Request loginSellerRequestDto)
+	public ResponseDto<LoginSellerDto.Response> loginSeller(String loginId, String password)
 		throws Exception {
 		try {
-			Seller findSeller = sellerRepository.findSellerByLoginId(loginSellerRequestDto.getLoginId());
-			if (!findSeller.getPassword().equals(loginSellerRequestDto.getPassword())) {
+			Seller findSeller = sellerRepository.findSellerByLoginId(loginId);
+			if (!findSeller.getPassword().equals(password)) {
 				throw new InvalidSellerPasswordException();
 			}
 
@@ -254,6 +254,14 @@ public class SellerService {
 			e.printStackTrace();
 			throw e;
 		}
+	}
+
+	/** 다른 컨트롤러에서 호출되는 메소드 */
+	public Seller findSeller(UUID sellerId) {
+		Seller seller = sellerRepository.findSellerBySellerId(sellerId);
+		findSellerValidation(seller);
+
+		return seller;
 	}
 
 	/**

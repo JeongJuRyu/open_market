@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.tmax.cm.superstore.cart.entity.CartItem;
 import com.tmax.cm.superstore.purchaseOrder.service.dto.PurchaseOrderDto;
 import com.tmax.cm.superstore.purchaseOrder.service.dto.mapper.PurchaseOrderDtoMapper;
-import com.tmax.cm.superstore.shop.entity.Shop;
+import com.tmax.cm.superstore.seller.entity.Seller;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,21 +31,21 @@ public class PurchaseOrderService {
         PurchaseOrderDto.CartItemDtosMap pickups = new PurchaseOrderDto.CartItemDtosMap();
 
         for (CartItem cartItem : cartItems) {
-            Shop shop = cartItem.getItem().getShop();
+            Seller seller = cartItem.getItem().getSeller();
             PurchaseOrderDto.CartItemDto cartItemDto = this.purchaseOrderDtoMapper.toDto(cartItem, 3000);
 
             switch (cartItem.getSendType()) {
                 case SHIPPING:
-                    shippings.add(shop, cartItemDto);
+                    shippings.add(seller, cartItemDto);
                     break;
                 case VISIT:
-                    visits.add(shop, cartItemDto);
+                    visits.add(seller, cartItemDto);
                     break;
                 case DELIVERY:
-                    deliveries.add(shop, cartItemDto);
+                    deliveries.add(seller, cartItemDto);
                     break;
                 case PICKUP:
-                    pickups.add(shop, cartItemDto);
+                    pickups.add(seller, cartItemDto);
                     break;
                 default:
                     break;
@@ -83,21 +83,21 @@ public class PurchaseOrderService {
         PurchaseOrderDto.CartItemDtosMap deliveries = new PurchaseOrderDto.CartItemDtosMap();
         PurchaseOrderDto.CartItemDtosMap pickups = new PurchaseOrderDto.CartItemDtosMap();
 
-        Shop shop = cartItem.getItem().getShop();
+        Seller seller = cartItem.getItem().getSeller();
         PurchaseOrderDto.CartItemDto cartItemDto = this.purchaseOrderDtoMapper.toDto(cartItem, 3000);
 
         switch (cartItem.getSendType()) {
             case SHIPPING:
-                shippings.add(shop, cartItemDto);
+                shippings.add(seller, cartItemDto);
                 break;
             case VISIT:
-                visits.add(shop, cartItemDto);
+                visits.add(seller, cartItemDto);
                 break;
             case DELIVERY:
-                deliveries.add(shop, cartItemDto);
+                deliveries.add(seller, cartItemDto);
                 break;
             case PICKUP:
-                pickups.add(shop, cartItemDto);
+                pickups.add(seller, cartItemDto);
                 break;
             default:
                 break;

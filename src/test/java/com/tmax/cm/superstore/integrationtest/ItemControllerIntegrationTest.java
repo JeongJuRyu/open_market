@@ -9,7 +9,6 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
@@ -22,6 +21,8 @@ public class ItemControllerIntegrationTest extends AbstractIntegrationTest {
     @Test
     void testPostItem() throws Exception {
         // given
+        String sellerId = "2d68d1d0-ed27-46d2-b858-da3f0aa2e430";
+
         JSONObject request = new JSONObject() {
             {
                 put("shopName", "서머슈슈즈");
@@ -95,9 +96,10 @@ public class ItemControllerIntegrationTest extends AbstractIntegrationTest {
                 request.toString().getBytes(StandardCharsets.UTF_8));
 
         // when
-        ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders.multipart("/v1/item/create")
-                .file(file1)
-                .file(requestJson));
+        ResultActions result = this.mvc
+                .perform(RestDocumentationRequestBuilders.multipart("/v1/item/seller/{sellerId}/create", sellerId)
+                        .file(file1)
+                        .file(requestJson));
 
         // then
         result.andDo(MockMvcResultHandlers.print())
@@ -134,7 +136,6 @@ public class ItemControllerIntegrationTest extends AbstractIntegrationTest {
         // given
         JSONObject jsonRequest = new JSONObject() {
             {
-                put("shopId", "2d68d1d0-ed27-46d2-b858-da3f0aa2e430");
                 put("name", "로토 스르르트 윈터 슈즈");
                 put("price", 52000);
                 put("possibleSendType", new JSONArray() {
@@ -184,11 +185,16 @@ public class ItemControllerIntegrationTest extends AbstractIntegrationTest {
 
         MockMultipartFile file1 = new MockMultipartFile("attachment", "image.jpeg", "image/jpeg", "1".getBytes());
 
-        MockMultipartFile requestJson = new MockMultipartFile("request", "", "application/json",jsonRequest.toString().getBytes(StandardCharsets.UTF_8));
+        MockMultipartFile requestJson = new MockMultipartFile("request", "", "application/json",
+                jsonRequest.toString().getBytes(StandardCharsets.UTF_8));
 
         // when
-        MockMultipartHttpServletRequestBuilder builders = RestDocumentationRequestBuilders.multipart("/v1/item/update/{itemId}", "1523bc68-e8f7-4140-b7dd-cbfe622e068a");
-        builders.with(request -> { request.setMethod("PATCH"); return request; });
+        MockMultipartHttpServletRequestBuilder builders = RestDocumentationRequestBuilders
+                .multipart("/v1/item/update/{itemId}", "1523bc68-e8f7-4140-b7dd-cbfe622e068a");
+        builders.with(request -> {
+            request.setMethod("PATCH");
+            return request;
+        });
 
         ResultActions result = this.mvc.perform(builders
                 .file(file1)

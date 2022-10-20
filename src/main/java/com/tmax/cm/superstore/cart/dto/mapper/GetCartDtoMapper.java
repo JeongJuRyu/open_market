@@ -21,8 +21,8 @@ public interface GetCartDtoMapper {
         GetCartDto.Response toResponse(List<CartItem> shippingVisit, List<CartItem> deliveryPickup,
                         List<CartItem> reservation);
 
-        @Mapping(target = "shopId", source = "item.shop.id")
-        @Mapping(target = "shopName", source = "item.shop.name")
+        @Mapping(target = "shopId", source = "item.seller.sellerId")
+        @Mapping(target = "shopName", source = "item.seller.sellerName")
         @Mapping(target = "itemId", source = "item.id")
         @Mapping(target = "itemName", source = "item.name")
         @Mapping(target = "itemThumbnailURL", ignore = true)
@@ -52,8 +52,8 @@ public interface GetCartDtoMapper {
         GetCartDto.Response.GetCartItemDto.GetSelectedOptionDto.GetCartOptionGroupDto.GetCartOptionDto toGetCartOptionDto(
                         CartOption cartOption);
 
-        @Mapping(target = "shopId", source = "item.shop.id")
-        @Mapping(target = "shopName", source = "item.shop.name")
+        @Mapping(target = "shopId", source = "item.seller.sellerId")
+        @Mapping(target = "shopName", source = "item.seller.sellerName")
         @Mapping(target = "itemId", source = "item.id")
         @Mapping(target = "itemName", source = "item.name")
         @Mapping(target = "itemThumbnailURL", ignore = true)
