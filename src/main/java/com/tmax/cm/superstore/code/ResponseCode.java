@@ -36,6 +36,13 @@ public enum ResponseCode implements Code {
 	ORDER_CREATE("SUCCESS", "ORDER_CREATE", "Create order", "주문 생성"),
 	ORDER_VISIT_AND_PICKUP_READ("SUCCESS", "ORDER_VISIT_AND_PICKUP_READ", "Read visit order and pickup order", "방문수령 및 픽업 주문 조회"),
 	ORDER_SHIPPING_AND_DELIVERY_READ("SUCCESS", "ORDER_SHIPPING_AND_DELIVERY_READ", "Read shipping order and delivery order", "배송 및 배달 주문 조회"),
+	ORDER_ACCEPT_PICK("SUCCESS", "ORDER_ACCEPT_PICK", "Accept order selected option ", "접수 완료 및 준비 중"),
+	ORDER_REFUSE_PICK("SUCCESS", "ORDER_REFUSE_PICK", "Refuse order selected option ", "접수 취소"),
+	ORDER_READY_PICK("SUCCESS", "ORDER_READY_PICK", "Ready order selected option ", "준비 완료"),
+	ORDER_DONE_PICK("SUCCESS", "ORDER_DONE_PICK", "Done order selected option ", "수령 완료"),
+	ORDER_ACCEPT_SHIPPING("SUCCESS", "ORDER_ACCEPT_SHIPPING", "Accept order selected option ", "배송 요청 수락 및 배송 중"),
+	ORDER_REJECT_SHIPPING("SUCCESS", "ORDER_REJECT_SHIPPING", "Refuse order selected option ", "배송 완료"),
+	ORDER_DONE_SHIPPING("SUCCESS", "ORDER_DONE_SHIPPING", "Done order selected option ", "배송 요청 거절"),
 
 	// Seller
 	SELLER_CREATE("SUCCESS", "SELLER_CREATE", "Create seller", "판매자 계정 생성"),
@@ -166,6 +173,9 @@ public enum ResponseCode implements Code {
 	// Error - Cart
 	ERROR_CART_ITEM_NOT_FOUND("ERROR", "EC100", "Cart item not found", "해당 카트 상품이 저장되어 있지 않음"),
 
+	// Error - Order
+	ERROR_ORDER_STATE_UNCHANGEABLE("ERROR", "EO001", "Order state unchangeable", "바꿀수 없는 주문 상태"),
+
 	// Error - MyPage
 	ERROR_REVIEW_NOT_FOUND("ERROR", "EM100", "Review not found", "해당 리뷰가 존재 하지 않음"),
 	ERROR_REVIEW_REPLY_NOT_FOUND("ERROR", "EM101", "Review reply not found", "해당 리뷰 답변이 존재 하지 않음"),
@@ -178,6 +188,7 @@ public enum ResponseCode implements Code {
 	// Error - User
 	ERROR_EMAIL_NOT_FOUND("ERROR", "EU001", "Email not found", "해당 이메일이 존재하지 않음"),
 	ERROR_EMAIL_ALREADY_EXIST("ERROR", "EU002", "Already existed email", "이미 존재 하는 이메일"),
+	ERROR_PHONE_NUM_ALREADY_EXIST("ERROR", "EU006", "Already existed phone number", "이미 존재하는 핸드폰 번호"),
 	ERROR_EMAIL_NOT_EXPIRED_EXCEPTION("ERROR", "EU003", "authentication email not expired", "인증용 이메일이 만료되지 않음."),
 	ERROR_PASSWORD_NOT_MATCHED("ERROR", "EU004", "Password is not matched", "해당 비밀번호가 일치하지 않음."),
 	ERROR_DELIVERY_ADDRESS_NOT_FOUND("ERROR", "EU005", "Delivery address not found", "해당 배송지 정보가 존재하지 않음"),

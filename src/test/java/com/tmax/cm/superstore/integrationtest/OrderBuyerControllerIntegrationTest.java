@@ -15,9 +15,9 @@ import com.tmax.cm.superstore.EasyRestDocumentation;
 import com.tmax.cm.superstore.code.PickupType;
 import com.tmax.cm.superstore.code.ShippingType;
 
-public class OrderControllerIntegrationTest extends AbstractIntegrationTest {
+public class OrderBuyerControllerIntegrationTest extends AbstractIntegrationTest {
 
-    private String tag = "Order";
+    private String tag = "Order Buyer";
 
     private String sellerId = "2d68d1d0-ed27-46d2-b858-da3f0aa2e430";
 
@@ -67,7 +67,7 @@ public class OrderControllerIntegrationTest extends AbstractIntegrationTest {
 
         // when
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
-                .post("/v1/order")
+                .post("/v1/order/buyer")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(request.toString())
                 .header(HttpHeaders.AUTHORIZATION, this.testJwtGenerator.generate()));
@@ -79,100 +79,108 @@ public class OrderControllerIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    void testGetVisitAndPickupOrderSelectedOptionAll() throws Exception {
+    void testGetVisitAndPickupOrderSelectedOptionAllByUser() throws Exception {
         // given
 
         // when
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
-                .get("/v1/order/visitAndPickup/seller/{sellerId}", this.sellerId)
+                .get("/v1/order/buyer/visitAndPickup")
                 .header(HttpHeaders.AUTHORIZATION, this.testJwtGenerator.generate()));
 
         // then
         result.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(EasyRestDocumentation.documentWithJwt("getVisitAndPickupOrderSelectedOptionAll",
-                        "가게별 방문수령 및 픽업 주문 조회", this.tag));
+                .andDo(EasyRestDocumentation.documentWithJwt(
+                        "getVisitAndPickupOrderSelectedOptionAllByUser",
+                        "유저별 방문수령 및 픽업 주문 조회", this.tag));
     }
 
     @Test
-    void testGetVisitAndPickupOrderSelectedOptionAllByPickupTypePICKUP_WAITING() throws Exception {
+    void testGetVisitAndPickupOrderSelectedOptionAllByUserAndPickupTypePICKUP_WAITING() throws Exception {
         // given
         PickupType pickupType = PickupType.PICKUP_WAITING;
 
         // when
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
-                .get("/v1/order/visitAndPickup/seller/{sellerId}", this.sellerId)
+                .get("/v1/order/buyer/visitAndPickup")
                 .param("pickupType", pickupType.toString())
                 .header(HttpHeaders.AUTHORIZATION, this.testJwtGenerator.generate()));
 
         // then
         ParameterDescriptorWithType requestParameterPickupType = EasyRestDocumentation
-                .createRequestParameter("pickupType", createTypeDescription(PickupType.class), false);
+                .createRequestParameter("pickupType", this.createTypeDescription(PickupType.class),
+                        false);
 
         result.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(EasyRestDocumentation.documentWithJwtAndRequestParameter(
-                        "getVisitAndPickupOrderSelectedOptionAllByPickupTypePICKUP_WAITING", "가게별 방문수령 및 픽업 주문 조회",
+                        "getVisitAndPickupOrderSelectedOptionAllByUserAndPickupTypePICKUP_WAITING",
+                        "유저별 방문수령 및 픽업 주문 조회",
                         this.tag, requestParameterPickupType));
     }
 
     @Test
-    void testGetVisitAndPickupOrderSelectedOptionAllByPickupTypePICKUP_READY() throws Exception {
+    void testGetVisitAndPickupOrderSelectedOptionAllByUserAndPickupTypePICKUP_READY() throws Exception {
         // given
         PickupType pickupType = PickupType.PICKUP_READY;
 
         // when
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
-                .get("/v1/order/visitAndPickup/seller/{sellerId}", this.sellerId)
+                .get("/v1/order/buyer/visitAndPickup")
                 .param("pickupType", pickupType.toString())
                 .header(HttpHeaders.AUTHORIZATION, this.testJwtGenerator.generate()));
 
         // then
         ParameterDescriptorWithType requestParameterPickupType = EasyRestDocumentation
-                .createRequestParameter("pickupType", createTypeDescription(PickupType.class), false);
+                .createRequestParameter("pickupType", this.createTypeDescription(PickupType.class),
+                        false);
 
         result.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(EasyRestDocumentation.documentWithJwtAndRequestParameter(
-                        "getVisitAndPickupOrderSelectedOptionAllByPickupTypePICKUP_READY", "가게별 방문수령 및 픽업 주문 조회",
+                        "getVisitAndPickupOrderSelectedOptionAllByUserAndPickupTypePICKUP_READY",
+                        "유저별 방문수령 및 픽업 주문 조회",
                         this.tag, requestParameterPickupType));
     }
 
     @Test
-    void testGetShippingAndDeliveryOrderSelectedOptionAll() throws Exception {
+    void testGetShippingAndDeliveryOrderSelectedOptionAllByUser() throws Exception {
         // given
 
         // when
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
-                .get("/v1/order/shippingAndDelivery/seller/{sellerId}", this.sellerId)
+                .get("/v1/order/buyer/shippingAndDelivery")
                 .header(HttpHeaders.AUTHORIZATION, this.testJwtGenerator.generate()));
 
         // then
         result.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(EasyRestDocumentation.documentWithJwt("getShippingAndDeliveryOrderSelectedOptionAll",
-                        "가게별 배송 및 배달 주문 조회", this.tag));
+                .andDo(EasyRestDocumentation.documentWithJwt(
+                        "getShippingAndDeliveryOrderSelectedOptionAllByUser",
+                        "유저별 배송 및 배달 주문 조회", this.tag));
     }
 
     @Test
-    void testGetShippingAndDeliveryOrderSelectedOptionAllByShippingTypeShipping_WAITING() throws Exception {
+    void testGetShippingAndDeliveryOrderSelectedOptionAllByUserAndShippingTypeShipping_WAITING() throws Exception {
         // given
         ShippingType shippingType = ShippingType.SHIPPING_WAITING;
 
         // when
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
-                .get("/v1/order/shippingAndDelivery/seller/{sellerId}", this.sellerId)
+                .get("/v1/order/buyer/shippingAndDelivery", this.sellerId)
                 .param("shippingType", shippingType.toString())
                 .header(HttpHeaders.AUTHORIZATION, this.testJwtGenerator.generate()));
 
         // then
         ParameterDescriptorWithType requestParameterPickupType = EasyRestDocumentation
-                .createRequestParameter("shippingType", createTypeDescription(ShippingType.class), false);
+                .createRequestParameter("shippingType", this.createTypeDescription(ShippingType.class),
+                        false);
 
         result.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(EasyRestDocumentation.documentWithJwtAndRequestParameter(
-                        "getShippingAndDeliveryOrderSelectedOptionAllByShippingTypeShipping_WAITING", "가게별 배송 및 배달 주문 조회",
+                        "getShippingAndDeliveryOrderSelectedOptionAllByUserAndShippingTypeShipping_WAITING",
+                        "유저별 배송 및 배달 주문 조회",
                         this.tag, requestParameterPickupType));
     }
 }

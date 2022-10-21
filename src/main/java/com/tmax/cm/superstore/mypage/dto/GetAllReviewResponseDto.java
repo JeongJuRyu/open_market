@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import com.tmax.cm.superstore.user.entities.enumeration.OrderType;
+
 @Getter
 @Builder
 public class GetAllReviewResponseDto {
@@ -15,6 +17,14 @@ public class GetAllReviewResponseDto {
     @Builder
     public static class Review{
         private UUID id;
+
+        private OrderType orderType;
+
+        // private String itemName;
+        //
+        // private String optionName;
+
+        // private Integer count;
 
         private String content;
 

@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.tmax.cm.superstore.common.entity.BaseTimeEntity;
+import com.tmax.cm.superstore.user.dto.UpdateDeliveryInfoRequestDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -46,9 +47,18 @@ public class DeliveryAddress extends BaseTimeEntity {
 	private String requests;
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
 	private User user;
 
 	public void setDefaultAddress(Boolean isDefaultAddress){
 		this.isDefaultAddress = isDefaultAddress;
+	}
+
+	public void updateDeliveryAddress(UpdateDeliveryInfoRequestDto dto){
+		this.address = dto.getAddress();
+		this.mobile = dto.getMobile();
+		this.recipient = dto.getRecipient();
+		this.requests = dto.getRequests();
+		this.isDefaultAddress = dto.getIsDefaultAddress();
 	}
 }

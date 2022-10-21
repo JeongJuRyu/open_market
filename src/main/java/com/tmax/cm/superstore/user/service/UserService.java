@@ -2,10 +2,14 @@ package com.tmax.cm.superstore.user.service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Arrays;
 import java.util.UUID;
 
 import javax.security.auth.DestroyFailedException;
 
+import com.tmax.cm.superstore.user.error.exception.UserPhoneNumAlreadyExistException;
+import com.tmax.cm.superstore.wishlist.entity.WishlistGroup;
+import com.tmax.cm.superstore.wishlist.repository.WishlistGroupRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,17 +45,20 @@ public class UserService {
 	private final UserRepository userRepository;
 	private final EmailService emailService;
 	private final DeliveryMapper deliveryMapper;
+	private final WishlistGroupRepository wishlistGroupRepository;
 	private final DeliveryRepository deliveryRepository;
 
 	@Transactional(readOnly = true)
 	public ResponseDto<GetUserInfoResponseDto> getUserInfo(User user){
-		System.out.println(user);
+		user.getDeliveryAddresses().sort(new DeliveryComparator());
 		return ResponseDto.<GetUserInfoResponseDto>builder()
 				.responseCode(ResponseCode.USER_INFO_READ)
 				.data(GetUserInfoResponseDto.builder()
 					.name(user.getName())
 					.email(user.getEmail())
 					.phoneNum(user.getPhoneNum())
+					.deliveryAddresses(deliveryMapper.toDeliveriesDto(
+						user.getDeliveryAddresses()))
 					.build())
 				.build();
 	}
@@ -60,7 +67,10 @@ public class UserService {
 	public ResponseDto<Object> createUser(CreateUserRequestDto createUserRequestDto){
 		if(checkEmailDuplicate(createUserRequestDto.getEmail())){
 			throw new UserAlreadyExistException();
+		} else if(checkPhoneNumDuplicate(createUserRequestDto.getUserPhoneNum())){
+			throw new UserPhoneNumAlreadyExistException();
 		}
+
 		User user = User.builder()
 			.email(createUserRequestDto.getEmail())
 			.password(createUserRequestDto.getPassword())
@@ -68,6 +78,14 @@ public class UserService {
 			.address(createUserRequestDto.getAddress())
 			.name(createUserRequestDto.getName())
 			.build();
+
+		WishlistGroup wishlistGroup = WishlistGroup.builder()
+				.position(0)
+				.name("기본 그룹")
+				.build();
+
+		wishlistGroup.setUpUser(user);
+		wishlistGroupRepository.save(wishlistGroup);
 		userRepository.save(user);
 		return ResponseDto.builder()
 			.responseCode(ResponseCode.USER_CREATE)
@@ -119,13 +137,9 @@ public class UserService {
 		user.updatePassword(newPassword);
 	}
 
-	public boolean checkEmailDuplicate(String email){
-		return userRepository.existsByEmail(email);
-	}
-
 	@Transactional(readOnly = true)
 	public ResponseDto<GetUserDeliveryInfoResponseDto> getUserDeliveryInfo(User user){
-		Collections.sort(user.getDeliveryAddresses(), new DeliveryComparator());
+		user.getDeliveryAddresses().sort(new DeliveryComparator());
 		return ResponseDto.<GetUserDeliveryInfoResponseDto>builder()
 			.responseCode(ResponseCode.USER_DELIVERY_READ)
 			.data(GetUserDeliveryInfoResponseDto.builder()
@@ -140,8 +154,8 @@ public class UserService {
 		PostDeliveryRequestDto dto, User user){
 		if(user.getDeliveryAddresses().size() >= 1 && dto.isDefaultAddress()){
 			DeliveryAddress oldDeliveryAddress = user.getDeliveryAddresses().stream()
-				.filter(delivery -> delivery.getIsDefaultAddress())
-				.findAny().get();
+				.filter(DeliveryAddress::getIsDefaultAddress)
+				.findAny().orElseThrow(DeliveryAddressNotFoundException::new);
 			oldDeliveryAddress = deliveryRepository.findById(oldDeliveryAddress.getId())
 				.orElseThrow(DeliveryAddressNotFoundException::new);
 			oldDeliveryAddress.setDefaultAddress(false);
@@ -153,8 +167,10 @@ public class UserService {
 	}
 
 	@Transactional
-	public ResponseDto<Object> updateDeliveryInfo(UpdateDeliveryInfoRequestDto dto, User user){
-		user.updateDeliveryAddress(dto);
+	public ResponseDto<Object> updateDeliveryInfo(UpdateDeliveryInfoRequestDto dto){
+		DeliveryAddress deliveryAddress = deliveryRepository.findById(dto.getShippingAddressId())
+			.orElseThrow(DeliveryAddressNotFoundException::new);
+		deliveryAddress.updateDeliveryAddress(dto);
 		return ResponseDto.builder()
 			.responseCode(ResponseCode.USER_DELIVERY_UPDATE)
 			.data(null).build();
@@ -180,4 +196,11 @@ public class UserService {
 			.data(null).build();
 	}
 
+	public boolean checkEmailDuplicate(String email){
+		return userRepository.existsByEmail(email);
+	}
+
+	public Boolean checkPhoneNumDuplicate(String phoneNum){
+		return userRepository.existsByPhoneNum(phoneNum);
+	}
 }

@@ -6,7 +6,8 @@ INSERT INTO users(
         address,
         name,
         account_non_expired,
-        account_non_locked
+        account_non_locked,
+        is_deleted
     )
 VALUES (
         UUID '672ffb8c-f952-49ec-b65b-4fe3a9c37b28',
@@ -16,5 +17,6 @@ VALUES (
         '사랑시 행복구 고백동',
         '류정주',
         true,
-        true
+        true,
+        false
     );
