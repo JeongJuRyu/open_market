@@ -35,6 +35,9 @@ public class Returns {
     private String requests;
 
     @Column(nullable = false)
+    private String reason;
+
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ReturnType returnType;
 
