@@ -145,7 +145,9 @@ public class OrderSellerControllerIntegrationTest extends AbstractIntegrationTes
         result.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(EasyRestDocumentation.document("acceptShipping",
-                        ResponseCode.ORDER_ACCEPT_SHIPPING.getDescription(), this.tag));
+                        ResponseCode.ORDER_ACCEPT_SHIPPING.getDescription()
+                                + "\n`selectedOptionId` = 9c937a70-12cf-4a83-b594-1293b3f994a8",
+                        this.tag));
     }
 
     @Test
@@ -162,7 +164,9 @@ public class OrderSellerControllerIntegrationTest extends AbstractIntegrationTes
         result.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(EasyRestDocumentation.document("rejectShipping",
-                        ResponseCode.ORDER_REJECT_SHIPPING.getDescription(), this.tag));
+                        ResponseCode.ORDER_REJECT_SHIPPING.getDescription()
+                                + "\n`selectedOptionId` = 9c937a70-12cf-4a83-b594-1293b3f994a8",
+                        this.tag));
     }
 
     @Test
@@ -179,7 +183,9 @@ public class OrderSellerControllerIntegrationTest extends AbstractIntegrationTes
         result.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andDo(EasyRestDocumentation.document("doneShipping",
-                        ResponseCode.ORDER_DONE_SHIPPING.getDescription(), this.tag));
+                        ResponseCode.ORDER_DONE_SHIPPING.getDescription()
+                                + "\n`selectedOptionId` = 9c937a70-12cf-4a83-b594-1293b3f994a8",
+                        this.tag));
     }
 
     @Test
@@ -196,7 +202,9 @@ public class OrderSellerControllerIntegrationTest extends AbstractIntegrationTes
         result.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andDo(EasyRestDocumentation.document("acceptPick",
-                        ResponseCode.ORDER_ACCEPT_PICK.getDescription(), this.tag));
+                        ResponseCode.ORDER_ACCEPT_PICK.getDescription()
+                                + "\n`selectedOptionId` = 9c937a70-12cf-4a83-b594-1293b3f994a8",
+                        this.tag));
     }
 
     @Test
@@ -213,7 +221,9 @@ public class OrderSellerControllerIntegrationTest extends AbstractIntegrationTes
         result.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andDo(EasyRestDocumentation.document("readyPick",
-                        ResponseCode.ORDER_READY_PICK.getDescription(), this.tag));
+                        ResponseCode.ORDER_READY_PICK.getDescription()
+                                + "\n`selectedOptionId` = 9c937a70-12cf-4a83-b594-1293b3f994a8",
+                        this.tag));
     }
 
     @Test
@@ -230,7 +240,9 @@ public class OrderSellerControllerIntegrationTest extends AbstractIntegrationTes
         result.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andDo(EasyRestDocumentation.document("refusePick",
-                        ResponseCode.ORDER_REFUSE_PICK.getDescription(), this.tag));
+                        ResponseCode.ORDER_REFUSE_PICK.getDescription()
+                                + "\n`selectedOptionId` = 9c937a70-12cf-4a83-b594-1293b3f994a8",
+                        this.tag));
     }
 
     @Test
@@ -247,6 +259,8 @@ public class OrderSellerControllerIntegrationTest extends AbstractIntegrationTes
         result.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andDo(EasyRestDocumentation.document("donePick",
-                        ResponseCode.ORDER_DONE_PICK.getDescription(), this.tag));
+                        ResponseCode.ORDER_DONE_PICK.getDescription()
+                                + "\n`selectedOptionId` = 9c937a70-12cf-4a83-b594-1293b3f994a8",
+                        this.tag));
     }
 }
