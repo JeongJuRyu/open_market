@@ -18,12 +18,13 @@ public class ReturnsService {
     private final ReturnsRepository returnsRepository;
 
     @Transactional
-    public Returns create(String recipient, String address, String mobile, String request) {
+    public Returns create(String recipient, String address, String mobile, String request, String reason) {
         Returns returns = Returns.builder()
                 .recipient(recipient)
                 .address(address)
                 .mobile(mobile)
                 .requests(request)
+                .reason(reason)
                 .returnType(ReturnType.RETURN_WAITING)
                 .build();
 
