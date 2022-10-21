@@ -2,6 +2,7 @@ package com.tmax.cm.superstore.code;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,11 +13,11 @@ import lombok.Setter;
 public enum ResponseCode implements Code {
 
 	// Item
-	ITEM_CREATE("SUCCESS","ITEM_CREATE", "Create item", "상품 생성"),
-	ITEM_READ("SUCCESS","ITEM_READ", "Read item", "특정 상품 조회"),
-	ITEM_READ_ALL("SUCCESS","ITEM_READ_ALL", "Read item all", "모든 상품 조회"),
-	ITEM_DELETE("SUCCESS","ITEM_DELETE","Delete item","상품 삭제"),
-	ITEM_UPDATE("SUCCESS", "ITEM_UPDATE","Update item", "상품 수정"),
+	ITEM_CREATE("SUCCESS", "ITEM_CREATE", "Create item", "상품 생성"),
+	ITEM_READ("SUCCESS", "ITEM_READ", "Read item", "특정 상품 조회"),
+	ITEM_READ_ALL("SUCCESS", "ITEM_READ_ALL", "Read item all", "모든 상품 조회"),
+	ITEM_DELETE("SUCCESS", "ITEM_DELETE", "Delete item", "상품 삭제"),
+	ITEM_UPDATE("SUCCESS", "ITEM_UPDATE", "Update item", "상품 수정"),
 
 	// Cart
 	CART_READ("SUCCESS", "CART_READ", "Read cart", "카트 조회"),
@@ -29,13 +30,17 @@ public enum ResponseCode implements Code {
 	CART_ITEMS_DELETE("SUCCESS", "CART_ITEMS_DELETE", "Delete cart items", "카트 상품 대량 삭제"),
 
 	// PurchaseOrder
-	PURCHASE_ORDER_CART_CREATE("SUCCESS", "PURCHASE_ORDER_CART_CREATE", "Create purchase order from cart", "장바구니 화면에서 주문서 생성"),
-	PURCHASE_ORDER_BUY_NOW_CREATE("SUCCESS", "PURCHASE_ORDER_BUY_NOW_CREATE", "Create purchase order from buy now", "바로 구매 기능으로 주문서 생성"),
+	PURCHASE_ORDER_CART_CREATE("SUCCESS", "PURCHASE_ORDER_CART_CREATE", "Create purchase order from cart",
+			"장바구니 화면에서 주문서 생성"),
+	PURCHASE_ORDER_BUY_NOW_CREATE("SUCCESS", "PURCHASE_ORDER_BUY_NOW_CREATE", "Create purchase order from buy now",
+			"바로 구매 기능으로 주문서 생성"),
 
 	// Order
 	ORDER_CREATE("SUCCESS", "ORDER_CREATE", "Create order", "주문 생성"),
-	ORDER_VISIT_AND_PICKUP_READ("SUCCESS", "ORDER_VISIT_AND_PICKUP_READ", "Read visit order and pickup order", "방문수령 및 픽업 주문 조회"),
-	ORDER_SHIPPING_AND_DELIVERY_READ("SUCCESS", "ORDER_SHIPPING_AND_DELIVERY_READ", "Read shipping order and delivery order", "배송 및 배달 주문 조회"),
+	ORDER_VISIT_AND_PICKUP_READ("SUCCESS", "ORDER_VISIT_AND_PICKUP_READ", "Read visit order and pickup order",
+			"방문수령 및 픽업 주문 조회"),
+	ORDER_SHIPPING_AND_DELIVERY_READ("SUCCESS", "ORDER_SHIPPING_AND_DELIVERY_READ",
+			"Read shipping order and delivery order", "배송 및 배달 주문 조회"),
 	ORDER_ACCEPT_PICK("SUCCESS", "ORDER_ACCEPT_PICK", "Accept order selected option ", "접수 완료 및 준비 중"),
 	ORDER_REFUSE_PICK("SUCCESS", "ORDER_REFUSE_PICK", "Refuse order selected option ", "접수 취소"),
 	ORDER_READY_PICK("SUCCESS", "ORDER_READY_PICK", "Ready order selected option ", "준비 완료"),
@@ -52,8 +57,10 @@ public enum ResponseCode implements Code {
 	SELLER_LIST_FIND("SUCCESS", "SELLER_LIST_FIND", "Find seller List", "판매자 리스트 가져오기"),
 	SELLER_DELIVERY_CREATE("SUCCESS", "SELLER_DELIVERY_CREATE", "Create sellerDelivery", "판매자 배송지 생성"),
 	SELLER_DELIVERY_LIST_FIND("SUCCESS", "SELLER_DELIVERY_LIST_FIND", "Find sellerDelivery List", "판매자 배송지 리스트 가져오기"),
-	SELLER_REPRESENTATIVE_DELIVERY_FIND("SUCCESS", "SELLER_REPRESENTATIVE_DELIVERY_FIND", "Find representativeDelivery", "대표 배송지 가져오기"),
-	SELLER_REPRESENTATIVE_DELIVERY_MODIFY("SUCCESS", "SELLER_REPRESENTATIVE_DELIVERY_MODIFY", "Modify representativeDelivery", "대표 배송지 변경"),
+	SELLER_REPRESENTATIVE_DELIVERY_FIND("SUCCESS", "SELLER_REPRESENTATIVE_DELIVERY_FIND", "Find representativeDelivery",
+			"대표 배송지 가져오기"),
+	SELLER_REPRESENTATIVE_DELIVERY_MODIFY("SUCCESS", "SELLER_REPRESENTATIVE_DELIVERY_MODIFY",
+			"Modify representativeDelivery", "대표 배송지 변경"),
 	BUSINESS_MODIFY("SUCCESS", "BUSINESS_MODIFY", "Modify business info", "사업자 정보 수정"),
 	BUSINESS_FIND("SUCCESS", "BUSINESS_FIND", "Find business info", "사업자 정보 가져오기"),
 
@@ -61,21 +68,32 @@ public enum ResponseCode implements Code {
 	RESERVATION_ITEM_CREATE("SUCCESS", "RESERVATION_ITEM_CREATE", "Create reservationItem", "예약 상품 생성"),
 	RESERVATION_ITEM_MODIFY("SUCCESS", "RESERVATION_ITEM_MODIFY", "Modify reservationItem", "예약 상품 수정"),
 	RESERVATION_ITEM_DELETE("SUCCESS", "RESERVATION_ITEM_DELETE", "Delete reservationItem", "예약 상품 삭제"),
-	RESERVATION_ITEM_ALL_FIND("SUCCESS", "RESERVATION_ITEM_ALL_FIND","Find All reservationItem", "모든 예약 상품 리스트 가져오기"),
-	RESERVATION_ITEM_FIND("SUCCESS", "RESERVATION_ITEM_FIND","Find reservationItem", "예약 상품 가져오기"),
-	RESERVATION_ITEM_LIST_FIND("SUCCESS", "RESERVATION_ITEM_LIST_FIND","Find reservationItemList", "예약 상품 리스트 가져오기"),
-	RESERVATION_ITEM_OPTION_CREATE("SUCCESS", "RESERVATION_ITEM_OPTION_CREATE", "Create reservationItemOption", "예약 상품 옵션 생성"),
-	RESERVATION_ITEM_OPTION_MODIFY("SUCCESS", "RESERVATION_ITEM_OPTION_MODIFY", "Modify reservationItemOption", "예약 상품 옵션 수정"),
-	RESERVATION_ITEM_OPTION_DELETE("SUCCESS", "RESERVATION_ITEM_OPTION_DELETE", "Delete reservationItemOption", "예약 상품 옵션 삭제"),
-	RESERVATION_ITEM_OPTION_LIST_FIND("SUCCESS", "RESERVATION_ITEM_OPTION_LIST_FIND","Find reservationItemOptionList", "예약 상품 옵션 리스트 가져오기"),
-	RESERVATION_ITEM_IMAGE_CREATE("SUCCESS", "RESERVATION_ITEM_IMAGE_CREATE", "Create reservationItemImage", "예약 상품 이미지 등록"),
-	RESERVATION_ITEM_IMAGE_DELETE("SUCCESS", "RESERVATION_ITEM_IMAGE_DELETE", "Delete reservationItemImage", "예약 상품 이미지 삭제"),
-	RESERVATION_ITEM_IMAGE_FIND("SUCCESS", "RESERVATION_ITEM_IMAGE_FIND", "Find reservationItemImage", "예약 상품 이미지 가져오기"),
-	RESERVATION_POSSIBLE_DAYS_FIND("SUCCESS","RESERVATION_POSSIBLE_DAYS_FIND","Find reservationPossibleDays","예약 가능 일자 찾기"),
-	RESERVATION_POSSIBLE_TIMES_FIND("SUCCESS","RESERVATION_POSSIBLE_TIMES_FIND","Find reservationPossibleTimes","예약 가능 시간 찾기"),
-	RESERVATION_MAKE("SUCCESS","RESERVATION_MAKE_SUCCESS","Make reservation","예약 하기"),
-	RESERVATION_LIST_BY_SELLER_FIND("SUCCESS", "RESERVATION_LIST_BY_SELLER_FIND","Find reservationList by Seller", "판매자에게 예약 내역 보여주기"),
-	RESERVATION_LIST_BY_USER_FIND("SUCCESS", "RESERVATION_LIST_BY_USER_FIND","Find reservationList by User", "유저에게 예약 내역 보여주기"),
+	RESERVATION_ITEM_ALL_FIND("SUCCESS", "RESERVATION_ITEM_ALL_FIND", "Find All reservationItem", "모든 예약 상품 리스트 가져오기"),
+	RESERVATION_ITEM_FIND("SUCCESS", "RESERVATION_ITEM_FIND", "Find reservationItem", "예약 상품 가져오기"),
+	RESERVATION_ITEM_LIST_FIND("SUCCESS", "RESERVATION_ITEM_LIST_FIND", "Find reservationItemList", "예약 상품 리스트 가져오기"),
+	RESERVATION_ITEM_OPTION_CREATE("SUCCESS", "RESERVATION_ITEM_OPTION_CREATE", "Create reservationItemOption",
+			"예약 상품 옵션 생성"),
+	RESERVATION_ITEM_OPTION_MODIFY("SUCCESS", "RESERVATION_ITEM_OPTION_MODIFY", "Modify reservationItemOption",
+			"예약 상품 옵션 수정"),
+	RESERVATION_ITEM_OPTION_DELETE("SUCCESS", "RESERVATION_ITEM_OPTION_DELETE", "Delete reservationItemOption",
+			"예약 상품 옵션 삭제"),
+	RESERVATION_ITEM_OPTION_LIST_FIND("SUCCESS", "RESERVATION_ITEM_OPTION_LIST_FIND", "Find reservationItemOptionList",
+			"예약 상품 옵션 리스트 가져오기"),
+	RESERVATION_ITEM_IMAGE_CREATE("SUCCESS", "RESERVATION_ITEM_IMAGE_CREATE", "Create reservationItemImage",
+			"예약 상품 이미지 등록"),
+	RESERVATION_ITEM_IMAGE_DELETE("SUCCESS", "RESERVATION_ITEM_IMAGE_DELETE", "Delete reservationItemImage",
+			"예약 상품 이미지 삭제"),
+	RESERVATION_ITEM_IMAGE_FIND("SUCCESS", "RESERVATION_ITEM_IMAGE_FIND", "Find reservationItemImage",
+			"예약 상품 이미지 가져오기"),
+	RESERVATION_POSSIBLE_DAYS_FIND("SUCCESS", "RESERVATION_POSSIBLE_DAYS_FIND", "Find reservationPossibleDays",
+			"예약 가능 일자 찾기"),
+	RESERVATION_POSSIBLE_TIMES_FIND("SUCCESS", "RESERVATION_POSSIBLE_TIMES_FIND", "Find reservationPossibleTimes",
+			"예약 가능 시간 찾기"),
+	RESERVATION_MAKE("SUCCESS", "RESERVATION_MAKE_SUCCESS", "Make reservation", "예약 하기"),
+	RESERVATION_LIST_BY_SELLER_FIND("SUCCESS", "RESERVATION_LIST_BY_SELLER_FIND", "Find reservationList by Seller",
+			"판매자에게 예약 내역 보여주기"),
+	RESERVATION_LIST_BY_USER_FIND("SUCCESS", "RESERVATION_LIST_BY_USER_FIND", "Find reservationList by User",
+			"유저에게 예약 내역 보여주기"),
 
 	// TempReservation
 	RESERVATION_DATE_READ("SUCCESS", "Reservation_DATE_READ", "Read reservable dates", "예약 가능한 날짜 조회"),
@@ -85,7 +103,8 @@ public enum ResponseCode implements Code {
 	WISHLIST_GROUP_CREATE("SUCCESS", "WISHLIST_GROUP_CREATE", "Create wishlist group", "찜 그룹 추가"),
 	WISHLIST_GROUP_UPDATE("SUCCESS", "WISHLIST_GROUP_UPDATE", "Update wishlist group", "찜 그룹 수정"),
 	WISHLIST_GROUP_ORDER_UPDATE("SUCCESS", "WISHLIST_GROUP_ORDER_UPDATE", "Update wishlist group order", "찜 그룹 순서 변경"),
-	WISHLIST_ITEM_GROUP_MOVE_UPDATE("SUCCESS", "WISHLIST_ITEM_GROUP_MOVE_UPDATE", "Update wishlist item group", "찜한 상품 그룹 이동"),
+	WISHLIST_ITEM_GROUP_MOVE_UPDATE("SUCCESS", "WISHLIST_ITEM_GROUP_MOVE_UPDATE", "Update wishlist item group",
+			"찜한 상품 그룹 이동"),
 	WISHLIST_GROUP_READ("SUCCESS", "WISHLIST_GROUP_READ", "Read wishlist group", "찜 그룹 조회"),
 	WISHLIST_ITEM_READ("SUCCESS", "WISHLIST_ITEM_READ", "Read wishlist item", "찜한 상품 조회"),
 	WISHLIST_GROUP_DELETE("SUCCESS", "WISHLIST_GROUP_DELETE", "Delete wishlist group", "찜 그룹 삭제"),
@@ -115,14 +134,22 @@ public enum ResponseCode implements Code {
 	REVIEW_REPLY_CREATE("SUCCESS", "REVIEW_REPLY_CREATE", "Create review reply", "리뷰 답변 작성"),
 	REVIEW_REPLY_UPDATE("SUCCESS", "REVIEW_REPLY_UPDATE", "Update review reply", "리뷰 답변 수정"),
 	REVIEW_REPLY_DELETE("SUCCESS", "REVIEW_REPLY_DELETE", "Delete review reply", "리뷰 답변 삭제"),
-	ORDER_ITEM_INQUIRY_READ_ALL("SUCCESS", "ORDER_ITEM_INQUIRY_READ_ALL", "Read all order item inquiry", "주문 상품 문의 전체 조회"),
+	ORDER_ITEM_INQUIRY_READ_ALL("SUCCESS", "ORDER_ITEM_INQUIRY_READ_ALL", "Read all order item inquiry",
+			"주문 상품 문의 전체 조회"),
 	ORDER_ITEM_INQUIRY_READ("SUCCESS", "ORDER_ITEM_INQUIRY_READ", "Read order item inquiry", "주문 상품 문의 단건 조회"),
 	ORDER_ITEM_INQUIRY_CREATE("SUCCESS", "ORDER_ITEM_INQUIRY_CREATE", "Create order item inquiry", "주문 상품 문의 작성"),
 	ORDER_ITEM_INQUIRY_UPDATE("SUCCESS", "ORDER_ITEM_INQUIRY_UPDATE", "Update order item inquiry", "주문 상품 문의 수정"),
 	ORDER_ITEM_INQUIRY_DELETE("SUCCESS", "ORDER_ITEM_INQUIRY_DELETE", "Delete order item inquiry", "주문 상품 문의 삭제"),
-	ORDER_ITEM_INQUIRY_REPLY_CREATE("SUCCESS", "ORDER_ITEM_INQUIRY_REPLY_CREATE", "Create order item inquiry reply", "주문 상품 문의 답변 작성"),
-	ORDER_ITEM_INQUIRY_REPLY_UPDATE("SUCCESS", "ORDER_ITEM_INQUIRY_REPLY_UPDATE", "Update order item inquiry reply", "주문 상품 문의 답변 수정"),
-	ORDER_ITEM_INQUIRY_REPLY_DELETE("SUCCESS", "ORDER_ITEM_INQUIRY_REPLY_DELETE", "Delete order item inquiry reply", "주문 상품 문의 답변 삭제"),
+	ORDER_ITEM_INQUIRY_REPLY_CREATE("SUCCESS", "ORDER_ITEM_INQUIRY_REPLY_CREATE", "Create order item inquiry reply",
+			"주문 상품 문의 답변 작성"),
+	ORDER_ITEM_INQUIRY_REPLY_UPDATE("SUCCESS", "ORDER_ITEM_INQUIRY_REPLY_UPDATE", "Update order item inquiry reply",
+			"주문 상품 문의 답변 수정"),
+	ORDER_ITEM_INQUIRY_REPLY_DELETE("SUCCESS", "ORDER_ITEM_INQUIRY_REPLY_DELETE", "Delete order item inquiry reply",
+			"주문 상품 문의 답변 삭제"),
+
+	// Develop
+	DEVELOP_SHIPPING_TYPE_UPDATE("SUCCESS", "DEVELOP_SHIPPING_TYPE_UPDATE", "Update shipping type", "배송 타입 변경"),
+	DEVELOP_PICKUP_TYPE_UPDATE("SUCCESS", "DEVELOP_PICKUP_TYPE_UPDATE", "Update pickup type", "픽업 타입 변경"),
 
 	// Error - category
 	ERROR_CATEGORY_NOT_FOUND("ERROR", "ECT000", "Category not found", "해당 카테고리가 존재하지 않습니다."),
@@ -143,7 +170,7 @@ public enum ResponseCode implements Code {
 	ERROR_ITEM_IMPOSSIBLE_SEND_TYPE("ERROR", "EI003", "Impossible itemSendType", "해당 상품으로는 불가능한 itemSendType"),
 
 	// Error - ItemImage
-	ERROR_ITEM_IMAGE_NOT_FOUND("ERROR", "EIM000", "Item Image not found","해당 상품의 이미지을 찾지 못함"),
+	ERROR_ITEM_IMAGE_NOT_FOUND("ERROR", "EIM000", "Item Image not found", "해당 상품의 이미지을 찾지 못함"),
 
 	// Error - Seller
 	ERROR_SELLER_ALREADY_DELETED("ERROR", "ES000", "SellerId already deleted", "해당 판매자 계정은 이미 삭제되었음"),
@@ -158,17 +185,24 @@ public enum ResponseCode implements Code {
 
 	// Error - Reservation
 	ERROR_NO_MORE_RESERVATION("ERROR", "ER000", "Cannot make reservation", "예약이 다 차있음"),
-	ERROR_RESERVATION_NOT_FOUND("ERROR","ER001","ReservationId not found", "해당 예약을 찾을 수 없음"),
-	ERROR_RESERVATION_EXPIRED("ERROR","ER002","ReservationTime expired", "해당 예약은 이미 시간이 지난 예약입니다."),
-	ERROR_RESERVATION_MODIFY_MUST_BE_SAME_SELLER("ERROR","ER003","Reservation Modify must be same seller", "예약 상품 변경은 같은 판매자의 상품만 가능합니다."),
-	ERROR_RESERVATION_MODIFY_MUST_BE_SAME_USER("ERROR","ER004","Reservation Modify must be same user", "예약 상품 변경은 같은 유저의 예약만 가능합니다."),
-	ERROR_RESERVATION_ITEM_ALREADY_DELETED("ERROR","ER100","ReservationItemId already deleted", "해당 예약 상품은 이미 삭제되었음"),
-	ERROR_RESERVATION_ITEM_NOT_FOUND("ERROR","ER101","ReservationItemId not found", "해당 예약 상품을 찾을 수 없음"),
-	ERROR_RESERVATION_ITEM_LIST_NOT_FOUND("ERROR","ER102","ReservationItemList not found", "해당 판매자의 예약 상품 리스트를 찾을 수 없음"),
-	ERROR_RESERVATION_ITEM_IMAGE_NOT_FOUND("ERROR","ER103","ReservationItemImageId not found", "해당 예약 상품 이미지를 찾을 수 없음"),
-	ERROR_RESERVATION_ITEM_OPTION_ALREADY_DELETED("ERROR","ER200","ReservationItemOptionId already deleted", "해당 예약 상품 옵션은 이미 삭제되었음"),
-	ERROR_RESERVATION_ITEM_OPTION_NOT_FOUND("ERROR","ER201","ReservationItemOptionId not found", "해당 예약 상품 옵션을 찾을 수 없음"),
-	ERROR_RESERVATION_ITEM_OPTION_LIST_NOT_FOUND("ERROR","ER202","ReservationItemOptionList not found", "해당 상품의 옵션 리스트를 찾을 수 없음"),
+	ERROR_RESERVATION_NOT_FOUND("ERROR", "ER001", "ReservationId not found", "해당 예약을 찾을 수 없음"),
+	ERROR_RESERVATION_EXPIRED("ERROR", "ER002", "ReservationTime expired", "해당 예약은 이미 시간이 지난 예약입니다."),
+	ERROR_RESERVATION_MODIFY_MUST_BE_SAME_SELLER("ERROR", "ER003", "Reservation Modify must be same seller",
+			"예약 상품 변경은 같은 판매자의 상품만 가능합니다."),
+	ERROR_RESERVATION_MODIFY_MUST_BE_SAME_USER("ERROR", "ER004", "Reservation Modify must be same user",
+			"예약 상품 변경은 같은 유저의 예약만 가능합니다."),
+	ERROR_RESERVATION_ITEM_ALREADY_DELETED("ERROR", "ER100", "ReservationItemId already deleted", "해당 예약 상품은 이미 삭제되었음"),
+	ERROR_RESERVATION_ITEM_NOT_FOUND("ERROR", "ER101", "ReservationItemId not found", "해당 예약 상품을 찾을 수 없음"),
+	ERROR_RESERVATION_ITEM_LIST_NOT_FOUND("ERROR", "ER102", "ReservationItemList not found",
+			"해당 판매자의 예약 상품 리스트를 찾을 수 없음"),
+	ERROR_RESERVATION_ITEM_IMAGE_NOT_FOUND("ERROR", "ER103", "ReservationItemImageId not found",
+			"해당 예약 상품 이미지를 찾을 수 없음"),
+	ERROR_RESERVATION_ITEM_OPTION_ALREADY_DELETED("ERROR", "ER200", "ReservationItemOptionId already deleted",
+			"해당 예약 상품 옵션은 이미 삭제되었음"),
+	ERROR_RESERVATION_ITEM_OPTION_NOT_FOUND("ERROR", "ER201", "ReservationItemOptionId not found",
+			"해당 예약 상품 옵션을 찾을 수 없음"),
+	ERROR_RESERVATION_ITEM_OPTION_LIST_NOT_FOUND("ERROR", "ER202", "ReservationItemOptionList not found",
+			"해당 상품의 옵션 리스트를 찾을 수 없음"),
 
 	// Error - Cart
 	ERROR_CART_ITEM_NOT_FOUND("ERROR", "EC100", "Cart item not found", "해당 카트 상품이 저장되어 있지 않음"),
@@ -183,7 +217,8 @@ public enum ResponseCode implements Code {
 	ERROR_ORDER_INQUIRY_NOT_FOUND("ERROR", "EM103", "Order inquiry not found", "해당 주문 문의가 존재 하지 않음"),
 	ERROR_ITEM_INQUIRY_NOT_FOUND("ERROR", "EM104", "Item inquiry not found", "상품 문의가 존재 하지 않음."),
 	ERROR_ITEM_INQUIRY_REPLY_NOT_FOUND("ERROR", "EM105", "Item inquiry reply not found", "상품 문의 답변이 존재 하지 않음."),
-	ERROR_CUSTOMER_INQUIRY_REPLY_NOT_FOUND("ERROR", "EM106", "Customer inquiry reply not found", "해당 고객센터 문의 답변이 존재 하지 않음"),
+	ERROR_CUSTOMER_INQUIRY_REPLY_NOT_FOUND("ERROR", "EM106", "Customer inquiry reply not found",
+			"해당 고객센터 문의 답변이 존재 하지 않음"),
 
 	// Error - User
 	ERROR_EMAIL_NOT_FOUND("ERROR", "EU001", "Email not found", "해당 이메일이 존재하지 않음"),
@@ -193,11 +228,11 @@ public enum ResponseCode implements Code {
 	ERROR_PASSWORD_NOT_MATCHED("ERROR", "EU004", "Password is not matched", "해당 비밀번호가 일치하지 않음."),
 	ERROR_DELIVERY_ADDRESS_NOT_FOUND("ERROR", "EU005", "Delivery address not found", "해당 배송지 정보가 존재하지 않음"),
 
-    // Error - Common
-    ERROR_COMMON_RUNTIME("ERROR", "EC000", "Runtime Exception", "Runtime Exception 발생한 경우"),
-    ERROR_COMMON_CONCURRENCY("ERROR","EC001", "Request occurred simultaneously", "동시 요청으로 인한 오류"),
-    ERROR_INVALID_FIELD("ERROR","EC003", "Field is invalid", "@Valid 통과 실패, 유효하지 않은 필드값"),
-    ERROR_ENTITY_NOT_FOUND("ERROR","EC004", "Class entity not found", "존재하지 않는 엔티티"),
+	// Error - Common
+	ERROR_COMMON_RUNTIME("ERROR", "EC000", "Runtime Exception", "Runtime Exception 발생한 경우"),
+	ERROR_COMMON_CONCURRENCY("ERROR", "EC001", "Request occurred simultaneously", "동시 요청으로 인한 오류"),
+	ERROR_INVALID_FIELD("ERROR", "EC003", "Field is invalid", "@Valid 통과 실패, 유효하지 않은 필드값"),
+	ERROR_ENTITY_NOT_FOUND("ERROR", "EC004", "Class entity not found", "존재하지 않는 엔티티"),
 	ERROR_INTERNAL_SERVER_ERROR("ERROR", "EC005", "Internal server error", "내부 서버 오류"),
 	ERROR_UNAUTHENTICATED("ERROR", "EC006", "Unauthenticated", "spring security 인증 실패"),
 	ERROR_UNAUTHORIZED("ERROR", "EC007", "Unauthorized", "spring security 인가 실패"),
@@ -205,10 +240,10 @@ public enum ResponseCode implements Code {
 	// Error - Wishlist
 	ERROR_WISHLIST_ITEM_ALREADY_EXIST("ERROR", "EW000", "Wishlist Item already exists", "이미 존재하는 엔티티");
 
-    private String status; // API response
-    private String code; // API response
-    @Setter
-    private String message; // API response
-    @JsonIgnore
-    private String description; // 개발 편의를 위한 description
+	private String status; // API response
+	private String code; // API response
+	@Setter
+	private String message; // API response
+	@JsonIgnore
+	private String description; // 개발 편의를 위한 description
 }
