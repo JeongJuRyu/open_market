@@ -32,7 +32,7 @@ public class SecurityConfig {
 				"/v1/auth/**",
 				"/v1/wishlist/**",
 				"/v1/review/**",
-				"/v1/order/**",
+				"/v1/order/buyer/**",
 				"/v1/reservation/make",
 				"/v1/reservation/list/user",
 				"/v1/reservation/{reservationId}/change"))

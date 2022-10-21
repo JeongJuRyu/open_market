@@ -23,6 +23,17 @@ public abstract class EasyRestDocumentation {
         return MockMvcRestDocumentation.document(operationId, ResourceDocumentation.resource(parameter));
     }
 
+    public static RestDocumentationResultHandler documentWithRequestParameter(String operationId, String description,
+            String tag, ParameterDescriptorWithType... requestParameter) {
+
+        ResourceSnippetParameters parameter = ResourceSnippetParameters.builder()
+                .tag(tag)
+                .description(description)
+                .requestParameters(requestParameter)
+                .build();
+        return MockMvcRestDocumentation.document(operationId, ResourceDocumentation.resource(parameter));
+    }
+
     public static RestDocumentationResultHandler documentWithJwt(String operationId, String description, String tag) {
         ResourceSnippetParameters parameter = ResourceSnippetParameters.builder()
                 .tag(tag)
