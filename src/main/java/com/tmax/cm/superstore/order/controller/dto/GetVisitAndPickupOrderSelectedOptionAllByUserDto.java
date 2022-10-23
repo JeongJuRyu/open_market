@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import com.tmax.cm.superstore.code.PaymentType;
 import com.tmax.cm.superstore.code.PickupType;
 
 import lombok.Builder;
@@ -23,9 +24,18 @@ public class GetVisitAndPickupOrderSelectedOptionAllByUserDto {
 
             private UUID orderSelectedOptionId;
 
+            private UUID sellerId;
+
+            private String sellerName;
+
             private UUID itemId;
 
             private String itemName;
+
+            @Builder.Default // TODO remove defualt image
+            private String itemImage = "http://192.168.159.42:8888/images/58c04a256d774a1a8d6c8f3659eeadbf";
+
+            private boolean isReviewExist;
 
             private Integer itemPrice;
 
@@ -42,6 +52,8 @@ public class GetVisitAndPickupOrderSelectedOptionAllByUserDto {
             private String requests;
 
             private PickupType pickupType;
+
+            private PaymentType paymentType;
 
             private LocalDateTime createdAt;
 
