@@ -3,6 +3,7 @@ package com.tmax.cm.superstore.mypage.controller;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -17,6 +18,8 @@ import com.tmax.cm.superstore.mypage.dto.GetOrderInquiryResponseDto;
 import com.tmax.cm.superstore.mypage.dto.PostOrderInquiryRequestDto;
 import com.tmax.cm.superstore.mypage.dto.UpdateOrderInquiryRequestDto;
 import com.tmax.cm.superstore.mypage.service.OrderInquiryService;
+import com.tmax.cm.superstore.user.entities.User;
+import com.tmax.cm.superstore.user.entities.enumeration.OrderType;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,8 +30,12 @@ public class OrderInquiryController {
 	private final OrderInquiryService orderInquiryService;
 
 	@GetMapping
-	public ResponseEntity<GetAllOrderInquiryResponseDto> getAllInquiry(){
-		return ResponseEntity.ok().body(orderInquiryService.getAllOrderInquiry());
+	public ResponseEntity<GetAllOrderInquiryResponseDto> getAllInquiry(
+		@AuthenticationPrincipal User user,
+		@RequestParam OrderType orderType,
+		@RequestParam(defaultValue = "1900-01-01") String startDate
+	){
+		return ResponseEntity.ok().body(orderInquiryService.getAllOrderInquiry(user, orderType, startDate));
 	}
 
 	@GetMapping("/{inquiryId}")
