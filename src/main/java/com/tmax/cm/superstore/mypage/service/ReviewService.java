@@ -245,9 +245,9 @@ public class ReviewService {
 	}
 
 	@Transactional
-	public Double getAvgStarRating(UUID itemId){
+	public Double getAvgStarRating(Item item){
 		// List<Review> reviews = reviewRepository.findAllByItemId(itemId);
-		List<Review> reviews = null;
+		List<Review> reviews = reviewRepository.findByItem(item);
 		List<Float> stars = new ArrayList<>();
 		for(Review review : reviews){
 			stars.add(review.getStarRating());
