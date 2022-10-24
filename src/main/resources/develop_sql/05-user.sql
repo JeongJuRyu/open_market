@@ -1,5 +1,5 @@
 INSERT INTO users(
-        user_id,
+        id,
         email,
         password,
         phone_num,
