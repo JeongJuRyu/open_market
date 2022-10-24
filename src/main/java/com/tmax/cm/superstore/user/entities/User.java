@@ -48,7 +48,7 @@ public class User implements UserDetails {
 	@Id
 	@GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-	@Column(name = "USER_ID", columnDefinition = "BINARY(16)")
+	@Column(columnDefinition = "BINARY(16)")
 	private UUID id;
 
 	@Column(unique = true, nullable = false)
@@ -86,7 +86,7 @@ public class User implements UserDetails {
 
 	@ManyToMany
 	@JoinTable(name = "user_authority", joinColumns = {
-			@JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID") }, inverseJoinColumns = {
+			@JoinColumn(name = "id", referencedColumnName = "id") }, inverseJoinColumns = {
 					@JoinColumn(name = "AUTHORITY_NAME", referencedColumnName = "AUTHORITY_NAME") })
 	private Set<Authority> authorities;
 

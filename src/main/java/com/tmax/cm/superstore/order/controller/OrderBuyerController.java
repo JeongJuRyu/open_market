@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tmax.cm.superstore.cart.entity.CartItem;
 import com.tmax.cm.superstore.cart.service.CartItemService;
+import com.tmax.cm.superstore.code.PaymentType;
 import com.tmax.cm.superstore.code.PickupType;
 import com.tmax.cm.superstore.code.ResponseCode;
 import com.tmax.cm.superstore.code.ShippingType;
@@ -109,6 +110,7 @@ public class OrderBuyerController {
             @AuthenticationPrincipal User user, @RequestParam(required = false) PickupType pickupType) {
         List<VisitOrder> visitOrders;
         List<PickupOrder> pickupOrders;
+        PaymentType paymentType = null;
 
         if (pickupType == null) {
             visitOrders = this.orderService.readVisitOrders(user);
@@ -118,8 +120,16 @@ public class OrderBuyerController {
             pickupOrders = this.orderService.readPickupOrdersByPickupType(user, pickupType);
         }
 
+        if (!visitOrders.isEmpty()) {
+            paymentType = visitOrders.get(0).getOrder().getPayment().getPaymentType();
+        }
+
+        if (!pickupOrders.isEmpty()) {
+            paymentType = visitOrders.get(0).getOrder().getPayment().getPaymentType();
+        }
+
         GetVisitAndPickupOrderSelectedOptionAllByUserDto.Response response = this.getPickupOrderSelectedOptionAllByUserDtoMapper
-                .toResponse(visitOrders, pickupOrders);
+                .toResponse(visitOrders, pickupOrders, paymentType);
 
         return new ResponseDto<>(ResponseCode.ORDER_VISIT_AND_PICKUP_READ, response);
     }
@@ -130,6 +140,7 @@ public class OrderBuyerController {
 
         List<ShippingOrder> shippingOrders;
         List<DeliveryOrder> deliveryOrders;
+        PaymentType paymentType = null;
 
         if (shippingType == null) {
             shippingOrders = this.orderService.readShippingOrders(user);
@@ -139,8 +150,16 @@ public class OrderBuyerController {
             deliveryOrders = this.orderService.readDeliveryOrdersByShippingType(user, shippingType);
         }
 
+        if (!shippingOrders.isEmpty()) {
+            paymentType = shippingOrders.get(0).getOrder().getPayment().getPaymentType();
+        }
+
+        if (!deliveryOrders.isEmpty()) {
+            paymentType = deliveryOrders.get(0).getOrder().getPayment().getPaymentType();
+        }
+
         GetShippingAndDeliveryOrderSelectedOptionAllByUserDto.Response response = this.getShippingAndDeliveryOrderSelectedOptionAllByUserDtoMapper
-                .toResponse(shippingOrders, deliveryOrders);
+                .toResponse(shippingOrders, deliveryOrders, paymentType);
 
         return new ResponseDto<>(ResponseCode.ORDER_SHIPPING_AND_DELIVERY_READ, response);
     }

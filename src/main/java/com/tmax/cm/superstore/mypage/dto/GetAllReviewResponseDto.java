@@ -20,14 +20,43 @@ public class GetAllReviewResponseDto {
 
         private OrderType orderType;
 
-        // private String itemName;
-        //
-        // private String optionName;
-
-        // private Integer count;
-
         private String content;
 
+        private Float starRating;
+
         private LocalDateTime createdAt;
+
+        private OrderItem orderItem;
+
+        @Getter
+        @Builder
+        public static class OrderItem {
+
+            private String name;
+
+            private Integer price;
+
+            private Integer count;
+
+            private List<OrderOptionGroup> orderOptionGroups;
+
+            @Getter
+            @Builder
+            public static class OrderOptionGroup {
+                private String name;
+
+                private List<OrderOption> orderOptions;
+
+                @Getter
+                @Builder
+                public static class OrderOption {
+                    private String name;
+
+                    private Integer count;
+
+                    private Integer price;
+                }
+            }
+        }
     }
 }
