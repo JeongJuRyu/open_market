@@ -157,7 +157,7 @@ public class ItemService {
             if (item.getReviews().isEmpty()) {
                 avgStars.add(0.0);
             } else {
-                avgStars.add(reviewService.getAvgStarRating(item.getId()));
+                avgStars.add(reviewService.getAvgStarRating(item));
             }
         }
 
