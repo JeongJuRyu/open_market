@@ -58,10 +58,10 @@ public class ReviewController {
 		@PathVariable UUID reviewId){
 		return ResponseEntity.ok().body(reviewService.deleteReview(reviewId));
 	}
-	@GetMapping("/getAll")
-	public ResponseEntity<GetAllReviewResponseDto> getAllReviewByItemId(@RequestParam UUID itemId){
-		return ResponseEntity.ok().body(reviewService.getAllReview(itemId));
-	}
+	// @GetMapping("/getAll")
+	// public ResponseEntity<GetAllReviewResponseDto> getAllReviewByItemId(@RequestParam UUID itemId){
+	// 	return ResponseEntity.ok().body(reviewService.getAllReview(itemId));
+	// }
 
 	@GetMapping("/seller")
 	public ResponseEntity<GetAllReviewForSellerResponseDto> getAllReviewForSeller(

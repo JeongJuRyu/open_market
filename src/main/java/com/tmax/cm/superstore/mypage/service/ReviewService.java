@@ -5,7 +5,6 @@ import com.tmax.cm.superstore.common.ResponseDto;
 import com.tmax.cm.superstore.item.entity.Item;
 import com.tmax.cm.superstore.item.error.exception.ItemNotFoundException;
 import com.tmax.cm.superstore.item.repository.ItemRepository;
-import com.tmax.cm.superstore.mypage.dto.GetAllReviewForSellerResponseDto;
 import com.tmax.cm.superstore.mypage.error.exception.ReviewNotFoundException;
 import com.tmax.cm.superstore.mypage.dto.PostReviewRequestDto;
 import com.tmax.cm.superstore.mypage.dto.GetAllReviewResponseDto;
@@ -49,20 +48,34 @@ public class ReviewService {
 
 	@Transactional(readOnly = true)
 	public ResponseDto<GetAllReviewResponseDto> getAllReview(String startDate, Boolean isReplied, User user){
+		List<GetAllReviewResponseDto.Review> responseReview = new ArrayList<>();
+
 		List<Review> reviews = reviewRepository.findByUserId(user.getId(), LocalDate.parse(startDate).atStartOfDay(), isReplied);
+		for(Review review : reviews){
+			OrderType orderType = review.getOrderType();
+			if(orderType == OrderType.DELIVERY || orderType == OrderType.SHIPPING){
+				ShippingOrderItem shippingOrderItem = shippingOrderItemRepository.findByShippingOrderSelectedOptions(
+					review.getShippingOrderSelectedOption()).get();
+
+				responseReview.add(reviewMapper.toAllShippingReviewDto(review, shippingOrderItem));
+			} else if(orderType == OrderType.VISIT || orderType == OrderType.PICKUP){
+				PickupOrderItem pickupOrderItem = pickupOrderItemRepository.findByPickupOrderSelectedOptions(
+					review.getPickupOrderSelectedOption()).get();
+			}
+		}
 		return ResponseDto.<GetAllReviewResponseDto>builder()
 			.responseCode(ResponseCode.REVIEW_READ_ALL)
 			.data(GetAllReviewResponseDto.builder()
-				.reviews(reviewMapper.toReviewsDto(reviews)).build())
+				.reviews(responseReview).build())
 			.build();
 	}
 
-	@Transactional(readOnly = true)
-	public GetAllReviewResponseDto getAllReview(UUID itemId){
-		List<Review> reviews = reviewRepository.findAllByItemId(itemId);
-		return GetAllReviewResponseDto.builder()
-				.reviews(reviewMapper.toReviewsDto(reviews)).build();
-	}
+	// @Transactional(readOnly = true)
+	// public GetAllReviewResponseDto getAllReview(UUID itemId){
+	// 	List<Review> reviews = reviewRepository.findAllByItemId(itemId);
+	// 	return GetAllReviewResponseDto.builder()
+	// 			.reviews(reviewMapper.toReviewsDto(reviews)).build();
+	// }
 
 	// @Transactional(readOnly = true)
 	// public GetAllReviewForSellerResponseDto getAllReviewForSeller(LocalDate startDate){
@@ -148,7 +161,7 @@ public class ReviewService {
 	public ResponseDto<Object> deleteReview(UUID reviewId){
 		Review review = reviewRepository.findById(reviewId).orElseThrow(ReviewNotFoundException::new);
 		review.deleteReviewReply();
-		reviewRepository.delete(review); // 리뷰 ID 리턴
+		reviewRepository.delete(review);
 		return ResponseDto.builder()
 			.responseCode(ResponseCode.REVIEW_DELETE)
 			.data(null).build();
