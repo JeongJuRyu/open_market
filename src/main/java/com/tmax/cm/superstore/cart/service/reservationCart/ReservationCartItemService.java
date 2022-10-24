@@ -1,5 +1,7 @@
 package com.tmax.cm.superstore.cart.service.reservationCart;
 
+import com.tmax.cm.superstore.cart.dto.reservationCart.GetReservationCartItemDto;
+import com.tmax.cm.superstore.cart.dto.reservationCart.GetReservationCartItemListDto;
 import com.tmax.cm.superstore.cart.dto.reservationCart.PostReservationCartItemDto;
 import com.tmax.cm.superstore.cart.entity.reservationCart.CartReservationInfo;
 import com.tmax.cm.superstore.cart.entity.reservationCart.ReservationCart;
@@ -19,6 +21,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class ReservationCartItemService {
@@ -36,7 +41,6 @@ public class ReservationCartItemService {
 		User user, PostReservationCartItemDto.Request postReservationCartItemRequestDto) throws Exception {
 		try {
 			CartType cartType = CartType.findBySendType(postReservationCartItemRequestDto.getSendType());
-
 			ReservationCart reservationCart = reservationCartService.readReservationCart(user, cartType);
 			ReservationItem reservationItem = reservationItemRepository.findReservationItemByReservationItemId(
 				postReservationCartItemRequestDto.getReservationItemId());
@@ -58,6 +62,41 @@ public class ReservationCartItemService {
 			e.printStackTrace();
 			throw e;
 		}
+	}
 
+	@Transactional(rollbackFor = Exception.class, readOnly = true)
+	public ResponseDto<GetReservationCartItemListDto.Response> findList(User user) throws Exception{
+		try {
+			ReservationCart reservationCart = reservationCartService.readReservationCart(user, CartType.RESERVATION);
+			List<ReservationCartItem> findReservationCartItemList = reservationCartItemRepository.findAllByReservationCartId(reservationCart);
+			List<GetReservationCartItemListDto.Response.ReservationCartList> responseList = new ArrayList<>();
+			for(ReservationCartItem reservationCartItem : findReservationCartItemList){
+				responseList.add(GetReservationCartItemListDto.Response.ReservationCartList.builder(reservationCartItem).build());
+			}
+
+			return ResponseDto.<GetReservationCartItemListDto.Response>builder()
+				.responseCode(ResponseCode.CART_RESERVATION_ITEM_LIST_READ)
+				.data(GetReservationCartItemListDto.Response.builder(responseList).build())
+				.build();
+		} catch (Exception e){
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Transactional(rollbackFor = Exception.class, readOnly = true)
+	public ResponseDto<GetReservationCartItemDto.Response> find(User user) throws Exception{
+		try {
+			ReservationCart reservationCart = reservationCartService.readReservationCart(user, CartType.RESERVATION);
+			ReservationCartItem findReservationCartItem = reservationCartItemRepository.findReservationCartItemByReservationCartId(reservationCart);
+
+			return ResponseDto.<GetReservationCartItemDto.Response>builder()
+				.responseCode(ResponseCode.CART_RESERVATION_ITEM_READ)
+				.data(GetReservationCartItemDto.Response.builder(findReservationCartItem).build())
+				.build();
+		} catch (Exception e){
+			e.printStackTrace();
+			throw e;
+		}
 	}
 }

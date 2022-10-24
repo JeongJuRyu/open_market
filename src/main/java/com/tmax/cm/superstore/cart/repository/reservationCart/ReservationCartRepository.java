@@ -9,6 +9,6 @@ import java.util.UUID;
 
 public interface ReservationCartRepository extends JpaRepository<ReservationCart, UUID> {
 
-	ReservationCart findTopByCartType(CartType cartType);
+	ReservationCart findReservationCartByUser(User user);
 	ReservationCart findTopByCartTypeAndUser(CartType cartType, User user);
 }

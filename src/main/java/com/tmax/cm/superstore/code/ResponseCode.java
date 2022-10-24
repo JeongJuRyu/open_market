@@ -24,6 +24,7 @@ public enum ResponseCode implements Code {
 	CART_RESERVATION_ITEM_CREATE("SUCCESS", "CART_RESERVATION_ITEM_CREATE", "Create cart reservation item", "카트 예약 추가"),
 	CART_ITEM_READ("SUCCESS", "CART_ITEM_READ", "Read cart item", "카트 상품 조회"),
 	CART_RESERVATION_ITEM_READ("SUCCESS", "CART_RESERVATION_ITEM_READ", "Create cart reservation item", "카트 예약 조회"),
+	CART_RESERVATION_ITEM_LIST_READ("SUCCESS", "CART_RESERVATION_ITEM_LIST_READ", "Create cart reservation itemList", "카트 예약 기록 조회"),
 	CART_ITEM_UPDATE("SUCCESS", "CART_ITEM_UPDATE", "Update cart item", "카트 상품 수정"),
 	CART_RESERVATION_ITEM_UPDATE("SUCCESS", "CART_RESERVATION_ITEM_UPDATE", "Update cart reservation item", "카트 예약 수정"),
 	CART_ITEMS_DELETE("SUCCESS", "CART_ITEMS_DELETE", "Delete cart items", "카트 상품 대량 삭제"),
