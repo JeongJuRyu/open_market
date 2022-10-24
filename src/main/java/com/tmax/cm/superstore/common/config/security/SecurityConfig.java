@@ -23,6 +23,7 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
 		return httpSecurity
+
 			// csrf 비활성화
 			.csrf().disable()
 			// 특정 URL에만 security 활성화
@@ -37,7 +38,8 @@ public class SecurityConfig {
 				"/v1/order/buyer/**",
 				"/v1/reservation/make",
 				"/v1/reservation/list/user",
-				"/v1/reservation/{reservationId}/change"))
+				"/v1/reservation/{reservationId}/change",
+				"/v1/cart/reservation/**"))
 //				.authorizeRequests()
 //				.antMatchers("/v1/review/item/**").permitAll()
 //				.antMatchers("/v1/users",
