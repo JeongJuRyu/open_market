@@ -16,7 +16,7 @@ public class GetAllReviewResponseDto {
     @Getter
     @Builder
     public static class Review{
-        private UUID id;
+        private UUID reviewId;
 
         private OrderType orderType;
 
@@ -32,11 +32,17 @@ public class GetAllReviewResponseDto {
         @Builder
         public static class OrderItem {
 
-            private String name;
+            private String itemName;
+
+            private UUID itemId;
+
+            private String itemImageId;
 
             private Integer price;
 
             private Integer count;
+
+            private UUID orderSelectedOptionId;
 
             private List<OrderOptionGroup> orderOptionGroups;
 

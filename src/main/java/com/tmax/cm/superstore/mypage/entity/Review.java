@@ -42,7 +42,7 @@ public class Review extends BaseTimeEntity {
 	@Id
 	@GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-	@Column(name = "REVIEW_ID", columnDefinition = "BINARY(16)")
+	@Column(columnDefinition = "BINARY(16)")
 	private UUID id;
 
 	@Column(nullable = false)
@@ -80,6 +80,7 @@ public class Review extends BaseTimeEntity {
 
 	public void updateReview(UpdateReviewRequestDto dto) {
 		this.content = dto.getContent();
+		this.starRating = dto.getStarRating();
 	}
 
 	public void setReviewReply(PostReviewReplyRequestDto dto) {
