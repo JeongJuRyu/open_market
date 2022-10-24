@@ -40,7 +40,8 @@ public class SecurityConfig {
 						"/v1/order/**",
 						"/v1/reservation/make",
 						"/v1/reservation/list/user",
-						"/v1/reservation/{reservationId}/change"))
+						"/v1/reservation/{reservationId}/change",
+						"/v1/cart/reservation/cartItem"))
 				// 세션 비활성화
 				.sessionManagement(sessionManagement -> sessionManagement
 						.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
