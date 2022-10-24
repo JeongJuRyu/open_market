@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import com.tmax.cm.superstore.code.PaymentType;
 import com.tmax.cm.superstore.code.PickupType;
+import com.tmax.cm.superstore.code.SendType;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -52,6 +53,8 @@ public class GetVisitAndPickupOrderSelectedOptionAllByUserDto {
             private String requests;
 
             private PickupType pickupType;
+
+            private SendType sendType;
 
             private PaymentType paymentType;
 

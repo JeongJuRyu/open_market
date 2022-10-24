@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.tmax.cm.superstore.code.PaymentType;
+import com.tmax.cm.superstore.code.SendType;
 import com.tmax.cm.superstore.code.ShippingType;
 
 import lombok.Builder;
@@ -45,7 +46,11 @@ public class GetShippingAndDeliveryOrderSelectedOptionByUserDto {
 
         private String requests;
 
+        private Integer shippingFee;
+
         private ShippingType shippingType;
+
+        private SendType sendType;
 
         private PaymentType paymentType;
 

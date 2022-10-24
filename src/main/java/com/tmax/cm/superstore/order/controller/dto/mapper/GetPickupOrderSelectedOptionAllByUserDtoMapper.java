@@ -8,6 +8,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import com.tmax.cm.superstore.code.PaymentType;
+import com.tmax.cm.superstore.code.SendType;
 import com.tmax.cm.superstore.config.CommonMapperConfig;
 import com.tmax.cm.superstore.order.controller.dto.GetVisitAndPickupOrderSelectedOptionAllByUserDto.Response;
 import com.tmax.cm.superstore.order.controller.dto.GetVisitAndPickupOrderSelectedOptionAllByUserDto.Response.GetSelectedOptionDto;
@@ -45,7 +46,7 @@ public interface GetPickupOrderSelectedOptionAllByUserDtoMapper {
                             pickupOrderItem.getItem().getId(), pickupOrderItem.getName(), pickupOrderItem.getPrice(),
                             pickupOrderSelectedOption.getSeller(),
                             "http://192.168.159.42:8888/images/58c04a256d774a1a8d6c8f3659eeadbf", isReviewExist,
-                            paymentType));
+                            paymentType, SendType.VISIT));
                 }
             }
         }
@@ -65,7 +66,7 @@ public interface GetPickupOrderSelectedOptionAllByUserDtoMapper {
                             pickupOrderItem.getItem().getId(), pickupOrderItem.getName(), pickupOrderItem.getPrice(),
                             pickupOrderSelectedOption.getSeller(),
                             "http://192.168.159.42:8888/images/58c04a256d774a1a8d6c8f3659eeadbf", isReviewExist,
-                            paymentType));
+                            paymentType, SendType.PICKUP));
                 }
             }
         }
@@ -78,7 +79,7 @@ public interface GetPickupOrderSelectedOptionAllByUserDtoMapper {
     @Mapping(target = ".", source = "seller")
     GetSelectedOptionDto toGetSelectedOptionDto(PickupOrderSelectedOption pickupOrderSelectedOption, UUID itemId,
             String itemName, Integer itemPrice, Seller seller, String itemImage, boolean isReviewExist,
-            PaymentType paymentType);
+            PaymentType paymentType, SendType sendType);
 
     @Mapping(target = "optionGroupName", source = "name")
     GetOrderOptionGroupDto toGetOrderOptionDto(OrderOptionGroup orderOptionGroup);
