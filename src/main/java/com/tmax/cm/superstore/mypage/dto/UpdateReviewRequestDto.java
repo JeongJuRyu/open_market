@@ -15,8 +15,7 @@ import lombok.NoArgsConstructor;
 public class UpdateReviewRequestDto {
 	@NotNull
 	private UUID id;
-	private String title;
 	private String content;
 	@NotNull
-	private Double starRating;
+	private Float starRating;
 }

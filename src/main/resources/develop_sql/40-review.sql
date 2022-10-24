@@ -1,5 +1,5 @@
 INSERT INTO review (
-        review_id,
+        id,
         content,
         star_rating,
         order_type,
@@ -14,8 +14,8 @@ values (
         UUID_TO_BIN('50f07073-e0d0-4d67-a474-e3166dff2ce4'),
         '사장님이 친절하고 음식이 맛있습니다.',
         4.5,
-        'DELIVERY',
-        false,
+        'SHIPPINGANDDELIVERY',
+        true,
         null,
         UUID_TO_BIN('9c937a70-12cf-4a83-b594-1293b3f994a8'),
         UUID_TO_BIN('672ffb8c-f952-49ec-b65b-4fe3a9c37b28'),
