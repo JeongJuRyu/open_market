@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.tmax.cm.superstore.code.PickupType;
+import com.tmax.cm.superstore.code.SendType;
 import com.tmax.cm.superstore.code.ShippingType;
 import com.tmax.cm.superstore.error.exception.EntityNotFoundException;
 import com.tmax.cm.superstore.order.entity.DeliveryOrder;
@@ -75,6 +76,7 @@ public class OrderService {
             UUID userId) {
 
         Order order = null;
+        SendType sendType = null;
 
         ShippingOrderSelectedOption shippingOrderSelectedOption = this.shippingOrderSelectedOptionRepository
                 .findById(shippingOrderSelectedOptionId)
@@ -88,11 +90,13 @@ public class OrderService {
                 .orElse(null);
         if (shippingOrder != null) {
             order = shippingOrder.getOrder();
+            sendType = SendType.SHIPPING;
         }
         DeliveryOrder deliveryOrder = this.deliveryOrderRepository.findTopByShippingOrderItems(shippingOrderItem)
                 .orElse(null);
         if (deliveryOrder != null) {
             order = deliveryOrder.getOrder();
+            sendType = SendType.DELIVERY;
         }
 
         if (order == null || order.getUser().getId() != userId) {
@@ -105,7 +109,8 @@ public class OrderService {
         }
 
         return ReadShippingOrderSelectedOptionDto.builder().order(order).shippingOrderItem(shippingOrderItem)
-                .shippingOrderSelectedOption(shippingOrderSelectedOption).isReviewExist(isReviewExist).build();
+                .shippingOrderSelectedOption(shippingOrderSelectedOption).isReviewExist(isReviewExist)
+                .sendType(sendType).build();
     }
 
     @Transactional
@@ -120,6 +125,7 @@ public class OrderService {
             UUID userId) {
 
         Order order = null;
+        SendType sendType = null;
 
         PickupOrderSelectedOption pickupOrderSelectedOption = this.pickupOrderSelectedOptionRepository
                 .findById(pickupOrderSelectedOptionId)
@@ -133,11 +139,13 @@ public class OrderService {
                 .orElse(null);
         if (PickupOrder != null) {
             order = PickupOrder.getOrder();
+            sendType = SendType.PICKUP;
         }
         VisitOrder visitOrder = this.visitOrderRepository.findTopByPickupOrderItems(pickupOrderItem)
                 .orElse(null);
         if (visitOrder != null) {
             order = visitOrder.getOrder();
+            sendType = SendType.VISIT;
         }
 
         if (order == null || order.getUser().getId() != userId) {
@@ -150,7 +158,8 @@ public class OrderService {
         }
 
         return ReadPickupOrderSelectedOptionDto.builder().order(order).pickupOrderItem(pickupOrderItem)
-                .pickupOrderSelectedOption(pickupOrderSelectedOption).isReviewExist(isReviewExist).build();
+                .pickupOrderSelectedOption(pickupOrderSelectedOption).isReviewExist(isReviewExist).sendType(sendType)
+                .build();
     }
 
     @Transactional

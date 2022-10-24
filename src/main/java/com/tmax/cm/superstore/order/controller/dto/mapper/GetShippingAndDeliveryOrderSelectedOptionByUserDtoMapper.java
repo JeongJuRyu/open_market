@@ -20,6 +20,7 @@ public interface GetShippingAndDeliveryOrderSelectedOptionByUserDtoMapper {
     @Mapping(target = "itemId", source = "readShippingOrderSelectedOptionDto.shippingOrderItem.item.id")
     @Mapping(target = "itemName", source = "readShippingOrderSelectedOptionDto.shippingOrderItem.name")
     @Mapping(target = "itemPrice", source = "readShippingOrderSelectedOptionDto.shippingOrderItem.price")
+    @Mapping(target = "shippingFee", source = "readShippingOrderSelectedOptionDto.shippingOrderItem.shippingFee.price")
     @Mapping(target = "amount", source = "readShippingOrderSelectedOptionDto.shippingOrderSelectedOption.amount")
     @Mapping(target = "createdAt", source = "readShippingOrderSelectedOptionDto.shippingOrderSelectedOption.createdAt")
     @Mapping(target = "orderSelectedOptionId", source = "readShippingOrderSelectedOptionDto.shippingOrderSelectedOption.id")
