@@ -19,7 +19,16 @@ import java.util.List;
 @Mapper(config = CommonMapperConfig.class)
 public interface ReviewMapper {
 
-    List<GetAllReviewResponseDto.Review> toReviewsDto(List<Review> reviews);
+    default GetAllReviewResponseDto.Review toAllShippingReviewDto(Review review, ShippingOrderItem shippingOrderItem){
+        return GetAllReviewResponseDto.Review.builder()
+            .id(review.getId())
+            .orderType(review.getOrderType())
+            .orderItem(this.toAllShippingOrderItem(shippingOrderItem, review))
+            .content(review.getContent())
+            .starRating(review.getStarRating())
+            .createdAt(review.getCreatedAt())
+            .build();
+    }
 
     default GetReviewResponseDto.Review toShippingReviewDto(Review review, ShippingOrderItem shippingOrderItem){
         return GetReviewResponseDto.Review.builder()
@@ -49,18 +58,42 @@ public interface ReviewMapper {
     //         .build();
     // }
 
-    @Mapping(target = "name", source = "shippingOrderItem.name")
-    @Mapping(target = "price", source = "shippingOrderItem.price")
-    @Mapping(target = "count", source = "shippingOrderItem.amount")
-    @Mapping(target = "orderOptionGroups", source = "review.")
+    // @Mapping(target = "name", source = "shippingOrderItem.name")
+    // @Mapping(target = "price", source = "shippingOrderItem.price")
+    // @Mapping(target = "count", source = "shippingOrderItem.amount")
+    // @Mapping(target = "orderOptionGroups", source = "review.")
     default GetReviewResponseDto.Review.OrderItem toShippingOrderItem(ShippingOrderItem shippingOrderItem, Review review){
         return GetReviewResponseDto.Review.OrderItem.builder()
             .name(shippingOrderItem.getName())
-            .price(shippingOrderItem.getPrice())
+            .price(shippingOrderItem.getAmount())
             .count(shippingOrderItem.getAmount())
             .orderOptionGroups(this.toOrderOptionGroups(review.getShippingOrderSelectedOption().getOrderOptionGroups()))
             .build();
     }
+
+    default GetAllReviewResponseDto.Review.OrderItem toAllShippingOrderItem(ShippingOrderItem shippingOrderItem, Review review){
+        return GetAllReviewResponseDto.Review.OrderItem.builder()
+            .name(shippingOrderItem.getName())
+            .price(shippingOrderItem.getAmount())
+            .count(shippingOrderItem.getAmount())
+            .orderOptionGroups(this.toAllOrderOptionGroups(review.getShippingOrderSelectedOption().getOrderOptionGroups()))
+            .build();
+    }
+
+    List<GetAllReviewResponseDto.Review.OrderItem.OrderOptionGroup> toAllOrderOptionGroups(List<OrderOptionGroup> orderOptionGroups);
+
+    @Mapping(target = "name", source = "orderOptionGroup.name")
+    @Mapping(target = "orderOptions", source = "orderOptionGroup.orderOptions")
+    GetAllReviewResponseDto.Review.OrderItem.OrderOptionGroup toAllOrderOptionGroup(OrderOptionGroup orderOptionGroup);
+
+
+    List<GetAllReviewResponseDto.Review.OrderItem.OrderOptionGroup.OrderOption> toAllOrderOptions(List<OrderOption> orderOption);
+
+    @Mapping(target = "name", source = "orderOption.name")
+    @Mapping(target = "count", source = "orderOption.count")
+    @Mapping(target = "price", source = "orderOption.price")
+    GetAllReviewResponseDto.Review.OrderItem.OrderOptionGroup.OrderOption toAllOrderOption(OrderOption orderOption);
+
 
     List<GetReviewResponseDto.Review.OrderItem.OrderOptionGroup> toOrderOptionGroups(List<OrderOptionGroup> orderOptionGroups);
 
@@ -75,14 +108,7 @@ public interface ReviewMapper {
     @Mapping(target = "price", source = "orderOption.price")
     GetReviewResponseDto.Review.OrderItem.OrderOptionGroup.OrderOption toOrderOption(OrderOption orderOption);
 
-    // GetReviewResponseDto.Review.OrderItem toPickupOrderItem(PickupOrderItem pickupOrderItem, Review review);
-
     @Mapping(target = "content", source = "reviewReply.content")
     GetReviewResponseDto.Review.ReviewReply toReviewReply(ReviewReply reviewReply);
-
-    // List<GetAllReviewForSellerResponseDto.Review> toReviewsForSellerDto(List<Review> reviews);
-
-    // @Mapping(target = "itemName", source = "review.item.id")
-    // GetAllReviewForSellerResponseDto.Review toReviewForSellerDto(Review review);
 
 }

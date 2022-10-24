@@ -20,8 +20,10 @@ public class GetReviewResponseDto {
 	public static class Review {
 		private UUID id;
 		private OrderType orderType;
+		private String content;
+		private LocalDateTime createdAt;
+		private Float starRating;
 		private OrderItem orderItem;
-
 		@Getter
 		@Builder
 		public static class OrderItem {
@@ -45,10 +47,6 @@ public class GetReviewResponseDto {
 				}
 			}
 		}
-
-		private String content;
-
-		private LocalDateTime createdAt;
 		private ReviewReply reviewReply;
 
 		@Getter

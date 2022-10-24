@@ -1,6 +1,6 @@
 INSERT INTO orders(
         id,
-        user_user_id,
+        user_id,
         payment_id
     )
 VALUES (

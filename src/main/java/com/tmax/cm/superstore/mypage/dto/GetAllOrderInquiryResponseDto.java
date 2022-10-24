@@ -11,14 +11,16 @@ import lombok.Getter;
 @Getter
 @Builder
 public class GetAllOrderInquiryResponseDto {
-	private List<OrderInquiry> orderInquiries;
+	private List<OrderItemInquiry> orderInquiries;
 
 	@Getter
 	@Builder
-	public static class OrderInquiry {
+	public static class OrderItemInquiry {
 		private UUID id;
-		private String title;
+		private String shopName;
+		private String orderItemName;
+		private Boolean isReplied;
+		private String content;
 		private LocalDateTime createdAt;
-		private Boolean isAnswered;
 	}
 }

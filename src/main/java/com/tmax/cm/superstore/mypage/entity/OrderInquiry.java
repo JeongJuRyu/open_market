@@ -21,6 +21,7 @@ import com.tmax.cm.superstore.order.entity.PickupOrderSelectedOption;
 import com.tmax.cm.superstore.order.entity.ShippingOrderItem;
 import com.tmax.cm.superstore.order.entity.ShippingOrderSelectedOption;
 import com.tmax.cm.superstore.user.entities.User;
+import com.tmax.cm.superstore.user.entities.enumeration.OrderType;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -46,7 +47,10 @@ public class OrderInquiry extends BaseTimeEntity {
 	private String content;
 
 	@Column(nullable = false)
-	private Boolean isAnswered;
+	private Boolean isReplied;
+
+	@Column(nullable = false)
+	private OrderType orderType;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn()
@@ -62,6 +66,7 @@ public class OrderInquiry extends BaseTimeEntity {
 
 	@OneToOne(mappedBy = "orderInquiry", cascade = CascadeType.ALL, orphanRemoval = true)
 	private OrderInquiryReply orderInquiryReply;
+
 	public void updateOrderInquiry(UpdateOrderInquiryRequestDto dto){
 		this.title = dto.getTitle();
 		this.content = dto.getContent();
