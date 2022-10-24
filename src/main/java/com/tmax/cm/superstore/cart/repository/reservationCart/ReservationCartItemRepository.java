@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface ReservationCartItemRepository extends JpaRepository<ReservationCartItem, UUID> {
 
-	ReservationCartItem findReservationCartItemByReservationCartId(ReservationCart reservationCartId);
+	ReservationCartItem findReservationCartItemByIdAndIsDeletedFalse(UUID Id);
 	List<ReservationCartItem> findAllByReservationCartId(ReservationCart reservationCartId);
 
 }

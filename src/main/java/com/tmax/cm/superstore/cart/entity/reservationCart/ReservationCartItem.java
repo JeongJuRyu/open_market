@@ -60,4 +60,11 @@ public class ReservationCartItem {
 			.reservationItemOption(reservationItemOption)
 			.sendType(sendType);
 	}
+
+	public void update(ReservationItem reservationItem, ReservationItemOption reservationItemOption,
+		CartReservationInfo cartReservationInfo) {
+		this.reservationItem = reservationItem;
+		this.cartReservationInfo = cartReservationInfo;
+		this.reservationItemOption = reservationItemOption;
+	}
 }

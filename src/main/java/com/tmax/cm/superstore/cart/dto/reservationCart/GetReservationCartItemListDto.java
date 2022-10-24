@@ -27,7 +27,8 @@ public class GetReservationCartItemListDto {
 		@Getter
 		@Builder(builderMethodName = "ReservationCartListBuilder")
 		public static class ReservationCartList {
-			private UUID ReservationCartId;
+			private UUID reservationCartId;
+			private UUID reservationCartItemId;
 			private String reservationItemName;
 			private String reservationItemOptionName;
 			private SendType sendType;
@@ -36,7 +37,8 @@ public class GetReservationCartItemListDto {
 			public static ReservationCartListBuilder builder(
 				ReservationCartItem reservationCartItem) {
 				return ReservationCartListBuilder()
-					.ReservationCartId(reservationCartItem.getReservationCartId().getId())
+					.reservationCartId(reservationCartItem.getReservationCartId().getId())
+					.reservationCartItemId(reservationCartItem.getId())
 					.reservationItemName(reservationCartItem.getReservationItem().getReservationItemName())
 					.reservationItemOptionName(reservationCartItem.getReservationItemOption().getOptionName())
 					.sendType(reservationCartItem.getSendType())

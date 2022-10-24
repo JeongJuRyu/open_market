@@ -1,5 +1,6 @@
 package com.tmax.cm.superstore.cart.entity.reservationCart;
 
+import com.tmax.cm.superstore.cart.dto.reservationCart.PatchReservationCartItem;
 import com.tmax.cm.superstore.cart.dto.reservationCart.PostReservationCartItemDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -46,5 +47,12 @@ public class CartReservationInfo {
 			.reservationTime(postReservationCartItemRequestDto.getCartReservationInfoRequest().getReservationTime())
 			.numberOfPeople(postReservationCartItemRequestDto.getCartReservationInfoRequest().getNumberOfPeople())
 			.customerRequest(postReservationCartItemRequestDto.getCartReservationInfoRequest().getCustomerRequest());
+	}
+
+	public void update(PatchReservationCartItem.Request patchReservationCartItemRequestDto) {
+		this.reservationDay = patchReservationCartItemRequestDto.getCartReservationInfoRequest().getReservationDay();
+		this.reservationTime = patchReservationCartItemRequestDto.getCartReservationInfoRequest().getReservationTime();
+		this.numberOfPeople = patchReservationCartItemRequestDto.getCartReservationInfoRequest().getNumberOfPeople();
+		this.customerRequest = patchReservationCartItemRequestDto.getCartReservationInfoRequest().getCustomerRequest();
 	}
 }
