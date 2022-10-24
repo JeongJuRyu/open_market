@@ -208,6 +208,7 @@ public enum ResponseCode implements Code {
 
 	// Error - Cart
 	ERROR_CART_ITEM_NOT_FOUND("ERROR", "EC100", "Cart item not found", "해당 카트 상품이 저장되어 있지 않음"),
+	ERROR_CART_RESERVATION_ITEM_INVALID("ERROR", "EC200", "Cart Reservation_item invalid", "해당 예약 상품은 선택한 장바구니와 맞지 않습니다."),
 
 	// Error - Order
 	ERROR_ORDER_STATE_UNCHANGEABLE("ERROR", "EO001", "Order state unchangeable", "바꿀수 없는 주문 상태"),
