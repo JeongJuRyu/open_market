@@ -7,6 +7,8 @@ import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tmax.cm.superstore.code.SendType;
 
+import com.tmax.cm.superstore.code.ShippingChargeType;
+import com.tmax.cm.superstore.item.code.ItemState;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -34,6 +36,18 @@ public class GetItemAllDto {
             private Integer itemPrice;
 
             private Long categoryId;
+
+            private ItemState itemState;
+
+            private ShippingChargeType shippingChargeType;
+
+            private Integer shippingCharge;
+
+            private String returnAddress;
+
+            private Integer returnCharge;
+
+            private String description;
 
             @JsonProperty("necessaryOptionGroups")
             private List<GetOptionGroupDto> necessaryOptionGroups;

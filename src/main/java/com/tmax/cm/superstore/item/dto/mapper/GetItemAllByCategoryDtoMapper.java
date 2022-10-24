@@ -51,6 +51,8 @@ public interface GetItemAllByCategoryDtoMapper {
     @Mapping(target = "createdAt", source = "item.createdAt")
     @Mapping(target = "modifiedAt", source = "item.modifiedAt")
     @Mapping(target = "itemState", source = "item.itemState")
+    @Mapping(target = "shippingCharge", source = "item.shippingCharge")
+    @Mapping(target = "shippingChargeType", source = "item.shippingChargeType")
     GetItemAllByCategoryDto.Response.GetItemSimpleDto toGetItemSimpleDto(Item item, List<GetItemAllByCategoryDto.Response.GetItemSimpleDto.GetItemImageDto> images);
 
     default Set<SendType> toSendTypes(List<ItemSendType> itemSendTypes) {
