@@ -6,8 +6,6 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.tmax.cm.superstore.order.entity.PickupOrderItem;
-import com.tmax.cm.superstore.order.entity.PickupOrderSelectedOption;
 import com.tmax.cm.superstore.order.entity.ShippingOrderItem;
 import com.tmax.cm.superstore.order.entity.ShippingOrderSelectedOption;
 

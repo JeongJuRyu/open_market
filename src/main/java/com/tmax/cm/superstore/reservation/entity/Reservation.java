@@ -1,5 +1,6 @@
 package com.tmax.cm.superstore.reservation.entity;
 
+import com.tmax.cm.superstore.cart.entity.reservationCart.ReservationCartItem;
 import com.tmax.cm.superstore.reservation.dto.MakeReservationDto;
 import com.tmax.cm.superstore.reservation.dto.ModifyReservationDto;
 import com.tmax.cm.superstore.seller.entity.Seller;

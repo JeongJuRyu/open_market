@@ -8,6 +8,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import com.tmax.cm.superstore.code.PaymentType;
+import com.tmax.cm.superstore.code.SendType;
 import com.tmax.cm.superstore.config.CommonMapperConfig;
 import com.tmax.cm.superstore.order.controller.dto.GetShippingAndDeliveryOrderSelectedOptionAllByUserDto.Response;
 import com.tmax.cm.superstore.order.controller.dto.GetShippingAndDeliveryOrderSelectedOptionAllByUserDto.Response.GetSelectedOptionDto;
@@ -47,7 +48,7 @@ public interface GetShippingAndDeliveryOrderSelectedOptionAllByUserDtoMapper {
                             shippingOrderItem.getPrice(),
                             shippingOrderSelectedOption.getSeller(),
                             "http://192.168.159.42:8888/images/58c04a256d774a1a8d6c8f3659eeadbf", isReviewExist,
-                            paymentType));
+                            paymentType, SendType.SHIPPING, shippingOrderItem.getShippingFee().getPrice()));
                 }
             }
         }
@@ -69,7 +70,7 @@ public interface GetShippingAndDeliveryOrderSelectedOptionAllByUserDtoMapper {
                             shippingOrderItem.getPrice(),
                             shippingOrderSelectedOption.getSeller(),
                             "http://192.168.159.42:8888/images/58c04a256d774a1a8d6c8f3659eeadbf", isReviewExist,
-                            paymentType));
+                            paymentType, SendType.DELIVERY, shippingOrderItem.getShippingFee().getPrice()));
                 }
             }
         }
@@ -81,7 +82,7 @@ public interface GetShippingAndDeliveryOrderSelectedOptionAllByUserDtoMapper {
     @Mapping(target = ".", source = "shippingOrderSelectedOption.shipping")
     GetSelectedOptionDto toGetSelectedOptionDto(ShippingOrderSelectedOption shippingOrderSelectedOption, UUID itemId,
             String itemName, Integer itemPrice, Seller seller, String itemImage, boolean isReviewExist,
-            PaymentType paymentType);
+            PaymentType paymentType, SendType sendType, Integer shippingFee);
 
     @Mapping(target = "optionGroupName", source = "name")
     GetOrderOptionGroupDto toGetOrderOptionDto(OrderOptionGroup orderOptionGroup);
