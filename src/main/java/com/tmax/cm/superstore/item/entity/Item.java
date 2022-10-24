@@ -87,7 +87,7 @@ public class Item extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private ItemState itemState;
 
-    @Column
+    @Column(nullable = false, columnDefinition = "varchar(255) default 'FREE_SHIPPING'")
     @Enumerated(EnumType.STRING)
     private ShippingChargeType shippingChargeType;
 
