@@ -28,6 +28,7 @@ public enum ResponseCode implements Code {
 	CART_ITEM_UPDATE("SUCCESS", "CART_ITEM_UPDATE", "Update cart item", "카트 상품 수정"),
 	CART_RESERVATION_ITEM_UPDATE("SUCCESS", "CART_RESERVATION_ITEM_UPDATE", "Update cart reservation item", "카트 예약 수정"),
 	CART_ITEMS_DELETE("SUCCESS", "CART_ITEMS_DELETE", "Delete cart items", "카트 상품 대량 삭제"),
+	CART_RESERVATION_ITEM_DELETE("SUCCESS", "CART_RESERVATION_ITEM_DELETE", "Delete cart reservation item", "카트 예약 상품 삭제"),
 
 	// PurchaseOrder
 	PURCHASE_ORDER_CART_CREATE("SUCCESS", "PURCHASE_ORDER_CART_CREATE", "Create purchase order from cart", "장바구니 화면에서 주문서 생성"),

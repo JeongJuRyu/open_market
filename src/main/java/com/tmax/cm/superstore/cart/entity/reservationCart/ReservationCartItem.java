@@ -67,4 +67,8 @@ public class ReservationCartItem {
 		this.cartReservationInfo = cartReservationInfo;
 		this.reservationItemOption = reservationItemOption;
 	}
+
+	public void delete(){
+		this.isDeleted = true;
+	}
 }

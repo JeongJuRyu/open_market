@@ -1,9 +1,6 @@
 package com.tmax.cm.superstore.cart.service.reservationCart;
 
-import com.tmax.cm.superstore.cart.dto.reservationCart.GetReservationCartItemDto;
-import com.tmax.cm.superstore.cart.dto.reservationCart.GetReservationCartItemListDto;
-import com.tmax.cm.superstore.cart.dto.reservationCart.PatchReservationCartItem;
-import com.tmax.cm.superstore.cart.dto.reservationCart.PostReservationCartItemDto;
+import com.tmax.cm.superstore.cart.dto.reservationCart.*;
 import com.tmax.cm.superstore.cart.entity.reservationCart.CartReservationInfo;
 import com.tmax.cm.superstore.cart.entity.reservationCart.ReservationCart;
 import com.tmax.cm.superstore.cart.entity.reservationCart.ReservationCartItem;
@@ -70,7 +67,7 @@ public class ReservationCartItemService {
 	public ResponseDto<GetReservationCartItemListDto.Response> findList(User user) throws Exception {
 		try {
 			ReservationCart reservationCart = reservationCartService.readReservationCart(user, CartType.RESERVATION);
-			List<ReservationCartItem> findReservationCartItemList = reservationCartItemRepository.findAllByReservationCartId(
+			List<ReservationCartItem> findReservationCartItemList = reservationCartItemRepository.findAllByReservationCartIdAndIsDeletedFalse(
 				reservationCart);
 			List<GetReservationCartItemListDto.Response.ReservationCartList> responseList = new ArrayList<>();
 			for (ReservationCartItem reservationCartItem : findReservationCartItemList) {
@@ -92,9 +89,7 @@ public class ReservationCartItemService {
 	public ResponseDto<GetReservationCartItemDto.Response> find(User user, UUID reservationCartItemId) throws Exception {
 		try {
 			ReservationCart reservationCart = reservationCartService.readReservationCart(user, CartType.RESERVATION);
-//			ReservationCartItem findReservationCartItem = reservationCartItemRepository.findReservationCartItemByReservationCartId(
-//				reservationCart);
-			ReservationCartItem findReservationCartItem = reservationCartItemRepository.findReservationCartItemByIdAndIsDeletedFalse(reservationCartItemId);
+			ReservationCartItem findReservationCartItem = reservationCartItemRepository.findReservationCartItemById(reservationCartItemId);
 			return ResponseDto.<GetReservationCartItemDto.Response>builder()
 				.responseCode(ResponseCode.CART_RESERVATION_ITEM_READ)
 				.data(GetReservationCartItemDto.Response.builder(findReservationCartItem).build())
@@ -109,7 +104,7 @@ public class ReservationCartItemService {
 	public ResponseDto<PatchReservationCartItem.Response> update(User user, UUID reservationCartItemId,
 		PatchReservationCartItem.Request patchReservationCartItemRequestDto) throws Exception {
 		try {
-			ReservationCartItem findReservationCartItem = reservationCartItemRepository.findReservationCartItemByIdAndIsDeletedFalse(
+			ReservationCartItem findReservationCartItem = reservationCartItemRepository.findReservationCartItemById(
 				reservationCartItemId);
 			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
 				patchReservationCartItemRequestDto.getReservationItemId());
@@ -127,6 +122,23 @@ public class ReservationCartItemService {
 				.data(PatchReservationCartItem.Response.builder(findReservationCartItem).build())
 				.build();
 		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	public ResponseDto<DeleteReservationCartItem.Response> delete(User user, UUID reservationCartItemId) throws Exception{
+		try {
+			ReservationCartItem findReservationCartItem = reservationCartItemRepository.findReservationCartItemById(reservationCartItemId);
+			findReservationCartItem.delete();
+			reservationCartItemRepository.save(findReservationCartItem);
+
+			return ResponseDto.<DeleteReservationCartItem.Response>builder()
+				.responseCode(ResponseCode.CART_RESERVATION_ITEM_READ)
+				.data(DeleteReservationCartItem.Response.builder(findReservationCartItem).build())
+				.build();
+		} catch (Exception e){
 			e.printStackTrace();
 			throw e;
 		}
