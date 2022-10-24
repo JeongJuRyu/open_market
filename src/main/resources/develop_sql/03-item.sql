@@ -1,9 +1,9 @@
 -- 상품 등록
 
-INSERT INTO item(id, name, price, is_deleted, seller_seller_id, category_id, created_at) VALUES (UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb27'), '로토 스르르트 썸머 슈즈', 81000, 0, UUID_TO_BIN('2d68d1d0-ed27-46d2-b858-da3f0aa2e430'), 8, '2019-08-25 12:36:04');
-insert into item (id, name, price, is_deleted, seller_seller_id, category_id, created_at) values (UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb28'), '미니원피스', 50000, 0, UUID_TO_BIN('8d41c42a-011b-4525-9864-b24481f985c6'), 60, '2019-08-25 12:36:05');
-insert into item (id, name, price, is_deleted, seller_seller_id, category_id, created_at) values (UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb29'), '미디원피스', 51000, 0, UUID_TO_BIN('8d41c42a-011b-4525-9864-b24481f985c6'), 61, '2019-08-25 12:36:06');
-insert into item (id, name, price, is_deleted, seller_seller_id, category_id, created_at) values (UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb30'), '롱원피스', 52000, 0, UUID_TO_BIN('8d41c42a-011b-4525-9864-b24481f985c6'), 62, '2019-08-25 12:36:07');
+INSERT INTO item (id, name, price, is_deleted, seller_seller_id, shipping_charge_type,, shippingCharge, returnCharge, returnAddress, description, category_id, created_at) VALUES (UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb27'), '로토 스르르트 썸머 슈즈', 81000, 0, UUID_TO_BIN('2d68d1d0-ed27-46d2-b858-da3f0aa2e430'), 'FREE_SHIPPING', 3000, 2500, '경기 성남시 분당구 정자일로 45','이쁜 상품',8, '2019-08-25 12:36:04');
+insert into item (id, name, price, is_deleted, seller_seller_id, shipping_charge_type, shipping_charge, return_charge, return_address, description, category_id, created_at) values (UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb28'), '미니원피스', 50000, 0, UUID_TO_BIN('8d41c42a-011b-4525-9864-b24481f985c6'),  'FREE_SHIPPING', 3000, 2500, '경기 성남시 분당구 정자일로 45','이쁜 상품',60, '2019-08-25 12:36:05');
+insert into item (id, name, price, is_deleted, seller_seller_id, shipping_charge_type, shippingCharge, returnCharge, returnAddress, description,category_id, created_at) values (UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb29'), '미디원피스', 51000, 0, UUID_TO_BIN('8d41c42a-011b-4525-9864-b24481f985c6'),  'FREE_SHIPPING', 3000, 2500, '경기 성남시 분당구 정자일로 45', 61, '2019-08-25 12:36:06');
+insert into item (id, name, price, is_deleted, seller_seller_id, shipping_charge_type, shippingCharge, returnCharge, returnAddress, description,category_id, created_at) values (UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb30'), '롱원피스', 52000, 0, UUID_TO_BIN('8d41c42a-011b-4525-9864-b24481f985c6'),  'FREE_SHIPPING', 3000, 2500, '경기 성남시 분당구 정자일로 45', 62, '2019-08-25 12:36:07');
 
 INSERT INTO item_send_type(id, send_type, item_id) VALUES (1, 'SHIPPING', UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb27'));
 INSERT INTO item_send_type(id, send_type, item_id) VALUES (2, 'VISIT', UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb27'));
@@ -18,7 +18,7 @@ INSERT INTO item_option(id, name, price, description, is_deleted, option_group_i
 INSERT INTO item_option(id, name, price, description, is_deleted, option_group_id) VALUES (UUID_TO_BIN('74e0b285-c1d4-4b62-b8b8-18f4ab4b46c1'), '5cm', 0, '참을 수 없는 옵션의 유혹', 0, UUID_TO_BIN('d1cb3733-da60-413e-9574-8085372bbce7'));
 INSERT INTO item_option(id, name, price, description, is_deleted, option_group_id) VALUES (UUID_TO_BIN('af8cab71-4be5-4948-b21f-7b621d29dc07'), '7cm', 0, '참을 수 없는 옵션의 유혹', 0, UUID_TO_BIN('d1cb3733-da60-413e-9574-8085372bbce7'));
 
-INSERT INTO item(id, name, price, is_deleted, seller_seller_id, category_id, created_at) VALUES (UUID_TO_BIN('1523bc68-e8f7-4140-b7dd-cbfe622e068a'), '뿌린클 순살치킨 세트', 20000, 0, UUID_TO_BIN('8d41c42a-011b-4525-9864-b24481f985c5'), 5, '2019-08-25 12:36:08');
+INSERT INTO item(id, name, price, is_deleted, seller_seller_id, shipping_charge_type, shipping_charge, return_charge, return_address, description, category_id, created_at) VALUES (UUID_TO_BIN('1523bc68-e8f7-4140-b7dd-cbfe622e068a'), '뿌린클 순살치킨 세트', 20000, 0, UUID_TO_BIN('8d41c42a-011b-4525-9864-b24481f985c5'), 'FREE_SHIPPING', 3000, 2500, '경기 성남시 분당구 정자일로 45', 5, '2019-08-25 12:36:08');
 
 INSERT INTO item_send_type(id, send_type, item_id) VALUES (3, 'DELIVERY', UUID_TO_BIN('1523bc68-e8f7-4140-b7dd-cbfe622e068a'));
 INSERT INTO item_send_type(id, send_type, item_id) VALUES (4, 'PICKUP', UUID_TO_BIN('1523bc68-e8f7-4140-b7dd-cbfe622e068a'));
@@ -33,7 +33,7 @@ INSERT INTO item_option(id, name, price, description, is_deleted, option_group_i
 
 -- 예약 상품 등록
 
-INSERT INTO item(id, name, price, is_deleted, seller_seller_id, category_id, created_at) VALUES (UUID_TO_BIN('82cdc2eb-5ee8-4bde-8e32-654054b7fc16'), '디너코스', 0, 0, UUID_TO_BIN('54717bb2-2850-40e5-9889-d17d227f1606'), 5, '2019-08-25 12:36:09');
+INSERT INTO item(id, name, price, is_deleted, seller_seller_id, shipping_charge_type, shipping_charge, return_charge, return_address, description, category_id, created_at) VALUES (UUID_TO_BIN('82cdc2eb-5ee8-4bde-8e32-654054b7fc16'), '디너코스', 0, 0, UUID_TO_BIN('54717bb2-2850-40e5-9889-d17d227f1606'), 'FREE_SHIPPING', 3000, 2500, '경기 성남시 분당구 정자일로 45', 5, '2019-08-25 12:36:09');
 
 INSERT INTO item_send_type(id, send_type, item_id) VALUES (5, 'RESERVATION', UUID_TO_BIN('82cdc2eb-5ee8-4bde-8e32-654054b7fc16'));
 
