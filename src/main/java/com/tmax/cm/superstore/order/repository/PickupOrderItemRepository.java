@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.tmax.cm.superstore.order.entity.PickupOrderItem;
 import com.tmax.cm.superstore.order.entity.PickupOrderSelectedOption;
-import com.tmax.cm.superstore.order.entity.ShippingOrderItem;
 
 public interface PickupOrderItemRepository extends JpaRepository<PickupOrderItem, UUID> {
 	Optional<PickupOrderItem> findByPickupOrderSelectedOptions(PickupOrderSelectedOption pickupOrderSelectedOption);

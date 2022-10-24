@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import com.epages.restdocs.apispec.ParameterDescriptorWithType;
 import com.tmax.cm.superstore.EasyRestDocumentation;
 import com.tmax.cm.superstore.code.PickupType;
+import com.tmax.cm.superstore.code.SendType;
 import com.tmax.cm.superstore.code.ShippingType;
 
 public class OrderBuyerControllerIntegrationTest extends AbstractIntegrationTest {
@@ -144,6 +145,30 @@ public class OrderBuyerControllerIntegrationTest extends AbstractIntegrationTest
     }
 
     @Test
+    void testGetVisitAndPickupOrderSelectedOptionAllByUserAndSendTypePICKUP() throws Exception {
+        // given
+        SendType sendType = SendType.PICKUP;
+
+        // when
+        ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
+                .get("/v1/order/buyer/visitAndPickup")
+                .param("sendType", sendType.toString())
+                .header(HttpHeaders.AUTHORIZATION, this.testJwtGenerator.generate()));
+
+        // then
+        ParameterDescriptorWithType requestParameterSendType = EasyRestDocumentation
+                .createRequestParameter("sendType", this.createTypeDescription(SendType.class),
+                        false);
+
+        result.andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(EasyRestDocumentation.documentWithJwtAndRequestParameter(
+                        "getVisitAndPickupOrderSelectedOptionAllByUserAndSendTypePICKUP",
+                        "유저별 방문수령 및 픽업 주문 조회",
+                        this.tag, requestParameterSendType));
+    }
+
+    @Test
     void testGetVisitAndPickupOrderSelectedOptionByUserAndSelectedOptionId() throws Exception {
         // given
         String selectedOptionId = "6148b3fe-7fdd-4344-8938-4d938bd23799";
@@ -200,6 +225,30 @@ public class OrderBuyerControllerIntegrationTest extends AbstractIntegrationTest
                         "getShippingAndDeliveryOrderSelectedOptionAllByUserAndShippingTypeShipping_WAITING",
                         "유저별 배송 및 배달 주문 조회",
                         this.tag, requestParameterPickupType));
+    }
+
+    @Test
+    void testGetVisitAndShippingAndDeliveryOptionAllByUserAndSendTypeSHIPPING() throws Exception {
+        // given
+        SendType sendType = SendType.SHIPPING;
+
+        // when
+        ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
+                .get("/v1/order/buyer/shippingAndDelivery")
+                .param("sendType", sendType.toString())
+                .header(HttpHeaders.AUTHORIZATION, this.testJwtGenerator.generate()));
+
+        // then
+        ParameterDescriptorWithType requestParameterSendType = EasyRestDocumentation
+                .createRequestParameter("sendType", this.createTypeDescription(SendType.class),
+                        false);
+
+        result.andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(EasyRestDocumentation.documentWithJwtAndRequestParameter(
+                        "getVisitAndShippingAndDeliveryOptionAllByUserAndSendTypePICKUP",
+                        "유저별 배송 및 배달 주문 조회",
+                        this.tag, requestParameterSendType));
     }
 
     @Test
