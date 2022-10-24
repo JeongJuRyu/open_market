@@ -37,7 +37,7 @@ public class ItemControllerIntegrationTest extends AbstractIntegrationTest {
                 put("shippingChargeType", "free_shipping");
                 put("shippingCharge", 3000);
                 put("returnAddress", "경기 성남시 분당구 정자일로 45");
-                put("returnCharge",3000);
+                put("returnCharge", 3000);
                 put("description", "아주 이쁜 신발");
                 put("optionGroups", new JSONArray() {
                     {
@@ -152,7 +152,7 @@ public class ItemControllerIntegrationTest extends AbstractIntegrationTest {
                 put("shippingChargeType", "not_free_shipping");
                 put("shippingCharge", 2500);
                 put("returnAddress", "경기 성남시 분당구 정자일로 45");
-                put("returnCharge",5000);
+                put("returnCharge", 5000);
                 put("description", "아주 못생긴 신발");
                 put("optionGroups", new JSONArray() {
                     {

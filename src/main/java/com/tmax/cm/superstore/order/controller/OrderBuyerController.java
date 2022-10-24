@@ -19,6 +19,7 @@ import com.tmax.cm.superstore.cart.service.CartItemService;
 import com.tmax.cm.superstore.code.PaymentType;
 import com.tmax.cm.superstore.code.PickupType;
 import com.tmax.cm.superstore.code.ResponseCode;
+import com.tmax.cm.superstore.code.SendType;
 import com.tmax.cm.superstore.code.ShippingType;
 import com.tmax.cm.superstore.common.ResponseDto;
 import com.tmax.cm.superstore.common.util.TransactionHandler;
@@ -117,7 +118,8 @@ public class OrderBuyerController {
 
     @GetMapping("/visitAndPickup")
     public ResponseDto<GetVisitAndPickupOrderSelectedOptionAllByUserDto.Response> getVisitAndPickupOrderSelectedOptionAllByUser(
-            @AuthenticationPrincipal User user, @RequestParam(required = false) PickupType pickupType) {
+            @AuthenticationPrincipal User user, @RequestParam(required = false) PickupType pickupType,
+            @RequestParam(required = false) SendType sendType) {
         List<VisitOrder> visitOrders;
         List<PickupOrder> pickupOrders;
         PaymentType paymentType = null;
@@ -136,6 +138,19 @@ public class OrderBuyerController {
 
         if (!pickupOrders.isEmpty()) {
             paymentType = visitOrders.get(0).getOrder().getPayment().getPaymentType();
+        }
+
+        if (sendType == SendType.VISIT) {
+            pickupOrders.clear();
+        }
+
+        if (sendType == SendType.PICKUP) {
+            visitOrders.clear();
+        }
+
+        if (sendType == SendType.RESERVATION || sendType == SendType.DELIVERY || sendType == SendType.SHIPPING) {
+            pickupOrders.clear();
+            visitOrders.clear();
         }
 
         GetVisitAndPickupOrderSelectedOptionAllByUserDto.Response response = this.getPickupOrderSelectedOptionAllByUserDtoMapper
@@ -159,7 +174,8 @@ public class OrderBuyerController {
 
     @GetMapping("/shippingAndDelivery")
     public ResponseDto<GetShippingAndDeliveryOrderSelectedOptionAllByUserDto.Response> getShippingAndDeliveryOrderSelectedOptionAllByUser(
-            @AuthenticationPrincipal User user, @RequestParam(required = false) ShippingType shippingType) {
+            @AuthenticationPrincipal User user, @RequestParam(required = false) ShippingType shippingType,
+            @RequestParam(required = false) SendType sendType) {
 
         List<ShippingOrder> shippingOrders;
         List<DeliveryOrder> deliveryOrders;
@@ -179,6 +195,19 @@ public class OrderBuyerController {
 
         if (!deliveryOrders.isEmpty()) {
             paymentType = deliveryOrders.get(0).getOrder().getPayment().getPaymentType();
+        }
+
+        if (sendType == SendType.SHIPPING) {
+            deliveryOrders.clear();
+        }
+
+        if (sendType == SendType.DELIVERY) {
+            shippingOrders.clear();
+        }
+
+        if (sendType == SendType.RESERVATION || sendType == SendType.PICKUP || sendType == SendType.VISIT) {
+            deliveryOrders.clear();
+            shippingOrders.clear();
         }
 
         GetShippingAndDeliveryOrderSelectedOptionAllByUserDto.Response response = this.getShippingAndDeliveryOrderSelectedOptionAllByUserDtoMapper
