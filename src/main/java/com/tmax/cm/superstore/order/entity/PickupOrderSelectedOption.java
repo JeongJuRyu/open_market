@@ -12,21 +12,21 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.tmax.cm.superstore.common.entity.BaseTimeEntity;
 import com.tmax.cm.superstore.pickup.entity.Pickup;
+import com.tmax.cm.superstore.seller.entity.Seller;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
-@Setter
 @Entity
-public class PickupOrderSelectedOption {
+public class PickupOrderSelectedOption extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
@@ -48,4 +48,8 @@ public class PickupOrderSelectedOption {
     @ManyToOne
     @JoinColumn(nullable = false)
     private Pickup pickup;
+
+    @ManyToOne(cascade = { CascadeType.PERSIST })
+    @JoinColumn(nullable = false)
+    private Seller seller;
 }

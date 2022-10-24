@@ -2,6 +2,7 @@ package com.tmax.cm.superstore.item.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.tmax.cm.superstore.code.SendType;
+import com.tmax.cm.superstore.code.ShippingChargeType;
 import com.tmax.cm.superstore.item.code.ItemState;
 import com.tmax.cm.superstore.item.entity.ItemImage;
 import lombok.Builder;

@@ -11,8 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 
+import com.tmax.cm.superstore.common.entity.BaseTimeEntity;
 import com.tmax.cm.superstore.seller.entity.Seller;
 
 import lombok.AllArgsConstructor;
@@ -27,7 +28,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class DeliveryOrder {
+public class DeliveryOrder extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,11 +41,12 @@ public class DeliveryOrder {
     @JoinColumn(nullable = false)
     private Order order;
 
-    @OneToOne(cascade = { CascadeType.PERSIST })
+    @ManyToOne(cascade = { CascadeType.PERSIST })
     @JoinColumn(nullable = false)
     private Seller seller;
 
     @OneToMany(cascade = { CascadeType.PERSIST })
     @JoinColumn(name = "deliveryOrderId")
+    @OrderBy("id DESC")
     private List<ShippingOrderItem> shippingOrderItems;
 }

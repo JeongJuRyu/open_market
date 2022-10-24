@@ -1,9 +1,15 @@
 package com.tmax.cm.superstore.user.service;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Arrays;
 import java.util.UUID;
 
 import javax.security.auth.DestroyFailedException;
 
+import com.tmax.cm.superstore.user.error.exception.UserPhoneNumAlreadyExistException;
+import com.tmax.cm.superstore.wishlist.entity.WishlistGroup;
+import com.tmax.cm.superstore.wishlist.repository.WishlistGroupRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +20,6 @@ import com.tmax.cm.superstore.user.dto.CreateUserRequestDto;
 import com.tmax.cm.superstore.user.dto.EmailAuthRequestDto;
 import com.tmax.cm.superstore.user.dto.EmailAuthResponseDto;
 import com.tmax.cm.superstore.user.dto.GetUserDeliveryInfoResponseDto;
-import com.tmax.cm.superstore.user.dto.GetUserInfoRequestDto;
 import com.tmax.cm.superstore.user.dto.GetUserInfoResponseDto;
 import com.tmax.cm.superstore.user.dto.PostDeliveryRequestDto;
 import com.tmax.cm.superstore.user.dto.UpdateDeliveryInfoRequestDto;
@@ -28,7 +33,9 @@ import com.tmax.cm.superstore.user.error.exception.EmailNotFoundException;
 import com.tmax.cm.superstore.user.error.exception.UserAlreadyExistException;
 import com.tmax.cm.superstore.user.error.exception.WrongPasswordException;
 import com.tmax.cm.superstore.user.mapper.DeliveryMapper;
+import com.tmax.cm.superstore.user.repository.DeliveryRepository;
 import com.tmax.cm.superstore.user.repository.UserRepository;
+import com.tmax.cm.superstore.user.util.DeliveryComparator;
 
 import lombok.RequiredArgsConstructor;
 
@@ -38,16 +45,20 @@ public class UserService {
 	private final UserRepository userRepository;
 	private final EmailService emailService;
 	private final DeliveryMapper deliveryMapper;
+	private final WishlistGroupRepository wishlistGroupRepository;
+	private final DeliveryRepository deliveryRepository;
 
 	@Transactional(readOnly = true)
-	public ResponseDto<GetUserInfoResponseDto> getUserInfo(GetUserInfoRequestDto dto){
-		User user = userRepository.findUserByEmail(dto.getEmail()).orElseThrow(EmailNotFoundException::new);
+	public ResponseDto<GetUserInfoResponseDto> getUserInfo(User user){
+		user.getDeliveryAddresses().sort(new DeliveryComparator());
 		return ResponseDto.<GetUserInfoResponseDto>builder()
 				.responseCode(ResponseCode.USER_INFO_READ)
 				.data(GetUserInfoResponseDto.builder()
 					.name(user.getName())
 					.email(user.getEmail())
 					.phoneNum(user.getPhoneNum())
+					.deliveryAddresses(deliveryMapper.toDeliveriesDto(
+						user.getDeliveryAddresses()))
 					.build())
 				.build();
 	}
@@ -56,7 +67,10 @@ public class UserService {
 	public ResponseDto<Object> createUser(CreateUserRequestDto createUserRequestDto){
 		if(checkEmailDuplicate(createUserRequestDto.getEmail())){
 			throw new UserAlreadyExistException();
+		} else if(checkPhoneNumDuplicate(createUserRequestDto.getUserPhoneNum())){
+			throw new UserPhoneNumAlreadyExistException();
 		}
+
 		User user = User.builder()
 			.email(createUserRequestDto.getEmail())
 			.password(createUserRequestDto.getPassword())
@@ -64,9 +78,25 @@ public class UserService {
 			.address(createUserRequestDto.getAddress())
 			.name(createUserRequestDto.getName())
 			.build();
+
+		WishlistGroup wishlistGroup = WishlistGroup.builder()
+				.position(0)
+				.name("기본 그룹")
+				.build();
+
+		wishlistGroup.setUpUser(user);
+		wishlistGroupRepository.save(wishlistGroup);
 		userRepository.save(user);
 		return ResponseDto.builder()
 			.responseCode(ResponseCode.USER_CREATE)
+			.data(null).build();
+	}
+
+	@Transactional
+	public ResponseDto<Object> deleteUser(User user){
+		userRepository.delete(user);
+		return ResponseDto.builder()
+			.responseCode(ResponseCode.USER_DELETE)
 			.data(null).build();
 	}
 	@Transactional
@@ -107,28 +137,30 @@ public class UserService {
 		user.updatePassword(newPassword);
 	}
 
-	public boolean checkEmailDuplicate(String email){
-		return userRepository.existsByEmail(email);
-	}
-
 	@Transactional(readOnly = true)
-	public ResponseDto<GetUserDeliveryInfoResponseDto> getUserDeliveryInfo(){
-		String email = (String)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		User user = userRepository
-			.findUserByEmail(email).orElseThrow(EmailNotFoundException::new);
+	public ResponseDto<GetUserDeliveryInfoResponseDto> getUserDeliveryInfo(User user){
+		user.getDeliveryAddresses().sort(new DeliveryComparator());
 		return ResponseDto.<GetUserDeliveryInfoResponseDto>builder()
 			.responseCode(ResponseCode.USER_DELIVERY_READ)
 			.data(GetUserDeliveryInfoResponseDto.builder()
-				.deliveryAddresses(deliveryMapper.toDeliveriesDto(user.getDeliveryAddresses()))
+				.deliveryAddresses(deliveryMapper
+					.toDeliveriesDto(user.getDeliveryAddresses()))
 				.build())
 			.build();
 	}
+
 	@Transactional
 	public ResponseDto<Object> postDeliveryInfo(
-		PostDeliveryRequestDto dto){
-		User user = userRepository
-			.findUserByEmail(dto.getEmail()).orElseThrow(EmailNotFoundException::new);
-		user.postDeliveryAddress(dto);
+		PostDeliveryRequestDto dto, User user){
+		if(user.getDeliveryAddresses().size() >= 1 && dto.isDefaultAddress()){
+			DeliveryAddress oldDeliveryAddress = user.getDeliveryAddresses().stream()
+				.filter(DeliveryAddress::getIsDefaultAddress)
+				.findAny().orElseThrow(DeliveryAddressNotFoundException::new);
+			oldDeliveryAddress = deliveryRepository.findById(oldDeliveryAddress.getId())
+				.orElseThrow(DeliveryAddressNotFoundException::new);
+			oldDeliveryAddress.setDefaultAddress(false);
+		}
+		deliveryRepository.save(user.postDeliveryAddress(dto));
 		return ResponseDto.builder()
 			.responseCode(ResponseCode.USER_DELIVERY_CREATE)
 			.data(null).build();
@@ -136,23 +168,19 @@ public class UserService {
 
 	@Transactional
 	public ResponseDto<Object> updateDeliveryInfo(UpdateDeliveryInfoRequestDto dto){
-		User user = userRepository.findUserByEmail(dto.getEmail())
-			.orElseThrow(EmailNotFoundException::new);
-		user.updateDeliveryAddress(dto);
+		DeliveryAddress deliveryAddress = deliveryRepository.findById(dto.getShippingAddressId())
+			.orElseThrow(DeliveryAddressNotFoundException::new);
+		deliveryAddress.updateDeliveryAddress(dto);
 		return ResponseDto.builder()
 			.responseCode(ResponseCode.USER_DELIVERY_UPDATE)
 			.data(null).build();
 	}
 
 	@Transactional
-	public ResponseDto<Object> deleteDeliveryInfo(UUID id){
-		String email = (String)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		User user = userRepository
-			.findUserByEmail(email).orElseThrow(EmailNotFoundException::new);
-		DeliveryAddress deliveryAddress = user.getDeliveryAddresses().stream()
-			.filter(address -> address.getId() == id)
-			.findAny().orElseThrow(DeliveryAddressNotFoundException::new);
-		user.getDeliveryAddresses().remove(deliveryAddress);
+	public ResponseDto<Object> deleteDeliveryInfo(User user, UUID id){
+		DeliveryAddress deliveryAddress = deliveryRepository.findById(id)
+			.orElseThrow(DeliveryAddressNotFoundException::new);
+		deliveryRepository.delete(deliveryAddress);
 		return ResponseDto.builder()
 			.responseCode(ResponseCode.USER_DELIVERY_DELETE)
 			.data(null).build();
@@ -166,5 +194,13 @@ public class UserService {
 		return ResponseDto.builder()
 			.responseCode(ResponseCode.USER_DEFAULT_DELIVERY_SET)
 			.data(null).build();
+	}
+
+	public boolean checkEmailDuplicate(String email){
+		return userRepository.existsByEmail(email);
+	}
+
+	public Boolean checkPhoneNumDuplicate(String phoneNum){
+		return userRepository.existsByPhoneNum(phoneNum);
 	}
 }

@@ -92,7 +92,6 @@ public class JwtUtil implements InitializingBean {
 	public static VerifyResult validateToken(String token) throws InvalidJwtException {
 		try {
 			Jws<Claims> claimsJws = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
-
 			return VerifyResult.builder().success(true).username(claimsJws.getBody().getSubject()).build();
 		} catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
 			logger.info("잘못된 JWT 서명입니다.");

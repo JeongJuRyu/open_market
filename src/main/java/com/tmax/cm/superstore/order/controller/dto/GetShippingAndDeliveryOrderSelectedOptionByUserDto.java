@@ -1,24 +1,35 @@
 package com.tmax.cm.superstore.order.controller.dto;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import com.tmax.cm.superstore.code.PickupType;
+import com.tmax.cm.superstore.code.PaymentType;
+import com.tmax.cm.superstore.code.ShippingType;
 
 import lombok.Builder;
 import lombok.Getter;
 
-public class GetPickupOrderSelectedOptionAllByShopDto {
+public class GetShippingAndDeliveryOrderSelectedOptionByUserDto {
 
     @Builder
     @Getter
     public static class Response {
 
-        private UUID pickupOrderSelectedOptionId;
+        private UUID orderSelectedOptionId;
+
+        private UUID sellerId;
+
+        private String sellerName;
 
         private UUID itemId;
 
         private String itemName;
+
+        @Builder.Default // TODO remove defualt image
+        private String itemImage = "http://192.168.159.42:8888/images/58c04a256d774a1a8d6c8f3659eeadbf";
+
+        private boolean isReviewExist;
 
         private Integer itemPrice;
 
@@ -34,7 +45,11 @@ public class GetPickupOrderSelectedOptionAllByShopDto {
 
         private String requests;
 
-        private PickupType pickUpType;
+        private ShippingType shippingType;
+
+        private PaymentType paymentType;
+
+        private LocalDateTime createdAt;
 
         private List<GetOrderOptionGroupDto> orderOptionGroups;
 

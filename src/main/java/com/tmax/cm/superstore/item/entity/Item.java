@@ -15,7 +15,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
+import com.tmax.cm.superstore.code.ShippingChargeType;
+import com.tmax.cm.superstore.seller.entity.SellerDelivery;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -84,6 +87,22 @@ public class Item extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private ItemState itemState;
 
+    @Column(nullable = false, columnDefinition = "varchar(255) default 'FREE_SHIPPING'")
+    @Enumerated(EnumType.STRING)
+    private ShippingChargeType shippingChargeType;
+
+    @Column(nullable = false)
+    private Integer shippingCharge;
+
+    @Column
+    private Integer returnCharge;
+
+    @Column
+    private String returnAddress;
+
+    @Column
+    private String description;
+
     public void validateSendType(SendType sendType) {
         boolean isSendTypeContain = this.itemSendTypes.stream()
                 .anyMatch((element) -> {
@@ -100,10 +119,16 @@ public class Item extends BaseTimeEntity {
         itemImage.setItem(this);
     }
 
-    public void updateItem(Category category, String name, Integer price, ItemState itemState) {
+    public void updateItem(Category category, String name, Integer price, ItemState itemState,
+                           ShippingChargeType shippingChargeType, Integer shippingCharge, String description, String returnAddress, Integer returnCharge) {
         this.category = category;
         this.name = name;
         this.price = price;
         this.itemState = itemState;
+        this.shippingChargeType = shippingChargeType;
+        this.shippingCharge = shippingCharge;
+        this.description = description;
+        this.returnAddress = returnAddress;
+        this.returnCharge = returnCharge;
     }
 }

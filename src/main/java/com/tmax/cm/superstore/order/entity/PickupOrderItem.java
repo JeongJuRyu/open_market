@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 
 import com.tmax.cm.superstore.item.entity.Item;
 
@@ -20,13 +21,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
-@Setter
 @Entity
 public class PickupOrderItem {
 
@@ -45,6 +44,7 @@ public class PickupOrderItem {
 
 	@OneToMany(cascade = { CascadeType.PERSIST })
 	@JoinColumn(name = "pickupOrderItemId")
+	@OrderBy("createdAt DESC")
 	private List<PickupOrderSelectedOption> pickupOrderSelectedOptions;
 
 	@OneToOne(fetch = FetchType.LAZY)

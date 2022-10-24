@@ -1,5 +1,6 @@
 package com.tmax.cm.superstore.item.service;
 
+import com.tmax.cm.superstore.item.code.ItemState;
 import com.tmax.cm.superstore.item.dto.GetItemAllByCategoryDto;
 import com.tmax.cm.superstore.item.dto.mapper.GetItemAllByCategoryDtoMapper;
 import com.tmax.cm.superstore.item.entity.Item;
@@ -19,8 +20,8 @@ public class ItemSearchService {
     private final GetItemAllByCategoryDtoMapper getItemAllByCategoryDtoMapper;
 
     @Transactional
-    public GetItemAllByCategoryDto.Response searchItemByKeyword(String keyword, Long categoryId){
-        List<Item> items = itemRepository.findByKeyword(keyword, categoryId);
+    public GetItemAllByCategoryDto.Response searchItemByName(String name){
+        List<Item> items = itemRepository.findByNameContaining(name);
 
         if (items.isEmpty()){
             throw new ItemNotFoundException();
@@ -34,9 +35,8 @@ public class ItemSearchService {
     }
 
     @Transactional
-    public GetItemAllByCategoryDto.Response searchItemByName(String name){
-        List<Item> items = itemRepository.findByNameContaining(name);
-
+    public GetItemAllByCategoryDto.Response searchItemByName(String name, List<ItemState> itemState, Long categoryId){
+        List<Item> items = itemRepository.findByKeyword(name, categoryId, itemState);
         if (items.isEmpty()){
             throw new ItemNotFoundException();
         }

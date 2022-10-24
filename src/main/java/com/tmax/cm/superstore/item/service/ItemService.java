@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import javax.transaction.Transactional;
 
+import net.bytebuddy.description.field.FieldDescription;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -58,6 +59,11 @@ public class ItemService {
                 .itemState(postItemDto.getItemState())
                 .optionGroups(new ArrayList<>())
                 .itemSendTypes(new ArrayList<>())
+                .shippingCharge(postItemDto.getShippingCharge())
+                .shippingChargeType(postItemDto.getShippingChargeType())
+                .returnAddress(postItemDto.getReturnAddress())
+                .returnCharge(postItemDto.getReturnCharge())
+                .description(postItemDto.getDescription())
                 .category(category)
                 .build();
 
@@ -215,7 +221,9 @@ public class ItemService {
             item.getOptionGroups().add(optionGroup);
         }
 
-        item.updateItem(category, updateItemDto.getName(), updateItemDto.getPrice(), updateItemDto.getItemState());
+        item.updateItem(category, updateItemDto.getName(), updateItemDto.getPrice(), updateItemDto.getItemState()
+                            ,updateItemDto.getShippingChargeType(), updateItemDto.getShippingCharge()
+                            ,updateItemDto.getDescription(), updateItemDto.getReturnAddress(), updateItemDto.getReturnCharge());
 
         this.itemRepository.save(item);
 
@@ -227,4 +235,10 @@ public class ItemService {
         Item item = itemRepository.findById(itemId).orElseThrow(ItemNotFoundException::new);
         itemRepository.delete(item);
     }
+
+    @Transactional
+    public Long getItemCount() {
+        return itemRepository.count();
+    }
+
 }

@@ -5,6 +5,8 @@ import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -19,8 +21,11 @@ import com.tmax.cm.superstore.item.entity.Item;
 import com.tmax.cm.superstore.mypage.dto.PostReviewReplyRequestDto;
 import com.tmax.cm.superstore.mypage.dto.UpdateReviewReplyRequestDto;
 import com.tmax.cm.superstore.mypage.dto.UpdateReviewRequestDto;
-import com.tmax.cm.superstore.order.entity.PickupOrderItem;
+import com.tmax.cm.superstore.order.entity.PickupOrderSelectedOption;
+import com.tmax.cm.superstore.order.entity.ShippingOrderItem;
+import com.tmax.cm.superstore.order.entity.ShippingOrderSelectedOption;
 import com.tmax.cm.superstore.user.entities.User;
+import com.tmax.cm.superstore.user.entities.enumeration.OrderType;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -30,18 +35,15 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Builder(builderMethodName = "ReviewBuilder")
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Review extends BaseTimeEntity {
 	@Id
 	@GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-	@Column(name = "REVIEW_ID", columnDefinition = "BINARY(16)")
+	@Column(columnDefinition = "BINARY(16)")
 	private UUID id;
-
-	@Column(nullable = false)
-	private String title;
 
 	@Column(nullable = false)
 	private String content;
@@ -49,11 +51,21 @@ public class Review extends BaseTimeEntity {
 	@Column(nullable = false)
 	private Float starRating;
 
-	@Column(nullable = false)
-	private Long isUseful;
-
 	@Column
-	private Boolean isReplied;
+	@Builder.Default
+	private Boolean isReplied = false;
+
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	private OrderType orderType;
+
+	@OneToOne
+	@JoinColumn()
+	private PickupOrderSelectedOption pickupOrderSelectedOption;
+
+	@OneToOne
+	@JoinColumn()
+	private ShippingOrderSelectedOption shippingOrderSelectedOption;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn()
@@ -63,16 +75,12 @@ public class Review extends BaseTimeEntity {
 	@JoinColumn()
 	private Item item;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(nullable = false)
-	private PickupOrderItem orderItem;
-
 	@OneToOne(mappedBy = "review", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	private ReviewReply reviewReply;
 
 	public void updateReview(UpdateReviewRequestDto dto) {
-		this.title = dto.getTitle();
 		this.content = dto.getContent();
+		this.starRating = dto.getStarRating();
 	}
 
 	public void setReviewReply(PostReviewReplyRequestDto dto) {

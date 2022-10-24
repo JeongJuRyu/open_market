@@ -1,5 +1,6 @@
 package com.tmax.cm.superstore.pickup.service;
 
+
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
@@ -9,6 +10,8 @@ import com.tmax.cm.superstore.pickup.entity.Pickup;
 import com.tmax.cm.superstore.pickup.repository.PickupRepository;
 
 import lombok.RequiredArgsConstructor;
+
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -23,7 +26,7 @@ public class PickupService {
                 .address(address)
                 .mobile(mobile)
                 .requests(request)
-                .pickUpType(PickupType.PICKUP_WAITING)
+                .pickupType(PickupType.PICKUP_WAITING)
                 .build();
 
         pickUpRepository.save(pickUp);
@@ -31,23 +34,26 @@ public class PickupService {
     }
 
     @Transactional
-    public void acceptPick(Pickup pickUp) {
-        pickUp.acceptState();
+    public void acceptPick(UUID pickupId) {
+        Pickup pickup = pickUpRepository.findWithIdForUpdate(pickupId);
+        pickup.acceptState();
     }
 
     @Transactional
-    public void refusePick(Pickup pickUp) {
-        pickUp.refuseState();
+    public void refusePick(UUID pickupId) {
+        Pickup pickup = pickUpRepository.findWithIdForUpdate(pickupId);
+        pickup.refuseState();
     }
 
     @Transactional
-    public void readyPick(Pickup pickUp) {
-        pickUp.readyState();
+    public void readyPick(UUID pickupId) {
+        Pickup pickup = pickUpRepository.findWithIdForUpdate(pickupId);
+        pickup.readyState();
     }
 
     @Transactional
-    public void donePick(Pickup pickUp) {
-        pickUp.doneState();
+    public void donePick(UUID pickupId) {
+        Pickup pickup = pickUpRepository.findWithIdForUpdate(pickupId);
+        pickup.doneState();
     }
-
 }

@@ -18,7 +18,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.tmax.cm.superstore.wishlist.entity.WishlistGroup;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -39,11 +42,13 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @Table(name = "users")
+@Where(clause = "is_deleted = false")
+@SQLDelete(sql = "UPDATE users SET is_deleted = true WHERE user_id = ?")
 public class User implements UserDetails {
 	@Id
 	@GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-	@Column(name = "USER_ID", columnDefinition = "BINARY(16)")
+	@Column(columnDefinition = "BINARY(16)")
 	private UUID id;
 
 	@Column(unique = true, nullable = false)
@@ -63,6 +68,10 @@ public class User implements UserDetails {
 
 	@Column(nullable = false)
 	@Builder.Default
+	private Boolean isDeleted = false;
+
+	@Column(nullable = false)
+	@Builder.Default
 	// false면 계정 만료
 	private Boolean accountNonExpired = true;
 
@@ -71,24 +80,19 @@ public class User implements UserDetails {
 	// false면 계정 잠김
 	private Boolean accountNonLocked = true;
 
-	// @OneToOne(fetch = FetchType.LAZY)
-	// @JoinColumn(name = "EMAIL_TOKEN_ID")
-	// private EmailToken emailToken;
-
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	@Builder.Default
 	private List<DeliveryAddress> deliveryAddresses = new ArrayList<>();
 
 	@ManyToMany
 	@JoinTable(name = "user_authority", joinColumns = {
-			@JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID") }, inverseJoinColumns = {
+			@JoinColumn(name = "id", referencedColumnName = "id") }, inverseJoinColumns = {
 					@JoinColumn(name = "AUTHORITY_NAME", referencedColumnName = "AUTHORITY_NAME") })
 	private Set<Authority> authorities;
 
-	// @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval =
-	// true)
-	// @Builder.Default
-	// private List<WishlistGroup> wishlistGroups = new ArrayList<>();
+	 @OneToMany(mappedBy = "user" , cascade = {CascadeType.PERSIST})
+	 @Builder.Default
+	 private List<WishlistGroup> wishlistGroups = new ArrayList<>();
 
 	public void updateEmail(String email) {
 		this.email = email;
@@ -98,29 +102,18 @@ public class User implements UserDetails {
 		this.password = newPassword;
 	}
 
-	public void postDeliveryAddress(PostDeliveryRequestDto dto) {
+	public DeliveryAddress postDeliveryAddress(PostDeliveryRequestDto dto) {
 		Boolean isFirstAddress = this.deliveryAddresses.size() == 0 ? true : dto.isDefaultAddress();
 		DeliveryAddress deliveryAddress = DeliveryAddress.builder()
 				.recipient(dto.getRecipient())
 				.user(this)
+				.address(dto.getAddress())
+			    .recipient(dto.getRecipient())
 				.mobile(dto.getMobile())
 				.requests(dto.getRequests())
 				.isDefaultAddress(isFirstAddress).build();
 		this.getDeliveryAddresses().add(deliveryAddress);
-	}
-
-	public void updateDeliveryAddress(UpdateDeliveryInfoRequestDto dto) {
-		DeliveryAddress deliveryAddress = this.getDeliveryAddresses()
-				.stream().filter(address -> address.getId() == dto.getShippingAddressId())
-				.findAny().orElseThrow(DeliveryAddressNotFoundException::new);
-		DeliveryAddress newDeliveryAddress = DeliveryAddress.builder()
-				.recipient(dto.getRecipient())
-				.user(this)
-				.mobile(dto.getMobile())
-				.requests(dto.getRequests())
-				.isDefaultAddress(dto.isDefaultAddress()).build();
-		this.getDeliveryAddresses().remove(deliveryAddress);
-		this.getDeliveryAddresses().add(newDeliveryAddress);
+		return deliveryAddress;
 	}
 
 	public void setDeliveryAddress(UUID id) {
@@ -128,9 +121,8 @@ public class User implements UserDetails {
 				.stream().filter(address -> address.getId() == id)
 				.findAny().orElseThrow(DeliveryAddressNotFoundException::new);
 		DeliveryAddress oldDeliveryAddress = this.getDeliveryAddresses()
-				.stream().filter(address -> address.getIsDefaultAddress())
+				.stream().filter(DeliveryAddress::getIsDefaultAddress)
 				.findAny().orElseThrow(DeliveryAddressNotFoundException::new);
-		newDeliveryAddress.setDefaultAddress(oldDeliveryAddress);
 	}
 
 	@Override

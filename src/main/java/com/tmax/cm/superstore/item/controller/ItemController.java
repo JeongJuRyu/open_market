@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
+import com.tmax.cm.superstore.item.code.ItemState;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -101,6 +102,11 @@ public class ItemController {
         return new ResponseDto<>(ResponseCode.ITEM_READ_ALL, itemService.readSimpleItem(categoryId));
     }
 
+    @GetMapping("/count")
+    public ResponseDto<Long> getItemCount(){
+        return new ResponseDto<>(ResponseCode.ITEM_READ_ALL, itemService.getItemCount());
+    }
+
     // @GetMapping("/search/keyword/{keyword}")
     // public ResponseDto<GetItemAllByCategoryDto.Response>
     // searchItemByKeyword(@PathVariable String keyword, @RequestParam("categoryId")
@@ -109,9 +115,9 @@ public class ItemController {
     // itemSearchService.searchItemByKeyword(keyword, categoryId));
     // }
 
-    @GetMapping("/search/keyword/{name}")
-    public ResponseDto<GetItemAllByCategoryDto.Response> searchItemByName(@PathVariable String name) {
-        return new ResponseDto<>(ResponseCode.ITEM_READ_ALL, itemSearchService.searchItemByName(name));
+    @GetMapping("/search/keyword")
+    public ResponseDto<GetItemAllByCategoryDto.Response> searchItemByName(@RequestParam String name, @RequestParam List<ItemState> itemState, @RequestParam Long categoryId) {
+        return new ResponseDto<>(ResponseCode.ITEM_READ_ALL, itemSearchService.searchItemByName(name, itemState, categoryId));
     }
 
 }

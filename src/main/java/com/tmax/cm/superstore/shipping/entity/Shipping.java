@@ -11,6 +11,7 @@ import javax.persistence.Id;
 
 import com.tmax.cm.superstore.code.ShippingType;
 import com.tmax.cm.superstore.common.entity.BaseTimeEntity;
+import com.tmax.cm.superstore.error.exception.UnchangeableOrderStateException;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,24 +45,27 @@ public class Shipping extends BaseTimeEntity {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private ShippingType finalstatus;
+    private ShippingType shippingType;
 
-    public void acceptStatus() {
-        if (this.getFinalstatus() == ShippingType.SHIPPING_WAITING) {
-            setFinalstatus(ShippingType.SHIPPING_ACCEPT);
+    public void acceptStatus() throws UnchangeableOrderStateException {
+        if (this.getShippingType() != ShippingType.SHIPPING_WAITING) {
+            throw new UnchangeableOrderStateException();
         }
+        setShippingType(ShippingType.SHIPPING_ACCEPT);
     }
 
-    public void refuseStatus() {
-        if (this.getFinalstatus() == ShippingType.SHIPPING_WAITING) {
-            setFinalstatus(ShippingType.SHIPPING_REFUSE);
+    public void refuseStatus() throws UnchangeableOrderStateException {
+        if (this.getShippingType() != ShippingType.SHIPPING_WAITING) {
+            throw new UnchangeableOrderStateException();
         }
+        setShippingType(ShippingType.SHIPPING_REFUSE);
     }
 
-    public void doneStatus() {
-        if (this.getFinalstatus().equals(ShippingType.SHIPPING_ACCEPT)) {
-            setFinalstatus(ShippingType.SHIPPING_DONE);
+    public void doneStatus() throws UnchangeableOrderStateException {
+        if (!this.getShippingType().equals(ShippingType.SHIPPING_ACCEPT)) {
+            throw new UnchangeableOrderStateException();
         }
+        setShippingType(ShippingType.SHIPPING_DONE);
     }
 
 }

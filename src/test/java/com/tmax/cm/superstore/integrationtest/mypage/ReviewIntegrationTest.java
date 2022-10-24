@@ -1,38 +1,52 @@
 // package com.tmax.cm.superstore.integrationtest.mypage;
 //
-// import org.junit.jupiter.api.BeforeEach;
+// import org.json.JSONException;
+// import org.json.JSONObject;
 // import org.junit.jupiter.api.Test;
 // import org.junit.jupiter.api.extension.ExtendWith;
-// import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.boot.test.context.SpringBootTest;
-// import org.springframework.restdocs.RestDocumentationContextProvider;
+// import org.springframework.http.HttpHeaders;
+// import org.springframework.http.MediaType;
 // import org.springframework.restdocs.RestDocumentationExtension;
-// import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
-// import org.springframework.security.web.access.channel.ChannelProcessingFilter;
+// import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 // import org.springframework.test.context.ActiveProfiles;
-// import org.springframework.test.web.servlet.MockMvc;
-// import org.springframework.test.web.servlet.MockMvcBuilder;
-// import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+// import org.springframework.test.web.servlet.ResultActions;
+// import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+// import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 // import org.springframework.transaction.annotation.Transactional;
-// import org.springframework.web.context.WebApplicationContext;
-// import org.springframework.web.filter.CharacterEncodingFilter;
+//
+// import com.tmax.cm.superstore.EasyRestDocumentation;
+// import com.tmax.cm.superstore.integrationtest.AbstractIntegrationTest;
 //
 // @SpringBootTest
 // @Transactional
 // @ExtendWith(RestDocumentationExtension.class)
 // @ActiveProfiles("develop-integration-test")
-// public class ReviewIntegrationTest {
-// 	@Autowired
-// 	private WebApplicationContext context;
+// public class ReviewIntegrationTest extends AbstractIntegrationTest {
 //
-// 	private MockMvc mvc;
+// 	private String tag = "Review";
 //
-// 	@BeforeEach
-// 	public void setUp(RestDocumentationContextProvider restDocumentation){
-// 		this.mvc = MockMvcBuilders.webAppContextSetup(context)
-// 			.addFilter(new CharacterEncodingFilter("UTF-8", true))
-// 			.apply(MockMvcRestDocumentation.documentationConfiguration(restDocumentation))
-// 			.build();
+// 	@Test
+// 	void testPostReview() throws Exception {
+// 		//given
+// 		JSONObject request = new JSONObject(){
+// 			{
+// 				put("content", "너무 맛있는데요..?");
+// 				put("starRating", 4.5);
+// 				put("orderItemId", "067ad728-1e0b-4ed3-b560-e0ae58ccaa59");
+// 			}
+// 		};
+// 		//when
+// 		ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
+// 			.post("/v1/review")
+// 			.contentType(MediaType.APPLICATION_JSON)
+// 			.content(request.toString())
+// 			.header(HttpHeaders.AUTHORIZATION, this.testJwtGenerator.generate()));
+// 		//then
+// 		result.andDo(MockMvcResultHandlers.print())
+// 			.andExpect(MockMvcResultMatchers.status().isOk())
+// 			.andDo(EasyRestDocumentation.documentWithJwt("postReview", "리뷰 작성하기", this.tag));
 // 	}
+//
 //
 // }

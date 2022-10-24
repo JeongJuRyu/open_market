@@ -12,6 +12,9 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.tmax.cm.superstore.common.entity.BaseTimeEntity;
+import com.tmax.cm.superstore.user.dto.UpdateDeliveryInfoRequestDto;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,9 +25,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class DeliveryAddress {
-	@Id @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+public class DeliveryAddress extends BaseTimeEntity {
+	@Id
 	@GeneratedValue(generator = "UUID")
+	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+	@Column(columnDefinition = "BINARY(16)")
 	private UUID id;
 
 	@Column(nullable = false)
@@ -42,10 +47,18 @@ public class DeliveryAddress {
 	private String requests;
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
 	private User user;
 
-	public void setDefaultAddress(DeliveryAddress deliveryAddress){
-		this.isDefaultAddress = true;
-		deliveryAddress.isDefaultAddress = false;
+	public void setDefaultAddress(Boolean isDefaultAddress){
+		this.isDefaultAddress = isDefaultAddress;
+	}
+
+	public void updateDeliveryAddress(UpdateDeliveryInfoRequestDto dto){
+		this.address = dto.getAddress();
+		this.mobile = dto.getMobile();
+		this.recipient = dto.getRecipient();
+		this.requests = dto.getRequests();
+		this.isDefaultAddress = dto.getIsDefaultAddress();
 	}
 }

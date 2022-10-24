@@ -14,13 +14,10 @@ public class UpdateDeliveryInfoRequestDto {
 	private UUID shippingAddressId;
 
 	@NotNull
-	private String email;
-
-	@NotNull
 	private String recipient;
 
 	@NotNull
-	private boolean isDefaultAddress;
+	private Boolean isDefaultAddress;
 
 	@NotNull
 	private String mobile;

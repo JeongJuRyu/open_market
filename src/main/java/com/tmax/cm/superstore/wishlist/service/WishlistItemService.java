@@ -4,8 +4,10 @@ import com.tmax.cm.superstore.error.exception.EntityNotFoundException;
 import com.tmax.cm.superstore.item.entity.Item;
 import com.tmax.cm.superstore.item.error.exception.ItemNotFoundException;
 import com.tmax.cm.superstore.item.repository.ItemRepository;
+import com.tmax.cm.superstore.user.entities.User;
 import com.tmax.cm.superstore.wishlist.dto.DeleteWishlistItemsDto;
 import com.tmax.cm.superstore.wishlist.dto.PostCreateWishlistItemDto;
+import com.tmax.cm.superstore.wishlist.entity.WishlistGroup;
 import com.tmax.cm.superstore.wishlist.entity.WishlistItem;
 import com.tmax.cm.superstore.wishlist.error.exception.WishlistItemAlreadyExistsException;
 import com.tmax.cm.superstore.wishlist.repository.WishlistItemRepository;
@@ -38,29 +40,31 @@ public class WishlistItemService {
         return this.wishlistItemRepository.findByWishlistGroupId(groupId);
     }
 
-    public List<WishlistItem> readAll() {
-        return this.wishlistItemRepository.findAll();
+    public List<WishlistItem> readAll(User user) {
+        return this.wishlistItemRepository.findByUserId(user.getId());
     }
 
     @Transactional
-    public WishlistItem create(PostCreateWishlistItemDto.Request itemDto) {
-        if(this.checkItem(itemDto.getItemId()))
+    public WishlistItem create(PostCreateWishlistItemDto.Request itemDto, User user) {
+        if(this.checkItem(itemDto.getItemId(), user))
             throw new WishlistItemAlreadyExistsException();
 
         Item item =  this.itemRepository.findById(itemDto.getItemId())
                 .orElseThrow(ItemNotFoundException::new);
+        WishlistGroup wishlistGroup = user.getWishlistGroups().get(0);
 
         WishlistItem wishlistItem = WishlistItem.builder()
                 .item(item)
                 .build();
 
+        wishlistItem.setGroup(wishlistGroup);
         this.wishlistItemRepository.save(wishlistItem);
         return wishlistItem;
     }
 
     @Transactional
-    public Boolean checkItem(UUID itemId) {
-        return this.wishlistItemRepository.findAll().stream().anyMatch(wishlistItem ->
+    public Boolean checkItem(UUID itemId, User user) {
+        return this.wishlistItemRepository.findByUserId(user.getId()).stream().anyMatch(wishlistItem ->
                 wishlistItem.getItem().getId().equals(itemId));
     }
 

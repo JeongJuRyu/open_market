@@ -1,6 +1,7 @@
 package com.tmax.cm.superstore.wishlist.controller;
 
 import com.tmax.cm.superstore.EasyRestDocumentation;
+import com.tmax.cm.superstore.integrationtest.AbstractIntegrationTest;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
@@ -37,22 +39,10 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @ExtendWith(RestDocumentationExtension.class)
 @ActiveProfiles("develop-integration-test")
-class WishlistControllerTest {
-
-    @Autowired
-    private WebApplicationContext context;
-
-    private MockMvc mvc;
+class WishlistControllerTest extends AbstractIntegrationTest {
 
     private String tag = "Wishlist";
 
-    @BeforeEach
-    public void setUp(RestDocumentationContextProvider restDocumentation) throws Exception {
-        this.mvc = MockMvcBuilders.webAppContextSetup(context)
-                .addFilter(new CharacterEncodingFilter("UTF-8", true))
-                .apply(MockMvcRestDocumentation.documentationConfiguration(restDocumentation))
-                .build();
-    }
 
     @Test
     public void PostWishlistGroupCreate() throws Exception {
@@ -65,6 +55,7 @@ class WishlistControllerTest {
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
                 .post("/v1/wishlist/wishlistGroup")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, this.testJwtGenerator.generate())
                 .content(request.toString()));
 
         // then
@@ -77,7 +68,8 @@ class WishlistControllerTest {
     public void testGetWishlistGroupAll() throws Exception {
         // when
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
-                .get("/v1/wishlist/wishlistGroup"));
+                .get("/v1/wishlist/wishlistGroup")
+                .header(HttpHeaders.AUTHORIZATION, this.testJwtGenerator.generate()));
 
         // then
         result.andDo(MockMvcResultHandlers.print())
@@ -90,6 +82,7 @@ class WishlistControllerTest {
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
                 .get("/v1/wishlist/wishlistItem", "")
                 .param("wishlistGroupId", "1")
+                .header(HttpHeaders.AUTHORIZATION, this.testJwtGenerator.generate())
         );
 
         // then
@@ -102,6 +95,7 @@ class WishlistControllerTest {
     public void testGetWishlistItemAll() throws Exception {
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
                 .get("/v1/wishlist/wishlistItem", "")
+                .header(HttpHeaders.AUTHORIZATION, this.testJwtGenerator.generate())
         );
 
         // then
@@ -123,6 +117,7 @@ class WishlistControllerTest {
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
                 .patch("/v1/wishlist/wishlistGroup/{wishlistGroupId}", 1L)
                 .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, this.testJwtGenerator.generate())
                 .content(request.toString()));
 
         //then
@@ -145,6 +140,7 @@ class WishlistControllerTest {
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
                 .patch("/v1/wishlist/wishlistGroup/listOrder")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, this.testJwtGenerator.generate())
                 .content(request.toString())
         );
 
@@ -168,6 +164,7 @@ class WishlistControllerTest {
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
                 .patch("/v1/wishlist/wishlistItem/move")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, this.testJwtGenerator.generate())
                 .content(request.toString())
         );
 
