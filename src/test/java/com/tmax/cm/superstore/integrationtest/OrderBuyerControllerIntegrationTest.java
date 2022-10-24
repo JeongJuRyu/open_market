@@ -144,6 +144,24 @@ public class OrderBuyerControllerIntegrationTest extends AbstractIntegrationTest
     }
 
     @Test
+    void testGetVisitAndPickupOrderSelectedOptionByUserAndSelectedOptionId() throws Exception {
+        // given
+        String selectedOptionId = "6148b3fe-7fdd-4344-8938-4d938bd23799";
+
+        // when
+        ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
+                .get("/v1/order/buyer/visitAndPickup/{selectedOptionId}", selectedOptionId)
+                .header(HttpHeaders.AUTHORIZATION, this.testJwtGenerator.generate()));
+
+        // then
+        result.andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andDo(EasyRestDocumentation.documentWithJwt(
+                        "getVisitAndPickupOrderSelectedOptionByUserAndSelectedOptionId",
+                        "유저별 방문수령 및 픽업 주문 상세 조회", this.tag));
+    }
+
+    @Test
     void testGetShippingAndDeliveryOrderSelectedOptionAllByUser() throws Exception {
         // given
 
@@ -182,5 +200,23 @@ public class OrderBuyerControllerIntegrationTest extends AbstractIntegrationTest
                         "getShippingAndDeliveryOrderSelectedOptionAllByUserAndShippingTypeShipping_WAITING",
                         "유저별 배송 및 배달 주문 조회",
                         this.tag, requestParameterPickupType));
+    }
+
+    @Test
+    void testGetShippingAndDeliveryOrderSelectedOptionByUserAndSelectedOptionId() throws Exception {
+        // given
+        String selectedOptionId = "6148b3fe-7fdd-4344-8938-4d938bd23799";
+
+        // when
+        ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
+                .get("/v1/order/buyer/shippingAndDelivery/{selectedOptionId}", selectedOptionId)
+                .header(HttpHeaders.AUTHORIZATION, this.testJwtGenerator.generate()));
+
+        // then
+        result.andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(EasyRestDocumentation.documentWithJwt(
+                        "getShippingAndDeliveryOrderSelectedOptionByUserAndSelectedOptionId",
+                        "유저별 배송 및 배달 주문 상세 조회", this.tag));
     }
 }
