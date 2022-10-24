@@ -55,10 +55,10 @@ public class DeliveryAddress extends BaseTimeEntity {
 	}
 
 	public void updateDeliveryAddress(UpdateDeliveryInfoRequestDto dto){
+		this.isDefaultAddress = dto.getIsDefaultAddress();
 		this.address = dto.getAddress();
 		this.mobile = dto.getMobile();
 		this.recipient = dto.getRecipient();
 		this.requests = dto.getRequests();
-		this.isDefaultAddress = dto.getIsDefaultAddress();
 	}
 }

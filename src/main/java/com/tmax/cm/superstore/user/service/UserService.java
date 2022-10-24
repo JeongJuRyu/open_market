@@ -11,6 +11,7 @@ import com.tmax.cm.superstore.user.error.exception.UserPhoneNumAlreadyExistExcep
 import com.tmax.cm.superstore.wishlist.entity.WishlistGroup;
 import com.tmax.cm.superstore.wishlist.repository.WishlistGroupRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -99,6 +100,7 @@ public class UserService {
 			.responseCode(ResponseCode.USER_DELETE)
 			.data(null).build();
 	}
+
 	@Transactional
 	public ResponseDto<UpdateEmailResponseDto> updateEmail(UpdateEmailRequestDto updateEmailRequestDto){
 		String email = updateEmailRequestDto.getEmail();
@@ -139,6 +141,9 @@ public class UserService {
 
 	@Transactional(readOnly = true)
 	public ResponseDto<GetUserDeliveryInfoResponseDto> getUserDeliveryInfo(User user){
+		if(user.getIsDeleted()){
+			throw new EmailNotFoundException();
+		}
 		user.getDeliveryAddresses().sort(new DeliveryComparator());
 		return ResponseDto.<GetUserDeliveryInfoResponseDto>builder()
 			.responseCode(ResponseCode.USER_DELIVERY_READ)
@@ -168,8 +173,13 @@ public class UserService {
 
 	@Transactional
 	public ResponseDto<Object> updateDeliveryInfo(UpdateDeliveryInfoRequestDto dto){
-		DeliveryAddress deliveryAddress = deliveryRepository.findById(dto.getShippingAddressId())
+		DeliveryAddress deliveryAddress = deliveryRepository.findById(dto.getDeliveryAddressId())
 			.orElseThrow(DeliveryAddressNotFoundException::new);
+		if(dto.getIsDefaultAddress()){
+			DeliveryAddress defaultDeliveryAddress = deliveryRepository.findByIsDefaultAddress(true)
+				.orElseThrow(DeliveryAddressNotFoundException::new);
+			defaultDeliveryAddress.setDefaultAddress(false);
+		}
 		deliveryAddress.updateDeliveryAddress(dto);
 		return ResponseDto.builder()
 			.responseCode(ResponseCode.USER_DELIVERY_UPDATE)

@@ -5,6 +5,8 @@ import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,6 +17,7 @@ import javax.persistence.OneToOne;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.tmax.cm.superstore.common.entity.BaseTimeEntity;
+import com.tmax.cm.superstore.item.entity.Item;
 import com.tmax.cm.superstore.mypage.dto.UpdateOrderInquiryRequestDto;
 import com.tmax.cm.superstore.order.entity.PickupOrderItem;
 import com.tmax.cm.superstore.order.entity.PickupOrderSelectedOption;
@@ -41,15 +44,13 @@ public class OrderInquiry extends BaseTimeEntity {
 	private UUID id;
 
 	@Column(nullable = false)
-	private String title;
-
-	@Column(nullable = false)
 	private String content;
 
 	@Column(nullable = false)
 	private Boolean isReplied;
 
 	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
 	private OrderType orderType;
 
 	@OneToOne(fetch = FetchType.LAZY)
@@ -68,7 +69,6 @@ public class OrderInquiry extends BaseTimeEntity {
 	private OrderInquiryReply orderInquiryReply;
 
 	public void updateOrderInquiry(UpdateOrderInquiryRequestDto dto){
-		this.title = dto.getTitle();
 		this.content = dto.getContent();
 	}
 
