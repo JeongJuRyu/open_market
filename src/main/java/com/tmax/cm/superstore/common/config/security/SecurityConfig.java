@@ -31,21 +31,22 @@ public class SecurityConfig {
 				"/v1/users/delivery/**",
 				"/v1/auth/**",
 				"/v1/wishlist/**",
-				"/v1/review/**",
+				"/v1/review",
+				"/v1/review/shippingAndDelivery",
+				"/v1/review/pickupAndVisit",
 				"/v1/order/buyer/**",
 				"/v1/reservation/make",
 				"/v1/reservation/list/user",
 				"/v1/reservation/{reservationId}/change"))
-			/*.authorizeRequests()
-			.antMatchers("/v1/users/new").permitAll()
-			.antMatchers("/v1/users",
-				"/v1/wishlist/**",
-				"/v1/review/**",
-				"/v1/order/**",
-				"/v1/reservation/make",
-				"/v1/reservation/list/user",
-				"/v1/reservation/{reservationId}/change").authenticated()
-			.and()*/
+//				.authorizeRequests()
+//				.antMatchers("/v1/review/item/**").permitAll()
+//				.antMatchers("/v1/users",
+//				"/v1/wishlist/**",
+//				"/v1/review/**",
+//				"/v1/order/**",
+//				"/v1/reservation/make",
+//				"/v1/reservation/list/user",
+//				"/v1/reservation/{reservationId}/change").authenticated()
 			// 세션 비활성화
 			.sessionManagement(sessionManagement -> sessionManagement
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
