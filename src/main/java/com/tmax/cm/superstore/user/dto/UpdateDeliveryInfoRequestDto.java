@@ -11,16 +11,16 @@ import lombok.Getter;
 @Builder
 public class UpdateDeliveryInfoRequestDto {
 	@NotNull
-	private UUID shippingAddressId;
+	private UUID deliveryAddressId;
 
 	@NotNull
 	private String recipient;
 
 	@NotNull
-	private Boolean isDefaultAddress;
+	private String mobile;
 
 	@NotNull
-	private String mobile;
+	private Boolean isDefaultAddress;
 
 	@NotNull
 	private String address;
