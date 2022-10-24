@@ -25,7 +25,6 @@ public class ItemControllerIntegrationTest extends AbstractIntegrationTest {
 
         JSONObject request = new JSONObject() {
             {
-                //put("shopName", "서머슈슈즈");
                 put("name", "로토 스르르트 썸머 슈즈");
                 put("price", 82000);
                 put("possibleSendType", new JSONArray() {
@@ -35,6 +34,11 @@ public class ItemControllerIntegrationTest extends AbstractIntegrationTest {
                 });
                 put("categoryId", 8);
                 put("itemState", "for_sale");
+                put("shippingType", "free_shipping");
+                put("shippingCharge", 3000);
+                put("returnAddress", "경기 성남시 분당구 정자일로 45");
+                put("returnCharge",3000);
+                put("description", "아주 이쁜 신발");
                 put("optionGroups", new JSONArray() {
                     {
                         put(new JSONObject() {
@@ -145,6 +149,11 @@ public class ItemControllerIntegrationTest extends AbstractIntegrationTest {
                 });
                 put("categoryId", 8);
                 put("itemState", "waiting");
+                put("shippingType", "not_free_shipping");
+                put("shippingCharge", 2500);
+                put("returnAddress", "경기 성남시 분당구 정자일로 45");
+                put("returnCharge",5000);
+                put("description", "아주 못생긴 신발");
                 put("optionGroups", new JSONArray() {
                     {
                         put(new JSONObject() {
