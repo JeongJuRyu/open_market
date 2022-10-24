@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import com.tmax.cm.superstore.code.SendType;
 import com.tmax.cm.superstore.config.CommonMapperConfig;
 import com.tmax.cm.superstore.order.controller.dto.GetVisitAndPickupOrderSelectedOptionAllByShopDto.Response;
 import com.tmax.cm.superstore.order.controller.dto.GetVisitAndPickupOrderSelectedOptionAllByShopDto.Response.GetSelectedOptionDto;
@@ -31,7 +32,8 @@ public interface GetPickupOrderSelectedOptionAllByShopDtoMapper {
                         .getPickupOrderSelectedOptions()) {
 
                     getSelectedOptionDtos.add(this.toGetSelectedOptionDto(pickupOrderSelectedOption,
-                            pickupOrderItem.getItem().getId(), pickupOrderItem.getName(), pickupOrderItem.getPrice()));
+                            pickupOrderItem.getItem().getId(), pickupOrderItem.getName(), pickupOrderItem.getPrice(),
+                            SendType.VISIT));
                 }
             }
         }
@@ -42,7 +44,8 @@ public interface GetPickupOrderSelectedOptionAllByShopDtoMapper {
                         .getPickupOrderSelectedOptions()) {
 
                     getSelectedOptionDtos.add(this.toGetSelectedOptionDto(pickupOrderSelectedOption,
-                            pickupOrderItem.getItem().getId(), pickupOrderItem.getName(), pickupOrderItem.getPrice()));
+                            pickupOrderItem.getItem().getId(), pickupOrderItem.getName(), pickupOrderItem.getPrice(),
+                            SendType.PICKUP));
                 }
             }
         }
@@ -53,7 +56,7 @@ public interface GetPickupOrderSelectedOptionAllByShopDtoMapper {
     @Mapping(target = "orderSelectedOptionId", source = "pickupOrderSelectedOption.id")
     @Mapping(target = ".", source = "pickupOrderSelectedOption.pickup")
     GetSelectedOptionDto toGetSelectedOptionDto(PickupOrderSelectedOption pickupOrderSelectedOption, UUID itemId,
-            String itemName, Integer itemPrice);
+            String itemName, Integer itemPrice, SendType sendType);
 
     @Mapping(target = "optionGroupName", source = "name")
     GetOrderOptionGroupDto toGetOrderOptionDto(OrderOptionGroup orderOptionGroup);

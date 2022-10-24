@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.tmax.cm.superstore.code.PickupType;
+import com.tmax.cm.superstore.code.SendType;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -42,6 +43,8 @@ public class GetVisitAndPickupOrderSelectedOptionAllByShopDto {
             private String requests;
 
             private PickupType pickupType;
+
+            private SendType sendType;
 
             private LocalDateTime createdAt;
 
