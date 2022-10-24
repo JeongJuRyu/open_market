@@ -34,7 +34,7 @@ public class ItemControllerIntegrationTest extends AbstractIntegrationTest {
                 });
                 put("categoryId", 8);
                 put("itemState", "for_sale");
-                put("shippingType", "free_shipping");
+                put("shippingChargeType", "free_shipping");
                 put("shippingCharge", 3000);
                 put("returnAddress", "경기 성남시 분당구 정자일로 45");
                 put("returnCharge",3000);
@@ -115,7 +115,7 @@ public class ItemControllerIntegrationTest extends AbstractIntegrationTest {
     void testGetItem() throws Exception {
         // when
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
-                .get("/v1/item/{itemId}", "1523bc68-e8f7-4140-b7dd-cbfe622e068a"));
+                .get("/v1/item/{itemId}", "169f84f8-8862-477c-ad27-0b79871deb27"));
 
         // then
         result.andDo(MockMvcResultHandlers.print())
@@ -149,7 +149,7 @@ public class ItemControllerIntegrationTest extends AbstractIntegrationTest {
                 });
                 put("categoryId", 8);
                 put("itemState", "waiting");
-                put("shippingType", "not_free_shipping");
+                put("shippingChargeType", "not_free_shipping");
                 put("shippingCharge", 2500);
                 put("returnAddress", "경기 성남시 분당구 정자일로 45");
                 put("returnCharge",5000);
@@ -199,14 +199,13 @@ public class ItemControllerIntegrationTest extends AbstractIntegrationTest {
 
         // when
         MockMultipartHttpServletRequestBuilder builders = RestDocumentationRequestBuilders
-                .multipart("/v1/item/update/{itemId}", "1523bc68-e8f7-4140-b7dd-cbfe622e068a");
+                .multipart("/v1/item/update/{itemId}", "169f84f8-8862-477c-ad27-0b79871deb27");
         builders.with(request -> {
             request.setMethod("PATCH");
             return request;
         });
 
         ResultActions result = this.mvc.perform(builders
-                .file(file1)
                 .file(requestJson));
 
         // then
@@ -219,7 +218,7 @@ public class ItemControllerIntegrationTest extends AbstractIntegrationTest {
     @Test
     void testDeleteItem() throws Exception {
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
-                .delete("/v1/item/delete/{itemId}", "1523bc68-e8f7-4140-b7dd-cbfe622e068a"));
+                .delete("/v1/item/delete/{itemId}", "169f84f8-8862-477c-ad27-0b79871deb27"));
 
         result.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
