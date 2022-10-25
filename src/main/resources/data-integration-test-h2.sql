@@ -132,9 +132,9 @@ INSERT INTO shop(id, name, is_deleted) VALUES (UUID'8d41c42a-011b-4525-9864-b244
 INSERT INTO shop(id, name, is_deleted) VALUES (UUID'8d41c42a-011b-4525-9864-b24481f985c6', '플라워스토어', 0);
 
 INSERT INTO item(id, name, price, is_deleted, shop_id, category_id, created_at) VALUES (UUID'169f84f8-8862-477c-ad27-0b79871deb27', '로토 스르르트 썸머 슈즈', 81000, 0, UUID'2d68d1d0-ed27-46d2-b858-da3f0aa2e430', 8, '2019-08-25 12:36:04');
-insert into item (id, name, price, is_deleted, shop_id, category_id, created_at) values (UUID'169f84f8-8862-477c-ad27-0b79871deb28', '미니원피스', 50000, 0, UUID'8d41c42a-011b-4525-9864-b24481f985c6', 60, '2019-08-25 12:36:05');
-insert into item (id, name, price, is_deleted, shop_id, category_id, created_at) values (UUID'169f84f8-8862-477c-ad27-0b79871deb29', '미디원피스', 51000, 0, UUID'8d41c42a-011b-4525-9864-b24481f985c6', 61, '2019-08-25 12:36:06');
-insert into item (id, name, price, is_deleted, shop_id, category_id, created_at) values (UUID'169f84f8-8862-477c-ad27-0b79871deb30', '롱원피스', 52000, 0, UUID'8d41c42a-011b-4525-9864-b24481f985c6', 62, '2019-08-25 12:36:07');
+insert into item (id, name, price, is_deleted, shop_id, category_id, created_at) values (UUID'8772d6b7-a125-4bf5-9224-88d5270b2633', '미니원피스', 50000, 0, UUID'8d41c42a-011b-4525-9864-b24481f985c6', 60, '2019-08-25 12:36:05');
+insert into item (id, name, price, is_deleted, shop_id, category_id, created_at) values (UUID'f1c6f586-d9c4-4642-8b0d-55b0565e4520', '미디원피스', 51000, 0, UUID'8d41c42a-011b-4525-9864-b24481f985c6', 61, '2019-08-25 12:36:06');
+insert into item (id, name, price, is_deleted, shop_id, category_id, created_at) values (UUID'e7030b3b-c815-4279-9137-e8e294b52078', '롱원피스', 52000, 0, UUID'8d41c42a-011b-4525-9864-b24481f985c6', 62, '2019-08-25 12:36:07');
 
 INSERT INTO item_send_type(id, send_type, item_id) VALUES (1, 'SHIPPING', UUID'169f84f8-8862-477c-ad27-0b79871deb27');
 INSERT INTO item_send_type(id, send_type, item_id) VALUES (2, 'VISIT', UUID'169f84f8-8862-477c-ad27-0b79871deb27');
@@ -233,6 +233,6 @@ INSERT INTO wishlist_group(id, name, position, is_deleted) VALUES (2, '나들이
 
 --- 찜 상품 등록
 INSERT INTO wishlist_item(id, item_id, wishlist_group_id, is_deleted) VALUES (1, UUID'169f84f8-8862-477c-ad27-0b79871deb27', 1, false);
-INSERT INTO wishlist_item(id, item_id, wishlist_group_id, is_deleted) VALUES (2, UUID'169f84f8-8862-477c-ad27-0b79871deb28', 1, false);
-INSERT INTO wishlist_item(id, item_id, wishlist_group_id, is_deleted) VALUES (3, UUID'169f84f8-8862-477c-ad27-0b79871deb29', 2, false);
-INSERT INTO wishlist_item(id, item_id, wishlist_group_id, is_deleted) VALUES (4, UUID'169f84f8-8862-477c-ad27-0b79871deb30', null, false);
+INSERT INTO wishlist_item(id, item_id, wishlist_group_id, is_deleted) VALUES (2, UUID'8772d6b7-a125-4bf5-9224-88d5270b2633', 1, false);
+INSERT INTO wishlist_item(id, item_id, wishlist_group_id, is_deleted) VALUES (3, UUID'f1c6f586-d9c4-4642-8b0d-55b0565e4520', 2, false);
+INSERT INTO wishlist_item(id, item_id, wishlist_group_id, is_deleted) VALUES (4, UUID'e7030b3b-c815-4279-9137-e8e294b52078', null, false);
