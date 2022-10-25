@@ -61,6 +61,10 @@ public class GetItemAllByCategoryDto {
             private LocalDateTime modifiedAt;
 
             private ItemState itemState;
+
+            private ShippingChargeType shippingChargeType;
+
+            private Integer shippingCharge;
         }
 
     }

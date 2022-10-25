@@ -100,7 +100,7 @@ public class Item extends BaseTimeEntity {
     @Column
     private String returnAddress;
 
-    @Column
+    @Column(columnDefinition = "varchar(255) default ''")
     private String description;
 
     public void validateSendType(SendType sendType) {
