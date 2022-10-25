@@ -115,9 +115,14 @@ public class ItemController {
     // itemSearchService.searchItemByKeyword(keyword, categoryId));
     // }
 
+    @GetMapping("/search/item")
+    public ResponseDto<GetItemAllDto.Response> searchItemByFilter(@RequestParam String name, @RequestParam Long categoryId, @RequestParam List<ItemState> itemState) {
+        return new ResponseDto<>(ResponseCode.ITEM_READ_ALL, itemSearchService.searchItemByFilter(name, categoryId, itemState));
+    }
+
     @GetMapping("/search/keyword")
-    public ResponseDto<GetItemAllByCategoryDto.Response> searchItemByName(@RequestParam String name, @RequestParam List<ItemState> itemState, @RequestParam Long categoryId) {
-        return new ResponseDto<>(ResponseCode.ITEM_READ_ALL, itemSearchService.searchItemByName(name, itemState, categoryId));
+    public ResponseDto<GetItemAllByCategoryDto.Response> searchItemByName(@RequestParam String name){
+        return new ResponseDto<>(ResponseCode.ITEM_READ_ALL, itemSearchService.searchItemByName(name));
     }
 
 }
