@@ -9,7 +9,8 @@ import lombok.Getter;
 public enum ShippingType implements Code {
 
     SHIPPING_WAITING("SHIPPING_WAITING", "배송 요청 대기", "shipping/waiting"),
-    SHIPPING_ACCEPT("SHIPPING_ACCEPT", "배송 요청 수락 및 배송 중", "shipping/accepted"),
+    SHIPPING_ACCEPT("SHIPPING_ACCEPT", "배송 요청 수락 및 발송", "shipping/accepted"),
+    SHIPPING_PROCESSING("SHIPPING_PROCESSING", "배송 중", "shipping/processing"),
     SHIPPING_DONE("SHIPPING_DONE", "배송 완료", "shipping/done"),
     SHIPPING_REFUSE("SHIPPING_REFUSE", "배송 요청 거절", "shipping/refused");
 

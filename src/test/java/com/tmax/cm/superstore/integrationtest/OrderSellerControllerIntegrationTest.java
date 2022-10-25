@@ -170,6 +170,25 @@ public class OrderSellerControllerIntegrationTest extends AbstractIntegrationTes
     }
 
     @Test
+    void testPutProcessingShipping() throws Exception {
+        // given
+        String selectedOptionId = "9c937a70-12cf-4a83-b594-1293b3f994a8";
+
+        // when
+        ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
+                .put("/v1/order/seller/{sellerId}/shippingAndDelivery/{selectedOptionId}/processingShipping",
+                        this.sellerId, selectedOptionId));
+
+        // then
+        result.andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andDo(EasyRestDocumentation.document("processingShipping",
+                        ResponseCode.ORDER_PROCESSING_SHIPPING.getDescription()
+                                + "\n`selectedOptionId` = 9c937a70-12cf-4a83-b594-1293b3f994a8",
+                        this.tag));
+    }
+
+    @Test
     void testPutDoneShipping() throws Exception {
         // given
         String selectedOptionId = "9c937a70-12cf-4a83-b594-1293b3f994a8";
