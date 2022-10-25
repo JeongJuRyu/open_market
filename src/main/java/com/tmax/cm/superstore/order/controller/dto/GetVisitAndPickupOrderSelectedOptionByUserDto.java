@@ -42,8 +42,6 @@ public class GetVisitAndPickupOrderSelectedOptionByUserDto {
 
         private String mobile;
 
-        private String address;
-
         private String requests;
 
         private PickupType pickupType;

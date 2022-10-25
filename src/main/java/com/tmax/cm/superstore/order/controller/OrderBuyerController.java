@@ -98,12 +98,12 @@ public class OrderBuyerController {
             }
 
             if (request.getVisitRecipientInfo() != null) {
-                visitOrderPickup = this.pickupService.create(request.getVisitRecipientInfo().getRecipient(), null,
+                visitOrderPickup = this.pickupService.create(request.getVisitRecipientInfo().getRecipient(),
                         request.getVisitRecipientInfo().getMobile(), request.getVisitRecipientInfo().getRequests());
             }
 
             if (request.getPickupRecipientInfo() != null) {
-                pickupOrderPickup = this.pickupService.create(request.getPickupRecipientInfo().getRecipient(), null,
+                pickupOrderPickup = this.pickupService.create(request.getPickupRecipientInfo().getRecipient(),
                         request.getPickupRecipientInfo().getMobile(), request.getPickupRecipientInfo().getRequests());
             }
 
