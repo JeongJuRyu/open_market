@@ -3,6 +3,7 @@ package com.tmax.cm.superstore.returns.entity;
 import com.tmax.cm.superstore.code.CancelType;
 import com.tmax.cm.superstore.code.PickupType;
 import com.tmax.cm.superstore.code.ReturnType;
+import com.tmax.cm.superstore.common.entity.BaseTimeEntity;
 import com.tmax.cm.superstore.error.exception.UnchangeableOrderStateException;
 import lombok.*;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Returns {
+public class Returns extends BaseTimeEntity {
 
     @Id
     @GeneratedValue

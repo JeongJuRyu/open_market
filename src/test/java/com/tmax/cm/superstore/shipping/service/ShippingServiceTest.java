@@ -10,6 +10,7 @@
 //import org.junit.jupiter.api.DisplayName;
 //import org.junit.jupiter.api.Test;
 //import org.junit.jupiter.api.extension.ExtendWith;
+//import org.junit.jupiter.api.extension.ParameterContext;
 //import org.mockito.InjectMocks;
 //import org.mockito.Mock;
 //import org.mockito.Mockito;
@@ -23,8 +24,15 @@
 //import org.springframework.orm.ObjectOptimisticLockingFailureException;
 //import org.springframework.test.context.ActiveProfiles;
 //import org.springframework.test.context.junit.jupiter.SpringExtension;
+//import org.springframework.transaction.PlatformTransactionManager;
+//import org.springframework.transaction.TransactionDefinition;
+//import org.springframework.transaction.TransactionException;
+//import org.springframework.transaction.TransactionStatus;
+//import org.springframework.transaction.support.TransactionCallbackWithoutResult;
+//import org.springframework.transaction.support.TransactionTemplate;
 //
 //import javax.persistence.*;
+//import javax.transaction.TransactionManager;
 //import javax.transaction.Transactional;
 //import java.time.LocalDateTime;
 //import java.util.List;
@@ -59,6 +67,11 @@
 //    @PersistenceContext
 //    private EntityManager em;
 //
+//    @Autowired
+//    private PlatformTransactionManager pt;
+//
+//    private TransactionTemplate transactionTemplate;
+//
 //    @BeforeEach
 //    public void setUp() {
 ////        shippingService = new ShippingService(shippingRepository);
@@ -67,10 +80,15 @@
 //                .recipient("test")
 //                .mobile("01062833841")
 //                .requests("jal")
-//                .finalstatus(ShippingType.SHIPPING_WAITING)
+//                .shippingType(ShippingType.SHIPPING_WAITING)
 //                .build();
 //        Shipping temp = this.shippingRepository.save(b);
 //        id = temp.getId();
+//
+//        transactionTemplate = new TransactionTemplate(pt);
+//        transactionTemplate.setReadOnly(false);
+//        transactionTemplate.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+//        transactionTemplate.setIsolationLevel(TransactionDefinition.ISOLATION_READ_COMMITTED);
 //    }
 //
 //    @Test
@@ -79,8 +97,8 @@
 //        LocalDateTime next = LocalDateTime.of(2022, 11, 6, 0, 0);
 //        Shipping shipping1 = shippingService.create("test", "경기도 안양시", "01062833841", "잘");
 //
-//        assertThat(shipping1.getFinalstatus()).isEqualTo(ShippingType.SHIPPING_WAITING);
-//        assertThat(1).isEqualTo(shippingRepository.findAll().size());
+//        assertThat(shipping1.getShippingType()).isEqualTo(ShippingType.SHIPPING_WAITING);
+//        assertThat(4).isEqualTo(shippingRepository.findAll().size());
 //
 //        List<Shipping> shippingList = shippingRepository.findAll();
 //
@@ -94,15 +112,11 @@
 //    @Test
 //    @DisplayName("상태 변경 동시성 테스트")
 //    public void updateStatusWithMultiThread() throws InterruptedException {
-////        Shipping shipping1 = shippingService.create("test", "경기도 안양시", "01062833841", "잘");
-//
 //        AtomicInteger successCount = new AtomicInteger();
 //        int numberOfExecute = 10;
 //        ExecutorService service = Executors.newFixedThreadPool(10);
 //        CountDownLatch latch = new CountDownLatch(numberOfExecute);
 //        CountDownLatch totalLatch = new CountDownLatch(10);
-//        AtomicBoolean result1 = new AtomicBoolean(true);
-//        AtomicBoolean result2 = new AtomicBoolean(true);
 //
 //        for(int i = 0; i < 5; i++) {
 //            totalLatch.countDown();
@@ -110,11 +124,22 @@
 //                try {
 //                    latch.countDown();
 //                    latch.await();
-//                    shippingService.acceptShipping(id);
-//                    successCount.getAndIncrement();
-//                    System.out.println("fuck success");
-//                } catch(PessimisticLockingFailureException oe) {
-//                    System.out.println("collision");
+//
+//                    transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+//                        @Override
+//                        protected void doInTransactionWithoutResult(TransactionStatus status) {
+//                            try {
+//                                shippingService.acceptShipping(id);
+//                                successCount.getAndIncrement();
+//                                System.out.println("current unique: " + successCount.get());
+//                                assertThat(successCount.get()).isEqualTo(1);
+//                            } catch (Exception e) {
+//                                System.out.println("collision : " + e.getMessage());
+//                                status.setRollbackOnly();
+//                            }
+//                        }
+//                    });
+//
 //                } catch (Exception e) {
 //                    System.out.println(e.getMessage());
 //                }
@@ -127,11 +152,21 @@
 //                try {
 //                    latch.countDown();
 //                    latch.await();
-//                    shippingService.rejectShipping(id);
-//                    successCount.getAndIncrement();
-//                    System.out.println("success");
-//                } catch(PessimisticLockingFailureException oe) {
-//                    System.out.println("collision");
+//
+//                    transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+//                        @Override
+//                        protected void doInTransactionWithoutResult(TransactionStatus status) {
+//                            try {
+//                                shippingService.rejectShipping(id);
+//                                successCount.getAndIncrement();
+//                                assertThat(successCount.get()).isEqualTo(1);
+//                            } catch (Exception e) {
+//                                System.out.println("collision : " + e.getMessage());
+//                                status.setRollbackOnly();
+//                            }
+//                        }
+//                    });
+//
 //                } catch (Exception e) {
 //                    System.out.println(e.getMessage());
 //                }
@@ -139,28 +174,6 @@
 //        }
 //
 //        totalLatch.await();
-//        Shipping test = shippingRepository.findById(id).orElseThrow();
-//        assertThat(successCount).hasValueLessThan(10);
-//    }
-//
-//    @Test
-//    @Transactional
-//    public void exceptionTest() throws InterruptedException {
-//        AtomicInteger successCount = new AtomicInteger();
-//        int numberOfExecute = 100;
-//        ExecutorService service = Executors.newFixedThreadPool(100);
-//        CountDownLatch latch = new CountDownLatch(numberOfExecute);
-//        CountDownLatch totalLatch = new CountDownLatch(100);
-//
-//        for(int i = 0; i < 100; i++) {
-//            service.execute(() -> {
-//                assertThrows(PessimisticLockingFailureException.class, () -> {
-//                    latch.countDown();
-//                    latch.await();
-//                    em.find(Shipping.class, id, LockModeType.PESSIMISTIC_READ);
-//                });
-//            });
-//        }
 //    }
 //
 //}
