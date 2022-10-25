@@ -31,14 +31,3 @@ INSERT INTO cart_option(id, count, cart_option_group_id, option_id) VALUES (UUID
 
 INSERT INTO cart_option_group(id, selected_option_id, option_group_id) VALUES (UUID_TO_BIN('e6fbbb4b-b55e-4f12-a257-d12151579c2f'), UUID_TO_BIN('b998c70d-11c9-4903-bdab-9f698c93d83e'), UUID_TO_BIN('ebe5c005-9241-4149-844a-c0ee1eabb29c'));
 INSERT INTO cart_option(id, count, cart_option_group_id, option_id) VALUES (UUID_TO_BIN('302d04cc-d687-4c5b-8331-ced63ad68118'), 1, UUID_TO_BIN('e6fbbb4b-b55e-4f12-a257-d12151579c2f'), UUID_TO_BIN('434a6e11-edb0-4dea-80df-90c495bd4c86'));
-
--- 카트에 예약 상품 등록
-
-INSERT INTO cart_item(id, send_type, is_deleted, cart_id, item_id) VALUES (UUID_TO_BIN('0ceda629-b012-45c4-bdf9-6e5787ba4e62'), 'RESERVATION', 0, 3, UUID_TO_BIN('82cdc2eb-5ee8-4bde-8e32-654054b7fc16'));
-
-INSERT INTO cart_reservation_item(id, day_of_week, guest_email, guest_name, guest_phone_number, reservation_date, reservation_headcount, reservation_requirement, cart_item_id) VALUES (1, 'MONDAY', 'abc_12@tmax.co.kr', '김맥스', '010-1234-5678', '2022-08-08 20:00:00', 36, '50인분 같은 36인분 부탁이요 ~', UUID_TO_BIN('0ceda629-b012-45c4-bdf9-6e5787ba4e62'));
-
-INSERT INTO selected_option(id, count, is_deleted, cart_item_id) VALUES (UUID_TO_BIN('370b1115-3425-4672-ba8c-c384e5b9b6ab'), 1, 0, UUID_TO_BIN('0ceda629-b012-45c4-bdf9-6e5787ba4e62'));
-
-INSERT INTO cart_option_group(id, selected_option_id, option_group_id) VALUES (UUID_TO_BIN('5343e1f3-cd8a-43a2-99fc-adf333c6b3c8'), UUID_TO_BIN('370b1115-3425-4672-ba8c-c384e5b9b6ab'), UUID_TO_BIN('8b41baa5-6118-4949-886f-abe34ca69cfe'));
-INSERT INTO cart_option(id, count, cart_option_group_id, option_id) VALUES (UUID_TO_BIN('1c80573b-4974-4c8e-8dc3-beebdbac5f3e'), 1, UUID_TO_BIN('5343e1f3-cd8a-43a2-99fc-adf333c6b3c8'), UUID_TO_BIN('47360b10-6542-488c-8e59-9ccb324797a8'));
