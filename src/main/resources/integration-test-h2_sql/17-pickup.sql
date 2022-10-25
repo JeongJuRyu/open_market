@@ -2,7 +2,6 @@ INSERT INTO pickup (
         id,
         created_at,
         modified_at,
-        address,
         pickup_type,
         mobile,
         recipient,
