@@ -61,11 +61,17 @@ public class Shipping extends BaseTimeEntity {
         setShippingType(ShippingType.SHIPPING_REFUSE);
     }
 
+    public void processingStatus() throws UnchangeableOrderStateException {
+        if (this.getShippingType() != ShippingType.SHIPPING_ACCEPT) {
+            throw new UnchangeableOrderStateException();
+        }
+        setShippingType(ShippingType.SHIPPING_PROCESSING);
+    }
+
     public void doneStatus() throws UnchangeableOrderStateException {
-        if (!this.getShippingType().equals(ShippingType.SHIPPING_ACCEPT)) {
+        if (!this.getShippingType().equals(ShippingType.SHIPPING_PROCESSING)) {
             throw new UnchangeableOrderStateException();
         }
         setShippingType(ShippingType.SHIPPING_DONE);
     }
-
 }
