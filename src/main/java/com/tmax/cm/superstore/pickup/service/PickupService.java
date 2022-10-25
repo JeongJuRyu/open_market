@@ -20,10 +20,9 @@ public class PickupService {
     private final PickupRepository pickUpRepository;
 
     @Transactional
-    public Pickup create(String recipient, String address, String mobile, String request) {
+    public Pickup create(String recipient, String mobile, String request) {
         Pickup pickUp = Pickup.builder()
                 .recipient(recipient)
-                .address(address)
                 .mobile(mobile)
                 .requests(request)
                 .pickupType(PickupType.PICKUP_WAITING)
