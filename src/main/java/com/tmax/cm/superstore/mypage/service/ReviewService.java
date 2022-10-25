@@ -5,6 +5,7 @@ import com.tmax.cm.superstore.common.ResponseDto;
 import com.tmax.cm.superstore.item.entity.Item;
 import com.tmax.cm.superstore.item.error.exception.ItemNotFoundException;
 import com.tmax.cm.superstore.item.repository.ItemRepository;
+import com.tmax.cm.superstore.mypage.dto.GetAllReviewForSellerResponseDto;
 import com.tmax.cm.superstore.mypage.dto.GetReviewWithItemResponseDto;
 import com.tmax.cm.superstore.mypage.error.exception.ReviewNotFoundException;
 import com.tmax.cm.superstore.mypage.dto.PostReviewRequestDto;
@@ -13,22 +14,33 @@ import com.tmax.cm.superstore.mypage.dto.GetReviewResponseDto;
 import com.tmax.cm.superstore.mypage.dto.UpdateReviewRequestDto;
 import com.tmax.cm.superstore.mypage.entity.Review;
 import com.tmax.cm.superstore.mypage.mapper.ReviewMapper;
+import com.tmax.cm.superstore.mypage.util.ReviewComparotor;
+import com.tmax.cm.superstore.order.entity.Order;
 import com.tmax.cm.superstore.order.entity.PickupOrderItem;
 import com.tmax.cm.superstore.order.entity.PickupOrderSelectedOption;
+import com.tmax.cm.superstore.order.entity.ShippingOrder;
 import com.tmax.cm.superstore.order.entity.ShippingOrderItem;
 import com.tmax.cm.superstore.order.entity.ShippingOrderSelectedOption;
+import com.tmax.cm.superstore.order.repository.OrderRepository;
 import com.tmax.cm.superstore.order.repository.PickupOrderItemRepository;
+import com.tmax.cm.superstore.order.repository.PickupOrderRepository;
 import com.tmax.cm.superstore.order.repository.PickupOrderSelectedOptionRepository;
 import com.tmax.cm.superstore.order.repository.ShippingOrderItemRepository;
+import com.tmax.cm.superstore.order.repository.ShippingOrderRepository;
 import com.tmax.cm.superstore.order.repository.ShippingOrderSelectedOptionRepository;
+import com.tmax.cm.superstore.seller.entity.Seller;
 import com.tmax.cm.superstore.seller.error.exception.BusinessNotFoundException;
+import com.tmax.cm.superstore.seller.error.exception.SellerNotFoundException;
+import com.tmax.cm.superstore.seller.repository.SellerRepository;
 import com.tmax.cm.superstore.user.entities.User;
 
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tmax.cm.superstore.mypage.repository.ReviewRepository;
 import com.tmax.cm.superstore.user.entities.enumeration.OrderType;
+import com.tmax.cm.superstore.user.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -36,23 +48,29 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ReviewService {
+	private final UserRepository userRepository;
 	private final ReviewRepository reviewRepository;
+	private final OrderRepository orderRepository;
 	private final ReviewMapper reviewMapper;
-	private final PickupOrderItemRepository pickupOrderItemRepository;
+	private final ShippingOrderRepository shippingOrderRepository;
+	private final PickupOrderRepository pickupOrderRepository;
 	private final ShippingOrderItemRepository shippingOrderItemRepository;
+	private final PickupOrderItemRepository pickupOrderItemRepository;
 	private final PickupOrderSelectedOptionRepository pickupOrderSelectedOptionRepository;
 	private final ShippingOrderSelectedOptionRepository shippingOrderSelectedOptionRepository;
+	private final SellerRepository sellerRepository;
 	private final ItemRepository itemRepository;
 
 	@Transactional(readOnly = true)
 	public ResponseDto<GetAllReviewResponseDto> getAllReview(User user){
 		List<GetAllReviewResponseDto.Review> responseReview = new ArrayList<>();
-
 		List<Review> reviews = reviewRepository.findByUserId(user.getId());
+		reviews.sort(new ReviewComparotor());
 		for(Review review : reviews){
 			OrderType orderType = review.getOrderType();
 			if(orderType == OrderType.SHIPPINGANDDELIVERY) {
@@ -80,53 +98,21 @@ public class ReviewService {
 	}
 
 	@Transactional(readOnly = true)
-	public ResponseDto<GetAllReviewResponseDto> getAllReviewForSeller(String startDate, Boolean isReplied, User user){
-		List<GetAllReviewResponseDto.Review> responseReview = new ArrayList<>();
-
-		List<Review> reviews = reviewRepository.findByUserIdForSeller(user.getId(), LocalDate.parse(startDate).atStartOfDay(), isReplied);
-		for(Review review : reviews){
-			OrderType orderType = review.getOrderType();
-			if(orderType == OrderType.SHIPPINGANDDELIVERY) {
-				ShippingOrderItem shippingOrderItem = shippingOrderItemRepository.findByShippingOrderSelectedOptions(
-					review.getShippingOrderSelectedOption()).get();
-				Item item = shippingOrderItemRepository.findByShippingOrderItemId(shippingOrderItem.getId())
-					.orElseThrow(ItemNotFoundException::new).getItem();
-				// Item itemWithItemImage = itemRepository.findByItemWithImage(item.getId())
-				// 	.orElseThrow(ItemNotFoundException::new);
-				// responseReview.add(reviewMapper.toAllShippingReviewDto(review, shippingOrderItem, item));
-			}
-			else if(orderType == OrderType.PICKUPANDVISIT){
-				PickupOrderItem pickupOrderItem = pickupOrderItemRepository.findByPickupOrderSelectedOptions(
-					review.getPickupOrderSelectedOption()).get();
-				Item item = shippingOrderItemRepository.findByShippingOrderItemId(pickupOrderItem.getId())
-					.orElseThrow(ItemNotFoundException::new).getItem();
-				// responseReview.add(reviewMapper.toAllPickupReviewDto(review, pickupOrderItem, item));
-			}
+	public ResponseDto<GetAllReviewForSellerResponseDto> getAllReviewForSeller(UUID sellerId, Float starRating){
+		List<GetAllReviewForSellerResponseDto.Review> responseReview = new ArrayList<>();
+		List<Review> reviews = sellerRepository.findForSellerReviewWithItem(sellerId);
+		reviews = reviews.stream().filter(review -> review.getStarRating() >= starRating).collect(Collectors.toList());
+		for(Review review : reviews) {
+			Order order = orderRepository.findByReviewId(review.getId())
+				.orElseThrow(() -> new RuntimeException("주문이 존재하지 않습니다."));
+			responseReview.add(reviewMapper.toAllReviewForSellerDto(review, order));
 		}
-		return ResponseDto.<GetAllReviewResponseDto>builder()
+		return ResponseDto.<GetAllReviewForSellerResponseDto>builder()
 			.responseCode(ResponseCode.REVIEW_READ_ALL)
-			.data(GetAllReviewResponseDto.builder()
+			.data(GetAllReviewForSellerResponseDto.builder()
 				.reviews(responseReview).build())
 			.build();
 	}
-
-	// @Transactional(readOnly = true)
-	// public GetAllReviewResponseDto getAllReview(UUID itemId){
-	// 	List<Review> reviews = reviewRepository.findAllByItemId(itemId);
-	// 	return GetAllReviewResponseDto.builder()
-	// 			.reviews(reviewMapper.toReviewsDto(reviews)).build();
-	// }
-
-	// @Transactional(readOnly = true)
-	// public GetAllReviewForSellerResponseDto getAllReviewForSeller(LocalDate startDate){
-	// 	// seller의 형식이 정해져 있지 않아서 기다려야 함
-	// 	// String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	// 	// sellerRepository.findByEmail(email);
-	// 	// List<Review> reviews = reviewRepository.findAllBySellerId(seller.getSellerId(), LocalDateTime.now().minusDays(filterDay));
-	// 	List<Review> reviews = null;
-	// 	return GetAllReviewForSellerResponseDto.builder()
-	// 		.reviews(reviewMapper.toReviewsForSellerDto(reviews)).build();
-	// }
 
 	@Transactional(readOnly = true)
 	public ResponseDto<GetReviewResponseDto> getShippingOrderReview(UUID shippingOrderSelectedId){

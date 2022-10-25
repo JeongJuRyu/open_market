@@ -2,6 +2,7 @@ package com.tmax.cm.superstore.mypage.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -13,10 +14,12 @@ public class GetAllReviewForSellerResponseDto {
 	@Getter
 	@Builder
 	public static class Review {
+		private UUID reviewId;
+		private UUID orderItemId;
+		private UUID orderId;
 		private String itemName;
 		private Float starRating;
 		private String content;
-		private Long isUseful;
 		private LocalDateTime createdAt;
 		private LocalDateTime modifiedAt;
 	}

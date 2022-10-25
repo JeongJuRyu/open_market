@@ -8,9 +8,6 @@ import lombok.Getter;
 @Getter
 @Builder
 public class UpdateOrderInquiryRequestDto {
-	private UUID id;
-
-	private String title;
-
+	private UUID orderItemInquiryId;
 	private String content;
 }

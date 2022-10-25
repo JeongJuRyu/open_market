@@ -190,7 +190,7 @@ public class UserService {
 	public ResponseDto<Object> deleteDeliveryInfo(User user, UUID id){
 		DeliveryAddress deliveryAddress = deliveryRepository.findById(id)
 			.orElseThrow(DeliveryAddressNotFoundException::new);
-		deliveryRepository.delete(deliveryAddress);
+		deliveryRepository.deleteById(deliveryAddress.getId());
 		return ResponseDto.builder()
 			.responseCode(ResponseCode.USER_DELIVERY_DELETE)
 			.data(null).build();

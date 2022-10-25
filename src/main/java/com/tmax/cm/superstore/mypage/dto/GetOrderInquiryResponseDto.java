@@ -15,9 +15,10 @@ public class GetOrderInquiryResponseDto {
 	@Getter
 	@Builder
 	public static class OrderItemInquiry {
-		private UUID id;
+		private UUID orderItemInquiryId;
 		private String shopName;
 		private String orderItemName;
+		private String orderItemId;
 		private Boolean isReplied;
 		private String content;
 		private LocalDateTime createdAt;
