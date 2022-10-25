@@ -1,6 +1,7 @@
 package com.tmax.cm.superstore.mypage.mapper;
 
 import com.tmax.cm.superstore.config.CommonMapperConfig;
+import com.tmax.cm.superstore.item.entity.Item;
 import com.tmax.cm.superstore.mypage.dto.GetAllReviewForSellerResponseDto;
 import com.tmax.cm.superstore.mypage.dto.GetAllReviewResponseDto;
 import com.tmax.cm.superstore.mypage.dto.GetReviewResponseDto;
@@ -15,70 +16,102 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import java.util.List;
+import java.util.UUID;
 
 @Mapper(config = CommonMapperConfig.class)
 public interface ReviewMapper {
 
-    default GetAllReviewResponseDto.Review toAllShippingReviewDto(Review review, ShippingOrderItem shippingOrderItem){
+    default GetAllReviewResponseDto.Review toAllShippingReviewDto(Review review, ShippingOrderItem shippingOrderItem, Item item, UUID selectedOptionId){
         return GetAllReviewResponseDto.Review.builder()
-            .id(review.getId())
+            .reviewId(review.getId())
             .orderType(review.getOrderType())
-            .orderItem(this.toAllShippingOrderItem(shippingOrderItem, review))
+            .orderItem(this.toAllShippingOrderItem(shippingOrderItem, review, item, selectedOptionId))
             .content(review.getContent())
             .starRating(review.getStarRating())
             .createdAt(review.getCreatedAt())
             .build();
     }
 
-    default GetReviewResponseDto.Review toShippingReviewDto(Review review, ShippingOrderItem shippingOrderItem){
+    default GetReviewResponseDto.Review toShippingReviewDto(Review review, ShippingOrderItem shippingOrderItem, Item item, String itemImageId){
         return GetReviewResponseDto.Review.builder()
-            .id(review.getId())
+            .reviewId(review.getId())
             .orderType(review.getOrderType())
-            .orderItem(this.toShippingOrderItem(shippingOrderItem, review))
+            .orderItem(this.toShippingOrderItem(shippingOrderItem, review, item, itemImageId))
             .content(review.getContent())
+            .starRating(review.getStarRating())
             .createdAt(review.getCreatedAt())
             .reviewReply(this.toReviewReply(review.getReviewReply()))
             .build();
     }
 
-    // @Mapping(target = "id", source = "review.id")
-    // @Mapping(target = "orderType", source = "review.orderType")
-    // @Mapping(target = "orderItem", source = "review.orderItem")
-    // @Mapping(target = "content", source = "review.content")
-    // @Mapping(target = "createdAt", source = "review.createdAt")
-    // // @Mapping(target = "reviewReply", source = "review.reviewReply")
-    // default GetReviewResponseDto.Review toPickupReviewDto(Review review, PickupOrderItem pickupOrderItem){
-    //     return GetReviewResponseDto.Review.builder()
-    //         .id(review.getId())
-    //         .orderType(review.getOrderType())
-    //         .orderItem(this.toPickupOrderItem(pickupOrderItem, review))
-    //         .content(review.getContent())
-    //         .createdAt(review.getCreatedAt())
-    //         .reviewReply(this.toReviewReply(review.getReviewReply()))
-    //         .build();
-    // }
-
-    // @Mapping(target = "name", source = "shippingOrderItem.name")
-    // @Mapping(target = "price", source = "shippingOrderItem.price")
-    // @Mapping(target = "count", source = "shippingOrderItem.amount")
-    // @Mapping(target = "orderOptionGroups", source = "review.")
-    default GetReviewResponseDto.Review.OrderItem toShippingOrderItem(ShippingOrderItem shippingOrderItem, Review review){
-        return GetReviewResponseDto.Review.OrderItem.builder()
-            .name(shippingOrderItem.getName())
-            .price(shippingOrderItem.getAmount())
-            .count(shippingOrderItem.getAmount())
-            .orderOptionGroups(this.toOrderOptionGroups(review.getShippingOrderSelectedOption().getOrderOptionGroups()))
+    default GetAllReviewResponseDto.Review toAllPickupReviewDto(Review review, PickupOrderItem pickupOrderItem, Item item){
+        return GetAllReviewResponseDto.Review.builder()
+            .reviewId(review.getId())
+            .orderType(review.getOrderType())
+            .orderItem(this.toAllPickupOrderItem(pickupOrderItem, review, item))
+            .content(review.getContent())
+            .starRating(review.getStarRating())
+            .createdAt(review.getCreatedAt())
             .build();
     }
 
-    default GetAllReviewResponseDto.Review.OrderItem toAllShippingOrderItem(ShippingOrderItem shippingOrderItem, Review review){
+    default GetReviewResponseDto.Review toPickupReviewDto(Review review, PickupOrderItem pickupOrderItem, Item item, String itemImageId){
+        return GetReviewResponseDto.Review.builder()
+            .reviewId(review.getId())
+            .orderType(review.getOrderType())
+            .orderItem(this.toPickupOrderItem(pickupOrderItem, review, item, itemImageId))
+            .content(review.getContent())
+            .starRating(review.getStarRating())
+            .createdAt(review.getCreatedAt())
+            .reviewReply(this.toReviewReply(review.getReviewReply()))
+            .build();
+    }
+    default GetAllReviewResponseDto.Review.OrderItem toAllShippingOrderItem(ShippingOrderItem shippingOrderItem, Review review, Item item, UUID selectedOptionId){
+        String ItemImageId = item.getItemImages().size() != 0 ? item.getItemImages().get(0).getFileId() : null;
         return GetAllReviewResponseDto.Review.OrderItem.builder()
-            .name(shippingOrderItem.getName())
+            .itemId(item.getId())
+            .itemName(shippingOrderItem.getName())
+            .itemImageId(ItemImageId)
+            .orderSelectedOptionId(selectedOptionId)
             .price(shippingOrderItem.getAmount())
             .count(shippingOrderItem.getAmount())
             .orderOptionGroups(this.toAllOrderOptionGroups(review.getShippingOrderSelectedOption().getOrderOptionGroups()))
             .build();
     }
+    default GetReviewResponseDto.Review.OrderItem toShippingOrderItem(ShippingOrderItem shippingOrderItem, Review review, Item item, String itemImageId){
+        return GetReviewResponseDto.Review.OrderItem.builder()
+            .itemName(shippingOrderItem.getName())
+            .itemId(item.getId())
+            .itemImageId(itemImageId)
+            .price(shippingOrderItem.getAmount())
+            .count(shippingOrderItem.getAmount())
+            .orderOptionGroups(this.toOrderOptionGroups(review.getShippingOrderSelectedOption().getOrderOptionGroups()))
+            .build();
+    }
+    default GetAllReviewResponseDto.Review.OrderItem toAllPickupOrderItem(PickupOrderItem pickupOrderItem, Review review, Item item){
+        String ItemImageId = item.getItemImages().size() != 0 ? item.getItemImages().get(0).getFileId() : null;
+        return GetAllReviewResponseDto.Review.OrderItem.builder()
+            .itemId(item.getId())
+            .itemName(pickupOrderItem.getName())
+            .itemImageId(ItemImageId)
+            .price(pickupOrderItem.getAmount())
+            .count(pickupOrderItem.getAmount())
+            .orderOptionGroups(this.toAllOrderOptionGroups(review.getPickupOrderSelectedOption().getOrderOptionGroups()))
+            .build();
+    }
+
+    default GetReviewResponseDto.Review.OrderItem toPickupOrderItem(PickupOrderItem pickupOrderItem, Review review, Item item, String itemImageId){
+        return GetReviewResponseDto.Review.OrderItem.builder()
+            .itemName(pickupOrderItem.getName())
+            .itemId(item.getId())
+            .itemImageId(itemImageId)
+            .price(pickupOrderItem.getAmount())
+            .count(pickupOrderItem.getAmount())
+            .orderOptionGroups(this.toOrderOptionGroups(review.getPickupOrderSelectedOption().getOrderOptionGroups()))
+            .build();
+    }
+
+
 
     List<GetAllReviewResponseDto.Review.OrderItem.OrderOptionGroup> toAllOrderOptionGroups(List<OrderOptionGroup> orderOptionGroups);
 

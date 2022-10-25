@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import com.tmax.cm.superstore.code.SendType;
+import com.tmax.cm.superstore.code.ShippingChargeType;
 import com.tmax.cm.superstore.item.code.ItemState;
 
 import lombok.Builder;
@@ -23,7 +24,17 @@ public class UpdateItemDto {
 
         private ItemState itemState;
 
+        private ShippingChargeType shippingChargeType;
+
+        private Integer shippingCharge;
+
         private Long categoryId;
+
+        private String description;
+
+        private Integer returnCharge;
+
+        private String returnAddress;
 
         private List<PostOptionGroupDto> optionGroups;
 

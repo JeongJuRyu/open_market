@@ -59,6 +59,11 @@ public class ItemService {
                 .itemState(postItemDto.getItemState())
                 .optionGroups(new ArrayList<>())
                 .itemSendTypes(new ArrayList<>())
+                .shippingCharge(postItemDto.getShippingCharge())
+                .shippingChargeType(postItemDto.getShippingChargeType())
+                .returnAddress(postItemDto.getReturnAddress())
+                .returnCharge(postItemDto.getReturnCharge())
+                .description(postItemDto.getDescription())
                 .category(category)
                 .build();
 
@@ -152,7 +157,7 @@ public class ItemService {
             if (item.getReviews().isEmpty()) {
                 avgStars.add(0.0);
             } else {
-                avgStars.add(reviewService.getAvgStarRating(item.getId()));
+                avgStars.add(reviewService.getAvgStarRating(item));
             }
         }
 
@@ -216,7 +221,9 @@ public class ItemService {
             item.getOptionGroups().add(optionGroup);
         }
 
-        item.updateItem(category, updateItemDto.getName(), updateItemDto.getPrice(), updateItemDto.getItemState());
+        item.updateItem(category, updateItemDto.getName(), updateItemDto.getPrice(), updateItemDto.getItemState()
+                            ,updateItemDto.getShippingChargeType(), updateItemDto.getShippingCharge()
+                            ,updateItemDto.getDescription(), updateItemDto.getReturnAddress(), updateItemDto.getReturnCharge());
 
         this.itemRepository.save(item);
 

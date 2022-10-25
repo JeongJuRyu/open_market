@@ -43,7 +43,7 @@ import lombok.ToString;
 @ToString
 @Table(name = "users")
 @Where(clause = "is_deleted = false")
-@SQLDelete(sql = "UPDATE users SET is_deleted = true WHERE user_id = ?")
+@SQLDelete(sql = "UPDATE users SET is_deleted = true WHERE id = ?")
 public class User implements UserDetails {
 	@Id
 	@GeneratedValue(generator = "UUID")

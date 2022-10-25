@@ -8,22 +8,29 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.tmax.cm.superstore.code.PickupType;
+import com.tmax.cm.superstore.code.SendType;
 import com.tmax.cm.superstore.code.ShippingType;
 import com.tmax.cm.superstore.error.exception.EntityNotFoundException;
 import com.tmax.cm.superstore.order.entity.DeliveryOrder;
 import com.tmax.cm.superstore.order.entity.Order;
 import com.tmax.cm.superstore.order.entity.PickupOrder;
+import com.tmax.cm.superstore.order.entity.PickupOrderItem;
 import com.tmax.cm.superstore.order.entity.PickupOrderSelectedOption;
 import com.tmax.cm.superstore.order.entity.ShippingOrder;
+import com.tmax.cm.superstore.order.entity.ShippingOrderItem;
 import com.tmax.cm.superstore.order.entity.ShippingOrderSelectedOption;
 import com.tmax.cm.superstore.order.entity.VisitOrder;
 import com.tmax.cm.superstore.order.repository.DeliveryOrderRepository;
 import com.tmax.cm.superstore.order.repository.OrderRepository;
+import com.tmax.cm.superstore.order.repository.PickupOrderItemRepository;
 import com.tmax.cm.superstore.order.repository.PickupOrderRepository;
 import com.tmax.cm.superstore.order.repository.PickupOrderSelectedOptionRepository;
+import com.tmax.cm.superstore.order.repository.ShippingOrderItemRepository;
 import com.tmax.cm.superstore.order.repository.ShippingOrderRepository;
 import com.tmax.cm.superstore.order.repository.ShippingOrderSelectedOptionRepository;
 import com.tmax.cm.superstore.order.repository.VisitOrderRepository;
+import com.tmax.cm.superstore.order.service.dto.ReadPickupOrderSelectedOptionDto;
+import com.tmax.cm.superstore.order.service.dto.ReadShippingOrderSelectedOptionDto;
 import com.tmax.cm.superstore.payment.entity.Payment;
 import com.tmax.cm.superstore.pickup.entity.Pickup;
 import com.tmax.cm.superstore.purchaseOrder.service.dto.PurchaseOrderDto;
@@ -42,6 +49,8 @@ public class OrderService {
     private final VisitOrderRepository visitOrderRepository;
     private final DeliveryOrderRepository deliveryOrderRepository;
     private final PickupOrderRepository pickupOrderRepository;
+    private final ShippingOrderItemRepository shippingOrderItemRepository;
+    private final PickupOrderItemRepository pickupOrderItemRepository;
     private final ShippingOrderSelectedOptionRepository shippingOrderSelectedOptionRepository;
     private final PickupOrderSelectedOptionRepository pickupOrderSelectedOptionRepository;
 
@@ -63,10 +72,94 @@ public class OrderService {
      * 상태 변경
      */
     @Transactional
+    public ReadShippingOrderSelectedOptionDto readShippingOrderSelectedOption(UUID shippingOrderSelectedOptionId,
+            UUID userId) {
+
+        Order order = null;
+        SendType sendType = null;
+
+        ShippingOrderSelectedOption shippingOrderSelectedOption = this.shippingOrderSelectedOptionRepository
+                .findById(shippingOrderSelectedOptionId)
+                .orElseThrow(() -> EntityNotFoundException.of(ShippingOrderSelectedOption.class));
+
+        ShippingOrderItem shippingOrderItem = this.shippingOrderItemRepository
+                .findByShippingOrderSelectedOptions(shippingOrderSelectedOption)
+                .orElseThrow(() -> EntityNotFoundException.of(ShippingOrderSelectedOption.class));
+
+        ShippingOrder shippingOrder = this.shippingOrderRepository.findTopByShippingOrderItems(shippingOrderItem)
+                .orElse(null);
+        if (shippingOrder != null) {
+            order = shippingOrder.getOrder();
+            sendType = SendType.SHIPPING;
+        }
+        DeliveryOrder deliveryOrder = this.deliveryOrderRepository.findTopByShippingOrderItems(shippingOrderItem)
+                .orElse(null);
+        if (deliveryOrder != null) {
+            order = deliveryOrder.getOrder();
+            sendType = SendType.DELIVERY;
+        }
+
+        if (order == null || order.getUser().getId() != userId) {
+            throw EntityNotFoundException.of(ShippingOrderSelectedOption.class);
+        }
+
+        boolean isReviewExist = true;
+        if (shippingOrderItem.getItem().getReviews().isEmpty()) {
+            isReviewExist = false;
+        }
+
+        return ReadShippingOrderSelectedOptionDto.builder().order(order).shippingOrderItem(shippingOrderItem)
+                .shippingOrderSelectedOption(shippingOrderSelectedOption).isReviewExist(isReviewExist)
+                .sendType(sendType).build();
+    }
+
+    @Transactional
     public ShippingOrderSelectedOption readShippingOrderSelectedOption(UUID shippingOrderSelectedOptionId,
             Seller seller) {
         return this.shippingOrderSelectedOptionRepository.findByIdAndSeller(shippingOrderSelectedOptionId, seller)
                 .orElseThrow(() -> EntityNotFoundException.of(ShippingOrderSelectedOption.class));
+    }
+
+    @Transactional
+    public ReadPickupOrderSelectedOptionDto readPickupOrderSelectedOption(UUID pickupOrderSelectedOptionId,
+            UUID userId) {
+
+        Order order = null;
+        SendType sendType = null;
+
+        PickupOrderSelectedOption pickupOrderSelectedOption = this.pickupOrderSelectedOptionRepository
+                .findById(pickupOrderSelectedOptionId)
+                .orElseThrow(() -> EntityNotFoundException.of(PickupOrderSelectedOption.class));
+
+        PickupOrderItem pickupOrderItem = this.pickupOrderItemRepository
+                .findByPickupOrderSelectedOptions(pickupOrderSelectedOption)
+                .orElseThrow(() -> EntityNotFoundException.of(PickupOrderSelectedOption.class));
+
+        PickupOrder PickupOrder = this.pickupOrderRepository.findTopByPickupOrderItems(pickupOrderItem)
+                .orElse(null);
+        if (PickupOrder != null) {
+            order = PickupOrder.getOrder();
+            sendType = SendType.PICKUP;
+        }
+        VisitOrder visitOrder = this.visitOrderRepository.findTopByPickupOrderItems(pickupOrderItem)
+                .orElse(null);
+        if (visitOrder != null) {
+            order = visitOrder.getOrder();
+            sendType = SendType.VISIT;
+        }
+
+        if (order == null || order.getUser().getId() != userId) {
+            throw EntityNotFoundException.of(PickupOrderSelectedOption.class);
+        }
+
+        boolean isReviewExist = true;
+        if (pickupOrderItem.getItem().getReviews().isEmpty()) {
+            isReviewExist = false;
+        }
+
+        return ReadPickupOrderSelectedOptionDto.builder().order(order).pickupOrderItem(pickupOrderItem)
+                .pickupOrderSelectedOption(pickupOrderSelectedOption).isReviewExist(isReviewExist).sendType(sendType)
+                .build();
     }
 
     @Transactional

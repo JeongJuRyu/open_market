@@ -52,13 +52,13 @@ public class OrderInquiryService {
 			LocalDate.parse(startDate).atStartOfDay());
 		for(OrderInquiry orderInquiry : orderInquiries ){
 			OrderType selectedOrderType = orderInquiry.getOrderType();
-			if(selectedOrderType == OrderType.DELIVERY || selectedOrderType == OrderType.SHIPPING){
+			if(selectedOrderType == OrderType.SHIPPINGANDDELIVERY){
 				ShippingOrderItem shippingOrderItem = shippingOrderItemRepository
 					.findByShippingOrderSelectedOptions(orderInquiry.getShippingOrderSelectedOption()).get();
 				Seller seller = sellerRepository.findForShippingOrderInquiry(shippingOrderItem.getId())
 					.get();
 				responseOrderInquiry.add(orderInquiryMapper.toAllShippingOrderItemInquiry(orderInquiry, shippingOrderItem, seller));
-			} else if(selectedOrderType == OrderType.PICKUP || selectedOrderType == OrderType.VISIT){
+			} else if(selectedOrderType == OrderType.PICKUPANDVISIT){
 
 			}
 		}
@@ -72,7 +72,7 @@ public class OrderInquiryService {
 		OrderInquiry orderInquiry = orderInquiryRepository.findById(inquiryId)
 			.orElseThrow(OrderInquiryNotFound::new);
 		OrderType selectedOrderType = orderInquiry.getOrderType();
-		if(selectedOrderType == OrderType.DELIVERY || selectedOrderType == OrderType.SHIPPING) {
+		if(selectedOrderType == OrderType.SHIPPINGANDDELIVERY){
 			ShippingOrderItem shippingOrderItem = shippingOrderItemRepository
 				.findByShippingOrderSelectedOptions(orderInquiry.getShippingOrderSelectedOption()).get();
 			Seller seller = sellerRepository.findForShippingOrderInquiry(shippingOrderItem.getId())
@@ -83,7 +83,7 @@ public class OrderInquiryService {
 					orderInquiry.getOrderInquiryReply()))
 				.build();
 		}
-		else if(selectedOrderType == OrderType.PICKUP || selectedOrderType == OrderType.VISIT)
+		else if(selectedOrderType == OrderType.PICKUPANDVISIT)
 		{
 		}
 		return null;

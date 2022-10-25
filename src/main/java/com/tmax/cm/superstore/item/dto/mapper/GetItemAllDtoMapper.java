@@ -49,6 +49,9 @@ public interface GetItemAllDtoMapper {
     @Mapping(target = "itemPrice", source = "item.price")
     @Mapping(target = "possibleSendType", source = "item.itemSendTypes")
     @Mapping(target = "categoryId", source = "item.category.id")
+    @Mapping(target = "itemState", source = "item.itemState")
+    @Mapping(target = "shippingCharge", source = "item.shippingCharge")
+    @Mapping(target = "shippingChargeType", source = "item.shippingChargeType")
     GetItemAllDto.Response.GetItemDto toGetItemDto(Item item,
             List<GetItemAllDto.Response.GetItemDto.GetOptionGroupDto> necessaryOptionGroups,
             List<GetItemAllDto.Response.GetItemDto.GetOptionGroupDto> optionalOptionGroups);

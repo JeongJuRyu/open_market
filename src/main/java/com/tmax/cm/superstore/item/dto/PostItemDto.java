@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
+import com.tmax.cm.superstore.code.ShippingChargeType;
 import com.tmax.cm.superstore.item.code.ItemState;
 import com.tmax.cm.superstore.code.SendType;
 
@@ -16,9 +18,6 @@ public class PostItemDto {
 
     @Getter
     public static class Request {
-
-        @NotNull
-        private String shopName; // TODO 가게 생성 타 API로 분리
 
         @NotNull
         private String name;
@@ -36,6 +35,18 @@ public class PostItemDto {
 
         @NotNull
         private ItemState itemState;
+
+        @NotNull
+        private ShippingChargeType shippingChargeType;
+
+        @NotNull
+        private Integer shippingCharge;
+
+        private String description;
+
+        private Integer returnCharge;
+
+        private String returnAddress;
 
         @Getter
         public static class PostOptionGroupDto {

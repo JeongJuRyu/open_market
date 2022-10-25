@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import com.tmax.cm.superstore.common.ResponseDto;
 import com.tmax.cm.superstore.mypage.dto.GetAllReviewForSellerResponseDto;
+import com.tmax.cm.superstore.mypage.dto.GetReviewWithItemResponseDto;
 import com.tmax.cm.superstore.mypage.dto.PostReviewRequestDto;
 import com.tmax.cm.superstore.mypage.dto.GetAllReviewResponseDto;
 import com.tmax.cm.superstore.mypage.dto.GetReviewResponseDto;
@@ -28,16 +29,26 @@ public class ReviewController {
 
 	@GetMapping
 	public ResponseEntity<ResponseDto<GetAllReviewResponseDto>> getAllReview(
-		@RequestParam(defaultValue = "1900-01-01") String startDate,
-		@RequestParam(defaultValue = "false") Boolean isReplied,
 		@AuthenticationPrincipal User user){
-		return ResponseEntity.ok().body(reviewService.getAllReview(startDate, isReplied, user));
+		return ResponseEntity.ok().body(reviewService.getAllReview(user));
 	}
 
-	@GetMapping("/{reviewId}")
-	public ResponseEntity<ResponseDto<GetReviewResponseDto>> getReview(
-		@PathVariable UUID reviewId){
-		return ResponseEntity.ok().body(reviewService.getReview(reviewId));
+	@GetMapping({"/item/{itemId}"})
+	public ResponseEntity<ResponseDto<GetReviewWithItemResponseDto>> getReviewWithItem(
+		@PathVariable UUID itemId){
+		return ResponseEntity.ok().body(reviewService.getReviewWithItem(itemId));
+	}
+
+	@GetMapping("/shippingAndDelivery/{shippingOrderSelectedId}")
+	public ResponseEntity<ResponseDto<GetReviewResponseDto>> getShippingOrderReview(
+		@PathVariable UUID shippingOrderSelectedId){
+		return ResponseEntity.ok().body(reviewService.getShippingOrderReview(shippingOrderSelectedId));
+	}
+
+	@GetMapping("/pickupAndVisit/{pickupOrderSelectedId}")
+	public ResponseEntity<ResponseDto<GetReviewResponseDto>> getPickupOrderReview(
+		@PathVariable UUID pickupOrderSelectedId){
+		return ResponseEntity.ok().body(reviewService.getPickupOrderReview(pickupOrderSelectedId));
 	}
 
 	@PostMapping
