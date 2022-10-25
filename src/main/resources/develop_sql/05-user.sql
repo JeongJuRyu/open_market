@@ -19,4 +19,15 @@ VALUES (
         true,
         true,
         false
+    ),
+    (
+        UUID_TO_BIN('48dfab6c-535f-11ed-bdc3-0242ac120002'),
+        'gusrkfl0608@naver.com',
+        '0000',
+        '010-6283-3418',
+        '경기도 안양시 동안구',
+        '조현준',
+        true,
+        true,
+        false
     );
