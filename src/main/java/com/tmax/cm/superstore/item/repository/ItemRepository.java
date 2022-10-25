@@ -33,4 +33,10 @@ public interface ItemRepository extends JpaRepository<Item, UUID> {
     @Query("select i from Item i join PickupOrderItem poi join ItemImage ii "
         + "where poi.id = :pickupOrderItemId")
     Optional<Item> findByPickupOrderItem(UUID pickupOrderItemId);
+
+    @Query(value = "select * from item as i join shipping_order_item as soi on i.id = soi.item_id "
+        + "join shipping_order_selected_option as soso on soso.shipping_order_item_id = soi.id "
+        + "join order_inquiry as oi on oi.shipping_order_selected_option_id = soso.id "
+        + "WHERE OI.ORDER_INQUIRY_ID = :orderInquiryId", nativeQuery = true)
+    Optional<Item> findByOrderInquiry(UUID orderInquiryId);
 }

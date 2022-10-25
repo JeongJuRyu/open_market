@@ -1,5 +1,6 @@
 package com.tmax.cm.superstore.seller.repository;
 
+import com.tmax.cm.superstore.mypage.entity.Review;
 import com.tmax.cm.superstore.seller.entity.Seller;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,7 +18,17 @@ public interface SellerRepository extends JpaRepository<Seller, UUID> {
 
 	List<Seller> findAll();
 
-	@Query("select s from Seller s join Item i join ShippingOrderItem soi "
-		+ "where soi.id = :shippingOrderItemId")
-	Optional<Seller> findForShippingOrderInquiry(Long shippingOrderItemId);
+
+	@Query(value = "SELECT * FROM SELLER AS S JOIN ITEM I ON I.SELLER_SELLER_ID = S.SELLER_ID "
+		+ "JOIN SHIPPING_ORDER_ITEM AS SOI ON SOI.ITEM_ID = I.ID WHERE I.ID = :itemId" , nativeQuery = true)
+	Optional<Seller> findForShippingOrderInquiry(UUID itemId);
+
+	@Query(value = "SELECT * FROM SELLER AS S JOIN ITEM I ON I.SELLER_SELLER_ID = S.SELLER_ID "
+		+ "JOIN PICKUP_ORDER_ITEM AS SOI ON SOI.ITEM_ID = I.ID WHERE I.ID = :itemId" , nativeQuery = true)
+	Optional<Seller> findForPickupOrderInquiry(UUID itemId);
+
+	@Query(value = "SELECT * FROM SELLER AS S JOIN ITEM I ON I.SELLER_SELLER_ID = S.SELLER_ID "
+		+ "JOIN REVIEW AS R ON I.ID = R.ITEM_ID WHERE S.SELLER_ID = :sellerId", nativeQuery = true)
+	List<Review> findForSellerReviewWithItem(UUID sellerId);
+
 }

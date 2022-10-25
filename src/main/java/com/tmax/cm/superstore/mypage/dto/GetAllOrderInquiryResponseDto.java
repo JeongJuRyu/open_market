@@ -16,11 +16,14 @@ public class GetAllOrderInquiryResponseDto {
 	@Getter
 	@Builder
 	public static class OrderItemInquiry {
-		private UUID id;
+		private UUID orderItemInquiryId;
 		private String shopName;
+		private UUID orderItemId;
 		private String orderItemName;
+		private String itemImageId;
 		private Boolean isReplied;
 		private String content;
 		private LocalDateTime createdAt;
+		private String orderType;
 	}
 }
