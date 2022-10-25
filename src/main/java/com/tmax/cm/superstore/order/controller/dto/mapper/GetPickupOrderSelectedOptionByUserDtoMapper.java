@@ -26,7 +26,6 @@ public interface GetPickupOrderSelectedOptionByUserDtoMapper {
     @Mapping(target = ".", source = "readPickupOrderSelectedOptionDto.pickupOrderSelectedOption")
     @Mapping(target = ".", source = "readPickupOrderSelectedOptionDto.pickupOrderSelectedOption.seller")
     @Mapping(target = ".", source = "readPickupOrderSelectedOptionDto.pickupOrderSelectedOption.pickup")
-    @Mapping(target = "address", source = "readPickupOrderSelectedOptionDto.pickupOrderSelectedOption.pickup.address")
     Response toResponse(ReadPickupOrderSelectedOptionDto readPickupOrderSelectedOptionDto);
 
     @Mapping(target = "optionGroupName", source = "name")
