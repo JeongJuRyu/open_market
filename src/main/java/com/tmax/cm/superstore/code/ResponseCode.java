@@ -49,6 +49,7 @@ public enum ResponseCode implements Code {
 	ORDER_DONE_PICK("SUCCESS", "ORDER_DONE_PICK", "Done order selected option ", "수령 완료"),
 	ORDER_ACCEPT_SHIPPING("SUCCESS", "ORDER_ACCEPT_SHIPPING", "Accept order selected option ", "배송 요청 수락 및 배송 중"),
 	ORDER_REJECT_SHIPPING("SUCCESS", "ORDER_REJECT_SHIPPING", "Refuse order selected option ", "배송 완료"),
+	ORDER_PROCESSING_SHIPPING("SUCCESS", "ORDER_PROCESSING_SHIPPING", "Processing order selected option ", "배송 중"),
 	ORDER_DONE_SHIPPING("SUCCESS", "ORDER_DONE_SHIPPING", "Done order selected option ", "배송 요청 거절"),
 
 	// Seller

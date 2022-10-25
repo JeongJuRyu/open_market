@@ -123,6 +123,21 @@ public class OrderSellerController {
         return new ResponseDto<>(ResponseCode.ORDER_REJECT_SHIPPING, null);
     }
 
+    @PutMapping("/{sellerId}/shippingAndDelivery/{selectedOptionId}/processingShipping")
+    public ResponseDto<Void> putProcessingShipping(@PathVariable UUID selectedOptionId, @PathVariable UUID sellerId) {
+
+        this.transactionHandler.runInSameTransaction(() -> {
+            Seller seller = this.sellerService.findSeller(sellerId);
+
+            ShippingOrderSelectedOption shippingOrderSelectedOption = this.orderService
+                    .readShippingOrderSelectedOption(selectedOptionId, seller);
+
+            this.shippingService.processingShipping(shippingOrderSelectedOption.getShipping().getId());
+        });
+
+        return new ResponseDto<>(ResponseCode.ORDER_PROCESSING_SHIPPING, null);
+    }
+
     @PutMapping("/{sellerId}/shippingAndDelivery/{selectedOptionId}/doneShipping")
     public ResponseDto<Void> putDoneShipping(@PathVariable UUID selectedOptionId, @PathVariable UUID sellerId) {
 
