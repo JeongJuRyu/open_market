@@ -10,7 +10,7 @@ public enum PickupType implements Code {
 
     PICKUP_WAITING("PICKUP_WAITING", "주문 접수", "pickup/waiting"),
     PICKUP_ACCEPT("PICKUP_ACCEPT", "접수 완료 및 준비 중", "pickup/accepted"),
-    PICKUP_READY("PICKUP_READY", "준비 완료", "pickup/done"),
+    PICKUP_READY("PICKUP_READY", "준비 완료", "pickup/ready"),
     PICKUP_REFUSE("PICKUP_REFUSE", "접수 취소", "pickup/refused"),
     PICKUP_DONE("PICKUP_DONE", "수령 완료", "pickup/done");
 
