@@ -28,7 +28,7 @@ VALUES(
         1,
         UUID_TO_BIN('2a39a689-b011-441d-a719-0ce4754baa4c'),
         1,
-        UUID_TO_BIN('2d68d1d0-ed27-46d2-b858-da3f0aa2e430')
+        UUID_TO_BIN('8d41c42a-011b-4525-9864-b24481f985c5')
     ),
     (
         UUID_TO_BIN('2a656d32-3a75-4edc-b42d-b7381417dfb7'),

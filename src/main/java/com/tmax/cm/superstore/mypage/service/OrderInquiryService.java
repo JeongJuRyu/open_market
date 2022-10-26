@@ -110,12 +110,19 @@ public class OrderInquiryService {
 	public ResponseDto<GetAllOrderInquiryForSellerResponseDto> getAllOrderInquiryForSeller(String startDate, String isReplied, UUID sellerId){
 		List<GetAllOrderInquiryForSellerResponseDto.OrderInquiry> responseOrderInquiries = new ArrayList<>();
 		List<OrderInquiry> orderInquiries = orderInquiryRepository.findForSellerOrderInquiryOfShipping(sellerId);
+		System.out.println(orderInquiries.size());
 		orderInquiries.sort(new OrderInquiryComparotor());
 		for(OrderInquiry orderInquiry : orderInquiries){
 			if(orderInquiry.getOrderType() == OrderType.SHIPPINGANDDELIVERY){
 				ShippingOrderSelectedOption shippingOrderSelectedOption = orderInquiry.getShippingOrderSelectedOption();
-				Order order = orderRepository.findBySelectedOption(shippingOrderSelectedOption.getId())
-					.orElseThrow(() -> new RuntimeException("주문이 없습니다."));
+				System.out.println(shippingOrderSelectedOption.getId());
+				Order order = null;
+				order = orderRepository.findBySelectedOption(shippingOrderSelectedOption.getId())
+					.orElse(null);
+				if(order == null){
+					order = orderRepository.findBySelectedOptionWIthDelivery(shippingOrderSelectedOption.getId())
+						.orElseThrow(() -> new RuntimeException("주문이 없습니다."));
+				}
 				User user = orderInquiry.getUser();
 				Item item = itemRepository.findByOrderInquiry(orderInquiry.getId()).orElseThrow(ItemNotFoundException::new);
 				OrderInquiryReply orderInquiryReply = orderInquiryReplyRepository.findByOrderInquiry(orderInquiry)
