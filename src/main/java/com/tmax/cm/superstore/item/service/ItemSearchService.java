@@ -42,11 +42,20 @@ public class ItemSearchService {
     @Transactional
     public GetItemAllDto.Response searchItemByFilter(String name,  Long parentCategoryId, List<ItemState> itemState){
         List<String> itemStateString = new ArrayList<>();
+        List<Item> items = null;
 
         for (ItemState state : itemState) {
             itemStateString.add(state.toString());
         }
-        List<Item> items = itemSearchRepository.findByKeywordAndCategoryAndItemState(name, parentCategoryId, itemStateString);
+        if (!itemStateString.isEmpty()){
+            if (itemStateString.size()>1){
+                items = itemSearchRepository.findByKeywordAndCategoryAndItemStateList(name, parentCategoryId, itemStateString);
+            }else {
+                items = itemSearchRepository.findByKeywordAndCategoryAndItemState(name, parentCategoryId, itemStateString);
+            }
+        }else {
+            items = itemSearchRepository.findByKeywordAndCategoryAndItemState(name, parentCategoryId, itemStateString);
+        }
         if (items.isEmpty()){
             throw new ItemNotFoundException();
         }
