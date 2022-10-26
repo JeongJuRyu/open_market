@@ -46,8 +46,7 @@ public class GetWishlistItemDto {
             private UUID itemId;
 
             @NotNull
-            @Builder.Default
-            private String itemThumbnailURL = "images/510a2ac1-7869-49c5-875b-1dfb8ea243f4.jpg";
+            private String itemThumbnailURL;
 
             @NotNull
             private String itemName;
