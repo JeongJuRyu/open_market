@@ -12,5 +12,4 @@ import lombok.Getter;
 public class PostReviewReplyRequestDto {
 	private UUID reviewId;
 	private String content;
-	private OrderType orderType;
 }

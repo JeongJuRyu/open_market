@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class UpdateOrderInquiryReplyRequestDto {
+	private UUID sellerId;
 	private UUID orderInquiryId;
-	private UUID orderInquiryReplyId;
 	private String content;
 }

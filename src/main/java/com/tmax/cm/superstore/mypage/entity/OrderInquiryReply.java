@@ -28,9 +28,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 public class OrderInquiryReply extends BaseTimeEntity {
-	@Id @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-	@GeneratedValue(generator = "UUID")
-	@Column(name = "ORDER_INQUIRY_REPLY_ID", columnDefinition = "BINARY(16)")
+
+	@Id @GeneratedValue(generator = "UUID")
+	@GenericGenerator(name ="UUID", strategy = "org.hibernate.id.UUIDGenerator")
+	@Column(columnDefinition = "BINARY(16)")
 	private UUID id;
 
 	@Column(nullable = false)
@@ -39,4 +40,12 @@ public class OrderInquiryReply extends BaseTimeEntity {
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn()
 	private OrderInquiry orderInquiry;
+
+	public void updateOrderInquiryReply(String content){
+		this.content = content;
+	}
+
+	public void deleteOrderInquiry(){
+		this.orderInquiry = null;
+	}
 }

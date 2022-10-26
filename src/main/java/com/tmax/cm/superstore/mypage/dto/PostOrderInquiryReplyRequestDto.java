@@ -8,6 +8,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class PostOrderInquiryReplyRequestDto {
+	private UUID sellerId;
 	private UUID orderInquiryId;
 	private String content;
 }

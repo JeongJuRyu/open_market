@@ -9,6 +9,5 @@ import lombok.Getter;
 @Builder
 public class UpdateReviewReplyRequestDto {
 	private UUID reviewId;
-	private UUID reviewReplyId;
 	private String content;
 }
