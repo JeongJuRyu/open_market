@@ -5,5 +5,5 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public enum OrderType {
 	SHIPPINGANDDELIVERY,
-	PICKUPANDVISIT
+	VISITANDPICKUP
 }

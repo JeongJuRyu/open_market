@@ -88,7 +88,7 @@ public interface ReviewMapper {
             .itemImageId(ItemImageId)
             .orderSelectedOptionId(selectedOptionId)
             .price(shippingOrderItem.getAmount())
-            .count(shippingOrderItem.getAmount())
+            .count(1)
             .orderOptionGroups(this.toAllOrderOptionGroups(review.getShippingOrderSelectedOption().getOrderOptionGroups()))
             .build();
     }
@@ -98,7 +98,7 @@ public interface ReviewMapper {
             .itemId(item.getId())
             .itemImageId(itemImageId)
             .price(shippingOrderItem.getAmount())
-            .count(shippingOrderItem.getAmount())
+            .count(1)
             .orderOptionGroups(this.toOrderOptionGroups(review.getShippingOrderSelectedOption().getOrderOptionGroups()))
             .build();
     }
@@ -110,7 +110,7 @@ public interface ReviewMapper {
             .itemImageId(ItemImageId)
             .orderSelectedOptionId(selectedOptionId)
             .price(pickupOrderItem.getAmount())
-            .count(pickupOrderItem.getAmount())
+            .count(1)
             .orderOptionGroups(this.toAllOrderOptionGroups(review.getPickupOrderSelectedOption().getOrderOptionGroups()))
             .build();
     }
@@ -121,7 +121,7 @@ public interface ReviewMapper {
             .itemId(item.getId())
             .itemImageId(itemImageId)
             .price(pickupOrderItem.getAmount())
-            .count(pickupOrderItem.getAmount())
+            .count(1)
             .orderOptionGroups(this.toOrderOptionGroups(review.getPickupOrderSelectedOption().getOrderOptionGroups()))
             .build();
     }

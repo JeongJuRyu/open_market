@@ -19,7 +19,7 @@ VALUES(
         82000,
         1,
         UUID_TO_BIN('0eceec16-cdab-4885-a552-066e2df2e3ad'),
-        2,
+        1,
         UUID_TO_BIN('8d41c42a-011b-4525-9864-b24481f985c5')
     ),
     (
