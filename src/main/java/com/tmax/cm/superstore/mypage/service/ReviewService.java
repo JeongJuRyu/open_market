@@ -98,9 +98,9 @@ public class ReviewService {
 		reviews = reviews.stream().filter(review -> review.getStarRating() >= fStarRating).collect(Collectors.toList());
 		reviews.sort(new ReviewComparotor());
 		for(Review review : reviews) {
-			Order order = orderRepository.findByReviewId(review.getId())
-				.orElseThrow(() -> new RuntimeException("주문이 존재하지 않습니다."));
-			responseReview.add(reviewMapper.toAllReviewForSellerDto(review, order));
+			List<Order> orders = orderRepository.findByReviewId(review.getId());
+			if(orders.size() == 0) throw new RuntimeException("주문이 존재하지 않습니다.");
+			responseReview.add(reviewMapper.toAllReviewForSellerDto(review, orders.get(0)));
 		}
 		return ResponseDto.<GetAllReviewForSellerResponseDto>builder()
 			.responseCode(ResponseCode.REVIEW_READ_ALL)

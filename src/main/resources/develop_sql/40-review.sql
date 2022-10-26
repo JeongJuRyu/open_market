@@ -17,7 +17,7 @@ values (
         'SHIPPINGANDDELIVERY',
         true,
         null,
-        UUID_TO_BIN('9c937a70-12cf-4a83-b594-1293b3f994a8'),
+        0x9C937A7012CF4A83B5941293B3F994A8,
         UUID_TO_BIN('672ffb8c-f952-49ec-b65b-4fe3a9c37b28'),
         UUID_TO_BIN('1523bc68-e8f7-4140-b7dd-cbfe622e068a'),
         '2022/10/01 00:00:00'
@@ -42,7 +42,7 @@ values (
            'SHIPPINGANDDELIVERY',
            false,
            null,
-           UUID_TO_BIN('95547dc4-6d88-4796-b964-ff71aa056b7c'),
+           0x95547DC46D884796B964FF71AA056B7C,
            UUID_TO_BIN('672ffb8c-f952-49ec-b65b-4fe3a9c37b28'),
            UUID_TO_BIN('1523bc68-e8f7-4140-b7dd-cbfe622e068a'),
            '2022/08/30 00:00:00'
@@ -67,7 +67,7 @@ values (
            'SHIPPINGANDDELIVERY',
            true,
            null,
-           UUID_TO_BIN('6148b3fe-7fdd-4344-8938-4d938bd23799'),
+           0x6148B3FE7FDD434489384D938BD23799,
            UUID_TO_BIN('672ffb8c-f952-49ec-b65b-4fe3a9c37b28'),
            UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb27'),
            '2022/08/01 00:00:00'
@@ -92,8 +92,8 @@ values (
            'SHIPPINGANDDELIVERY',
            false,
            null,
-           UUID_TO_BIN('eb1beada-6f24-4b18-9c7b-61591aca1731'),
+           0x371A2E44EFEE4DA7B29A50CAEA8B0508,
            UUID_TO_BIN('672ffb8c-f952-49ec-b65b-4fe3a9c37b28'),
-           UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb30'),
+           UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb27'),
            '2022/08/01 00:00:00'
        );
