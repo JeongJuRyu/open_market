@@ -24,7 +24,8 @@ public interface ItemSearchRepository extends JpaRepository<Item, UUID> {
             ") " +
             "SELECT i.* FROM item i RIGHT JOIN cte c ON c.id = i.category_id " +
             "WHERE ( :keyword IS NULL OR i.name like %:keyword% ) " +
-            "AND ( :itemState IS NULL OR i.item_state IN (:itemState) )" +
+            "AND ( :itemState IS NULL OR i.item_state IN (:itemState) ) " +
+            "AND i.is_deleted = 0 " +
             "GROUP BY i.id " +
             "HAVING i.id IS NOT NULL ", nativeQuery = true)
     List<Item> findByKeywordAndCategoryAndItemState(@Param("keyword") String keyword, @Param("parentCategoryId") Long parentCategoryId, @Param("itemState") List<String> itemState);
@@ -45,6 +46,7 @@ public interface ItemSearchRepository extends JpaRepository<Item, UUID> {
             "SELECT i.* FROM item i RIGHT JOIN cte c ON c.id = i.category_id " +
             "WHERE ( :keyword IS NULL OR i.name like %:keyword% ) " +
             "AND i.item_state IN (:itemState) " +
+            "AND i.is_deleted = 0 " +
             "GROUP BY i.id " +
             "HAVING i.id IS NOT NULL ", nativeQuery = true)
     List<Item> findByKeywordAndCategoryAndItemStateList(@Param("keyword") String keyword, @Param("parentCategoryId") Long parentCategoryId, @Param("itemState") List<String> itemState);
