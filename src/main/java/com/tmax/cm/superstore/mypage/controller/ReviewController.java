@@ -45,7 +45,7 @@ public class ReviewController {
 		return ResponseEntity.ok().body(reviewService.getShippingOrderReview(shippingOrderSelectedId));
 	}
 
-	@GetMapping("/pickupAndVisit/{pickupOrderSelectedId}")
+	@GetMapping("/visitAndPickup/{pickupOrderSelectedId}")
 	public ResponseEntity<ResponseDto<GetReviewResponseDto>> getPickupOrderReview(
 		@PathVariable UUID pickupOrderSelectedId){
 		return ResponseEntity.ok().body(reviewService.getPickupOrderReview(pickupOrderSelectedId));
@@ -77,7 +77,9 @@ public class ReviewController {
 	@GetMapping("/seller")
 	public ResponseEntity<ResponseDto<GetAllReviewForSellerResponseDto>> getAllReviewForSeller(
 		@RequestParam UUID sellerId,
-		@RequestParam Float starRating){
+		@RequestParam(defaultValue = "0.0") String starRating){
 		return ResponseEntity.ok().body(reviewService.getAllReviewForSeller(sellerId, starRating));
 	}
+
+
 }

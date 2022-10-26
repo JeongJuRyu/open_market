@@ -17,6 +17,6 @@ VALUES (
     );
 -- 찜 상품 등록
 INSERT INTO wishlist_item(id, item_id, wishlist_group_id, is_deleted) VALUES (1, UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb27'), 1, false);
-INSERT INTO wishlist_item(id, item_id, wishlist_group_id, is_deleted) VALUES (2, UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb28'), 1, false);
-INSERT INTO wishlist_item(id, item_id, wishlist_group_id, is_deleted) VALUES (3, UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb29'), 2, false);
-INSERT INTO wishlist_item(id, item_id, wishlist_group_id, is_deleted) VALUES (4, UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb30'), null, false);
+INSERT INTO wishlist_item(id, item_id, wishlist_group_id, is_deleted) VALUES (2, UUID_TO_BIN('8772d6b7-a125-4bf5-9224-88d5270b2633'), 1, false);
+INSERT INTO wishlist_item(id, item_id, wishlist_group_id, is_deleted) VALUES (3, UUID_TO_BIN('f1c6f586-d9c4-4642-8b0d-55b0565e4520'), 2, false);
+INSERT INTO wishlist_item(id, item_id, wishlist_group_id, is_deleted) VALUES (4, UUID_TO_BIN('e7030b3b-c815-4279-9137-e8e294b52078'), null, false);

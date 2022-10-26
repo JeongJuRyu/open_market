@@ -58,11 +58,11 @@ public interface ReviewMapper {
             .build();
     }
 
-    default GetAllReviewResponseDto.Review toAllPickupReviewDto(Review review, PickupOrderItem pickupOrderItem, Item item){
+    default GetAllReviewResponseDto.Review toAllPickupReviewDto(Review review, PickupOrderItem pickupOrderItem, Item item, UUID selectedOptionId){
         return GetAllReviewResponseDto.Review.builder()
             .reviewId(review.getId())
             .orderType(review.getOrderType())
-            .orderItem(this.toAllPickupOrderItem(pickupOrderItem, review, item))
+            .orderItem(this.toAllPickupOrderItem(pickupOrderItem, review, item, selectedOptionId))
             .content(review.getContent())
             .starRating(review.getStarRating())
             .createdAt(review.getCreatedAt())
@@ -88,7 +88,7 @@ public interface ReviewMapper {
             .itemImageId(ItemImageId)
             .orderSelectedOptionId(selectedOptionId)
             .price(shippingOrderItem.getAmount())
-            .count(shippingOrderItem.getAmount())
+            .count(1)
             .orderOptionGroups(this.toAllOrderOptionGroups(review.getShippingOrderSelectedOption().getOrderOptionGroups()))
             .build();
     }
@@ -98,18 +98,19 @@ public interface ReviewMapper {
             .itemId(item.getId())
             .itemImageId(itemImageId)
             .price(shippingOrderItem.getAmount())
-            .count(shippingOrderItem.getAmount())
+            .count(1)
             .orderOptionGroups(this.toOrderOptionGroups(review.getShippingOrderSelectedOption().getOrderOptionGroups()))
             .build();
     }
-    default GetAllReviewResponseDto.Review.OrderItem toAllPickupOrderItem(PickupOrderItem pickupOrderItem, Review review, Item item){
+    default GetAllReviewResponseDto.Review.OrderItem toAllPickupOrderItem(PickupOrderItem pickupOrderItem, Review review, Item item, UUID selectedOptionId){
         String ItemImageId = item.getItemImages().size() != 0 ? item.getItemImages().get(0).getFileId() : null;
         return GetAllReviewResponseDto.Review.OrderItem.builder()
             .itemId(item.getId())
             .itemName(pickupOrderItem.getName())
             .itemImageId(ItemImageId)
+            .orderSelectedOptionId(selectedOptionId)
             .price(pickupOrderItem.getAmount())
-            .count(pickupOrderItem.getAmount())
+            .count(1)
             .orderOptionGroups(this.toAllOrderOptionGroups(review.getPickupOrderSelectedOption().getOrderOptionGroups()))
             .build();
     }
@@ -120,7 +121,7 @@ public interface ReviewMapper {
             .itemId(item.getId())
             .itemImageId(itemImageId)
             .price(pickupOrderItem.getAmount())
-            .count(pickupOrderItem.getAmount())
+            .count(1)
             .orderOptionGroups(this.toOrderOptionGroups(review.getPickupOrderSelectedOption().getOrderOptionGroups()))
             .build();
     }

@@ -19,7 +19,9 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import com.tmax.cm.superstore.code.SendType;
+import com.tmax.cm.superstore.common.entity.BaseTimeEntity;
 import com.tmax.cm.superstore.item.entity.Item;
+import com.tmax.cm.superstore.user.entities.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,7 +37,7 @@ import lombok.Setter;
 @Entity
 @Where(clause = "is_deleted = false")
 @SQLDelete(sql = "UPDATE cart_item SET is_deleted = true WHERE id = ?")
-public class CartItem {
+public class CartItem extends BaseTimeEntity {
     @Id
     @GeneratedValue
     @Column(columnDefinition = "BINARY(16)")
@@ -48,6 +50,10 @@ public class CartItem {
     @ManyToOne
     @JoinColumn(nullable = false)
     private Item item;
+
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private User user;
 
     @OneToOne(mappedBy = "cartItem", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private CartReservationItem cartReservationItem;

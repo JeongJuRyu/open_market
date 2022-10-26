@@ -43,8 +43,10 @@ public class OrderBuyerControllerIntegrationTest extends AbstractIntegrationTest
                 put("paymentAmount", 1000);
                 put("cartItemIds", new JSONArray() {
                     {
-                        put("b735da9e-b59a-4caf-80a9-2c894773e447");
-                        put("46ac3f0d-c57f-4878-86ec-e0bea0a88fd6");
+                        put("024c768f-f693-4c2a-a7a1-70830f5c2114");
+                        put("561b36be-eb01-4c61-8df9-1fa8c98c48b1");
+                        put("935dad94-71df-4035-a55e-3d4126ebfc9b");
+                        put("a74f047a-be8a-4cfb-bbbe-10967d411bde");
                     }
                 });
                 put("shippingRecipientInfo", new JSONObject() {
@@ -59,6 +61,20 @@ public class OrderBuyerControllerIntegrationTest extends AbstractIntegrationTest
                     {
                         put("recipient", "김맥스");
                         put("address", "미금 연구소");
+                        put("mobile", "010-1234-5678");
+                        put("requests", "문 앞");
+                    }
+                });
+                put("visitRecipientInfo", new JSONObject() {
+                    {
+                        put("recipient", "김맥스");
+                        put("mobile", "010-1234-5678");
+                        put("requests", "문 앞");
+                    }
+                });
+                put("pickupRecipientInfo", new JSONObject() {
+                    {
+                        put("recipient", "김맥스");
                         put("mobile", "010-1234-5678");
                         put("requests", "문 앞");
                     }
@@ -171,7 +187,7 @@ public class OrderBuyerControllerIntegrationTest extends AbstractIntegrationTest
     @Test
     void testGetVisitAndPickupOrderSelectedOptionByUserAndSelectedOptionId() throws Exception {
         // given
-        String selectedOptionId = "6148b3fe-7fdd-4344-8938-4d938bd23799";
+        String selectedOptionId = "1e314589-ce8a-4969-bbd3-6f47872efaf2";
 
         // when
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
@@ -180,7 +196,7 @@ public class OrderBuyerControllerIntegrationTest extends AbstractIntegrationTest
 
         // then
         result.andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(EasyRestDocumentation.documentWithJwt(
                         "getVisitAndPickupOrderSelectedOptionByUserAndSelectedOptionId",
                         "유저별 방문수령 및 픽업 주문 상세 조회", this.tag));
@@ -254,7 +270,7 @@ public class OrderBuyerControllerIntegrationTest extends AbstractIntegrationTest
     @Test
     void testGetShippingAndDeliveryOrderSelectedOptionByUserAndSelectedOptionId() throws Exception {
         // given
-        String selectedOptionId = "6148b3fe-7fdd-4344-8938-4d938bd23799";
+        String selectedOptionId = "0bce3726-9a14-4d4c-b07d-641d3c2bf48a";
 
         // when
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders

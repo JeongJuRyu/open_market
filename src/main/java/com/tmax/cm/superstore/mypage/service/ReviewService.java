@@ -18,7 +18,6 @@ import com.tmax.cm.superstore.mypage.util.ReviewComparotor;
 import com.tmax.cm.superstore.order.entity.Order;
 import com.tmax.cm.superstore.order.entity.PickupOrderItem;
 import com.tmax.cm.superstore.order.entity.PickupOrderSelectedOption;
-import com.tmax.cm.superstore.order.entity.ShippingOrder;
 import com.tmax.cm.superstore.order.entity.ShippingOrderItem;
 import com.tmax.cm.superstore.order.entity.ShippingOrderSelectedOption;
 import com.tmax.cm.superstore.order.repository.OrderRepository;
@@ -28,13 +27,10 @@ import com.tmax.cm.superstore.order.repository.PickupOrderSelectedOptionReposito
 import com.tmax.cm.superstore.order.repository.ShippingOrderItemRepository;
 import com.tmax.cm.superstore.order.repository.ShippingOrderRepository;
 import com.tmax.cm.superstore.order.repository.ShippingOrderSelectedOptionRepository;
-import com.tmax.cm.superstore.seller.entity.Seller;
 import com.tmax.cm.superstore.seller.error.exception.BusinessNotFoundException;
-import com.tmax.cm.superstore.seller.error.exception.SellerNotFoundException;
 import com.tmax.cm.superstore.seller.repository.SellerRepository;
 import com.tmax.cm.superstore.user.entities.User;
 
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,7 +40,6 @@ import com.tmax.cm.superstore.user.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -53,7 +48,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ReviewService {
-	private final UserRepository userRepository;
 	private final ReviewRepository reviewRepository;
 	private final OrderRepository orderRepository;
 	private final ReviewMapper reviewMapper;
@@ -79,15 +73,14 @@ public class ReviewService {
 					review.getShippingOrderSelectedOption()).get();
 				Item item = shippingOrderItemRepository.findByShippingOrderItemId(shippingOrderItem.getId())
 					.orElseThrow(ItemNotFoundException::new).getItem();
-				// Item itemWithItemImage = itemRepository.findByItemWithImage(item.getId())
-				// 	.orElseThrow(ItemNotFoundException::new);
 				responseReview.add(reviewMapper.toAllShippingReviewDto(review, shippingOrderItem, item, selectedOptionId));
-			} else if(orderType == OrderType.PICKUPANDVISIT){
+			} else if(orderType == OrderType.VISITANDPICKUP){
+				UUID selectedOptionId = review.getShippingOrderSelectedOption().getId();
 				PickupOrderItem pickupOrderItem = pickupOrderItemRepository.findByPickupOrderSelectedOptions(
 					review.getPickupOrderSelectedOption()).get();
 				Item item = shippingOrderItemRepository.findByShippingOrderItemId(pickupOrderItem.getId())
 					.orElseThrow(ItemNotFoundException::new).getItem();
-				// responseReview.add(reviewMapper.toAllPickupReviewDto(review, pickupOrderItem, item));
+				responseReview.add(reviewMapper.toAllPickupReviewDto(review, pickupOrderItem, item, selectedOptionId));
 			}
 		}
 		return ResponseDto.<GetAllReviewResponseDto>builder()
@@ -98,14 +91,16 @@ public class ReviewService {
 	}
 
 	@Transactional(readOnly = true)
-	public ResponseDto<GetAllReviewForSellerResponseDto> getAllReviewForSeller(UUID sellerId, Float starRating){
+	public ResponseDto<GetAllReviewForSellerResponseDto> getAllReviewForSeller(UUID sellerId, String starRating){
 		List<GetAllReviewForSellerResponseDto.Review> responseReview = new ArrayList<>();
-		List<Review> reviews = sellerRepository.findForSellerReviewWithItem(sellerId);
-		reviews = reviews.stream().filter(review -> review.getStarRating() >= starRating).collect(Collectors.toList());
+		List<Review> reviews = reviewRepository.findForSellerReviewWithItem(sellerId);
+		Float fStarRating = Float.parseFloat(starRating);
+		reviews = reviews.stream().filter(review -> review.getStarRating() >= fStarRating).collect(Collectors.toList());
+		reviews.sort(new ReviewComparotor());
 		for(Review review : reviews) {
-			Order order = orderRepository.findByReviewId(review.getId())
-				.orElseThrow(() -> new RuntimeException("주문이 존재하지 않습니다."));
-			responseReview.add(reviewMapper.toAllReviewForSellerDto(review, order));
+			List<Order> orders = orderRepository.findByReviewId(review.getId());
+			if(orders.size() == 0) throw new RuntimeException("주문이 존재하지 않습니다.");
+			responseReview.add(reviewMapper.toAllReviewForSellerDto(review, orders.get(0)));
 		}
 		return ResponseDto.<GetAllReviewForSellerResponseDto>builder()
 			.responseCode(ResponseCode.REVIEW_READ_ALL)
@@ -156,6 +151,7 @@ public class ReviewService {
 	public ResponseDto<GetReviewWithItemResponseDto> getReviewWithItem(UUID itemId){
 		Item item = itemRepository.findById(itemId).orElseThrow(ItemNotFoundException::new);
 		List<Review> reviews = reviewRepository.findByItem(item);
+		reviews.sort(new ReviewComparotor());
 		List<GetReviewWithItemResponseDto.Review> responseReviews = new ArrayList<>();
 		for(Review review : reviews){
 			GetReviewWithItemResponseDto.Review responseReview = GetReviewWithItemResponseDto.Review.builder()
@@ -180,7 +176,6 @@ public class ReviewService {
 			ShippingOrderSelectedOption shippingOrderSelectedOption = shippingOrderSelectedOptionRepository.findById(dto.getSelectedOptionId()).get();
 			ShippingOrderItem shippingOrderItem = shippingOrderItemRepository.findByShippingOrderSelectedOptions(shippingOrderSelectedOption)
 				.orElseThrow(BusinessNotFoundException::new);
-			System.out.println(shippingOrderItem.getId());
 			Item item = shippingOrderItemRepository.findByShippingOrderItemId(shippingOrderItem.getId())
 				.orElseThrow(ItemNotFoundException::new).getItem();
 			Review review = Review.builder()
@@ -192,7 +187,7 @@ public class ReviewService {
 				.item(item)
 				.build();
 			reviewRepository.save(review);
-		} else if(dto.getOrderType() == OrderType.PICKUPANDVISIT){
+		} else if(dto.getOrderType() == OrderType.VISITANDPICKUP){
 			Item item = itemRepository.findByPickupOrderSelectedOption(dto.getSelectedOptionId())
 				.orElseThrow(ItemNotFoundException::new);
 			PickupOrderSelectedOption pickupOrderSelectedOption = pickupOrderSelectedOptionRepository.findById(dto.getSelectedOptionId()).get();

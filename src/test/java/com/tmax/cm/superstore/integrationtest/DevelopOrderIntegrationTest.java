@@ -31,7 +31,7 @@ public class DevelopOrderIntegrationTest extends AbstractIntegrationTest {
     void testPutSetShippingType() throws Exception {
         // given
         ShippingType shippingType = ShippingType.SHIPPING_WAITING;
-        String selectedOptionId = "9c937a70-12cf-4a83-b594-1293b3f994a8";
+        String selectedOptionId = "0bce3726-9a14-4d4c-b07d-641d3c2bf48a";
 
         // when
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders

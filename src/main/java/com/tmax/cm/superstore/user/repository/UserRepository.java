@@ -12,6 +12,6 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 	Optional<User> findUserByEmail(String email);
 	boolean existsByEmail(String email);
 	boolean existsByPhoneNum(String phoneNum);
-	@Query(value = "SELECT * FROM USERS AS U JOIN REVIEW AS R ON R.USER_ID = U.ID WHERE R.ID = :reviewId", nativeQuery = true)
+	@Query(value = "select * from users as u join review as r on r.user_id = u.id where r.id = :reviewId", nativeQuery = true)
 	Optional<User> findByReviewId(UUID reviewId);
 }

@@ -1,51 +1,13 @@
-INSERT INTO orders(
-        id,
-        user_id,
-        payment_id
-    )
-VALUES (
-        UUID '14fdf49d-9560-45c9-a333-cbe6c29386c9',
-        UUID '672ffb8c-f952-49ec-b65b-4fe3a9c37b28',
-        1
-    ),
-    (
-        UUID 'e7be24e8-535f-11ed-bdc3-0242ac120002',
-        UUID '48dfab6c-535f-11ed-bdc3-0242ac120002',
-        2
-    );
-INSERT INTO delivery_order(
-        id,
-        amount,
-        order_id,
-        seller_seller_id
-    )
-VALUES (
-        1,
-        21500,
-        UUID '14fdf49d-9560-45c9-a333-cbe6c29386c9',
-        UUID '080bdfe8-535f-11ed-bdc3-0242ac120002'
-    ),
-    (
-        2,
-        15000,
-        UUID 'e7be24e8-535f-11ed-bdc3-0242ac120002',
-        UUID '2d68d1d0-ed27-46d2-b858-da3f0aa2e430'
-    );
-INSERT INTO shipping_order(
-        id,
-        amount,
-        order_id,
-        seller_seller_id
-    )
-VALUES (
-        1,
-        16300,
-        UUID '14fdf49d-9560-45c9-a333-cbe6c29386c9',
-        UUID '2d68d1d0-ed27-46d2-b858-da3f0aa2e430'
-    ),
-    (
-        2,
-        9900,
-        UUID 'e7be24e8-535f-11ed-bdc3-0242ac120002',
-        UUID '080bdfe8-535f-11ed-bdc3-0242ac120002'
-    );
+INSERT INTO orders (id, payment_id, user_id) VALUES(0xA84CB923DCE04078BFEC18DCEEFF0BD7, 3, 0x672FFB8CF95249ECB65B4FE3A9C37B28);
+INSERT INTO orders (id, payment_id, user_id) VALUES(0xC9FC54A503B84FFC82EEC82F9BC26862, 2, 0x672FFB8CF95249ECB65B4FE3A9C37B28);
+INSERT INTO orders (id, payment_id, user_id) VALUES(0xECF47E79A07D449BAB780A0F8CF1228D, 1, 0x672FFB8CF95249ECB65B4FE3A9C37B28);
+
+INSERT INTO shipping_order (id, amount, order_id, seller_seller_id) VALUES(1, 163000, 0xECF47E79A07D449BAB780A0F8CF1228D, 0x2D68D1D0ED2746D2B858DA3F0AA2E430);
+INSERT INTO shipping_order (id, amount, order_id, seller_seller_id) VALUES(2, 45000, 0xA84CB923DCE04078BFEC18DCEEFF0BD7, 0x2D68D1D0ED2746D2B858DA3F0AA2E430);
+
+INSERT INTO visit_order (id, amount, order_id, seller_seller_id) VALUES(1, 45000, 0xC9FC54A503B84FFC82EEC82F9BC26862, 0x2D68D1D0ED2746D2B858DA3F0AA2E430);
+
+INSERT INTO delivery_order (id, amount, order_id, seller_seller_id) VALUES(1, 45000, 0xC9FC54A503B84FFC82EEC82F9BC26862, 0x2D68D1D0ED2746D2B858DA3F0AA2E430);
+
+INSERT INTO pickup_order (id, amount, order_id, seller_seller_id) VALUES(1, 41500, 0xECF47E79A07D449BAB780A0F8CF1228D, 0x8D41C42A011B45259864B24481F985C5);
+INSERT INTO pickup_order (id, amount, order_id, seller_seller_id) VALUES(2, 45000, 0xECF47E79A07D449BAB780A0F8CF1228D, 0x2D68D1D0ED2746D2B858DA3F0AA2E430);

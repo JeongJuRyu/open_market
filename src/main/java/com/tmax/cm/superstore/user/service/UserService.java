@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Arrays;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.security.auth.DestroyFailedException;
 
@@ -117,14 +118,6 @@ public class UserService {
 			.build();
 	}
 
-	public EmailAuthResponseDto emailAuth(EmailAuthRequestDto emailAuthRequestDto){
-		String email = emailAuthRequestDto.getEmail();
-		// 랜덤번호 생성 후 메일 전송
-		String valid_num = "1234";
-		return EmailAuthResponseDto.builder()
-			.validNum(valid_num).build();
-	}
-
 	@Transactional
 	public void updatePassword(
 		UpdatePasswordRequestDto updatePasswordRequestDto){
@@ -188,9 +181,7 @@ public class UserService {
 
 	@Transactional
 	public ResponseDto<Object> deleteDeliveryInfo(User user, UUID id){
-		DeliveryAddress deliveryAddress = deliveryRepository.findById(id)
-			.orElseThrow(DeliveryAddressNotFoundException::new);
-		deliveryRepository.deleteById(deliveryAddress.getId());
+		user.deleteDeliveryAddress(id);
 		return ResponseDto.builder()
 			.responseCode(ResponseCode.USER_DELIVERY_DELETE)
 			.data(null).build();

@@ -98,6 +98,12 @@ public class ItemController {
         return new ResponseDto<>(ResponseCode.ITEM_UPDATE, this.updateItemDtoMapper.toResponse(item));
     }
 
+    @GetMapping("/seller/{sellerId}")
+    public ResponseDto<GetItemAllDto.Response> getSellerItem(@PathVariable UUID sellerId){
+        List<Item> items = this.itemService.readItemBySeller(sellerId);
+        return new ResponseDto<>(ResponseCode.ITEM_READ, this.getItemAllDtoMapper.toResponse(items));
+    }
+
     @GetMapping("/simpleItems")
     public ResponseDto<GetItemAllByCategoryDto.Response> getItemByCategory(
             @RequestParam("categoryId") Long categoryId) {
@@ -113,8 +119,8 @@ public class ItemController {
     public ResponseDto<GetItemAllDto.Response> searchItemByFilter(@RequestParam(value = "name", required = false)String name,
                                                                   @RequestParam(value = "categoryId") Long categoryId,
                                                                   @RequestParam(value = "itemState", required = false) List<ItemState> itemState) {
-        Long parentCategoryId = categoryService.getParentCategoryId(categoryId);
-        return new ResponseDto<>(ResponseCode.ITEM_READ_ALL, itemSearchService.searchItemByFilter(name, parentCategoryId, itemState));
+        //Long parentCategoryId = categoryService.getParentCategoryId(categoryId);
+        return new ResponseDto<>(ResponseCode.ITEM_READ_ALL, itemSearchService.searchItemByFilter(name, categoryId, itemState));
     }
 
     @GetMapping("/search/keyword")

@@ -17,7 +17,7 @@ values (
         'SHIPPINGANDDELIVERY',
         true,
         null,
-        UUID '9c937a70-12cf-4a83-b594-1293b3f994a8',
+        UUID '7c4843a3-7a7a-4147-ada9-cde4a906517b',
         UUID '672ffb8c-f952-49ec-b65b-4fe3a9c37b28',
         UUID '1523bc68-e8f7-4140-b7dd-cbfe622e068a',
         '2022-09-01 00:00:00'

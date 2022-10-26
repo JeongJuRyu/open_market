@@ -134,7 +134,7 @@ public class OrderSellerControllerIntegrationTest extends AbstractIntegrationTes
     @Test
     void testPutAcceptShipping() throws Exception {
         // given
-        String selectedOptionId = "9c937a70-12cf-4a83-b594-1293b3f994a8";
+        String selectedOptionId = "0bce3726-9a14-4d4c-b07d-641d3c2bf48a";
 
         // when
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
@@ -146,14 +146,14 @@ public class OrderSellerControllerIntegrationTest extends AbstractIntegrationTes
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(EasyRestDocumentation.document("acceptShipping",
                         ResponseCode.ORDER_ACCEPT_SHIPPING.getDescription()
-                                + "\n`selectedOptionId` = 9c937a70-12cf-4a83-b594-1293b3f994a8",
+                                + "\n`selectedOptionId` = 0bce3726-9a14-4d4c-b07d-641d3c2bf48a",
                         this.tag));
     }
 
     @Test
     void testPutRejectShipping() throws Exception {
         // given
-        String selectedOptionId = "9c937a70-12cf-4a83-b594-1293b3f994a8";
+        String selectedOptionId = "0bce3726-9a14-4d4c-b07d-641d3c2bf48a";
 
         // when
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
@@ -165,14 +165,14 @@ public class OrderSellerControllerIntegrationTest extends AbstractIntegrationTes
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(EasyRestDocumentation.document("rejectShipping",
                         ResponseCode.ORDER_REJECT_SHIPPING.getDescription()
-                                + "\n`selectedOptionId` = 9c937a70-12cf-4a83-b594-1293b3f994a8",
+                                + "\n`selectedOptionId` = 0bce3726-9a14-4d4c-b07d-641d3c2bf48a",
                         this.tag));
     }
 
     @Test
     void testPutProcessingShipping() throws Exception {
         // given
-        String selectedOptionId = "9c937a70-12cf-4a83-b594-1293b3f994a8";
+        String selectedOptionId = "0bce3726-9a14-4d4c-b07d-641d3c2bf48a";
 
         // when
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
@@ -184,14 +184,14 @@ public class OrderSellerControllerIntegrationTest extends AbstractIntegrationTes
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andDo(EasyRestDocumentation.document("processingShipping",
                         ResponseCode.ORDER_PROCESSING_SHIPPING.getDescription()
-                                + "\n`selectedOptionId` = 9c937a70-12cf-4a83-b594-1293b3f994a8",
+                                + "\n`selectedOptionId` = 0bce3726-9a14-4d4c-b07d-641d3c2bf48a",
                         this.tag));
     }
 
     @Test
     void testPutDoneShipping() throws Exception {
         // given
-        String selectedOptionId = "9c937a70-12cf-4a83-b594-1293b3f994a8";
+        String selectedOptionId = "0bce3726-9a14-4d4c-b07d-641d3c2bf48a";
 
         // when
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
@@ -203,14 +203,14 @@ public class OrderSellerControllerIntegrationTest extends AbstractIntegrationTes
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andDo(EasyRestDocumentation.document("doneShipping",
                         ResponseCode.ORDER_DONE_SHIPPING.getDescription()
-                                + "\n`selectedOptionId` = 9c937a70-12cf-4a83-b594-1293b3f994a8",
+                                + "\n`selectedOptionId` = 0bce3726-9a14-4d4c-b07d-641d3c2bf48a",
                         this.tag));
     }
 
     @Test
     void testPutAcceptPick() throws Exception {
         // given
-        String selectedOptionId = "9c937a70-12cf-4a83-b594-1293b3f994a8";
+        String selectedOptionId = "0bce3726-9a14-4d4c-b07d-641d3c2bf48a";
 
         // when
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
@@ -222,14 +222,14 @@ public class OrderSellerControllerIntegrationTest extends AbstractIntegrationTes
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andDo(EasyRestDocumentation.document("acceptPick",
                         ResponseCode.ORDER_ACCEPT_PICK.getDescription()
-                                + "\n`selectedOptionId` = 9c937a70-12cf-4a83-b594-1293b3f994a8",
+                                + "\n`selectedOptionId` = 0bce3726-9a14-4d4c-b07d-641d3c2bf48a",
                         this.tag));
     }
 
     @Test
     void testPutReadyPick() throws Exception {
         // given
-        String selectedOptionId = "9c937a70-12cf-4a83-b594-1293b3f994a8";
+        String selectedOptionId = "0bce3726-9a14-4d4c-b07d-641d3c2bf48a";
 
         // when
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
@@ -241,14 +241,14 @@ public class OrderSellerControllerIntegrationTest extends AbstractIntegrationTes
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andDo(EasyRestDocumentation.document("readyPick",
                         ResponseCode.ORDER_READY_PICK.getDescription()
-                                + "\n`selectedOptionId` = 9c937a70-12cf-4a83-b594-1293b3f994a8",
+                                + "\n`selectedOptionId` = 0bce3726-9a14-4d4c-b07d-641d3c2bf48a",
                         this.tag));
     }
 
     @Test
     void testPutRefusePick() throws Exception {
         // given
-        String selectedOptionId = "9c937a70-12cf-4a83-b594-1293b3f994a8";
+        String selectedOptionId = "0bce3726-9a14-4d4c-b07d-641d3c2bf48a";
 
         // when
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
@@ -260,14 +260,14 @@ public class OrderSellerControllerIntegrationTest extends AbstractIntegrationTes
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andDo(EasyRestDocumentation.document("refusePick",
                         ResponseCode.ORDER_REFUSE_PICK.getDescription()
-                                + "\n`selectedOptionId` = 9c937a70-12cf-4a83-b594-1293b3f994a8",
+                                + "\n`selectedOptionId` = 0bce3726-9a14-4d4c-b07d-641d3c2bf48a",
                         this.tag));
     }
 
     @Test
     void testPutDonePick() throws Exception {
         // given
-        String selectedOptionId = "9c937a70-12cf-4a83-b594-1293b3f994a8";
+        String selectedOptionId = "0bce3726-9a14-4d4c-b07d-641d3c2bf48a";
 
         // when
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
@@ -279,7 +279,7 @@ public class OrderSellerControllerIntegrationTest extends AbstractIntegrationTes
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andDo(EasyRestDocumentation.document("donePick",
                         ResponseCode.ORDER_DONE_PICK.getDescription()
-                                + "\n`selectedOptionId` = 9c937a70-12cf-4a83-b594-1293b3f994a8",
+                                + "\n`selectedOptionId` = 0bce3726-9a14-4d4c-b07d-641d3c2bf48a",
                         this.tag));
     }
 }

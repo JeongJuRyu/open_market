@@ -32,4 +32,5 @@ public interface ShippingOrderSelectedOptionRepository extends JpaRepository<Shi
 			+ "WHERE soso.id = UUID_TO_BIN(:selectedOrderOptionId) AND o.user_user_id = UUID_TO_BIN(:userId)\n"
 			+ "LIMIT 1", nativeQuery = true)
 	Optional<ShippingOrderSelectedOption> findByIdAndUserId(UUID selectedOrderOptionId, UUID userId);
+
 }

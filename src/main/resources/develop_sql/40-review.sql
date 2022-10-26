@@ -17,10 +17,10 @@ values (
         'SHIPPINGANDDELIVERY',
         true,
         null,
-        UUID_TO_BIN('9c937a70-12cf-4a83-b594-1293b3f994a8'),
+        UUID_TO_BIN('9d2d742f-0549-4a67-bace-cd4c8429f832'),
         UUID_TO_BIN('672ffb8c-f952-49ec-b65b-4fe3a9c37b28'),
         UUID_TO_BIN('1523bc68-e8f7-4140-b7dd-cbfe622e068a'),
-        '2022/09/01 00:00:00'
+        '2022/10/01 00:00:00'
 );
 
 # INSERT INTO review (
@@ -42,7 +42,7 @@ values (
 #            'SHIPPINGANDDELIVERY',
 #            true,
 #            null,
-#            UUID_TO_BIN('9c937a70-12cf-4a83-b594-1293b3f994a8'),
+#            UUID_TO_BIN('9d2d742f-0549-4a67-bace-cd4c8429f832'),
 #            UUID_TO_BIN('672ffb8c-f952-49ec-b65b-4fe3a9c37b28'),
 #            UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb27'),
 #            '2022/07/01 00:00:00'

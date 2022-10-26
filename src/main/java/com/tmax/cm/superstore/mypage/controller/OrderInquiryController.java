@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tmax.cm.superstore.common.ResponseDto;
 import com.tmax.cm.superstore.mypage.dto.GetAllOrderInquiryForSellerResponseDto;
 import com.tmax.cm.superstore.mypage.dto.GetAllOrderInquiryResponseDto;
+import com.tmax.cm.superstore.mypage.dto.GetAllReviewForSellerResponseDto;
+import com.tmax.cm.superstore.mypage.dto.GetOrderInquiryForSellerResponseDto;
 import com.tmax.cm.superstore.mypage.dto.GetOrderInquiryResponseDto;
 import com.tmax.cm.superstore.mypage.dto.GetReviewResponseDto;
 import com.tmax.cm.superstore.mypage.dto.PostOrderInquiryRequestDto;
@@ -49,6 +51,12 @@ public class OrderInquiryController {
 	){
 		return ResponseEntity.ok().body(orderInquiryService.getAllOrderInquiryForSeller(startDate, isReplied, sellerId));
 	}
+	@GetMapping("/seller/{orderInquiryId}")
+	public ResponseEntity<ResponseDto<GetOrderInquiryForSellerResponseDto>> getInquiryForSeller(
+		@RequestParam UUID sellerId,
+		@PathVariable UUID orderInquiryId){
+		return ResponseEntity.ok().body(orderInquiryService.getOrderInquiryForSeller(sellerId, orderInquiryId));
+	}
 
 	@GetMapping("/shippingAndDelivery/{orderInquiryId}")
 	public ResponseEntity<ResponseDto<GetOrderInquiryResponseDto>> getOrderInquiry(
@@ -56,7 +64,7 @@ public class OrderInquiryController {
 		return ResponseEntity.ok().body(orderInquiryService.getShippingOrderInquiry(orderInquiryId));
 	}
 
-	@GetMapping("/pickupAndVisit/{pickupOrderSelectedId}")
+	@GetMapping("/visitAndPickup/{pickupOrderSelectedId}")
 	public ResponseEntity<ResponseDto<GetOrderInquiryResponseDto>> getPickupOrderReview(
 		@PathVariable UUID pickupOrderSelectedId){
 		return ResponseEntity.ok().body(orderInquiryService.getPickupOrderInquiry(pickupOrderSelectedId));

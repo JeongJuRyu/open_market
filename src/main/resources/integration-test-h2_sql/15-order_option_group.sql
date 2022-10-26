@@ -1,56 +1,12 @@
-INSERT INTO order_option_group (
-        id,
-        is_necessary,
-        name,
-        option_group_id,
-        shipping_order_selected_option_id,
-        pickup_order_selected_option_id
-    )
-VALUES(
-        1,
-        1,
-        '종류',
-        UUID '53d4caac-64e9-45aa-b606-73b8b51192a7',
-        UUID '9c937a70-12cf-4a83-b594-1293b3f994a8',
-        NULL
-    ),
-    (
-        2,
-        0,
-        '소스',
-        UUID 'ebe5c005-9241-4149-844a-c0ee1eabb29c',
-        UUID '9c937a70-12cf-4a83-b594-1293b3f994a8',
-        NULL
-    ),
-    (
-        3,
-        1,
-        'color',
-        UUID '62cfa7ab-26f5-46cf-af80-f9dedfda5693',
-        UUID '6148b3fe-7fdd-4344-8938-4d938bd23799',
-        NULL
-    ),
-    (
-        4,
-        0,
-        '굽 선택',
-        UUID 'd1cb3733-da60-413e-9574-8085372bbce7',
-        UUID '6148b3fe-7fdd-4344-8938-4d938bd23799',
-        NULL
-    ),
-    (
-        5,
-        1,
-        'color',
-        UUID '62cfa7ab-26f5-46cf-af80-f9dedfda5693',
-        UUID '95547dc4-6d88-4796-b964-ff71aa056b7c',
-        NULL
-    ),
-    (
-        6,
-        0,
-        '굽 선택',
-        UUID 'd1cb3733-da60-413e-9574-8085372bbce7',
-        UUID '95547dc4-6d88-4796-b964-ff71aa056b7c',
-        NULL
-    );
+INSERT INTO order_option_group (id, is_necessary, name, option_group_id, shipping_order_selected_option_id, pickup_order_selected_option_id) VALUES(1, 1, '종류', 0x53D4CAAC64E945AAB60673B8B51192A7, NULL, 0xE3C7887787E44888B3EBE5E2067D2259);
+INSERT INTO order_option_group (id, is_necessary, name, option_group_id, shipping_order_selected_option_id, pickup_order_selected_option_id) VALUES(2, 0, '소스', 0xEBE5C00592414149844AC0EE1EABB29C, NULL, 0x9C132DC6F269433095370CC961FF5C45);
+INSERT INTO order_option_group (id, is_necessary, name, option_group_id, shipping_order_selected_option_id, pickup_order_selected_option_id) VALUES(3, 0, '추가 크기', 0x86A74CDFCF9C434691009D2096B9E535, NULL, 0xB5B464C087384242886908F1F0CEB8D8);
+INSERT INTO order_option_group (id, is_necessary, name, option_group_id, shipping_order_selected_option_id, pickup_order_selected_option_id) VALUES(4, 1, '색상', 0x94D51259CD754A2FBE7313D7F798FB51, NULL, 0x20A477042C7B4E66BB39C20723690142);
+INSERT INTO order_option_group (id, is_necessary, name, option_group_id, shipping_order_selected_option_id, pickup_order_selected_option_id) VALUES(5, 1, 'color', 0x62CFA7AB26F546CFAF80F9DEDFDA5693, 0x8707C0579A144A8DB6566F62EC8987B7, NULL);
+INSERT INTO order_option_group (id, is_necessary, name, option_group_id, shipping_order_selected_option_id, pickup_order_selected_option_id) VALUES(6, 0, '굽 선택', 0xD1CB3733DA60413E95748085372BBCE7, 0xC1FA5A45BA5441C3A689731166C009FF, NULL);
+INSERT INTO order_option_group (id, is_necessary, name, option_group_id, shipping_order_selected_option_id, pickup_order_selected_option_id) VALUES(7, 1, '색상', 0x94D51259CD754A2FBE7313D7F798FB51, 0x155C2542FFFB4CA39EE91E7FA827BA10, NULL);
+INSERT INTO order_option_group (id, is_necessary, name, option_group_id, shipping_order_selected_option_id, pickup_order_selected_option_id) VALUES(8, 0, '추가 크기', 0x86A74CDFCF9C434691009D2096B9E535, 0x9D2D742F05494A67BACECD4C8429F832, NULL);
+INSERT INTO order_option_group (id, is_necessary, name, option_group_id, shipping_order_selected_option_id, pickup_order_selected_option_id) VALUES(9, 1, '색상', 0x94D51259CD754A2FBE7313D7F798FB51, NULL, 0xF4FD35654EA2496FAA1F6C9F20421316);
+INSERT INTO order_option_group (id, is_necessary, name, option_group_id, shipping_order_selected_option_id, pickup_order_selected_option_id) VALUES(10, 0, '추가 크기', 0x86A74CDFCF9C434691009D2096B9E535, NULL, 0x1E314589CE8A4969BBD36F47872EFAF2);
+INSERT INTO order_option_group (id, is_necessary, name, option_group_id, shipping_order_selected_option_id, pickup_order_selected_option_id) VALUES(11, 1, '색상', 0x94D51259CD754A2FBE7313D7F798FB51, 0x7C4843A37A7A4147ADA9CDE4A906517B, NULL);
+INSERT INTO order_option_group (id, is_necessary, name, option_group_id, shipping_order_selected_option_id, pickup_order_selected_option_id) VALUES(12, 0, '추가 크기', 0x86A74CDFCF9C434691009D2096B9E535, 0x0BCE37269A144D4CB07D641D3C2BF48A, NULL);

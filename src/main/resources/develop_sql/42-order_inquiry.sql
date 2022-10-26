@@ -11,13 +11,13 @@ INSERT INTO order_inquiry (
 )
 values (
            UUID_TO_BIN('95d5fed3-6af4-4996-8918-9a4f0b4f094c'),
-           '2022/09/28 00:00:00',
-           '2022/09/28 00:00:00',
+           '2022/10/11 00:00:00',
+           '2022/10/11 00:00:00',
            '콜라 주문했는데 오지 않았습니다. 환불 가능한가요?',
            false,
            'SHIPPINGANDDELIVERY',
            null,
-           UUID_TO_BIN('9c937a70-12cf-4a83-b594-1293b3f994a8'),
+           UUID_TO_BIN('c1fa5a45-ba54-41c3-a689-731166c009ff'),
            UUID_TO_BIN('672ffb8c-f952-49ec-b65b-4fe3a9c37b28')
        );
 
@@ -40,6 +40,6 @@ values (
            true,
            'SHIPPINGANDDELIVERY',
            null,
-           UUID_TO_BIN('6148b3fe-7fdd-4344-8938-4d938bd23799'),
+           UUID_TO_BIN('155c2542-fffb-4ca3-9ee9-1e7fa827ba10'),
            UUID_TO_BIN('672ffb8c-f952-49ec-b65b-4fe3a9c37b28')
        );
