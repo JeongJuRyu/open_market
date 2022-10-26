@@ -27,6 +27,7 @@ public interface OrderInquiryMapper {
 		LocalDateTime processedAt = orderInquiryReply == null ? null : orderInquiryReply.getCreatedAt();
 		return GetAllOrderInquiryForSellerResponseDto.OrderInquiry
 			.builder()
+			.orderInquiryId(orderInquiry.getId())
 			.orderId(order.getId())
 			.isReplied(orderInquiry.getIsReplied())
 			.content(orderInquiry.getContent())

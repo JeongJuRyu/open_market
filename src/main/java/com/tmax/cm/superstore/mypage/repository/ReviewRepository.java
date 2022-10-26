@@ -29,4 +29,8 @@ public interface ReviewRepository extends JpaRepository<Review, UUID> {
     Optional<Review> findByShippingOrderSelectedOption(UUID shippingOrderSelectedOptionId);
 
     Optional<Review> findByPickupOrderSelectedOption(UUID pickupOrderSelectedOptionId);
+
+    @Query(value = "select * from review as r join item as i on i.id = r.item_id "
+        + "join seller as s on s.seller_id = i.seller_seller_id where s.seller_id = :sellerId", nativeQuery = true)
+    List<Review> findForSellerReviewWithItem(UUID sellerId);
 }

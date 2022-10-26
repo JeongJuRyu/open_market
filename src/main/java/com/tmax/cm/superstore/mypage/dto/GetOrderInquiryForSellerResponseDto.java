@@ -6,15 +6,15 @@ import java.util.UUID;
 
 import lombok.Builder;
 import lombok.Getter;
-
 @Getter
 @Builder
-public class GetAllOrderInquiryForSellerResponseDto {
-	private List<OrderInquiry> orderInquiries;
+public class GetOrderInquiryForSellerResponseDto {
+
+	private OrderInquiry orderInquiry;
+	private OrderInquiryReply orderInquiryReply;
 	@Getter
 	@Builder
 	public static class OrderInquiry {
-		private UUID orderInquiryId;
 		private LocalDateTime CreatedAt;
 		private Boolean isReplied;
 		private UUID orderId;
@@ -23,5 +23,10 @@ public class GetAllOrderInquiryForSellerResponseDto {
 		private String itemName;
 		private String name;
 		private LocalDateTime processedAt;
+	}
+	@Getter
+	@Builder
+	public static class OrderInquiryReply{
+		private String content;
 	}
 }

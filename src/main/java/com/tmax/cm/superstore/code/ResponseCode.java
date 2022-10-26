@@ -194,6 +194,8 @@ public enum ResponseCode implements Code {
 			"예약 상품 변경은 같은 판매자의 상품만 가능합니다."),
 	ERROR_RESERVATION_MODIFY_MUST_BE_SAME_USER("ERROR", "ER004", "Reservation Modify must be same user",
 			"예약 상품 변경은 같은 유저의 예약만 가능합니다."),
+	ERROR_MAKE_RESERVATION_REQUEST_INVALID("ERROR", "ER005", "Reservation Request is invalid",
+		"장바구니에 담긴 예약 상품의 정보가 요청한 바디와 다릅니다."),
 	ERROR_RESERVATION_ITEM_ALREADY_DELETED("ERROR", "ER100", "ReservationItemId already deleted", "해당 예약 상품은 이미 삭제되었음"),
 	ERROR_RESERVATION_ITEM_NOT_FOUND("ERROR", "ER101", "ReservationItemId not found", "해당 예약 상품을 찾을 수 없음"),
 	ERROR_RESERVATION_ITEM_LIST_NOT_FOUND("ERROR", "ER102", "ReservationItemList not found",

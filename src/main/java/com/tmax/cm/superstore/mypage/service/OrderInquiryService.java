@@ -22,6 +22,7 @@ import com.tmax.cm.superstore.item.repository.ItemRepository;
 import com.tmax.cm.superstore.item.repository.OrderItemRepository;
 import com.tmax.cm.superstore.mypage.dto.GetAllOrderInquiryForSellerResponseDto;
 import com.tmax.cm.superstore.mypage.dto.GetAllOrderInquiryResponseDto;
+import com.tmax.cm.superstore.mypage.dto.GetOrderInquiryForSellerResponseDto;
 import com.tmax.cm.superstore.mypage.dto.GetOrderInquiryResponseDto;
 import com.tmax.cm.superstore.mypage.dto.PostOrderInquiryRequestDto;
 import com.tmax.cm.superstore.mypage.dto.UpdateOrderInquiryRequestDto;
@@ -31,6 +32,8 @@ import com.tmax.cm.superstore.mypage.error.exception.OrderInquiryNotFound;
 import com.tmax.cm.superstore.mypage.mapper.OrderInquiryMapper;
 import com.tmax.cm.superstore.mypage.repository.OrderInquiryReplyRepository;
 import com.tmax.cm.superstore.mypage.repository.OrderInquiryRepository;
+import com.tmax.cm.superstore.mypage.util.OrderInquiryComparotor;
+import com.tmax.cm.superstore.mypage.util.ReviewComparotor;
 import com.tmax.cm.superstore.order.entity.Order;
 import com.tmax.cm.superstore.order.entity.PickupOrderItem;
 import com.tmax.cm.superstore.order.entity.PickupOrderSelectedOption;
@@ -73,6 +76,7 @@ public class OrderInquiryService {
 		} else if (isReplied.equals("false")){
 			orderInquiries = orderInquiries.stream().filter(inquiry -> !inquiry.getIsReplied()).collect(Collectors.toList());
 		}
+		orderInquiries.sort(new OrderInquiryComparotor());
 		for(OrderInquiry orderInquiry : orderInquiries){
 			OrderType selectedOrderType = orderInquiry.getOrderType();
 			if(selectedOrderType == OrderType.SHIPPINGANDDELIVERY){
@@ -106,13 +110,19 @@ public class OrderInquiryService {
 	public ResponseDto<GetAllOrderInquiryForSellerResponseDto> getAllOrderInquiryForSeller(String startDate, String isReplied, UUID sellerId){
 		List<GetAllOrderInquiryForSellerResponseDto.OrderInquiry> responseOrderInquiries = new ArrayList<>();
 		List<OrderInquiry> orderInquiries = orderInquiryRepository.findForSellerOrderInquiryOfShipping(sellerId);
-		// List<GetAllOrderInquiryForSellerResponseDto.OrderInquiry> shippingOrderInquiries
-		// 	= orderInquiryMapper.toAllShippingOrderInquiriesForSeller(orderInquiries);
+		System.out.println(orderInquiries.size());
+		orderInquiries.sort(new OrderInquiryComparotor());
 		for(OrderInquiry orderInquiry : orderInquiries){
 			if(orderInquiry.getOrderType() == OrderType.SHIPPINGANDDELIVERY){
 				ShippingOrderSelectedOption shippingOrderSelectedOption = orderInquiry.getShippingOrderSelectedOption();
-				Order order = orderRepository.findBySelectedOption(shippingOrderSelectedOption.getId())
-					.orElseThrow(() -> new RuntimeException("주문이 없습니다."));
+				System.out.println(shippingOrderSelectedOption.getId());
+				Order order = null;
+				order = orderRepository.findBySelectedOption(shippingOrderSelectedOption.getId())
+					.orElse(null);
+				if(order == null){
+					order = orderRepository.findBySelectedOptionWIthDelivery(shippingOrderSelectedOption.getId())
+						.orElseThrow(() -> new RuntimeException("주문이 없습니다."));
+				}
 				User user = orderInquiry.getUser();
 				Item item = itemRepository.findByOrderInquiry(orderInquiry.getId()).orElseThrow(ItemNotFoundException::new);
 				OrderInquiryReply orderInquiryReply = orderInquiryReplyRepository.findByOrderInquiry(orderInquiry)
@@ -126,6 +136,43 @@ public class OrderInquiryService {
 				.orderInquiries(responseOrderInquiries)
 				.build()
 			).build();
+	}
+	@Transactional(readOnly = true)
+	public ResponseDto<GetOrderInquiryForSellerResponseDto> getOrderInquiryForSeller(UUID sellerId, UUID orderInquiryId) {
+		List<OrderInquiry> orderInquiries = orderInquiryRepository.findForSellerOrderInquiryOfShipping(sellerId);
+		OrderInquiry orderInquiry = orderInquiries.stream().filter(oi -> oi.getId().equals(orderInquiryId)).findFirst()
+			.orElseThrow(OrderInquiryNotFound::new);
+		if (orderInquiry.getOrderType() == OrderType.SHIPPINGANDDELIVERY) {
+			ShippingOrderSelectedOption shippingOrderSelectedOption = orderInquiry.getShippingOrderSelectedOption();
+			Order order = orderRepository.findBySelectedOption(shippingOrderSelectedOption.getId())
+				.orElseThrow(() -> new RuntimeException("주문이 없습니다."));
+			User user = orderInquiry.getUser();
+			Item item = itemRepository.findByOrderInquiry(orderInquiry.getId()).orElseThrow(ItemNotFoundException::new);
+			OrderInquiryReply orderInquiryReply = orderInquiryReplyRepository.findByOrderInquiry(orderInquiry)
+				.orElse(null);
+			String orderInquiryReplyContent = orderInquiryReply != null ? orderInquiryReply.getContent() : null;
+			LocalDateTime processedAt = orderInquiryReply == null ? null : orderInquiryReply.getCreatedAt();
+			return ResponseDto.<GetOrderInquiryForSellerResponseDto>builder()
+				.responseCode(ResponseCode.ORDER_ITEM_INQUIRY_READ)
+				.data(GetOrderInquiryForSellerResponseDto.builder()
+					.orderInquiry(GetOrderInquiryForSellerResponseDto.OrderInquiry
+						.builder()
+						.orderId(order.getId())
+						.isReplied(orderInquiry.getIsReplied())
+						.content(orderInquiry.getContent())
+						.CreatedAt(orderInquiry.getCreatedAt())
+						.itemName(item.getName())
+						.name(user.getName())
+						.orderItemId(item.getId())
+						.processedAt(processedAt)
+						.build())
+					.orderInquiryReply(GetOrderInquiryForSellerResponseDto.OrderInquiryReply.builder()
+						.content(orderInquiryReplyContent)
+						.build())
+					.build())
+				.build();
+		}
+		return null;
 	}
 	@Transactional(readOnly = true)
 	public ResponseDto<GetOrderInquiryResponseDto> getShippingOrderInquiry(UUID orderInquiryId){

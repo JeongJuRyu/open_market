@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -123,6 +124,16 @@ public class User implements UserDetails {
 		DeliveryAddress oldDeliveryAddress = this.getDeliveryAddresses()
 				.stream().filter(DeliveryAddress::getIsDefaultAddress)
 				.findAny().orElseThrow(DeliveryAddressNotFoundException::new);
+	}
+
+	public void deleteDeliveryAddress(UUID id){
+		for(int i = 0; i < deliveryAddresses.size(); i++){
+			if(this.deliveryAddresses.get(i).getId().equals(id)){
+				this.deliveryAddresses.remove(i);
+				break;
+			}
+		}
+		System.out.println(this.deliveryAddresses.size());
 	}
 
 	@Override

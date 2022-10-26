@@ -29,4 +29,60 @@ VALUES(
         UUID'2a39a689-b011-441d-a719-0ce4754baa4c',
         1,
         UUID'2d68d1d0-ed27-46d2-b858-da3f0aa2e430'
+    ),
+    (
+        UUID '2a656d32-3a75-4edc-b42d-b7381417dfb7',
+        25000,
+        1,
+        UUID '0eceec16-cdab-4885-a552-066e2df2e3ad',
+        2,
+        UUID '2d68d1d0-ed27-46d2-b858-da3f0aa2e430'
+    ),
+    (
+        UUID '9f738b73-4bc9-4c26-b854-844b62feaa6c',
+        30000,
+        1,
+        UUID '4cc1f796-5362-11ed-bdc3-0242ac120002',
+        3,
+        UUID '2d68d1d0-ed27-46d2-b858-da3f0aa2e430'
+    ),
+    (
+        UUID 'eb1beada-6f24-4b18-9c7b-61591aca1731',
+        40000,
+        2,
+        UUID '4cc1f796-5362-11ed-bdc3-0242ac120002',
+        3,
+        UUID '2d68d1d0-ed27-46d2-b858-da3f0aa2e430'
+    ),
+    (
+        UUID 'fd037ee0-e64f-496b-b3d3-9169712d0c02',
+        20000,
+        2,
+        UUID '4cc1f796-5362-11ed-bdc3-0242ac120002',
+        3,
+        UUID '2d68d1d0-ed27-46d2-b858-da3f0aa2e430'
+    ),
+    (
+        UUID '62bf52c6-a9da-40bc-a5e0-20913c7bfddb',
+        10000,
+        3,
+        UUID 'f0b09f61-df3a-477e-9870-754d50fd0d95',
+        2,
+        UUID '2d68d1d0-ed27-46d2-b858-da3f0aa2e430'
+    ),
+    (
+        UUID 'eeac51d8-9af9-4fef-8793-1b4bb4103afa',
+        5000,
+        4,
+        UUID '1036e864-2a2e-4954-86ac-281aed3d1ab6',
+        1,
+        UUID '2d68d1d0-ed27-46d2-b858-da3f0aa2e430'
+    ),
+    (
+        UUID '9d50af74-3d37-41b5-a180-70d110f02377',
+        3000,
+        5,
+        UUID '1036e864-2a2e-4954-86ac-281aed3d1ab6',
+        2,
+        UUID '2d68d1d0-ed27-46d2-b858-da3f0aa2e430'
     );
