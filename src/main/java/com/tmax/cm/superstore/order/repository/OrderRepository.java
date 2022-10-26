@@ -17,11 +17,11 @@ public interface OrderRepository extends JpaRepository<Order, UUID> {
 		+ " on soi.shipping_order_id = so.id join shipping_order_selected_option as soso on soi.id = soso.shipping_order_item_id where soso.id = :selectedOptionId", nativeQuery = true)
 	Optional<Order> findByShippingSelectedOption(UUID selectedOptionId);
 
-	@Query(value = "select * from orders o join shipping_order so on so.order_id = o.id join shipping_order_item soi"
-		+ " on soi.shipping_order_id = so.id join shipping_order_selected_option as soso on soi.id = soso.shipping_order_item_id where soso.id = :selectedOptionId", nativeQuery = true)
+	@Query(value = "select * from orders o join pickup_order po on po.order_id = o.id join shipping_order_item soi"
+		+ " on soi.pickup_order_id = po.id join shipping_order_selected_option as soso on soi.id = soso.shipping_order_item_id where soso.id = :selectedOptionId", nativeQuery = true)
 	Optional<Order> findByPickupSelectedOption(UUID selectedOptionId);
 
 	@Query(value = "select * from orders o join delivery_order do on do.order_id = o.id join shipping_order_item soi"
-		+ " on soi.delivery_order_id = do.id join shipping_order_selected_option as soso on soi.id = soso.shipping_order_item_id where SOSO.ID = :selectedOptionId", nativeQuery = true)
+		+ " on soi.delivery_order_id = do.id join shipping_order_selected_option as soso on soi.id = soso.shipping_order_item_id where soso.id = :selectedOptionId", nativeQuery = true)
 	Optional<Order> findBySelectedOptionWIthDelivery(UUID selectedOptionId);
 }
