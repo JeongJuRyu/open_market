@@ -17,7 +17,7 @@ values (
            false,
            'SHIPPINGANDDELIVERY',
            null,
-           UUID_TO_BIN('9c937a70-12cf-4a83-b594-1293b3f994a8'),
+           0x9C937A7012CF4A83B5941293B3F994A8,
            UUID_TO_BIN('672ffb8c-f952-49ec-b65b-4fe3a9c37b28')
        );
 
@@ -40,32 +40,32 @@ values (
            true,
            'SHIPPINGANDDELIVERY',
            null,
-           UUID_TO_BIN('6148b3fe-7fdd-4344-8938-4d938bd23799'),
+           0x6148B3FE7FDD434489384D938BD23799,
            UUID_TO_BIN('672ffb8c-f952-49ec-b65b-4fe3a9c37b28')
        );
 
-INSERT INTO order_inquiry (
-    order_inquiry_id,
-    created_at,
-    modified_at,
-    content,
-    is_replied,
-    order_type,
-    pickup_order_selected_option_id,
-    shipping_order_selected_option_id,
-    user_id
-)
-values (
-           UUID_TO_BIN('9e38990d-62da-400d-92dd-68198a809a39'),
-           '2022/08/28 00:00:00',
-           '2022/08/28 00:00:00',
-           '제로콜라를 시켰는데 일반 콜라가 왔습니다. 환불 가능한가요?',
-           true,
-           'SHIPPINGANDDELIVERY',
-           null,
-           UUID_TO_BIN('95547dc4-6d88-4796-b964-ff71aa056b7c'),
-           UUID_TO_BIN('672ffb8c-f952-49ec-b65b-4fe3a9c37b28')
-       );
+# INSERT INTO order_inquiry (
+#     order_inquiry_id,
+#     created_at,
+#     modified_at,
+#     content,
+#     is_replied,
+#     order_type,
+#     pickup_order_selected_option_id,
+#     shipping_order_selected_option_id,
+#     user_id
+# )
+# values (
+#            UUID_TO_BIN('9e38990d-62da-400d-92dd-68198a809a39'),
+#            '2022/08/28 00:00:00',
+#            '2022/08/28 00:00:00',
+#            '제로콜라를 시켰는데 일반 콜라가 왔습니다. 환불 가능한가요?',
+#            true,
+#            'SHIPPINGANDDELIVERY',
+#            null,
+#            UUID_TO_BIN('95547dc4-6d88-4796-b964-ff71aa056b7c'),
+#            UUID_TO_BIN('672ffb8c-f952-49ec-b65b-4fe3a9c37b28')
+#        );
 
 INSERT INTO order_inquiry (
     order_inquiry_id,
@@ -86,6 +86,6 @@ values (
            false,
            'SHIPPINGANDDELIVERY',
            null,
-           UUID_TO_BIN('2a656d32-3a75-4edc-b42d-b7381417dfb7'),
+           0xA7AD07E49CDC40D29DA11397E689CEA7,
            UUID_TO_BIN('672ffb8c-f952-49ec-b65b-4fe3a9c37b28')
        );
