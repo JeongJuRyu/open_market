@@ -28,7 +28,8 @@ public class PostReservationCartItemDto {
 	@Getter
 	@Builder(builderMethodName = "ResponseBuilder")
 	public static class Response {
-		private UUID ReservationCartId;
+		private UUID reservationCartId;
+		private UUID reservationCartItemId;
 		private String reservationItemName;
 		private String reservationItemOptionName;
 		private SendType sendType;
@@ -36,7 +37,8 @@ public class PostReservationCartItemDto {
 
 		public static ResponseBuilder builder(ReservationCartItem reservationCartItem) {
 			return ResponseBuilder()
-				.ReservationCartId(reservationCartItem.getReservationCartId().getId())
+				.reservationCartId(reservationCartItem.getReservationCartId().getId())
+				.reservationCartItemId(reservationCartItem.getId())
 				.reservationItemName(reservationCartItem.getReservationItem().getReservationItemName())
 				.reservationItemOptionName(reservationCartItem.getReservationItemOption().getOptionName())
 				.sendType(reservationCartItem.getSendType())
