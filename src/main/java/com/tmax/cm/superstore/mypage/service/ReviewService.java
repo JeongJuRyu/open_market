@@ -79,15 +79,14 @@ public class ReviewService {
 					review.getShippingOrderSelectedOption()).get();
 				Item item = shippingOrderItemRepository.findByShippingOrderItemId(shippingOrderItem.getId())
 					.orElseThrow(ItemNotFoundException::new).getItem();
-				// Item itemWithItemImage = itemRepository.findByItemWithImage(item.getId())
-				// 	.orElseThrow(ItemNotFoundException::new);
 				responseReview.add(reviewMapper.toAllShippingReviewDto(review, shippingOrderItem, item, selectedOptionId));
 			} else if(orderType == OrderType.PICKUPANDVISIT){
+				UUID selectedOptionId = review.getShippingOrderSelectedOption().getId();
 				PickupOrderItem pickupOrderItem = pickupOrderItemRepository.findByPickupOrderSelectedOptions(
 					review.getPickupOrderSelectedOption()).get();
 				Item item = shippingOrderItemRepository.findByShippingOrderItemId(pickupOrderItem.getId())
 					.orElseThrow(ItemNotFoundException::new).getItem();
-				// responseReview.add(reviewMapper.toAllPickupReviewDto(review, pickupOrderItem, item));
+				responseReview.add(reviewMapper.toAllPickupReviewDto(review, pickupOrderItem, item, selectedOptionId));
 			}
 		}
 		return ResponseDto.<GetAllReviewResponseDto>builder()
@@ -98,10 +97,12 @@ public class ReviewService {
 	}
 
 	@Transactional(readOnly = true)
-	public ResponseDto<GetAllReviewForSellerResponseDto> getAllReviewForSeller(UUID sellerId, Float starRating){
+	public ResponseDto<GetAllReviewForSellerResponseDto> getAllReviewForSeller(UUID sellerId, String starRating){
 		List<GetAllReviewForSellerResponseDto.Review> responseReview = new ArrayList<>();
-		List<Review> reviews = sellerRepository.findForSellerReviewWithItem(sellerId);
-		reviews = reviews.stream().filter(review -> review.getStarRating() >= starRating).collect(Collectors.toList());
+		List<Review> reviews = reviewRepository.findForSellerReviewWithItem(sellerId);
+		Float fStarRating = Float.parseFloat(starRating);
+		reviews = reviews.stream().filter(review -> review.getStarRating() >= fStarRating).collect(Collectors.toList());
+		reviews.sort(new ReviewComparotor());
 		for(Review review : reviews) {
 			Order order = orderRepository.findByReviewId(review.getId())
 				.orElseThrow(() -> new RuntimeException("주문이 존재하지 않습니다."));
@@ -156,6 +157,7 @@ public class ReviewService {
 	public ResponseDto<GetReviewWithItemResponseDto> getReviewWithItem(UUID itemId){
 		Item item = itemRepository.findById(itemId).orElseThrow(ItemNotFoundException::new);
 		List<Review> reviews = reviewRepository.findByItem(item);
+		reviews.sort(new ReviewComparotor());
 		List<GetReviewWithItemResponseDto.Review> responseReviews = new ArrayList<>();
 		for(Review review : reviews){
 			GetReviewWithItemResponseDto.Review responseReview = GetReviewWithItemResponseDto.Review.builder()
@@ -180,7 +182,6 @@ public class ReviewService {
 			ShippingOrderSelectedOption shippingOrderSelectedOption = shippingOrderSelectedOptionRepository.findById(dto.getSelectedOptionId()).get();
 			ShippingOrderItem shippingOrderItem = shippingOrderItemRepository.findByShippingOrderSelectedOptions(shippingOrderSelectedOption)
 				.orElseThrow(BusinessNotFoundException::new);
-			System.out.println(shippingOrderItem.getId());
 			Item item = shippingOrderItemRepository.findByShippingOrderItemId(shippingOrderItem.getId())
 				.orElseThrow(ItemNotFoundException::new).getItem();
 			Review review = Review.builder()
