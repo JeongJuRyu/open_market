@@ -29,8 +29,7 @@ public class GetWishlistGroupAllDto {
             private String wishlistGroupName;
 
             @NotNull
-            @Builder.Default
-            private String wishlistGroupThumbnailURL = "null";
+            private String wishlistGroupThumbnailURL;
 
             private Integer totalItemCount;
         }
