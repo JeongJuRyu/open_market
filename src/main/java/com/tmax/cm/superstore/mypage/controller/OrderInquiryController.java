@@ -7,14 +7,18 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tmax.cm.superstore.common.ResponseDto;
+import com.tmax.cm.superstore.mypage.dto.GetAllOrderInquiryForSellerResponseDto;
 import com.tmax.cm.superstore.mypage.dto.GetAllOrderInquiryResponseDto;
 import com.tmax.cm.superstore.mypage.dto.GetOrderInquiryResponseDto;
+import com.tmax.cm.superstore.mypage.dto.GetReviewResponseDto;
 import com.tmax.cm.superstore.mypage.dto.PostOrderInquiryRequestDto;
 import com.tmax.cm.superstore.mypage.dto.UpdateOrderInquiryRequestDto;
 import com.tmax.cm.superstore.mypage.service.OrderInquiryService;
@@ -30,37 +34,53 @@ public class OrderInquiryController {
 	private final OrderInquiryService orderInquiryService;
 
 	@GetMapping
-	public ResponseEntity<GetAllOrderInquiryResponseDto> getAllInquiry(
+	public ResponseEntity<ResponseDto<GetAllOrderInquiryResponseDto>> getAllInquiry(
 		@AuthenticationPrincipal User user,
-		@RequestParam OrderType orderType,
-		@RequestParam(defaultValue = "1900-01-01") String startDate
+		@RequestParam(defaultValue = "1900-01-01") String startDate,
+		@RequestParam(defaultValue = "all") String isReplied
 	){
-		return ResponseEntity.ok().body(orderInquiryService.getAllOrderInquiry(user, orderType, startDate));
+		return ResponseEntity.ok().body(orderInquiryService.getAllOrderInquiry(user, startDate, isReplied));
+	}
+	@GetMapping("/seller")
+	public ResponseEntity<ResponseDto<GetAllOrderInquiryForSellerResponseDto>> getAllInquiryForSeller(
+		@RequestParam UUID sellerId,
+		@RequestParam(defaultValue = "1900-01-01") String startDate,
+		@RequestParam(defaultValue = "all") String isReplied
+	){
+		return ResponseEntity.ok().body(orderInquiryService.getAllOrderInquiryForSeller(startDate, isReplied, sellerId));
 	}
 
-	@GetMapping("/{inquiryId}")
-	public ResponseEntity<GetOrderInquiryResponseDto> getInquiry(@RequestParam UUID inquiryId){
-		return ResponseEntity.ok().body(orderInquiryService.getOrderInquiry(inquiryId));
+	@GetMapping("/shippingAndDelivery/{orderInquiryId}")
+	public ResponseEntity<ResponseDto<GetOrderInquiryResponseDto>> getOrderInquiry(
+		@PathVariable UUID orderInquiryId){
+		return ResponseEntity.ok().body(orderInquiryService.getShippingOrderInquiry(orderInquiryId));
+	}
+
+	@GetMapping("/pickupAndVisit/{pickupOrderSelectedId}")
+	public ResponseEntity<ResponseDto<GetOrderInquiryResponseDto>> getPickupOrderReview(
+		@PathVariable UUID pickupOrderSelectedId){
+		return ResponseEntity.ok().body(orderInquiryService.getPickupOrderInquiry(pickupOrderSelectedId));
 	}
 
 	@PostMapping
-	public ResponseEntity<UUID> postInquiry(
-		@RequestBody PostOrderInquiryRequestDto postOrderInquiryRequestDto){
+	public ResponseEntity<Object> postInquiry(
+		@RequestBody PostOrderInquiryRequestDto postOrderInquiryRequestDto,
+		@AuthenticationPrincipal User user) throws Exception {
 		return ResponseEntity.ok()
-			.body(orderInquiryService.postOrderInquiry(postOrderInquiryRequestDto));
+			.body(orderInquiryService.postOrderInquiry(postOrderInquiryRequestDto, user));
 	}
 
 	@PatchMapping
-	public ResponseEntity<UUID> updateInquiry(
+	public ResponseEntity<Object> updateInquiry(
 		@RequestBody UpdateOrderInquiryRequestDto updateOrderInquiryRequestDto
 	) {
 		return ResponseEntity.ok()
 			.body(orderInquiryService.updateOrderInquiry(updateOrderInquiryRequestDto));
 	}
 
-	@DeleteMapping("/{inquiryId}")
-	public ResponseEntity<UUID> deleteInquiry(@RequestParam UUID inquiryId){
+	@DeleteMapping("/{orderItemInquiryId}")
+	public ResponseEntity<Object> deleteInquiry(@PathVariable UUID orderItemInquiryId){
 		return ResponseEntity.ok()
-			.body(orderInquiryService.deleteOrderInquiry(inquiryId));
+			.body(orderInquiryService.deleteOrderInquiry(orderItemInquiryId));
 	}
 }

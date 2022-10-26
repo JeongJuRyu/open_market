@@ -35,6 +35,7 @@ public class SecurityConfig {
 				"/v1/review",
 				"/v1/review/shippingAndDelivery",
 				"/v1/review/pickupAndVisit",
+				"/v1/orderInquiry/**",
 				"/v1/order/buyer/**",
 				"/v1/reservation/make",
 				"/v1/reservation/list/user",

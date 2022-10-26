@@ -7,6 +7,7 @@ import com.tmax.cm.superstore.mypage.dto.GetAllReviewResponseDto;
 import com.tmax.cm.superstore.mypage.dto.GetReviewResponseDto;
 import com.tmax.cm.superstore.mypage.entity.Review;
 import com.tmax.cm.superstore.mypage.entity.ReviewReply;
+import com.tmax.cm.superstore.order.entity.Order;
 import com.tmax.cm.superstore.order.entity.OrderOption;
 import com.tmax.cm.superstore.order.entity.OrderOptionGroup;
 import com.tmax.cm.superstore.order.entity.PickupOrderItem;
@@ -21,6 +22,19 @@ import java.util.UUID;
 @Mapper(config = CommonMapperConfig.class)
 public interface ReviewMapper {
 
+    default GetAllReviewForSellerResponseDto.Review toAllReviewForSellerDto(Review review, Order order){
+        Item item = review.getItem();
+        return GetAllReviewForSellerResponseDto.Review.builder()
+            .reviewId(review.getId())
+            .itemName(item.getName())
+            .orderItemId(item.getId())
+            .content(review.getContent())
+            .createdAt(review.getCreatedAt())
+            .modifiedAt(review.getModifiedAt())
+            .starRating(review.getStarRating())
+            .orderId(order.getId())
+            .build();
+    }
     default GetAllReviewResponseDto.Review toAllShippingReviewDto(Review review, ShippingOrderItem shippingOrderItem, Item item, UUID selectedOptionId){
         return GetAllReviewResponseDto.Review.builder()
             .reviewId(review.getId())
@@ -115,14 +129,14 @@ public interface ReviewMapper {
 
     List<GetAllReviewResponseDto.Review.OrderItem.OrderOptionGroup> toAllOrderOptionGroups(List<OrderOptionGroup> orderOptionGroups);
 
-    @Mapping(target = "name", source = "orderOptionGroup.name")
+    @Mapping(target = "optionGroupName", source = "orderOptionGroup.name")
     @Mapping(target = "orderOptions", source = "orderOptionGroup.orderOptions")
     GetAllReviewResponseDto.Review.OrderItem.OrderOptionGroup toAllOrderOptionGroup(OrderOptionGroup orderOptionGroup);
 
 
     List<GetAllReviewResponseDto.Review.OrderItem.OrderOptionGroup.OrderOption> toAllOrderOptions(List<OrderOption> orderOption);
 
-    @Mapping(target = "name", source = "orderOption.name")
+    @Mapping(target = "optionName", source = "orderOption.name")
     @Mapping(target = "count", source = "orderOption.count")
     @Mapping(target = "price", source = "orderOption.price")
     GetAllReviewResponseDto.Review.OrderItem.OrderOptionGroup.OrderOption toAllOrderOption(OrderOption orderOption);
@@ -130,13 +144,13 @@ public interface ReviewMapper {
 
     List<GetReviewResponseDto.Review.OrderItem.OrderOptionGroup> toOrderOptionGroups(List<OrderOptionGroup> orderOptionGroups);
 
-    @Mapping(target = "name", source = "orderOptionGroup.name")
+    @Mapping(target = "optionGroupName", source = "orderOptionGroup.name")
     @Mapping(target = "orderOptions", source = "orderOptionGroup.orderOptions")
     GetReviewResponseDto.Review.OrderItem.OrderOptionGroup toOrderOptionGroup(OrderOptionGroup orderOptionGroup);
 
     List<GetReviewResponseDto.Review.OrderItem.OrderOptionGroup.OrderOption> toOrderOptions(List<OrderOption> orderOption);
 
-    @Mapping(target = "name", source = "orderOption.name")
+    @Mapping(target = "optionName", source = "orderOption.name")
     @Mapping(target = "count", source = "orderOption.count")
     @Mapping(target = "price", source = "orderOption.price")
     GetReviewResponseDto.Review.OrderItem.OrderOptionGroup.OrderOption toOrderOption(OrderOption orderOption);

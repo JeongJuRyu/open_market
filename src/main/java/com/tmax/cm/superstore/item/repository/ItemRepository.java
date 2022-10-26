@@ -18,8 +18,19 @@ public interface ItemRepository extends JpaRepository<Item, UUID> {
 
     List<Item> findByCategoryId(Long categoryId);
 
-    @Query("SELECT i FROM Item i WHERE i.name LIKE %:keyword% AND i.category.id = :categoryId AND i.itemState IN (:itemState) ORDER BY i.createdAt ASC")
-    List<Item> findByKeyword(@Param("keyword") String keyword, @Param("categoryId") Long categoryId, @Param("itemState") List<ItemState> itemState);
+    @Query(value = "WITH RECURSIVE cte ( id ) as ( " +
+            "SELECT c.id " +
+            "FROM categories c " +
+            "WHERE c.parent_id = :parentCategoryId " +
+            "UNION ALL " +
+            "SELECT p.id " +
+            "FROM categories p " +
+            "INNER JOIN cte ON p.parent_id = cte.id " +
+            ") " +
+            "SELECT i.* FROM item i left JOIN cte c ON c.id = i.category_id " +
+            "WHERE i.name like %:keyword% " +
+            "AND i.item_state IN (:itemState) ", nativeQuery = true)
+    List<Item> findByKeyword(@Param("keyword") String keyword, @Param("parentCategoryId") Long parentCategoryId, @Param("itemState") List<String> itemState);
 
     List<Item> findByNameContaining(String name);
 
@@ -33,4 +44,10 @@ public interface ItemRepository extends JpaRepository<Item, UUID> {
     @Query("select i from Item i join PickupOrderItem poi join ItemImage ii "
         + "where poi.id = :pickupOrderItemId")
     Optional<Item> findByPickupOrderItem(UUID pickupOrderItemId);
+
+    @Query(value = "select * from item as i join shipping_order_item as soi on i.id = soi.item_id "
+        + "join shipping_order_selected_option as soso on soso.shipping_order_item_id = soi.id "
+        + "join order_inquiry as oi on oi.shipping_order_selected_option_id = soso.id "
+        + "WHERE OI.ORDER_INQUIRY_ID = :orderInquiryId", nativeQuery = true)
+    Optional<Item> findByOrderInquiry(UUID orderInquiryId);
 }

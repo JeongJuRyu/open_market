@@ -14,5 +14,5 @@ public class PostOrderInquiryRequestDto {
 
 	private OrderType orderType;
 
-	private UUID selected_option_id;
+	private UUID selectedOptionId;
 }
