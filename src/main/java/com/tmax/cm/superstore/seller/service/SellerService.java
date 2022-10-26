@@ -189,6 +189,9 @@ public class SellerService {
 		try {
 			Seller findSeller = sellerRepository.findSellerBySellerId(sellerID);
 			findSellerValidation(findSeller);
+			SellerDelivery findRepresentSellerDelivery = sellerDeliveryRepository.findBySellerIdAndIsRepresentTrue(findSeller);
+			findRepresentSellerDelivery.modifyRepresent();
+			sellerDeliveryRepository.save(findRepresentSellerDelivery);
 			SellerDelivery newSellerDelivery = SellerDelivery.builder(findSeller, createSellerDeliveryRequestDto)
 				.build();
 			sellerDeliveryRepository.save(newSellerDelivery);

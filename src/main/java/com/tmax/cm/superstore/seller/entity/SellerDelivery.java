@@ -62,7 +62,8 @@ public class SellerDelivery {
 			.shipmentAddressDetail(createSellerRequestDto.getShipmentAddressDetail())
 			.returnAddress(createSellerRequestDto.getReturnAddress())
 			.returnAddressDetail(createSellerRequestDto.getReturnAddressDetail())
-			.sellerId(seller);
+			.sellerId(seller)
+			.isRepresent(true);
 	}
 
 	public void modifyRepresent() {
