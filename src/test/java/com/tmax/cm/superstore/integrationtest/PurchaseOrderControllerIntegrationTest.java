@@ -3,6 +3,7 @@ package com.tmax.cm.superstore.integrationtest;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.ResultActions;
@@ -33,12 +34,13 @@ public class PurchaseOrderControllerIntegrationTest extends AbstractIntegrationT
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
                 .post("/v1/purchaseOrder/cart")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(request.toString()));
+                .content(request.toString())
+                .header(HttpHeaders.AUTHORIZATION, this.testJwtGenerator.generate()));
 
         // then
         result.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(EasyRestDocumentation.document("postPurchaseOrderCart", "장바구니에서 주문 화면으로 전환", this.tag));
+                .andDo(EasyRestDocumentation.documentWithJwt("postPurchaseOrderCart", "장바구니에서 주문 화면으로 전환", this.tag));
     }
 
     @Test
@@ -83,11 +85,12 @@ public class PurchaseOrderControllerIntegrationTest extends AbstractIntegrationT
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
                 .post("/v1/purchaseOrder/buyNow")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(request.toString()));
+                .content(request.toString())
+                .header(HttpHeaders.AUTHORIZATION, this.testJwtGenerator.generate()));
 
         // then
         result.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(EasyRestDocumentation.document("postPurchaseOrderBuyNow", "바로 구매로 주문 화면으로 전환", this.tag));
+                .andDo(EasyRestDocumentation.documentWithJwt("postPurchaseOrderBuyNow", "바로 구매로 주문 화면으로 전환", this.tag));
     }
 }

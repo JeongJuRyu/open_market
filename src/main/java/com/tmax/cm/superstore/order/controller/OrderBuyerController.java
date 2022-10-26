@@ -76,7 +76,7 @@ public class OrderBuyerController {
             @Valid @RequestBody PostOrderDto.Request request) {
 
         this.transactionHandler.runInSameTransaction(() -> {
-            List<CartItem> cartItems = this.cartItemService.read(request.getCartItemIds());
+            List<CartItem> cartItems = this.cartItemService.read(user, request.getCartItemIds());
             Payment payment = this.paymentService.create(request);
             PurchaseOrderDto purchaseOrderDto = this.purchaseOrderService.read(cartItems);
             Shipping shippingOrderShipping = null;

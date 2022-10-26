@@ -98,6 +98,12 @@ public class ItemController {
         return new ResponseDto<>(ResponseCode.ITEM_UPDATE, this.updateItemDtoMapper.toResponse(item));
     }
 
+    @GetMapping("/seller/{sellerId}")
+    public ResponseDto<GetItemAllDto.Response> getSellerItem(@PathVariable UUID sellerId){
+        List<Item> items = this.itemService.readItemBySeller(sellerId);
+        return new ResponseDto<>(ResponseCode.ITEM_READ, this.getItemAllDtoMapper.toResponse(items));
+    }
+
     @GetMapping("/simpleItems")
     public ResponseDto<GetItemAllByCategoryDto.Response> getItemByCategory(
             @RequestParam("categoryId") Long categoryId) {

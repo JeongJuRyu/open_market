@@ -18,21 +18,7 @@ public interface ItemRepository extends JpaRepository<Item, UUID> {
 
     List<Item> findByCategoryId(Long categoryId);
 
-    @Query(value = "WITH RECURSIVE cte ( id ) as ( " +
-            "SELECT c.id " +
-            "FROM categories c " +
-            "WHERE c.parent_id = :parentCategoryId " +
-            "UNION ALL " +
-            "SELECT p.id " +
-            "FROM categories p " +
-            "INNER JOIN cte ON p.parent_id = cte.id " +
-            ") " +
-            "SELECT i.* FROM item i left JOIN cte c ON c.id = i.category_id " +
-            "WHERE i.name like %:keyword% " +
-            "AND i.item_state IN (:itemState) ", nativeQuery = true)
-    List<Item> findByKeyword(@Param("keyword") String keyword, @Param("parentCategoryId") Long parentCategoryId, @Param("itemState") List<String> itemState);
-
-    List<Item> findByNameContaining(String name);
+    List<Item> findBySellerSellerId(UUID sellerId);
 
     @Query("select i from Item i join PickupOrderItem poi join PickupOrderSelectedOption poso where poso.id = :id")
     Optional<Item> findByPickupOrderSelectedOption(UUID id);
