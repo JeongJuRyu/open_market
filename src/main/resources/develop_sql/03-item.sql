@@ -31,7 +31,7 @@ INSERT INTO item_option(id, name, price, description, is_deleted, option_group_i
 INSERT INTO item_option(id, name, price, description, is_deleted, option_group_id) VALUES (UUID_TO_BIN('434a6e11-edb0-4dea-80df-90c495bd4c86'), '살사소스', 500, '참을 수 없는 옵션의 유혹', 0, UUID_TO_BIN('ebe5c005-9241-4149-844a-c0ee1eabb29c'));
 INSERT INTO item_option(id, name, price, description, is_deleted, option_group_id) VALUES (UUID_TO_BIN('37233135-e75e-4549-8217-939d756199f9'), '마요소스', 500, '참을 수 없는 옵션의 유혹', 0, UUID_TO_BIN('ebe5c005-9241-4149-844a-c0ee1eabb29c'));
 
-INSERT INTO item(id, name, price, is_deleted, seller_seller_id, shipping_charge_type, shipping_charge, return_charge, return_address, description, category_id, created_at) VALUES (UUID_TO_BIN('a103af33-3eb0-4efd-a885-bf7cab7644b8'), '킹 의자', 20000, 0, UUID_TO_BIN('8d41c42a-011b-4525-9864-b24481f985c6'), 'FREE_SHIPPING', 3000, 2500, '경기 성남시 분당구 정자일로 45','왕중의 왕 의자라네', 39, '2019-08-25 12:36:08');
+INSERT INTO item(id, name, price, is_deleted, seller_seller_id, shipping_charge_type, shipping_charge, return_charge, return_address, description, category_id, created_at) VALUES (UUID_TO_BIN('a103af33-3eb0-4efd-a885-bf7cab7644b8'), '킹 신발', 20000, 0, UUID_TO_BIN('2d68d1d0-ed27-46d2-b858-da3f0aa2e430'), 'FREE_SHIPPING', 3000, 2500, '경기 성남시 분당구 정자일로 45','2022 겨울 신상 신발', 39, '2019-08-25 12:36:08');
 
 INSERT INTO item_send_type(id, send_type, item_id) VALUES (5, 'SHIPPING', UUID_TO_BIN('a103af33-3eb0-4efd-a885-bf7cab7644b8'));
 INSERT INTO item_send_type(id, send_type, item_id) VALUES (6, 'VISIT', UUID_TO_BIN('a103af33-3eb0-4efd-a885-bf7cab7644b8'));
