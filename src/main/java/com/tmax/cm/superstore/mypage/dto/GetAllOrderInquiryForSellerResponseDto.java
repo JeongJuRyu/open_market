@@ -14,6 +14,7 @@ public class GetAllOrderInquiryForSellerResponseDto {
 	@Getter
 	@Builder
 	public static class OrderInquiry {
+		private UUID orderInquiryId;
 		private LocalDateTime CreatedAt;
 		private Boolean isReplied;
 		private UUID orderId;

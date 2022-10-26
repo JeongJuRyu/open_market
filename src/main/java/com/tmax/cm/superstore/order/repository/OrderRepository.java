@@ -15,4 +15,8 @@ public interface OrderRepository extends JpaRepository<Order, UUID> {
 	@Query(value = "SELECT * FROM ORDERS O JOIN SHIPPING_ORDER SO ON SO.ORDER_ID = O.ID JOIN SHIPPING_ORDER_ITEM SOI"
 		+ " ON SOI.SHIPPING_ORDER_ID = SO.ID JOIN SHIPPING_ORDER_SELECTED_OPTION AS SOSO ON SOI.ID = SOSO.SHIPPING_ORDER_ITEM_ID WHERE SOSO.ID = :selectedOptionId", nativeQuery = true)
 	Optional<Order> findBySelectedOption(UUID selectedOptionId);
+
+	@Query(value = "SELECT * FROM ORDERS O JOIN DELIVERY_ORDER DO ON DO.ORDER_ID = O.ID JOIN SHIPPING_ORDER_ITEM SOI"
+		+ " ON SOI.DELIVERY_ORDER_ID = DO.ID JOIN SHIPPING_ORDER_SELECTED_OPTION AS SOSO ON SOI.ID = SOSO.SHIPPING_ORDER_ITEM_ID WHERE SOSO.ID = :selectedOptionId", nativeQuery = true)
+	Optional<Order> findBySelectedOptionWIthDelivery(UUID selectedOptionId);
 }
