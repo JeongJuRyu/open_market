@@ -12,14 +12,14 @@ INSERT INTO review (
 )
 values (
            UUID_TO_BIN('50f07073-e0d0-4d67-a474-e3166dff2ce4'),
-           '사장님이 친절하고 음식이 맛있습니다.',
+           '사이즈도 맞고 좋습니다',
            4.5,
            'SHIPPINGANDDELIVERY',
            true,
            null,
-           0x9C937A7012CF4A83B5941293B3F994A8,
+           0x0BCE37269A144D4CB07D641D3C2BF48A,
            UUID_TO_BIN('672ffb8c-f952-49ec-b65b-4fe3a9c37b28'),
-           UUID_TO_BIN('1523bc68-e8f7-4140-b7dd-cbfe622e068a'),
+           UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb27'),
            '2022/10/01 00:00:00'
        );
 
@@ -37,14 +37,14 @@ INSERT INTO review (
 )
 values (
            UUID_TO_BIN('c9774217-3c05-4ef8-900b-f6e54ddb78e5'),
-           '저의 야식을 책임집니다.',
+           '너무 예쁩니다.',
            3,
            'SHIPPINGANDDELIVERY',
            false,
            null,
-           0x95547DC46D884796B964FF71AA056B7C,
+           0x155C2542FFFB4CA39EE91E7FA827BA10,
            UUID_TO_BIN('672ffb8c-f952-49ec-b65b-4fe3a9c37b28'),
-           UUID_TO_BIN('1523bc68-e8f7-4140-b7dd-cbfe622e068a'),
+           UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb27'),
            '2022/08/30 00:00:00'
        );
 
@@ -67,7 +67,7 @@ values (
            'SHIPPINGANDDELIVERY',
            true,
            null,
-           0x6148B3FE7FDD434489384D938BD23799,
+           0x8707C0579A144A8DB6566F62EC8987B7,
            UUID_TO_BIN('672ffb8c-f952-49ec-b65b-4fe3a9c37b28'),
            UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb27'),
            '2022/08/01 00:00:00'
@@ -92,7 +92,7 @@ values (
            'SHIPPINGANDDELIVERY',
            false,
            null,
-           0x371A2E44EFEE4DA7B29A50CAEA8B0508,
+           0x8707C0579A144A8DB6566F62EC8987B7,
            UUID_TO_BIN('672ffb8c-f952-49ec-b65b-4fe3a9c37b28'),
            UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb27'),
            '2022/08/01 00:00:00'
