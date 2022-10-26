@@ -42,7 +42,8 @@ public class SecurityConfig {
 				"/v1/reservation/make",
 				"/v1/reservation/list/user",
 				"/v1/reservation/{reservationId}/change",
-				"/v1/cart/reservation/**"))
+				"/v1/purchaseOrder/**",
+				"/v1/cart/**"))
 //				.authorizeRequests()
 //				.antMatchers("/v1/review/item/**").permitAll()
 //				.antMatchers("/v1/users",
