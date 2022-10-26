@@ -17,7 +17,7 @@ values (
            false,
            'SHIPPINGANDDELIVERY',
            null,
-           0x9C937A7012CF4A83B5941293B3F994A8,
+           UUID_TO_BIN('c1fa5a45-ba54-41c3-a689-731166c009ff'),
            UUID_TO_BIN('672ffb8c-f952-49ec-b65b-4fe3a9c37b28')
        );
 
@@ -40,52 +40,6 @@ values (
            true,
            'SHIPPINGANDDELIVERY',
            null,
-           0x6148B3FE7FDD434489384D938BD23799,
-           UUID_TO_BIN('672ffb8c-f952-49ec-b65b-4fe3a9c37b28')
-       );
-
-# INSERT INTO order_inquiry (
-#     order_inquiry_id,
-#     created_at,
-#     modified_at,
-#     content,
-#     is_replied,
-#     order_type,
-#     pickup_order_selected_option_id,
-#     shipping_order_selected_option_id,
-#     user_id
-# )
-# values (
-#            UUID_TO_BIN('9e38990d-62da-400d-92dd-68198a809a39'),
-#            '2022/08/28 00:00:00',
-#            '2022/08/28 00:00:00',
-#            '제로콜라를 시켰는데 일반 콜라가 왔습니다. 환불 가능한가요?',
-#            true,
-#            'SHIPPINGANDDELIVERY',
-#            null,
-#            UUID_TO_BIN('95547dc4-6d88-4796-b964-ff71aa056b7c'),
-#            UUID_TO_BIN('672ffb8c-f952-49ec-b65b-4fe3a9c37b28')
-#        );
-
-INSERT INTO order_inquiry (
-    order_inquiry_id,
-    created_at,
-    modified_at,
-    content,
-    is_replied,
-    order_type,
-    pickup_order_selected_option_id,
-    shipping_order_selected_option_id,
-    user_id
-)
-values (
-           UUID_TO_BIN('4f76af76-6e0e-42f7-a135-3dee1261345b'),
-           '2022/10/25 00:00:00',
-           '2022/10/25 00:00:00',
-           '하루가 지났는데 배송이 안옵니다.',
-           false,
-           'SHIPPINGANDDELIVERY',
-           null,
-           0xA7AD07E49CDC40D29DA11397E689CEA7,
+           UUID_TO_BIN('155c2542-fffb-4ca3-9ee9-1e7fa827ba10'),
            UUID_TO_BIN('672ffb8c-f952-49ec-b65b-4fe3a9c37b28')
        );

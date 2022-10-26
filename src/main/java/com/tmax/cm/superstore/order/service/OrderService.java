@@ -11,6 +11,7 @@ import com.tmax.cm.superstore.code.PickupType;
 import com.tmax.cm.superstore.code.SendType;
 import com.tmax.cm.superstore.code.ShippingType;
 import com.tmax.cm.superstore.error.exception.EntityNotFoundException;
+import com.tmax.cm.superstore.order.controller.dto.PostOrderDto;
 import com.tmax.cm.superstore.order.entity.DeliveryOrder;
 import com.tmax.cm.superstore.order.entity.Order;
 import com.tmax.cm.superstore.order.entity.PickupOrder;
@@ -33,9 +34,11 @@ import com.tmax.cm.superstore.order.service.dto.ReadPickupOrderSelectedOptionDto
 import com.tmax.cm.superstore.order.service.dto.ReadShippingOrderSelectedOptionDto;
 import com.tmax.cm.superstore.payment.entity.Payment;
 import com.tmax.cm.superstore.pickup.entity.Pickup;
+import com.tmax.cm.superstore.pickup.service.PickupService;
 import com.tmax.cm.superstore.purchaseOrder.service.dto.PurchaseOrderDto;
 import com.tmax.cm.superstore.seller.entity.Seller;
 import com.tmax.cm.superstore.shipping.entity.Shipping;
+import com.tmax.cm.superstore.shipping.service.ShippingService;
 import com.tmax.cm.superstore.user.entities.User;
 
 import lombok.RequiredArgsConstructor;
@@ -43,6 +46,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class OrderService {
+
+    private final ShippingService shippingService;
+    private final PickupService pickupService;
 
     private final OrderRepository orderRepository;
     private final ShippingOrderRepository shippingOrderRepository;
@@ -57,11 +63,62 @@ public class OrderService {
     private final OrderMapper orderMapper;
 
     @Transactional
-    public Order create(User user, Payment payment, PurchaseOrderDto purchaseOrderDto, Shipping shippingOrderShipping,
-            Pickup visitOrderPickup, Shipping deliveryOrderShipping, Pickup pickupOrderPickup) {
+    public Order create(User user, Payment payment, PurchaseOrderDto purchaseOrderDto, PostOrderDto.Request request) {
 
-        Order order = this.orderMapper.toOrder(purchaseOrderDto, payment, user, shippingOrderShipping, visitOrderPickup,
-                deliveryOrderShipping, pickupOrderPickup);
+        Order order = this.orderMapper.toOrder(purchaseOrderDto, payment, user, null, null, null, null);
+
+        for (ShippingOrder shippingOrder : order.getShippingOrders()) {
+            for (ShippingOrderItem shippingOrderItem : shippingOrder.getShippingOrderItems()) {
+                for (ShippingOrderSelectedOption shippingOrderSelectedOption : shippingOrderItem
+                        .getShippingOrderSelectedOptions()) {
+
+                    Shipping shipping = this.shippingService.create(request.getShippingRecipientInfo().getRecipient(),
+                            request.getShippingRecipientInfo().getAddress(),
+                            request.getShippingRecipientInfo().getMobile(),
+                            request.getShippingRecipientInfo().getRequests());
+                    shippingOrderSelectedOption.setShipping(shipping);
+                }
+            }
+        }
+        for (VisitOrder visitOrder : order.getVisitOrders()) {
+            for (PickupOrderItem pickupOrderItem : visitOrder.getPickupOrderItems()) {
+                for (PickupOrderSelectedOption pickupOrderSelectedOption : pickupOrderItem
+                        .getPickupOrderSelectedOptions()) {
+
+                    Pickup pickup = this.pickupService.create(request.getPickupRecipientInfo().getRecipient(),
+                            request.getPickupRecipientInfo().getMobile(),
+                            request.getPickupRecipientInfo().getRequests());
+
+                    pickupOrderSelectedOption.setPickup(pickup);
+                }
+            }
+        }
+        for (DeliveryOrder deliveryOrder : order.getDeliveryOrders()) {
+            for (ShippingOrderItem shippingOrderItem : deliveryOrder.getShippingOrderItems()) {
+                for (ShippingOrderSelectedOption shippingOrderSelectedOption : shippingOrderItem
+                        .getShippingOrderSelectedOptions()) {
+
+                    Shipping shipping = this.shippingService.create(request.getShippingRecipientInfo().getRecipient(),
+                            request.getShippingRecipientInfo().getAddress(),
+                            request.getShippingRecipientInfo().getMobile(),
+                            request.getShippingRecipientInfo().getRequests());
+                    shippingOrderSelectedOption.setShipping(shipping);
+                }
+            }
+        }
+        for (PickupOrder pickupOrder : order.getPickupOrders()) {
+            for (PickupOrderItem pickupOrderItem : pickupOrder.getPickupOrderItems()) {
+                for (PickupOrderSelectedOption pickupOrderSelectedOption : pickupOrderItem
+                        .getPickupOrderSelectedOptions()) {
+
+                    Pickup pickup = this.pickupService.create(request.getPickupRecipientInfo().getRecipient(),
+                            request.getPickupRecipientInfo().getMobile(),
+                            request.getPickupRecipientInfo().getRequests());
+
+                    pickupOrderSelectedOption.setPickup(pickup);
+                }
+            }
+        }
 
         this.orderRepository.save(order);
 

@@ -187,7 +187,7 @@ public class OrderBuyerControllerIntegrationTest extends AbstractIntegrationTest
     @Test
     void testGetVisitAndPickupOrderSelectedOptionByUserAndSelectedOptionId() throws Exception {
         // given
-        String selectedOptionId = "6148b3fe-7fdd-4344-8938-4d938bd23799";
+        String selectedOptionId = "1e314589-ce8a-4969-bbd3-6f47872efaf2";
 
         // when
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
@@ -196,7 +196,7 @@ public class OrderBuyerControllerIntegrationTest extends AbstractIntegrationTest
 
         // then
         result.andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(EasyRestDocumentation.documentWithJwt(
                         "getVisitAndPickupOrderSelectedOptionByUserAndSelectedOptionId",
                         "유저별 방문수령 및 픽업 주문 상세 조회", this.tag));
@@ -270,7 +270,7 @@ public class OrderBuyerControllerIntegrationTest extends AbstractIntegrationTest
     @Test
     void testGetShippingAndDeliveryOrderSelectedOptionByUserAndSelectedOptionId() throws Exception {
         // given
-        String selectedOptionId = "6148b3fe-7fdd-4344-8938-4d938bd23799";
+        String selectedOptionId = "0bce3726-9a14-4d4c-b07d-641d3c2bf48a";
 
         // when
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
