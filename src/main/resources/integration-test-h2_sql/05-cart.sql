@@ -1,10 +1,10 @@
-INSERT INTO cart(id, cart_type) VALUES (1, 'SHIPPING_VISIT');
-INSERT INTO cart(id, cart_type) VALUES (2, 'DELIVERY_PICKUP');
-INSERT INTO cart(id, cart_type) VALUES (3, 'RESERVATION');
+INSERT INTO cart(id, cart_type, user_id) VALUES (1, 'SHIPPING_VISIT', UUID '672ffb8c-f952-49ec-b65b-4fe3a9c37b28');
+INSERT INTO cart(id, cart_type, user_id) VALUES (2, 'DELIVERY_PICKUP', UUID '672ffb8c-f952-49ec-b65b-4fe3a9c37b28');
+INSERT INTO cart(id, cart_type, user_id) VALUES (3, 'RESERVATION', UUID '672ffb8c-f952-49ec-b65b-4fe3a9c37b28');
 
 ---
 
-INSERT INTO cart_item(id, send_type, is_deleted, cart_id, item_id) VALUES (UUID'b735da9e-b59a-4caf-80a9-2c894773e447', 'SHIPPING', 0, 1, UUID'169f84f8-8862-477c-ad27-0b79871deb27');
+INSERT INTO cart_item(id, send_type, is_deleted, cart_id, item_id, user_id) VALUES (UUID'b735da9e-b59a-4caf-80a9-2c894773e447', 'SHIPPING', 0, 1, UUID'169f84f8-8862-477c-ad27-0b79871deb27', UUID '672ffb8c-f952-49ec-b65b-4fe3a9c37b28');
 
 INSERT INTO selected_option(id, count, is_deleted, cart_item_id) VALUES (UUID'3b711052-5160-4571-9c19-51698066ad34', 1, 0, UUID'b735da9e-b59a-4caf-80a9-2c894773e447');
 
@@ -24,7 +24,7 @@ INSERT INTO cart_option(id, count, cart_option_group_id, option_id) VALUES (UUID
 
 ---
 
-INSERT INTO cart_item(id, send_type, is_deleted, cart_id, item_id) VALUES (UUID'46ac3f0d-c57f-4878-86ec-e0bea0a88fd6', 'DELIVERY', 0, 2, UUID'1523bc68-e8f7-4140-b7dd-cbfe622e068a');
+INSERT INTO cart_item(id, send_type, is_deleted, cart_id, item_id, user_id) VALUES (UUID'46ac3f0d-c57f-4878-86ec-e0bea0a88fd6', 'DELIVERY', 0, 2, UUID'1523bc68-e8f7-4140-b7dd-cbfe622e068a', UUID '672ffb8c-f952-49ec-b65b-4fe3a9c37b28');
 
 INSERT INTO selected_option(id, count, is_deleted, cart_item_id) VALUES (UUID'b998c70d-11c9-4903-bdab-9f698c93d83e', 1, 0, UUID'46ac3f0d-c57f-4878-86ec-e0bea0a88fd6');
 
@@ -36,7 +36,7 @@ INSERT INTO cart_option(id, count, cart_option_group_id, option_id) VALUES (UUID
 
 -- 카트에 예약 상품 등록
 
-INSERT INTO cart_item(id, send_type, is_deleted, cart_id, item_id) VALUES (UUID'0ceda629-b012-45c4-bdf9-6e5787ba4e62', 'RESERVATION', 0, 3, UUID'82cdc2eb-5ee8-4bde-8e32-654054b7fc16');
+INSERT INTO cart_item(id, send_type, is_deleted, cart_id, item_id, user_id) VALUES (UUID'0ceda629-b012-45c4-bdf9-6e5787ba4e62', 'RESERVATION', 0, 3, UUID'82cdc2eb-5ee8-4bde-8e32-654054b7fc16', UUID '672ffb8c-f952-49ec-b65b-4fe3a9c37b28');
 
 INSERT INTO cart_reservation_item(id, day_of_week, guest_email, guest_name, guest_phone_number, reservation_date, reservation_headcount, reservation_requirement, cart_item_id) VALUES (1, 'MONDAY', 'abc_12@tmax.co.kr', '김맥스', '010-1234-5678', '2022-08-08 20:00:00', 36, '50인분 같은 36인분 부탁이요 ~', UUID'0ceda629-b012-45c4-bdf9-6e5787ba4e62');
 
