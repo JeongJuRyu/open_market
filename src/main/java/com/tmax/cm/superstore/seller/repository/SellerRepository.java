@@ -18,7 +18,6 @@ public interface SellerRepository extends JpaRepository<Seller, UUID> {
 
 	List<Seller> findAll();
 
-
 	@Query(value = "SELECT * FROM SELLER AS S JOIN ITEM I ON I.SELLER_SELLER_ID = S.SELLER_ID "
 		+ "JOIN SHIPPING_ORDER_ITEM AS SOI ON SOI.ITEM_ID = I.ID WHERE I.ID = :itemId" , nativeQuery = true)
 	Optional<Seller> findForShippingOrderInquiry(UUID itemId);
@@ -26,9 +25,5 @@ public interface SellerRepository extends JpaRepository<Seller, UUID> {
 	@Query(value = "SELECT * FROM SELLER AS S JOIN ITEM I ON I.SELLER_SELLER_ID = S.SELLER_ID "
 		+ "JOIN PICKUP_ORDER_ITEM AS SOI ON SOI.ITEM_ID = I.ID WHERE I.ID = :itemId" , nativeQuery = true)
 	Optional<Seller> findForPickupOrderInquiry(UUID itemId);
-
-	@Query(value = "SELECT * FROM SELLER AS S JOIN ITEM I ON I.SELLER_SELLER_ID = S.SELLER_ID "
-		+ "JOIN REVIEW AS R ON I.ID = R.ITEM_ID WHERE S.SELLER_ID = :sellerId", nativeQuery = true)
-	List<Review> findForSellerReviewWithItem(UUID sellerId);
 
 }

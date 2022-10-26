@@ -77,7 +77,9 @@ public class ReviewController {
 	@GetMapping("/seller")
 	public ResponseEntity<ResponseDto<GetAllReviewForSellerResponseDto>> getAllReviewForSeller(
 		@RequestParam UUID sellerId,
-		@RequestParam Float starRating){
+		@RequestParam(defaultValue = "0.0") String starRating){
 		return ResponseEntity.ok().body(reviewService.getAllReviewForSeller(sellerId, starRating));
 	}
+
+
 }
