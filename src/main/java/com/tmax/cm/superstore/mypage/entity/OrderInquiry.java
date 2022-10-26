@@ -18,6 +18,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import com.tmax.cm.superstore.common.entity.BaseTimeEntity;
 import com.tmax.cm.superstore.item.entity.Item;
+import com.tmax.cm.superstore.mypage.dto.PostOrderInquiryReplyRequestDto;
 import com.tmax.cm.superstore.mypage.dto.UpdateOrderInquiryRequestDto;
 import com.tmax.cm.superstore.order.entity.PickupOrderItem;
 import com.tmax.cm.superstore.order.entity.PickupOrderSelectedOption;
@@ -65,18 +66,21 @@ public class OrderInquiry extends BaseTimeEntity {
 	@JoinColumn()
 	private User user;
 
-	@OneToOne(mappedBy = "orderInquiry", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToOne(fetch = FetchType.EAGER, mappedBy = "orderInquiry", cascade = CascadeType.ALL, orphanRemoval = true)
 	private OrderInquiryReply orderInquiryReply;
 
 	public void updateOrderInquiry(UpdateOrderInquiryRequestDto dto){
 		this.content = dto.getContent();
 	}
 
-	public void postOrderInquiryReply(OrderInquiryReply orderInquiryReply) {
-		this.orderInquiryReply = orderInquiryReply;
+	public void postOrderInquiryReply(PostOrderInquiryReplyRequestDto dto) {
+		this.orderInquiryReply = OrderInquiryReply.builder()
+			.id(UUID.randomUUID())
+			.orderInquiry(this)
+			.content(dto.getContent()).build();
 	}
 
-	public void deleteOrderInquiryReply(){
+	public void deleteOrderInquiryReply(OrderInquiryReply orderInquiryReply){
 		this.orderInquiryReply = null;
 	}
 }

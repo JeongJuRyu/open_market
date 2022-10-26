@@ -90,13 +90,6 @@ public class Review extends BaseTimeEntity {
 				.build();
 	}
 
-	public void updateReviewReply(UpdateReviewReplyRequestDto dto) {
-		this.reviewReply = ReviewReply.ReviewReplyBuilder()
-				.review(this)
-				.content(dto.getContent())
-				.build();
-	}
-
 	public void deleteReviewReply() {
 		this.reviewReply = null;
 	}

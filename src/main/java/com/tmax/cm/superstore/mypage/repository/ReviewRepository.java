@@ -19,13 +19,15 @@ public interface ReviewRepository extends JpaRepository<Review, UUID> {
     @Query("select r from Review r where r.user.id = :userId")
     List<Review> findByUserId(UUID userId);
 
+    @Query("select r from Review r join fetch r.reviewReply where r.id = :id")
+    Optional<Review> findByIdWithReply(UUID id);
 
     List<Review> findByItem(Item item);
 
     @Query(value = "select r from Review r where r.createdAt >= :localDateTime")
     List<Review> findAllBySellerId(LocalDateTime localDateTime);
 
-    @Query(value = "SELECT * FROM Review r join shipping_order_selected_option where r.shipping_order_selected_option_id = :shippingOrderSelectedOptionId", nativeQuery = true)
+    @Query(value = "select * from review r join shipping_order_selected_option where r.shipping_order_selected_option_id = :shippingOrderSelectedOptionId", nativeQuery = true)
     Optional<Review> findByShippingOrderSelectedOption(UUID shippingOrderSelectedOptionId);
 
     Optional<Review> findByPickupOrderSelectedOption(UUID pickupOrderSelectedOptionId);
