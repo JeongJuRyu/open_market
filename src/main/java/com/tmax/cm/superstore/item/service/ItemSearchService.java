@@ -8,6 +8,7 @@ import com.tmax.cm.superstore.item.dto.mapper.GetItemAllDtoMapper;
 import com.tmax.cm.superstore.item.entity.Item;
 import com.tmax.cm.superstore.item.error.exception.ItemNotFoundException;
 import com.tmax.cm.superstore.item.repository.ItemRepository;
+import com.tmax.cm.superstore.item.repository.ItemSearchRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,13 +19,14 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class ItemSearchService {
-    private final ItemRepository itemRepository;
+    private final ItemSearchRepository itemSearchRepository;
     private final ItemService itemService;
     private final GetItemAllByCategoryDtoMapper getItemAllByCategoryDtoMapper;
     private final GetItemAllDtoMapper getItemAllDtoMapper;
+
     @Transactional
     public GetItemAllByCategoryDto.Response searchItemByName(String name){
-        List<Item> items = itemRepository.findByNameContaining(name);
+        List<Item> items = itemSearchRepository.findByNameContaining(name);
 
         if (items.isEmpty()){
             throw new ItemNotFoundException();
@@ -44,8 +46,7 @@ public class ItemSearchService {
         for (ItemState state : itemState) {
             itemStateString.add(state.toString());
         }
-
-        List<Item> items = itemRepository.findByKeyword(name, parentCategoryId, itemStateString);
+        List<Item> items = itemSearchRepository.findByKeywordAndCategoryAndItemState(name, parentCategoryId, itemStateString);
         if (items.isEmpty()){
             throw new ItemNotFoundException();
         }

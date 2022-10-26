@@ -62,14 +62,15 @@ public interface GetItemDtoMapper {
         return sendTypes;
     }
 
-    @Mapping(target = "optionGroupId", source = "id")
-    @Mapping(target = "optionGroupName", source = "name")
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "name", source = "name")
+    @Mapping(target = "isNecessary", source = "isNecessary")
     GetItemDto.Response.GetOptionGroupDto toGetOptionDto(OptionGroup optionGroup);
 
-    @Mapping(target = "optionId", source = "id")
-    @Mapping(target = "optionName", source = "name")
-    @Mapping(target = "optionPrice", source = "price")
-    @Mapping(target = "optionDescription", source = "description")
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "name", source = "name")
+    @Mapping(target = "price", source = "price")
+    @Mapping(target = "description", source = "description")
     GetItemDto.Response.GetOptionGroupDto.GetOptionDto toGetOptionDto(Option option);
 
     @Mapping(target = "fileId", source = "fileId")
