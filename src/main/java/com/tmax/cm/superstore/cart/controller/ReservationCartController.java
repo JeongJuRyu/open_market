@@ -5,6 +5,7 @@ import com.tmax.cm.superstore.cart.service.CartService;
 import com.tmax.cm.superstore.cart.service.reservationCart.ReservationCartItemService;
 import com.tmax.cm.superstore.cart.service.reservationCart.ReservationCartService;
 import com.tmax.cm.superstore.common.ResponseDto;
+import com.tmax.cm.superstore.reservation.dto.MakeReservationDto;
 import com.tmax.cm.superstore.user.entities.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -40,13 +41,18 @@ public class ReservationCartController {
 		return ResponseEntity.ok().body(reservationCartItemService.find(user, reservationCartItemId));
 	}
 
+	@PostMapping("/make/{reservationCartItemId}")
+	public ResponseEntity<ResponseDto<MakeReservationDto.Response>> postCartReservation(@AuthenticationPrincipal User user, @PathVariable
+		UUID reservationCartItemId, @Valid @RequestBody MakeReservationDto.Request makeReservationRequestDto) throws Exception{
+		return ResponseEntity.ok().body(reservationCartItemService.makeReservation(user, reservationCartItemId, makeReservationRequestDto));
+	}
+
 	@PatchMapping("/update/{reservationCartItemId}")
 	public ResponseEntity<ResponseDto<PatchReservationCartItem.Response>> patchUpdateCartItem(@AuthenticationPrincipal User user, @PathVariable
 		UUID reservationCartItemId, @Valid @RequestBody PatchReservationCartItem.Request patchReservationCartItemRequestDto) throws Exception{
 		return ResponseEntity.ok().body(reservationCartItemService.update(user, reservationCartItemId, patchReservationCartItemRequestDto));
 	}
 
-	//삭제
 	@DeleteMapping("/delete/{reservationCartItemId}")
 	public ResponseEntity<ResponseDto<DeleteReservationCartItem.Response>> deleteCartItem(@AuthenticationPrincipal User user, @PathVariable UUID reservationCartItemId) throws Exception{
 		return ResponseEntity.ok().body(reservationCartItemService.delete(user, reservationCartItemId));

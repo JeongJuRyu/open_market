@@ -7,18 +7,16 @@ import com.tmax.cm.superstore.cart.entity.reservationCart.ReservationCartItem;
 import com.tmax.cm.superstore.cart.error.exception.InvalidReservationCartId;
 import com.tmax.cm.superstore.cart.repository.reservationCart.CartReservationInfoRepository;
 import com.tmax.cm.superstore.cart.repository.reservationCart.ReservationCartItemRepository;
-import com.tmax.cm.superstore.cart.repository.reservationCart.ReservationCartRepository;
 import com.tmax.cm.superstore.code.CartType;
 import com.tmax.cm.superstore.code.ResponseCode;
 import com.tmax.cm.superstore.common.ResponseDto;
+import com.tmax.cm.superstore.reservation.dto.MakeReservationDto;
 import com.tmax.cm.superstore.reservation.entity.ReservationItem;
 import com.tmax.cm.superstore.reservation.entity.ReservationItemOption;
-import com.tmax.cm.superstore.reservation.error.exception.ReservationItemAlreadyDeletedException;
-import com.tmax.cm.superstore.reservation.error.exception.ReservationItemNotFoundException;
-import com.tmax.cm.superstore.reservation.error.exception.ReservationItemOptionAlreadyDeletedException;
-import com.tmax.cm.superstore.reservation.error.exception.ReservationItemOptionNotFoundException;
+import com.tmax.cm.superstore.reservation.error.exception.*;
 import com.tmax.cm.superstore.reservation.repository.ReservationItemOptionRepository;
 import com.tmax.cm.superstore.reservation.repository.ReservationItemRepository;
+import com.tmax.cm.superstore.reservation.service.ReservationService;
 import com.tmax.cm.superstore.user.entities.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,11 +32,11 @@ public class ReservationCartItemService {
 	private final ReservationItemRepository reservationItemRepository;
 	private final ReservationItemOptionRepository reservationItemOptionRepository;
 
-	private final ReservationCartRepository reservationCartRepository;
 	private final CartReservationInfoRepository cartReservationInfoRepository;
 	private final ReservationCartItemRepository reservationCartItemRepository;
 
 	private final ReservationCartService reservationCartService;
+	private final ReservationService reservationService;
 
 	@Transactional(rollbackFor = Exception.class)
 	public ResponseDto<PostReservationCartItemDto.Response> create(
@@ -96,10 +94,7 @@ public class ReservationCartItemService {
 	public ResponseDto<GetReservationCartItemDto.Response> find(User user, UUID reservationCartItemId)
 		throws Exception {
 		try {
-			ReservationCart reservationCart = reservationCartService.readReservationCart(user, CartType.RESERVATION);
-			ReservationCartItem findReservationCartItem = reservationCartItemRepository.findReservationCartItemById(
-				reservationCartItemId);
-			reservationCartValidation(reservationCart, findReservationCartItem);
+			ReservationCartItem findReservationCartItem = CartValidation(user, reservationCartItemId);
 			return ResponseDto.<GetReservationCartItemDto.Response>builder()
 				.responseCode(ResponseCode.CART_RESERVATION_ITEM_READ)
 				.data(GetReservationCartItemDto.Response.builder(findReservationCartItem).build())
@@ -111,13 +106,29 @@ public class ReservationCartItemService {
 	}
 
 	@Transactional(rollbackFor = Exception.class)
+	public ResponseDto<MakeReservationDto.Response> makeReservation(User user, UUID reservationCartItemId,
+		MakeReservationDto.Request makeReservationRequestDto) throws Exception {
+		try {
+			ReservationCartItem findReservationCartItem = CartValidation(user, reservationCartItemId);
+			verifyMakeReservationRequestDto(makeReservationRequestDto, findReservationCartItem);
+
+			ResponseDto<MakeReservationDto.Response> response = reservationService.makeReservation(user,
+				makeReservationRequestDto);
+			findReservationCartItem.delete();
+			reservationCartItemRepository.save(findReservationCartItem);
+			return response;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Transactional(rollbackFor = Exception.class)
 	public ResponseDto<PatchReservationCartItem.Response> update(User user, UUID reservationCartItemId,
 		PatchReservationCartItem.Request patchReservationCartItemRequestDto) throws Exception {
 		try {
-			ReservationCart reservationCart = reservationCartService.readReservationCart(user, CartType.RESERVATION);
-			ReservationCartItem findReservationCartItem = reservationCartItemRepository.findReservationCartItemById(
-				reservationCartItemId);
-			reservationCartValidation(reservationCart, findReservationCartItem);
+			ReservationCartItem findReservationCartItem = CartValidation(user, reservationCartItemId);
+
 			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
 				patchReservationCartItemRequestDto.getReservationItemId());
 			findReservationItemValidation(findReservationItem);
@@ -145,10 +156,7 @@ public class ReservationCartItemService {
 	public ResponseDto<DeleteReservationCartItem.Response> delete(User user, UUID reservationCartItemId)
 		throws Exception {
 		try {
-			ReservationCart reservationCart = reservationCartService.readReservationCart(user, CartType.RESERVATION);
-			ReservationCartItem findReservationCartItem = reservationCartItemRepository.findReservationCartItemById(
-				reservationCartItemId);
-			reservationCartValidation(reservationCart, findReservationCartItem);
+			ReservationCartItem findReservationCartItem = CartValidation(user, reservationCartItemId);
 			findReservationCartItem.delete();
 			reservationCartItemRepository.save(findReservationCartItem);
 
@@ -186,6 +194,37 @@ public class ReservationCartItemService {
 			throw new ReservationItemOptionNotFoundException();
 		} else if (reservationItemOption.isDeleted()) {
 			throw new ReservationItemOptionAlreadyDeletedException();
+		}
+	}
+
+	private ReservationCartItem CartValidation(User user, UUID reservationCartItemId) {
+		ReservationCart reservationCart = reservationCartService.readReservationCart(user, CartType.RESERVATION);
+		ReservationCartItem findReservationCartItem = reservationCartItemRepository.findReservationCartItemById(
+			reservationCartItemId);
+		reservationCartValidation(reservationCart, findReservationCartItem);
+		return findReservationCartItem;
+	}
+
+	private void verifyMakeReservationRequestDto(MakeReservationDto.Request makeReservationRequestDto,
+		ReservationCartItem findReservationCartItem) {
+		MakeReservationDto.Request verifyRequestDto = MakeReservationDto.Request.builder()
+			.reservationTime(findReservationCartItem.getCartReservationInfo().getReservationTime())
+			.numberOfPeople(findReservationCartItem.getCartReservationInfo().getNumberOfPeople())
+			.customerRequest(findReservationCartItem.getCartReservationInfo().getCustomerRequest())
+			.reservationItemId(findReservationCartItem.getReservationItem().getReservationItemId())
+			.reservationItemOptionId(findReservationCartItem.getReservationItemOption().getOptionId()).build();
+
+		if (!verifyRequestDto.getReservationTime().equals(makeReservationRequestDto.getReservationTime())) {
+			throw new InvalidMakeReservationRequestException();
+		} else if (!verifyRequestDto.getNumberOfPeople().equals(makeReservationRequestDto.getNumberOfPeople())) {
+			throw new InvalidMakeReservationRequestException();
+		} else if (!verifyRequestDto.getCustomerRequest().equals(makeReservationRequestDto.getCustomerRequest())) {
+			throw new InvalidMakeReservationRequestException();
+		} else if (!verifyRequestDto.getReservationItemId().equals(makeReservationRequestDto.getReservationItemId())) {
+			throw new InvalidMakeReservationRequestException();
+		} else if (!verifyRequestDto.getReservationItemOptionId()
+			.equals(makeReservationRequestDto.getReservationItemOptionId())) {
+			throw new InvalidMakeReservationRequestException();
 		}
 	}
 
