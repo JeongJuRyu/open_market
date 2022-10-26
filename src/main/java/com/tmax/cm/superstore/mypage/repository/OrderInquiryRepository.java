@@ -22,7 +22,7 @@ public interface OrderInquiryRepository extends JpaRepository<OrderInquiry, UUID
 
 	Optional<OrderInquiry> findByPickupOrderSelectedOption(PickupOrderSelectedOption pickupOrderSelectedOption);
 
-	@Query(value = "selet * from order_inquiry as ui join shipping_order_selected_option as soso on oi.shipping_order_selected_option_id = soso.id "
+	@Query(value = "select * from order_inquiry as oi join shipping_order_selected_option as soso on oi.shipping_order_selected_option_id = soso.id "
 		+ "join seller as s on s.seller_id = soso.seller_seller_id "
 		+ "where s.seller_id = :sellerId", nativeQuery = true)
 	List<OrderInquiry> findForSellerOrderInquiryOfShipping(UUID sellerId);
