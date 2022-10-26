@@ -28,13 +28,21 @@ public interface GetWishlistGroupAllDtoMapper {
         return wishlistGroup.getWishlistItems().size();
     }
 
+    default String getFileId(WishlistGroup wishlistGroup) {
+        if(wishlistGroup.getWishlistItems().isEmpty())
+            return null;
+        if(wishlistGroup.getWishlistItems().get(0).getItem().getItemImages().isEmpty())
+            return null;
+        return wishlistGroup.getWishlistItems().get(0).getItem().getItemImages().get(0).getFileId();
+    }
+
     default GetWishlistGroupAllDto.Response.GetWishlistGroupsDto toWishlistGroupDtos(WishlistGroup wishlistGroup) {
-        return this.toWishlistGroupDto(wishlistGroup, getTotalItems(wishlistGroup));
+        return this.toWishlistGroupDto(wishlistGroup, getTotalItems(wishlistGroup), getFileId(wishlistGroup));
     }
 
     @Mapping(target = "wishlistGroupId", source = "wishlistGroup.id")
     @Mapping(target = "wishlistGroupName", source = "wishlistGroup.name")
-    @Mapping(target = "wishlistGroupThumbnailURL", ignore = true)
+    @Mapping(target = "wishlistGroupThumbnailURL", source = "fileId")
     @Mapping(target = "totalItemCount", source = "count")
-    GetWishlistGroupAllDto.Response.GetWishlistGroupsDto toWishlistGroupDto(WishlistGroup wishlistGroup, Integer count);
+    GetWishlistGroupAllDto.Response.GetWishlistGroupsDto toWishlistGroupDto(WishlistGroup wishlistGroup, Integer count, String fileId);
 }
