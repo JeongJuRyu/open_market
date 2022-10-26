@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -37,8 +38,14 @@ public class ItemSearchService {
     }
 
     @Transactional
-    public GetItemAllDto.Response searchItemByFilter(String name,  Long categoryId, List<ItemState> itemState){
-        List<Item> items = itemRepository.findByKeyword(name, categoryId, itemState);
+    public GetItemAllDto.Response searchItemByFilter(String name,  Long parentCategoryId, List<ItemState> itemState){
+        List<String> itemStateString = new ArrayList<>();
+
+        for (ItemState state : itemState) {
+            itemStateString.add(state.toString());
+        }
+
+        List<Item> items = itemRepository.findByKeyword(name, parentCategoryId, itemStateString);
         if (items.isEmpty()){
             throw new ItemNotFoundException();
         }
