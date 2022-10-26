@@ -1,0 +1,20 @@
+INSERT INTO shipping (id, address, mobile, recipient, requests, shipping_type) VALUES(0x0ECEEC16CDAB4885A552066E2DF2E3AD, '오리 연구소', '010-1234-5678', '김맥스', '문 앞', 'SHIPPING_WAITING');
+INSERT INTO shipping (id, address, mobile, recipient, requests, shipping_type) VALUES(0x2A39A689B011441DA7190CE4754BAA4C, '미금 연구소', '010-1234-5678', '김맥스', '문 앞', 'SHIPPING_WAITING');
+INSERT INTO shipping (id, address, mobile, recipient, requests, shipping_type) VALUES(0x4CC1F796536211EDBDC30242AC120002, '수내타워', '010-1234-4321', '이맥스', '뒷 문', 'SHIPPING_WAITING');
+INSERT INTO shipping (id, address, mobile, recipient, requests, shipping_type) VALUES(0xF0B09F61DF3A477E9870754D50FD0D95, '예미지타워', '010-2234-4321', '박맥스', '정 문', 'SHIPPING_WAITING');
+INSERT INTO shipping (id, address, mobile, recipient, requests, shipping_type) VALUES(0x1036E8642A2E495486AC281AED3D1AB6, '창솔아파트', '010-0234-4321', '류맥스', '후 문', 'SHIPPING_WAITING');
+INSERT INTO shipping (id, address, mobile, recipient, requests, shipping_type) VALUES(0x538261AB25A0497C9B1BC644CA064477, '오리 연구소', '010-1234-5678', '김맥스', '문 앞', 'SHIPPING_WAITING');
+INSERT INTO shipping (id, address, mobile, recipient, requests, shipping_type) VALUES(0xA83A3E85CD244D829FFE5524B7356D36, '미금 연구소', '010-1234-5678', '김맥스', '문 앞', 'SHIPPING_WAITING');
+INSERT INTO shipping (id, address, mobile, recipient, requests, shipping_type) VALUES(0x9EEEEA4EB2394AFABECAD33CD9E3715D, '오리 연구소', '010-1234-5678', '김맥스', '문 앞', 'SHIPPING_WAITING');
+INSERT INTO shipping (id, address, mobile, recipient, requests, shipping_type) VALUES(0xB77E6154CF134A21BE95A05A2137E35F, '미금 연구소', '010-1234-5678', '김맥스', '문 앞', 'SHIPPING_WAITING');
+
+INSERT INTO pickup (id, mobile, pickup_type, recipient, requests) VALUES(0x06F6AF3482C2483C9D76632D74EE091A, '010-3091-1920', 'PICKUP_WAITING', '박맥스', '맛있게 볶아 주세요');
+INSERT INTO pickup (id, mobile, pickup_type, recipient, requests) VALUES(0xC47AFF1AEA354C78981A5CEB2A8B4069, '010-7217-2199', 'PICKUP_WAITING', '김맥스', '맛있게 만들어 주세요');
+INSERT INTO pickup (id, mobile, pickup_type, recipient, requests) VALUES(0x507807E380084E93A409AEB75E8B66FF, '010-1299-1279', 'PICKUP_WAITING', '이맥스', '맛있게 튀겨 주세요');
+INSERT INTO pickup (id, mobile, pickup_type, recipient, requests) VALUES(0x71A113200E7F4A34B29783D10DD7111C, '010-3091-1921', 'PICKUP_WAITING', '한맥스', '맛있게 구워 주세요');
+INSERT INTO pickup (id, mobile, pickup_type, recipient, requests) VALUES(0x9B95B0309ED04D7AAC964A81964D5B47, '010-3091-1922', 'PICKUP_WAITING', '최맥스', '30분까지 갈게요');
+INSERT INTO pickup (id, mobile, pickup_type, recipient, requests) VALUES(0x07934B3344194CA5A24201D61190C3AA, '010-3091-1923', 'PICKUP_WAITING', '류맥스', '정각까지 갈게요');
+INSERT INTO pickup (id, mobile, pickup_type, recipient, requests) VALUES(0x2A5657A2FA50475599E4122B2CDED65D, '010-1234-5678', 'PICKUP_WAITING', '김맥스', '문 앞');
+INSERT INTO pickup (id, mobile, pickup_type, recipient, requests) VALUES(0x841E6F30C3494E2D83F7802A878474E9, '010-1234-5678', 'PICKUP_WAITING', '김맥스', '문 앞');
+INSERT INTO pickup (id, mobile, pickup_type, recipient, requests) VALUES(0x761252201DDD4DE4BCB8944CE78A467B, '010-1234-5678', 'PICKUP_WAITING', '김맥스', '문 앞');
+INSERT INTO pickup (id, mobile, pickup_type, recipient, requests) VALUES(0xE0E74047F83D4A669AE2925EF23C1819, '010-1234-5678', 'PICKUP_WAITING', '김맥스', '문 앞');

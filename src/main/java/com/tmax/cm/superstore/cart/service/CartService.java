@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.tmax.cm.superstore.cart.entity.Cart;
 import com.tmax.cm.superstore.cart.repository.CartRepository;
 import com.tmax.cm.superstore.code.CartType;
+import com.tmax.cm.superstore.user.entities.User;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,10 +20,11 @@ public class CartService {
     private final CartRepository cartRepository;
 
     @Transactional
-    public Cart createCart(CartType cartType) {
+    public Cart createCart(User user, CartType cartType) {
         Cart cart = Cart.builder()
                 .cartType(cartType)
                 .cartItems(new ArrayList<>())
+                .user(user)
                 .build();
 
         this.cartRepository.save(cart);
@@ -31,12 +33,12 @@ public class CartService {
     }
 
     @Transactional
-    public Cart readCart(CartType cartType) {
+    public Cart readCart(User user, CartType cartType) {
 
-        Cart cart = this.cartRepository.findTopByCartType(cartType);
+        Cart cart = this.cartRepository.findTopByUserAndCartType(user, cartType);
 
         if (cart == null) {
-            cart = this.createCart(cartType);
+            cart = this.createCart(user, cartType);
         }
 
         return cart;

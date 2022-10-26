@@ -23,9 +23,10 @@ import com.tmax.cm.superstore.cart.service.dto.UpdateCartReservationItemDto;
 import com.tmax.cm.superstore.code.CartType;
 import com.tmax.cm.superstore.code.SendType;
 import com.tmax.cm.superstore.error.exception.CartItemNotFoundException;
-import com.tmax.cm.superstore.item.error.exception.ItemNotFoundException;
 import com.tmax.cm.superstore.item.entity.Item;
+import com.tmax.cm.superstore.item.error.exception.ItemNotFoundException;
 import com.tmax.cm.superstore.item.repository.ItemRepository;
+import com.tmax.cm.superstore.user.entities.User;
 
 import lombok.RequiredArgsConstructor;
 
@@ -41,10 +42,10 @@ public class CartItemService {
     private final SelectedOptionService selectedOptionService;
 
     @Transactional
-    public CartItem create(CreateCartItemDto createCartItemDto) {
+    public CartItem create(User user, CreateCartItemDto createCartItemDto) {
 
         CartType cartType = CartType.findBySendType(createCartItemDto.getSendType());
-        Cart cart = this.cartService.readCart(cartType);
+        Cart cart = this.cartService.readCart(user, cartType);
 
         Item item = this.itemRepository.findById(createCartItemDto.getId()).orElseThrow(ItemNotFoundException::new);
 
@@ -53,6 +54,7 @@ public class CartItemService {
         CartItem cartItem = CartItem.builder()
                 .cart(cart)
                 .item(item)
+                .user(user)
                 .selectedOptions(new ArrayList<>())
                 .sendType(createCartItemDto.getSendType())
                 .build();
@@ -70,9 +72,9 @@ public class CartItemService {
     }
 
     @Transactional
-    public CartItem createCartReservationItem(CreateCartReservationItemDto createCartReservationItemDto) {
+    public CartItem createCartReservationItem(User user, CreateCartReservationItemDto createCartReservationItemDto) {
 
-        Cart cart = this.cartService.readCart(CartType.RESERVATION);
+        Cart cart = this.cartService.readCart(user, CartType.RESERVATION);
 
         Item item = this.itemRepository.findById(createCartReservationItemDto.getItemId())
                 .orElseThrow(ItemNotFoundException::new);
@@ -82,6 +84,7 @@ public class CartItemService {
         CartItem cartItem = CartItem.builder()
                 .cart(cart)
                 .item(item)
+                .user(user)
                 .selectedOptions(new ArrayList<>())
                 .sendType(SendType.RESERVATION)
                 .build();
@@ -116,20 +119,20 @@ public class CartItemService {
     }
 
     @Transactional
-    public CartItem read(UUID cartItemId) {
+    public CartItem read(User user, UUID cartItemId) {
 
-        return this.cartItemRepository.findById(cartItemId).orElseThrow(CartItemNotFoundException::new);
+        return this.cartItemRepository.findByIdAndUser(cartItemId, user).orElseThrow(CartItemNotFoundException::new);
     }
 
     @Transactional
-    public List<CartItem> read(List<UUID> cartItemIds) {
-        return this.cartItemRepository.findByIdIn(cartItemIds);
+    public List<CartItem> read(User user, List<UUID> cartItemIds) {
+        return this.cartItemRepository.findByUserAndIdIn(user, cartItemIds);
     }
 
     @Transactional
-    public void updateCartReservationItem(UUID cartItemId, UpdateCartReservationItemDto updateCartReservationItemDto) {
+    public void updateCartReservationItem(User user, UUID cartItemId, UpdateCartReservationItemDto updateCartReservationItemDto) {
 
-        CartItem cartItem = this.cartItemRepository.findById(cartItemId)
+        CartItem cartItem = this.cartItemRepository.findByIdAndUser(cartItemId, user)
                 .orElseThrow(CartItemNotFoundException::new);
 
         for (SelectedOption previousSelectedOption : cartItem.getSelectedOptions()) {
@@ -158,9 +161,9 @@ public class CartItemService {
     }
 
     @Transactional
-    public void update(UUID cartItemId, UpdateCartItemDto updateCartItemDto) {
+    public void update(User user, UUID cartItemId, UpdateCartItemDto updateCartItemDto) {
 
-        CartItem cartItem = this.cartItemRepository.findById(cartItemId)
+        CartItem cartItem = this.cartItemRepository.findByIdAndUser(cartItemId, user)
                 .orElseThrow(CartItemNotFoundException::new);
 
         for (SelectedOption previousSelectedOption : cartItem.getSelectedOptions()) {
@@ -181,9 +184,9 @@ public class CartItemService {
     }
 
     @Transactional
-    public void delete(DeleteCartItemsDto deleteCartItemsServiceDto) {
+    public void delete(User user, DeleteCartItemsDto deleteCartItemsServiceDto) {
         for (UUID cartItemId : deleteCartItemsServiceDto.getCartItemIds()) {
-            CartItem cartItem = this.cartItemRepository.findById(cartItemId)
+            CartItem cartItem = this.cartItemRepository.findByIdAndUser(cartItemId, user)
                     .orElseThrow(CartItemNotFoundException::new);
 
             this.cartItemRepository.delete(cartItem);

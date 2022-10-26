@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+import com.tmax.cm.superstore.common.entity.BaseTimeEntity;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,7 +31,7 @@ import lombok.Setter;
 @Entity
 @Where(clause = "is_deleted = false")
 @SQLDelete(sql = "UPDATE selected_option SET is_deleted = true WHERE id = ?")
-public class SelectedOption {
+public class SelectedOption extends BaseTimeEntity {
     @Id
     @GeneratedValue
     @Column(columnDefinition = "BINARY(16)")
