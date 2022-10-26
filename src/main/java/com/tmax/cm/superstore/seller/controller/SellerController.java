@@ -30,6 +30,11 @@ public class SellerController {
 		return ResponseEntity.ok().body(sellerService.loginSeller(loginId, password));
 	}
 
+	@GetMapping("/{sellerId}")
+	public ResponseEntity<ResponseDto<FindSellerInfoDto.Response>> findSellerInfo(@PathVariable UUID sellerId) throws Exception{
+		return ResponseEntity.ok().body(sellerService.findSellerInfo(sellerId));
+	}
+
 	@DeleteMapping("/{sellerId}")
 	public ResponseEntity<ResponseDto<DeleteSellerDto.Response>> deleteSeller(@PathVariable UUID sellerId)
 		throws Exception {

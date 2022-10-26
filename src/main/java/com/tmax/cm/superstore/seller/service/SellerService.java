@@ -72,6 +72,22 @@ public class SellerService {
 		}
 	}
 
+	@Transactional(rollbackFor = Exception.class, readOnly = true)
+	public ResponseDto<FindSellerInfoDto.Response> findSellerInfo(UUID sellerId) throws Exception {
+		try {
+			Seller findSeller = sellerRepository.findSellerBySellerId(sellerId);
+			findSellerValidation(findSeller);
+
+			return ResponseDto.<FindSellerInfoDto.Response>builder()
+				.responseCode(ResponseCode.SELLER_INFO_FIND)
+				.data(FindSellerInfoDto.Response.builder(findSeller).build())
+				.build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
 	@Transactional(rollbackFor = Exception.class)
 	public ResponseDto<DeleteSellerDto.Response> deleteSeller(UUID sellerId) throws Exception {
 		try {
@@ -173,6 +189,9 @@ public class SellerService {
 		try {
 			Seller findSeller = sellerRepository.findSellerBySellerId(sellerID);
 			findSellerValidation(findSeller);
+			SellerDelivery findRepresentSellerDelivery = sellerDeliveryRepository.findBySellerIdAndIsRepresentTrue(findSeller);
+			findRepresentSellerDelivery.modifyRepresent();
+			sellerDeliveryRepository.save(findRepresentSellerDelivery);
 			SellerDelivery newSellerDelivery = SellerDelivery.builder(findSeller, createSellerDeliveryRequestDto)
 				.build();
 			sellerDeliveryRepository.save(newSellerDelivery);

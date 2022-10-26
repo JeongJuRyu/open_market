@@ -29,6 +29,7 @@ public class CreateSellerDeliveryDto {
 		private String shipmentAddressDetail;
 		private String returnAddress;
 		private String returnAddressDetail;
+		private Boolean isRepresent;
 
 		public static ResponseBuilder builder(SellerDelivery sellerDelivery) {
 			return ResponseBuilder()
@@ -36,7 +37,8 @@ public class CreateSellerDeliveryDto {
 				.shipmentAddress(sellerDelivery.getShipmentAddress())
 				.shipmentAddressDetail(sellerDelivery.getShipmentAddressDetail())
 				.returnAddress(sellerDelivery.getReturnAddress())
-				.returnAddressDetail(sellerDelivery.getReturnAddressDetail());
+				.returnAddressDetail(sellerDelivery.getReturnAddressDetail())
+				.isRepresent(sellerDelivery.isRepresent());
 		}
 	}
 }
