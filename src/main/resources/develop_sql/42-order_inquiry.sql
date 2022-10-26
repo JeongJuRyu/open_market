@@ -15,8 +15,31 @@ values (
            '2022/09/28 00:00:00',
            '콜라 주문했는데 오지 않았습니다. 환불 가능한가요?',
            false,
-           1,
+           'SHIPPINGANDDELIVERY',
            null,
            UUID_TO_BIN('9c937a70-12cf-4a83-b594-1293b3f994a8'),
+           UUID_TO_BIN('672ffb8c-f952-49ec-b65b-4fe3a9c37b28')
+       );
+
+INSERT INTO order_inquiry (
+    order_inquiry_id,
+    created_at,
+    modified_at,
+    content,
+    is_replied,
+    order_type,
+    pickup_order_selected_option_id,
+    shipping_order_selected_option_id,
+    user_id
+)
+values (
+           UUID_TO_BIN('f31bb36d-bf22-4d4f-b4c2-5d459d3197da'),
+           '2022/09/28 00:00:00',
+           '2022/09/28 00:00:00',
+           '주문한지 일주일 지났는데 아직 배송 전이네요. 언제쯤 출고되나요??',
+           true,
+           'SHIPPINGANDDELIVERY',
+           null,
+           UUID_TO_BIN('6148b3fe-7fdd-4344-8938-4d938bd23799'),
            UUID_TO_BIN('672ffb8c-f952-49ec-b65b-4fe3a9c37b28')
        );

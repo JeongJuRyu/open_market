@@ -49,14 +49,14 @@ public class GetAllReviewResponseDto {
             @Getter
             @Builder
             public static class OrderOptionGroup {
-                private String name;
+                private String optionGroupName;
 
                 private List<OrderOption> orderOptions;
 
                 @Getter
                 @Builder
                 public static class OrderOption {
-                    private String name;
+                    private String optionName;
 
                     private Integer count;
 

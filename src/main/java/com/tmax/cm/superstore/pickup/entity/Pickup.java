@@ -38,9 +38,6 @@ public class Pickup extends BaseTimeEntity {
     @Column(nullable = false)
     private String mobile;
 
-    @Column(nullable = false)
-    private String address;
-
     private String requests;
 
     @Column(nullable = false)
