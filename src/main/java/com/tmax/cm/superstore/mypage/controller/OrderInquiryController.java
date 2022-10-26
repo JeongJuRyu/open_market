@@ -64,7 +64,7 @@ public class OrderInquiryController {
 		return ResponseEntity.ok().body(orderInquiryService.getShippingOrderInquiry(orderInquiryId));
 	}
 
-	@GetMapping("/pickupAndVisit/{pickupOrderSelectedId}")
+	@GetMapping("/visitAndPickup/{pickupOrderSelectedId}")
 	public ResponseEntity<ResponseDto<GetOrderInquiryResponseDto>> getPickupOrderReview(
 		@PathVariable UUID pickupOrderSelectedId){
 		return ResponseEntity.ok().body(orderInquiryService.getPickupOrderInquiry(pickupOrderSelectedId));
