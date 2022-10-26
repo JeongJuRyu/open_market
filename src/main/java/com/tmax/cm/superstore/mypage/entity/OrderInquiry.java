@@ -74,6 +74,7 @@ public class OrderInquiry extends BaseTimeEntity {
 	}
 
 	public void postOrderInquiryReply(PostOrderInquiryReplyRequestDto dto) {
+		this.isReplied = true;
 		this.orderInquiryReply = OrderInquiryReply.builder()
 			.id(UUID.randomUUID())
 			.orderInquiry(this)
@@ -81,6 +82,7 @@ public class OrderInquiry extends BaseTimeEntity {
 	}
 
 	public void deleteOrderInquiryReply(OrderInquiryReply orderInquiryReply){
+		this.isReplied = false;
 		this.orderInquiryReply = null;
 	}
 }
