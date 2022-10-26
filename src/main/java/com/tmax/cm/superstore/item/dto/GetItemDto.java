@@ -64,9 +64,11 @@ public class GetItemDto {
         @Getter
         public static class GetOptionGroupDto {
 
-            private UUID optionGroupId;
+            private UUID id;
 
-            private String optionGroupName;
+            private String name;
+
+            private Boolean isNecessary;
 
             private List<GetOptionDto> options;
 
@@ -74,13 +76,13 @@ public class GetItemDto {
             @Getter
             public static class GetOptionDto {
 
-                private UUID optionId;
+                private UUID id;
 
-                private String optionName;
+                private String name;
 
-                private Integer optionPrice;
+                private Integer price;
 
-                private String optionDescription;
+                private String description;
             }
         }
     }

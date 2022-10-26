@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import javax.transaction.Transactional;
 
+import com.tmax.cm.superstore.item.dto.*;
 import net.bytebuddy.description.field.FieldDescription;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,10 +17,6 @@ import com.tmax.cm.superstore.category.error.exception.CategoryNotFoundException
 import com.tmax.cm.superstore.category.repository.CategoryRepository;
 import com.tmax.cm.superstore.category.service.CategoryService;
 import com.tmax.cm.superstore.code.SendType;
-import com.tmax.cm.superstore.item.dto.FileInfo;
-import com.tmax.cm.superstore.item.dto.GetItemAllByCategoryDto;
-import com.tmax.cm.superstore.item.dto.PostItemDto;
-import com.tmax.cm.superstore.item.dto.UpdateItemDto;
 import com.tmax.cm.superstore.item.dto.mapper.GetItemAllByCategoryDtoMapper;
 import com.tmax.cm.superstore.item.entity.Item;
 import com.tmax.cm.superstore.item.entity.ItemImage;
@@ -138,6 +135,11 @@ public class ItemService {
             }
             return itemList;
         }
+    }
+
+    @Transactional
+    public List<Item> readItemBySeller(UUID sellerId){
+        return this.itemRepository.findBySellerSellerId(sellerId);
     }
 
     @Transactional
