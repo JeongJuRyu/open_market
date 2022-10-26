@@ -17,6 +17,6 @@ values (
            false,
            1,
            null,
-           UUID '9c937a70-12cf-4a83-b594-1293b3f994a8',
+           UUID 'c1fa5a45-ba54-41c3-a689-731166c009ff',
            UUID '672ffb8c-f952-49ec-b65b-4fe3a9c37b28'
        );

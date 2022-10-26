@@ -41,12 +41,8 @@ import com.tmax.cm.superstore.order.service.dto.ReadPickupOrderSelectedOptionDto
 import com.tmax.cm.superstore.order.service.dto.ReadShippingOrderSelectedOptionDto;
 import com.tmax.cm.superstore.payment.entity.Payment;
 import com.tmax.cm.superstore.payment.service.PaymentService;
-import com.tmax.cm.superstore.pickup.entity.Pickup;
-import com.tmax.cm.superstore.pickup.service.PickupService;
 import com.tmax.cm.superstore.purchaseOrder.service.PurchaseOrderService;
 import com.tmax.cm.superstore.purchaseOrder.service.dto.PurchaseOrderDto;
-import com.tmax.cm.superstore.shipping.entity.Shipping;
-import com.tmax.cm.superstore.shipping.service.ShippingService;
 import com.tmax.cm.superstore.user.entities.User;
 
 import lombok.RequiredArgsConstructor;
@@ -60,8 +56,6 @@ public class OrderBuyerController {
     private final PaymentService paymentService;
     private final PurchaseOrderService purchaseOrderService;
     private final CartItemService cartItemService;
-    private final ShippingService shippingService;
-    private final PickupService pickupService;
 
     private final TransactionHandler transactionHandler;
 
@@ -79,36 +73,8 @@ public class OrderBuyerController {
             List<CartItem> cartItems = this.cartItemService.read(user, request.getCartItemIds());
             Payment payment = this.paymentService.create(request);
             PurchaseOrderDto purchaseOrderDto = this.purchaseOrderService.read(cartItems);
-            Shipping shippingOrderShipping = null;
-            Shipping deliveryOrderShipping = null;
-            Pickup visitOrderPickup = null;
-            Pickup pickupOrderPickup = null;
 
-            // TODO refactor: 주문할 상품이 없어도 shipping, pickup이 생성될 수 있음
-            if (request.getShippingRecipientInfo() != null) {
-                shippingOrderShipping = this.shippingService.create(request.getShippingRecipientInfo().getRecipient(),
-                        request.getShippingRecipientInfo().getAddress(), request.getShippingRecipientInfo().getMobile(),
-                        request.getShippingRecipientInfo().getRequests());
-            }
-
-            if (request.getDeliveryRecipientInfo() != null) {
-                deliveryOrderShipping = this.shippingService.create(request.getDeliveryRecipientInfo().getRecipient(),
-                        request.getDeliveryRecipientInfo().getAddress(), request.getDeliveryRecipientInfo().getMobile(),
-                        request.getDeliveryRecipientInfo().getRequests());
-            }
-
-            if (request.getVisitRecipientInfo() != null) {
-                visitOrderPickup = this.pickupService.create(request.getVisitRecipientInfo().getRecipient(),
-                        request.getVisitRecipientInfo().getMobile(), request.getVisitRecipientInfo().getRequests());
-            }
-
-            if (request.getPickupRecipientInfo() != null) {
-                pickupOrderPickup = this.pickupService.create(request.getPickupRecipientInfo().getRecipient(),
-                        request.getPickupRecipientInfo().getMobile(), request.getPickupRecipientInfo().getRequests());
-            }
-
-            this.orderService.create(user, payment, purchaseOrderDto, shippingOrderShipping, visitOrderPickup,
-                    deliveryOrderShipping, pickupOrderPickup);
+            this.orderService.create(user, payment, purchaseOrderDto, request);
 
             this.cartItemService.delete(cartItems);
         });

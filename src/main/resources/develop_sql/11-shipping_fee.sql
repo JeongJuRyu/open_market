@@ -4,6 +4,3 @@ INSERT INTO shipping_fee (id, price) VALUES(3, 5000);
 INSERT INTO shipping_fee (id, price) VALUES(4, 3000);
 INSERT INTO shipping_fee (id, price) VALUES(5, 3000);
 INSERT INTO shipping_fee (id, price) VALUES(6, 3000);
-INSERT INTO shipping_fee (id, price) VALUES(7, 3000);
-INSERT INTO shipping_fee (id, price) VALUES(8, 3000);
-INSERT INTO shipping_fee (id, price) VALUES(9, 3000);
