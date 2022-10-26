@@ -56,6 +56,7 @@ public enum ResponseCode implements Code {
 	SELLER_CREATE("SUCCESS", "SELLER_CREATE", "Create seller", "판매자 계정 생성"),
 	SELLER_LOGIN("SUCCESS", "SELLER_LOGIN", "Login seller", "판매자 계정 로그인"),
 	SELLER_DELETE("SUCCESS", "SELLER_DELETE", "Delete seller", "판매자 계정 회원탈퇴"),
+	SELLER_INFO_FIND("SUCCESS", "SELLER_INFO_FIND", "Find seller Info", "판매자 정보 가져오기"),
 	SELLER_INFO_MODIFY("SUCCESS", "SELLER_INFO_MODIFY", "Modify seller Info", "판매자 정보 수정하기"),
 	SELLER_LIST_FIND("SUCCESS", "SELLER_LIST_FIND", "Find seller List", "판매자 리스트 가져오기"),
 	SELLER_DELIVERY_CREATE("SUCCESS", "SELLER_DELIVERY_CREATE", "Create sellerDelivery", "판매자 배송지 생성"),

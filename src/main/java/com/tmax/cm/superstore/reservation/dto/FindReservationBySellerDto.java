@@ -34,8 +34,12 @@ public class FindReservationBySellerDto {
 			private LocalDateTime reservationTime;
 			private Integer numberOfPeople;
 			private String customerRequest;
+			private UUID reservationItemId;
 			private String reservationItemName;
+			private String reservationItemPrice;
+			private UUID reservationItemOptionId;
 			private String reservationItemOptionName;
+			private String reservationItemOptionPrice;
 
 			public static ReservationListBuilder builder(Optional<User> user, Optional<Reservation> reservation) {
 				return ReservationListBuilder()
@@ -47,8 +51,12 @@ public class FindReservationBySellerDto {
 					.reservationTime(reservation.get().getReservationTime())
 					.numberOfPeople(reservation.get().getNumberOfPeople())
 					.customerRequest(reservation.get().getCustomerRequest())
+					.reservationItemId(reservation.get().getReservationItemId().getReservationItemId())
 					.reservationItemName(reservation.get().getReservationItemId().getReservationItemName())
-					.reservationItemOptionName(reservation.get().getReservationItemOptionId().getOptionName());
+					.reservationItemPrice(reservation.get().getReservationItemId().getReservationItemPrice())
+					.reservationItemOptionId(reservation.get().getReservationItemOptionId().getOptionId())
+					.reservationItemOptionName(reservation.get().getReservationItemOptionId().getOptionName())
+					.reservationItemOptionPrice(reservation.get().getReservationItemOptionId().getOptionPrice());
 			}
 		}
 	}

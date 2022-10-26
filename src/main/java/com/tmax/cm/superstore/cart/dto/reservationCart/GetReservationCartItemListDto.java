@@ -29,8 +29,12 @@ public class GetReservationCartItemListDto {
 		public static class ReservationCartList {
 			private UUID reservationCartId;
 			private UUID reservationCartItemId;
+			private UUID reservationItemId;
 			private String reservationItemName;
+			private String reservationItemPrice;
+			private UUID reservationItemOptionId;
 			private String reservationItemOptionName;
+			private String reservationItemOptionPrice;
 			private SendType sendType;
 			private CartReservationInfoRequest cartReservationInfo;
 
@@ -39,8 +43,12 @@ public class GetReservationCartItemListDto {
 				return ReservationCartListBuilder()
 					.reservationCartId(reservationCartItem.getReservationCartId().getId())
 					.reservationCartItemId(reservationCartItem.getId())
+					.reservationItemId(reservationCartItem.getReservationItem().getReservationItemId())
 					.reservationItemName(reservationCartItem.getReservationItem().getReservationItemName())
+					.reservationItemPrice(reservationCartItem.getReservationItem().getReservationItemPrice())
+					.reservationItemOptionId(reservationCartItem.getReservationItemOption().getOptionId())
 					.reservationItemOptionName(reservationCartItem.getReservationItemOption().getOptionName())
+					.reservationItemOptionPrice(reservationCartItem.getReservationItemOption().getOptionPrice())
 					.sendType(reservationCartItem.getSendType())
 					.cartReservationInfo(
 						CartReservationInfoRequest.builder(reservationCartItem.getCartReservationInfo()).build());
