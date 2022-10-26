@@ -119,8 +119,8 @@ public class ItemController {
     public ResponseDto<GetItemAllDto.Response> searchItemByFilter(@RequestParam(value = "name", required = false)String name,
                                                                   @RequestParam(value = "categoryId") Long categoryId,
                                                                   @RequestParam(value = "itemState", required = false) List<ItemState> itemState) {
-        Long parentCategoryId = categoryService.getParentCategoryId(categoryId);
-        return new ResponseDto<>(ResponseCode.ITEM_READ_ALL, itemSearchService.searchItemByFilter(name, parentCategoryId, itemState));
+        //Long parentCategoryId = categoryService.getParentCategoryId(categoryId);
+        return new ResponseDto<>(ResponseCode.ITEM_READ_ALL, itemSearchService.searchItemByFilter(name, categoryId, itemState));
     }
 
     @GetMapping("/search/keyword")
