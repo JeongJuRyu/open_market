@@ -3,6 +3,7 @@ package com.tmax.cm.superstore.integrationtest;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.ResultActions;
@@ -57,12 +58,13 @@ public class CartControllerIntegrationTest extends AbstractIntegrationTest {
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
                 .post("/v1/cart/cartItem")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(request.toString()));
+                .content(request.toString())
+                .header(HttpHeaders.AUTHORIZATION, this.testJwtGenerator.generate()));
 
         // then
         result.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(EasyRestDocumentation.document("postCartItem", "카트 상품 생성", this.tag));
+                .andDo(EasyRestDocumentation.documentWithJwt("postCartItem", "카트 상품 생성", this.tag));
     }
 
     @Test
@@ -113,48 +115,52 @@ public class CartControllerIntegrationTest extends AbstractIntegrationTest {
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
                 .post("/v1/cart/cartReservationItem")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(request.toString()));
+                .content(request.toString())
+                .header(HttpHeaders.AUTHORIZATION, this.testJwtGenerator.generate()));
 
         // then
         result.andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(EasyRestDocumentation.document("postCartReservationItem", "카트 예약 생성", this.tag));
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andDo(EasyRestDocumentation.documentWithJwt("postCartReservationItem", "카트 예약 생성", this.tag));
     }
 
     @Test
     void testGetCart() throws Exception {
         // when
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
-                .get("/v1/cart"));
+                .get("/v1/cart")
+                .header(HttpHeaders.AUTHORIZATION, this.testJwtGenerator.generate()));
 
         // then
         result.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(EasyRestDocumentation.document("getCart", "카트 조회", this.tag));
+                .andDo(EasyRestDocumentation.documentWithJwt("getCart", "카트 조회", this.tag));
     }
 
     @Test
     void testGetCartItem() throws Exception {
         // when
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
-                .get("/v1/cart/cartItem/{cartItemId}", "b735da9e-b59a-4caf-80a9-2c894773e447"));
+                .get("/v1/cart/cartItem/{cartItemId}", "024c768f-f693-4c2a-a7a1-70830f5c2114")
+                .header(HttpHeaders.AUTHORIZATION, this.testJwtGenerator.generate()));
 
         // then
         result.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(EasyRestDocumentation.document("getCartItem", "카트 상품 조회", this.tag));
+                .andDo(EasyRestDocumentation.documentWithJwt("getCartItem", "카트 상품 조회", this.tag));
     }
 
     @Test
     void testGetCartReservationItem() throws Exception {
         // when
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
-                .get("/v1/cart/cartReservationItem/{cartItemId}", "0ceda629-b012-45c4-bdf9-6e5787ba4e62"));
+                .get("/v1/cart/cartReservationItem/{cartItemId}", "0ceda629-b012-45c4-bdf9-6e5787ba4e62")
+                .header(HttpHeaders.AUTHORIZATION, this.testJwtGenerator.generate()));
 
         // then
         result.andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(EasyRestDocumentation.document("getCartReservationItem", "카트 예약 조회", this.tag));
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andDo(EasyRestDocumentation.documentWithJwt("getCartReservationItem", "카트 예약 조회", this.tag));
     }
 
     @Test
@@ -164,7 +170,7 @@ public class CartControllerIntegrationTest extends AbstractIntegrationTest {
             {
                 put("cartItemIds", new JSONArray() {
                     {
-                        put("b735da9e-b59a-4caf-80a9-2c894773e447");
+                        put("024c768f-f693-4c2a-a7a1-70830f5c2114");
                     }
                 });
             }
@@ -174,12 +180,13 @@ public class CartControllerIntegrationTest extends AbstractIntegrationTest {
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
                 .delete("/v1/cart/cartItem")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(request.toString()));
+                .content(request.toString())
+                .header(HttpHeaders.AUTHORIZATION, this.testJwtGenerator.generate()));
 
         // then
         result.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(EasyRestDocumentation.document("deleteCartItem", "카트 상품 대량 삭제", this.tag));
+                .andDo(EasyRestDocumentation.documentWithJwt("deleteCartItem", "카트 상품 대량 삭제", this.tag));
     }
 
     @Test
@@ -221,14 +228,15 @@ public class CartControllerIntegrationTest extends AbstractIntegrationTest {
 
         // when
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
-                .put("/v1/cart/cartItem/{cartItemId}", "b735da9e-b59a-4caf-80a9-2c894773e447")
+                .put("/v1/cart/cartItem/{cartItemId}", "024c768f-f693-4c2a-a7a1-70830f5c2114")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(request.toString()));
+                .content(request.toString())
+                .header(HttpHeaders.AUTHORIZATION, this.testJwtGenerator.generate()));
 
         // then
         result.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(EasyRestDocumentation.document("putCartItem", "카트 상품 수정", this.tag));
+                .andDo(EasyRestDocumentation.documentWithJwt("putCartItem", "카트 상품 수정", this.tag));
     }
 
     @Test
@@ -278,11 +286,12 @@ public class CartControllerIntegrationTest extends AbstractIntegrationTest {
         ResultActions result = this.mvc.perform(RestDocumentationRequestBuilders
                 .put("/v1/cart/cartReservationItem/{cartItemId}", "0ceda629-b012-45c4-bdf9-6e5787ba4e62")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(request.toString()));
+                .content(request.toString())
+                .header(HttpHeaders.AUTHORIZATION, this.testJwtGenerator.generate()));
 
         // then
         result.andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(EasyRestDocumentation.document("putCartReservationItem", "카트 예약 수정", this.tag));
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andDo(EasyRestDocumentation.documentWithJwt("putCartReservationItem", "카트 예약 수정", this.tag));
     }
 }

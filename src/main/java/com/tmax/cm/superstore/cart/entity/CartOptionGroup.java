@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.tmax.cm.superstore.common.entity.BaseTimeEntity;
 import com.tmax.cm.superstore.item.entity.OptionGroup;
 
 import lombok.AllArgsConstructor;
@@ -26,7 +27,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class CartOptionGroup {
+public class CartOptionGroup extends BaseTimeEntity {
     @Id
     @GeneratedValue
     @Column(columnDefinition = "BINARY(16)")

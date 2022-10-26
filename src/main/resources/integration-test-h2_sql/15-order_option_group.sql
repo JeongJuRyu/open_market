@@ -1,56 +1,18 @@
-INSERT INTO order_option_group (
-        id,
-        is_necessary,
-        name,
-        option_group_id,
-        shipping_order_selected_option_id,
-        pickup_order_selected_option_id
-    )
-VALUES(
-        1,
-        1,
-        '종류',
-        UUID '53d4caac-64e9-45aa-b606-73b8b51192a7',
-        UUID '9c937a70-12cf-4a83-b594-1293b3f994a8',
-        NULL
-    ),
-    (
-        2,
-        0,
-        '소스',
-        UUID 'ebe5c005-9241-4149-844a-c0ee1eabb29c',
-        UUID '9c937a70-12cf-4a83-b594-1293b3f994a8',
-        NULL
-    ),
-    (
-        3,
-        1,
-        'color',
-        UUID '62cfa7ab-26f5-46cf-af80-f9dedfda5693',
-        UUID '6148b3fe-7fdd-4344-8938-4d938bd23799',
-        NULL
-    ),
-    (
-        4,
-        0,
-        '굽 선택',
-        UUID 'd1cb3733-da60-413e-9574-8085372bbce7',
-        UUID '6148b3fe-7fdd-4344-8938-4d938bd23799',
-        NULL
-    ),
-    (
-        5,
-        1,
-        'color',
-        UUID '62cfa7ab-26f5-46cf-af80-f9dedfda5693',
-        UUID '95547dc4-6d88-4796-b964-ff71aa056b7c',
-        NULL
-    ),
-    (
-        6,
-        0,
-        '굽 선택',
-        UUID 'd1cb3733-da60-413e-9574-8085372bbce7',
-        UUID '95547dc4-6d88-4796-b964-ff71aa056b7c',
-        NULL
-    );
+INSERT INTO order_option_group (id, is_necessary, name, option_group_id, shipping_order_selected_option_id, pickup_order_selected_option_id) VALUES(1, 1, '종류', 0x53D4CAAC64E945AAB60673B8B51192A7, 0x9C937A7012CF4A83B5941293B3F994A8, NULL);
+INSERT INTO order_option_group (id, is_necessary, name, option_group_id, shipping_order_selected_option_id, pickup_order_selected_option_id) VALUES(2, 0, '소스', 0xEBE5C00592414149844AC0EE1EABB29C, 0x9C937A7012CF4A83B5941293B3F994A8, NULL);
+INSERT INTO order_option_group (id, is_necessary, name, option_group_id, shipping_order_selected_option_id, pickup_order_selected_option_id) VALUES(3, 1, 'color', 0x62CFA7AB26F546CFAF80F9DEDFDA5693, 0x6148B3FE7FDD434489384D938BD23799, NULL);
+INSERT INTO order_option_group (id, is_necessary, name, option_group_id, shipping_order_selected_option_id, pickup_order_selected_option_id) VALUES(4, 0, '굽 선택', 0xD1CB3733DA60413E95748085372BBCE7, 0x6148B3FE7FDD434489384D938BD23799, NULL);
+INSERT INTO order_option_group (id, is_necessary, name, option_group_id, shipping_order_selected_option_id, pickup_order_selected_option_id) VALUES(5, 1, 'color', 0x62CFA7AB26F546CFAF80F9DEDFDA5693, 0x95547DC46D884796B964FF71AA056B7C, NULL);
+INSERT INTO order_option_group (id, is_necessary, name, option_group_id, shipping_order_selected_option_id, pickup_order_selected_option_id) VALUES(6, 0, '굽 선택', 0xD1CB3733DA60413E95748085372BBCE7, 0x95547DC46D884796B964FF71AA056B7C, NULL);
+INSERT INTO order_option_group (id, is_necessary, name, option_group_id, shipping_order_selected_option_id, pickup_order_selected_option_id) VALUES(7, 1, '색상', 0x94D51259CD754A2FBE7313D7F798FB51, 0x609AE115D13E479597217DF11901E695, NULL);
+INSERT INTO order_option_group (id, is_necessary, name, option_group_id, shipping_order_selected_option_id, pickup_order_selected_option_id) VALUES(8, 0, '추가 크기', 0x86A74CDFCF9C434691009D2096B9E535, 0x9726D8C7315A40F0BD352033E4337952, NULL);
+INSERT INTO order_option_group (id, is_necessary, name, option_group_id, shipping_order_selected_option_id, pickup_order_selected_option_id) VALUES(9, 1, '색상', 0x94D51259CD754A2FBE7313D7F798FB51, 0xF9A971B2C5EC4E63BF429DE31237BEC6, NULL);
+INSERT INTO order_option_group (id, is_necessary, name, option_group_id, shipping_order_selected_option_id, pickup_order_selected_option_id) VALUES(10, 0, '추가 크기', 0x86A74CDFCF9C434691009D2096B9E535, 0x9E762576EF8B4F6786240DD23BDBDEF4, NULL);
+INSERT INTO order_option_group (id, is_necessary, name, option_group_id, shipping_order_selected_option_id, pickup_order_selected_option_id) VALUES(11, 1, '색상', 0x94D51259CD754A2FBE7313D7F798FB51, NULL, 0xEE1FCD5381074E69B34B1893DE6F473C);
+INSERT INTO order_option_group (id, is_necessary, name, option_group_id, shipping_order_selected_option_id, pickup_order_selected_option_id) VALUES(12, 0, '추가 크기', 0x86A74CDFCF9C434691009D2096B9E535, NULL, 0x05E74448323645638E47CFAEEB3A157E);
+INSERT INTO order_option_group (id, is_necessary, name, option_group_id, shipping_order_selected_option_id, pickup_order_selected_option_id) VALUES(13, 0, '추가 크기', 0x86A74CDFCF9C434691009D2096B9E535, NULL, 0xC94CB4C6968344799C2A59CAA0C9A3AA);
+INSERT INTO order_option_group (id, is_necessary, name, option_group_id, shipping_order_selected_option_id, pickup_order_selected_option_id) VALUES(14, 1, '색상', 0x94D51259CD754A2FBE7313D7F798FB51, NULL, 0xAD8FF95CAE2240DF9D3D6B39AE50B970);
+INSERT INTO order_option_group (id, is_necessary, name, option_group_id, shipping_order_selected_option_id, pickup_order_selected_option_id) VALUES(15, 1, '종류', 0x53D4CAAC64E945AAB60673B8B51192A7, NULL, 0x00ABDF672C8A46D79C6665E0C4D8B1AB);
+INSERT INTO order_option_group (id, is_necessary, name, option_group_id, shipping_order_selected_option_id, pickup_order_selected_option_id) VALUES(16, 0, '소스', 0xEBE5C00592414149844AC0EE1EABB29C, NULL, 0xE643A8A46171434FAD7A33C6A40D9D39);
+INSERT INTO order_option_group (id, is_necessary, name, option_group_id, shipping_order_selected_option_id, pickup_order_selected_option_id) VALUES(17, 1, 'color', 0x62CFA7AB26F546CFAF80F9DEDFDA5693, 0xA7AD07E49CDC40D29DA11397E689CEA7, NULL);
+INSERT INTO order_option_group (id, is_necessary, name, option_group_id, shipping_order_selected_option_id, pickup_order_selected_option_id) VALUES(18, 0, '굽 선택', 0xD1CB3733DA60413E95748085372BBCE7, 0x371A2E44EFEE4DA7B29A50CAEA8B0508, NULL);

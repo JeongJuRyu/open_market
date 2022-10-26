@@ -1,56 +1,18 @@
-INSERT INTO order_option (
-        id,
-        count,
-        name,
-        price,
-        option_id,
-        order_option_group_id
-    )
-VALUES(
-        1,
-        1,
-        '순살',
-        1000,
-        UUID_TO_BIN('afe79f9e-1f2e-45ea-b25f-fc8c3f9c2366'),
-        1
-    ),
-    (
-        2,
-        1,
-        '살사소스',
-        500,
-        UUID_TO_BIN('434a6e11-edb0-4dea-80df-90c495bd4c86'),
-        2
-    ),
-    (
-        3,
-        1,
-        '화이트',
-        0,
-        UUID_TO_BIN('6eb20b16-20de-49a3-9957-b19c17639d1e'),
-        3
-    ),
-    (
-        4,
-        1,
-        '5cm',
-        0,
-        UUID_TO_BIN('74e0b285-c1d4-4b62-b8b8-18f4ab4b46c1'),
-        4
-    ),
-    (
-        5,
-        1,
-        '블랙',
-        0,
-        UUID_TO_BIN('d8b52a5a-45e7-424a-beaa-7f281081f1c6'),
-        5
-    ),
-    (
-        6,
-        1,
-        '3cm',
-        1000,
-        UUID_TO_BIN('97caffe3-7134-4c01-8d4b-ad2c28e7258a'),
-        6
-    );
+INSERT INTO order_option (id, count, name, price, option_id, order_option_group_id) VALUES(1, 1, '순살', 1000, 0xAFE79F9E1F2E45EAB25FFC8C3F9C2366, 1);
+INSERT INTO order_option (id, count, name, price, option_id, order_option_group_id) VALUES(2, 1, '살사소스', 500, 0x434A6E11EDB04DEA80DF90C495BD4C86, 2);
+INSERT INTO order_option (id, count, name, price, option_id, order_option_group_id) VALUES(3, 1, '화이트', 0, 0x6EB20B1620DE49A39957B19C17639D1E, 3);
+INSERT INTO order_option (id, count, name, price, option_id, order_option_group_id) VALUES(4, 1, '5cm', 0, 0x74E0B285C1D44B62B8B818F4AB4B46C1, 4);
+INSERT INTO order_option (id, count, name, price, option_id, order_option_group_id) VALUES(5, 1, '블랙', 0, 0xD8B52A5A45E7424ABEAA7F281081F1C6, 5);
+INSERT INTO order_option (id, count, name, price, option_id, order_option_group_id) VALUES(6, 1, '3cm', 1000, 0x97CAFFE371344C018D4BAD2C28E7258A, 6);
+INSERT INTO order_option (id, count, name, price, option_id, order_option_group_id) VALUES(7, 1, '레드', 0, 0xB54EE7AF0C104C2FBCE22FB62E42269B, 7);
+INSERT INTO order_option (id, count, name, price, option_id, order_option_group_id) VALUES(8, 1, 'XL', 5000, 0x4395B166133F4ADC8F0256226DC221F9, 8);
+INSERT INTO order_option (id, count, name, price, option_id, order_option_group_id) VALUES(9, 1, '레드', 0, 0xB54EE7AF0C104C2FBCE22FB62E42269B, 9);
+INSERT INTO order_option (id, count, name, price, option_id, order_option_group_id) VALUES(10, 1, 'XL', 5000, 0x4395B166133F4ADC8F0256226DC221F9, 10);
+INSERT INTO order_option (id, count, name, price, option_id, order_option_group_id) VALUES(11, 1, '레드', 0, 0xB54EE7AF0C104C2FBCE22FB62E42269B, 11);
+INSERT INTO order_option (id, count, name, price, option_id, order_option_group_id) VALUES(12, 1, 'XL', 5000, 0x4395B166133F4ADC8F0256226DC221F9, 12);
+INSERT INTO order_option (id, count, name, price, option_id, order_option_group_id) VALUES(13, 1, 'XL', 5000, 0x4395B166133F4ADC8F0256226DC221F9, 13);
+INSERT INTO order_option (id, count, name, price, option_id, order_option_group_id) VALUES(14, 1, '레드', 0, 0xB54EE7AF0C104C2FBCE22FB62E42269B, 14);
+INSERT INTO order_option (id, count, name, price, option_id, order_option_group_id) VALUES(15, 1, '순살', 1000, 0xAFE79F9E1F2E45EAB25FFC8C3F9C2366, 15);
+INSERT INTO order_option (id, count, name, price, option_id, order_option_group_id) VALUES(16, 1, '살사소스', 500, 0x434A6E11EDB04DEA80DF90C495BD4C86, 16);
+INSERT INTO order_option (id, count, name, price, option_id, order_option_group_id) VALUES(17, 1, '블랙', 0, 0xD8B52A5A45E7424ABEAA7F281081F1C6, 17);
+INSERT INTO order_option (id, count, name, price, option_id, order_option_group_id) VALUES(18, 1, '3cm', 1000, 0x97CAFFE371344C018D4BAD2C28E7258A, 18);

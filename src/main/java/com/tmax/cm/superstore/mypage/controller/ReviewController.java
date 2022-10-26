@@ -45,7 +45,7 @@ public class ReviewController {
 		return ResponseEntity.ok().body(reviewService.getShippingOrderReview(shippingOrderSelectedId));
 	}
 
-	@GetMapping("/pickupAndVisit/{pickupOrderSelectedId}")
+	@GetMapping("/visitAndPickup/{pickupOrderSelectedId}")
 	public ResponseEntity<ResponseDto<GetReviewResponseDto>> getPickupOrderReview(
 		@PathVariable UUID pickupOrderSelectedId){
 		return ResponseEntity.ok().body(reviewService.getPickupOrderReview(pickupOrderSelectedId));
