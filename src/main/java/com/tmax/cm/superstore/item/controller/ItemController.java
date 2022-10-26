@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
+import com.tmax.cm.superstore.category.service.CategoryService;
 import com.tmax.cm.superstore.item.code.ItemState;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,6 +46,7 @@ public class ItemController {
     private final ItemService itemService;
     private final ItemSearchService itemSearchService;
     private final SellerService sellerService;
+    private final CategoryService categoryService;
 
     private final TransactionHandler transactionHandler;
 
@@ -107,17 +109,12 @@ public class ItemController {
         return new ResponseDto<>(ResponseCode.ITEM_READ_ALL, itemService.getItemCount());
     }
 
-    // @GetMapping("/search/keyword/{keyword}")
-    // public ResponseDto<GetItemAllByCategoryDto.Response>
-    // searchItemByKeyword(@PathVariable String keyword, @RequestParam("categoryId")
-    // Long categoryId){
-    // return new ResponseDto<>(ResponseCode.ITEM_READ_ALL,
-    // itemSearchService.searchItemByKeyword(keyword, categoryId));
-    // }
-
     @GetMapping("/search/item")
-    public ResponseDto<GetItemAllDto.Response> searchItemByFilter(@RequestParam String name, @RequestParam Long categoryId, @RequestParam List<ItemState> itemState) {
-        return new ResponseDto<>(ResponseCode.ITEM_READ_ALL, itemSearchService.searchItemByFilter(name, categoryId, itemState));
+    public ResponseDto<GetItemAllDto.Response> searchItemByFilter(@RequestParam(value = "name", required = false)String name,
+                                                                  @RequestParam(value = "categoryId") Long categoryId,
+                                                                  @RequestParam(value = "itemState", required = false) List<ItemState> itemState) {
+        Long parentCategoryId = categoryService.getParentCategoryId(categoryId);
+        return new ResponseDto<>(ResponseCode.ITEM_READ_ALL, itemSearchService.searchItemByFilter(name, parentCategoryId, itemState));
     }
 
     @GetMapping("/search/keyword")

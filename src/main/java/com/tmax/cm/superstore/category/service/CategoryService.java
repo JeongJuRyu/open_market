@@ -44,6 +44,11 @@ public class CategoryService {
         return this.categoryRepository.findById(categoryId).orElseThrow(IllegalArgumentException::new);
     }
 
+    public Long getParentCategoryId(Long categoryId){
+        Category category = categoryRepository.findById(categoryId).orElseThrow(IllegalArgumentException::new);
+        return category.getParentId();
+    }
+
     private void addSubCategories(CategoryDto parent, Map<Long, List<CategoryDto>> groupingByParentId){
         List<CategoryDto> subCategories = groupingByParentId.get(parent.getCategoryId());
 
