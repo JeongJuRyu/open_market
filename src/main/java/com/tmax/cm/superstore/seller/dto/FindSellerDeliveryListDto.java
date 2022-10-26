@@ -27,6 +27,7 @@ public class FindSellerDeliveryListDto {
 			private String shipmentAddressDetail;
 			private String returnAddress;
 			private String returnAddressDetail;
+			private Boolean isRepresent;
 
 			public static SellerDeliveryListBuilder builder(SellerDelivery sellerDelivery) {
 				return SellerDeliveryListBuilder()
@@ -34,7 +35,8 @@ public class FindSellerDeliveryListDto {
 					.shipmentAddress(sellerDelivery.getShipmentAddress())
 					.shipmentAddressDetail(sellerDelivery.getShipmentAddressDetail())
 					.returnAddress(sellerDelivery.getReturnAddress())
-					.returnAddressDetail(sellerDelivery.getReturnAddressDetail());
+					.returnAddressDetail(sellerDelivery.getReturnAddressDetail())
+					.isRepresent(sellerDelivery.isRepresent());
 			}
 		}
 	}
