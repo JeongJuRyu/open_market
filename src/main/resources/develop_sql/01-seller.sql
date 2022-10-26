@@ -56,4 +56,35 @@ INSERT INTO seller(
                 '010-4321-4321',
                 '경기도 성남시 분당구 탄천상로152번길 20, 월드쇼핑타워 B동 1-3층',
                 false
+            ),
+            (
+                UUID_TO_BIN('c0727062-550b-11ed-bdc3-0242ac120002'),
+                'OriInterior',
+                'oriori',
+                'oriori@tmax.co.kr',
+                '오리인테리어',
+                '010-4321-4321',
+                '경기도 성남시 분당구 탄천상로152번길 20, 월드쇼핑타워 B동 1-4층',
+                false
+            ),
+            (
+                UUID_TO_BIN('263167fa-550c-11ed-bdc3-0242ac120002'),
+                'OriCosmetics',
+                'orioriori',
+                'cosmetics@tmax.co.kr',
+                '오리화장품',
+                '010-4321-4321',
+                '경기도 성남시 분당구 탄천상로152번길 20, 월드쇼핑타워 B동 1-6층',
+                false
+            ),
+            (
+                UUID_TO_BIN('a6816182-550f-11ed-bdc3-0242ac120002'),
+                'OriShop',
+                'ori',
+                'OriShop@tmax.co.kr',
+                '상남자숍',
+                '010-4321-4321',
+                '경기도 성남시 분당구 탄천상로152번길 20, 월드쇼핑타워 B동 1-7층',
+                false
             );
+
