@@ -10,7 +10,7 @@ import lombok.Getter;
 public enum ItemState implements Code {
     WAITING("WAITING", "판매대기", "waiting"),
     FOR_SALE("FOR_SALE", "판매중", "for_sale"),
-    SOLD_OUT("DELIVERY", "품절", "sold_out"),
+    SOLD_OUT("SOLD_OUT", "품절", "sold_out"),
     APPROVING("APPROVING", "승인대기", "approving"),
     RESERVATION("RESERVATION", "예약", "reservation"),
     END_SALE("END_SALE", "판매종료", "end_sale"),
