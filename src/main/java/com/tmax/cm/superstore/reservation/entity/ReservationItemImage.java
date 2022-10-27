@@ -35,18 +35,10 @@ public class ReservationItemImage {
 	@Column
 	private String imageName;
 
-	@CreatedDate
-	@Column(updatable = false)
-	private LocalDateTime createdDate;
-
-	@LastModifiedDate
-	@Column
-	private LocalDateTime updatedDate;
-
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	// 자동 생성된 외래키명이 너무 길어서 오류나므로 명시적으로 지정
-	@JoinColumn(foreignKey = @ForeignKey(name = "FK_reservation_item_image_reservation_item_id"))
+//	@JoinColumn(foreignKey = @ForeignKey(name = "FK_reservation_item_image_reservation_item_id"))
 	private ReservationItem reservationItemId;
 
 	public static ReservationItemImageBuilder builder(FileInfo fileInfo, ReservationItem reservationItem) {
