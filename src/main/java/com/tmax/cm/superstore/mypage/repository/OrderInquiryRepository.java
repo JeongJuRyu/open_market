@@ -24,12 +24,17 @@ public interface OrderInquiryRepository extends JpaRepository<OrderInquiry, UUID
 
 	@Query(value = "select * from order_inquiry as oi join shipping_order_selected_option as soso on oi.shipping_order_selected_option_id = soso.id "
 		+ "join seller as s on s.seller_id = soso.seller_seller_id "
-		+ "where s.seller_id = :sellerId", nativeQuery = true)
-	List<OrderInquiry> findForSellerOrderInquiryOfShipping(UUID sellerId);
+		+ "where s.seller_id = :sellerId "
+		+ "and oi.created_at >= :startDate", nativeQuery = true)
+	List<OrderInquiry> findForSellerOrderInquiryOfShipping(UUID sellerId, LocalDateTime startDate);
 
 	@Query(value = "select * from order_inquiry as oi join pickup_order_selected_option as poso on oi.pickup_order_selected_option_id = poso.id "
 		+ "join seller as s on s.seller_id = poso.seller_seller_id "
-		+ "where s.seller_id = :sellerId", nativeQuery = true)
-	List<OrderInquiry> findForSellerOrderInquiryOfPickup(UUID sellerId);
+		+ "where s.seller_id = :sellerId "
+		+ "and oi.created_at >= :startDate", nativeQuery = true)
+	List<OrderInquiry> findForSellerOrderInquiryOfPickup(UUID sellerId, LocalDateTime startDate);
+
+	@Query("select oi from OrderInquiry oi join fetch oi.orderInquiryReply oir where oi.id = :id")
+	Optional<OrderInquiry> findByIdWithReply(UUID id);
 
 }

@@ -10,6 +10,7 @@ import com.tmax.cm.superstore.common.ResponseDto;
 import com.tmax.cm.superstore.mypage.dto.PostReviewReplyRequestDto;
 import com.tmax.cm.superstore.mypage.dto.UpdateReviewReplyRequestDto;
 import com.tmax.cm.superstore.mypage.entity.Review;
+import com.tmax.cm.superstore.mypage.entity.ReviewReply;
 import com.tmax.cm.superstore.mypage.error.exception.ReviewNotFoundException;
 import com.tmax.cm.superstore.mypage.repository.ReviewReplyRepository;
 import com.tmax.cm.superstore.mypage.repository.ReviewRepository;
@@ -34,17 +35,19 @@ public class ReviewReplyService {
 
 	@Transactional
 	public ResponseDto<Object> updateReviewReply(UpdateReviewReplyRequestDto dto){
-		Review review = reviewRepository.findById(dto.getReviewId()).orElseThrow(ReviewNotFoundException::new);
-		review.updateReviewReply(dto);
-		reviewRepository.save(review);
+		Review review = reviewRepository.findByIdWithReply(dto.getReviewId()).orElseThrow(ReviewNotFoundException::new);
+		ReviewReply reviewReply = review.getReviewReply();
+		reviewReply.updateReviewReply(dto);
 		return ResponseDto.builder()
 			.responseCode(ResponseCode.REVIEW_REPLY_UPDATE)
 			.data(null).build();
 	}
 
 	public ResponseDto<Object> deleteReviewReply(UUID reviewId) {
-		Review review = reviewRepository.findById(reviewId).orElseThrow(ReviewNotFoundException::new);
+		Review review = reviewRepository.findByIdWithReply(reviewId).orElseThrow(ReviewNotFoundException::new);
+		ReviewReply reviewReply = review.getReviewReply();
 		review.deleteReviewReply();
+		reviewReplyRepository.delete(reviewReply);
 		return ResponseDto.builder()
 			.responseCode(ResponseCode.REVIEW_REPLY_DELETE)
 			.data(null).build();

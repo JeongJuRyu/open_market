@@ -1,5 +1,5 @@
 INSERT INTO order_inquiry_reply (
-    order_inquiry_reply_id,
+    id,
     content,
     order_inquiry_order_inquiry_id,
     created_at,

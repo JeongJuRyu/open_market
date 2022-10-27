@@ -105,10 +105,20 @@ public class OrderInquiryService {
 	public ResponseDto<GetAllOrderInquiryForSellerResponseDto> getAllOrderInquiryForSeller(String startDate, String isReplied, UUID sellerId){
 		List<GetAllOrderInquiryForSellerResponseDto.OrderInquiry> responseOrderInquiries = new ArrayList<>();
 		List<OrderInquiry> orderInquiries = new ArrayList<>();
-		List<OrderInquiry> shippingOrderInquiries = orderInquiryRepository.findForSellerOrderInquiryOfShipping(sellerId);
-		List<OrderInquiry> pickupOrderInquiries = orderInquiryRepository.findForSellerOrderInquiryOfPickup(sellerId);
+		List<OrderInquiry> shippingOrderInquiries = orderInquiryRepository.findForSellerOrderInquiryOfShipping(sellerId, LocalDate.parse(startDate).atStartOfDay());
+		if(isReplied.equals("true")){
+			shippingOrderInquiries = shippingOrderInquiries.stream().filter(inquiry -> inquiry.getIsReplied()).collect(Collectors.toList());
+		} else if (isReplied.equals("false")){
+			shippingOrderInquiries = shippingOrderInquiries.stream().filter(inquiry -> !inquiry.getIsReplied()).collect(Collectors.toList());
+		}
+		List<OrderInquiry> pickupOrderInquiries = orderInquiryRepository.findForSellerOrderInquiryOfPickup(sellerId, LocalDate.parse(startDate).atStartOfDay());
+		if(isReplied.equals("true")){
+			pickupOrderInquiries = shippingOrderInquiries.stream().filter(inquiry -> inquiry.getIsReplied()).collect(Collectors.toList());
+		} else if (isReplied.equals("false")){
+			pickupOrderInquiries = shippingOrderInquiries.stream().filter(inquiry -> !inquiry.getIsReplied()).collect(Collectors.toList());
+		}
 		for(OrderInquiry orderInquiry : shippingOrderInquiries) orderInquiries.add(orderInquiry);
-		for(OrderInquiry orderInquiry : pickupOrderInquiries) orderInquiries.add(orderInquiry);
+		// for(OrderInquiry orderInquiry : pickupOrderInquiries) orderInquiries.add(orderInquiry);
 		orderInquiries.sort(new OrderInquiryComparotor());
 		for(OrderInquiry orderInquiry : orderInquiries){
 			if(orderInquiry.getOrderType() == OrderType.SHIPPINGANDDELIVERY){
@@ -137,7 +147,7 @@ public class OrderInquiryService {
 	}
 	@Transactional(readOnly = true)
 	public ResponseDto<GetOrderInquiryForSellerResponseDto> getOrderInquiryForSeller(UUID sellerId, UUID orderInquiryId) {
-		List<OrderInquiry> orderInquiries = orderInquiryRepository.findForSellerOrderInquiryOfShipping(sellerId);
+		List<OrderInquiry> orderInquiries = orderInquiryRepository.findForSellerOrderInquiryOfShipping(sellerId, LocalDate.parse("1999-01-01").atStartOfDay());
 		OrderInquiry orderInquiry = orderInquiries.stream().filter(oi -> oi.getId().equals(orderInquiryId)).findFirst()
 			.orElseThrow(OrderInquiryNotFound::new);
 		User user = orderInquiry.getUser();
@@ -155,6 +165,7 @@ public class OrderInquiryService {
 				.data(GetOrderInquiryForSellerResponseDto.builder()
 					.orderInquiry(GetOrderInquiryForSellerResponseDto.OrderInquiry
 						.builder()
+						.orderInquiryId(orderInquiryId)
 						.orderId(order.getId())
 						.isReplied(orderInquiry.getIsReplied())
 						.content(orderInquiry.getContent())
@@ -179,6 +190,7 @@ public class OrderInquiryService {
 				.data(GetOrderInquiryForSellerResponseDto.builder()
 					.orderInquiry(GetOrderInquiryForSellerResponseDto.OrderInquiry
 						.builder()
+						.orderInquiryId(orderInquiryId)
 						.orderId(order.getId())
 						.isReplied(orderInquiry.getIsReplied())
 						.content(orderInquiry.getContent())

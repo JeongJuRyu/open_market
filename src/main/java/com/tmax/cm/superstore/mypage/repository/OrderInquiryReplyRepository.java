@@ -15,4 +15,7 @@ public interface OrderInquiryReplyRepository extends JpaRepository<OrderInquiryR
 	List<OrderInquiryReply> findAllByUserId(UUID uuid);
 
 	Optional<OrderInquiryReply> findByOrderInquiry(OrderInquiry orderInquiry);
+
+	@Query("select oir from OrderInquiryReply oir where oir.orderInquiry.id = :id")
+	Optional<OrderInquiryReply> findByOrderInquiryId(UUID id);
 }
