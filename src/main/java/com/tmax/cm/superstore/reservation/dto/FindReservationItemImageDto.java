@@ -12,10 +12,14 @@ public class FindReservationItemImageDto {
 	@Builder(builderMethodName = "ResponseBuilder")
 	public static class Response {
 		private UUID reservationItemImageId;
+		private String fileId;
+		private String imageName;
 
 		public static ResponseBuilder builder(ReservationItemImage reservationItemImage) {
 			return ResponseBuilder()
-				.reservationItemImageId(reservationItemImage.getReservationItemImageId());
+				.reservationItemImageId(reservationItemImage.getReservationItemImageId())
+				.fileId(reservationItemImage.getFileId())
+				.imageName(reservationItemImage.getImageName());
 		}
 	}
 }

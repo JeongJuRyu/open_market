@@ -1,6 +1,7 @@
 package com.tmax.cm.superstore.reservation.dto;
 
 import com.tmax.cm.superstore.reservation.entity.ReservationItem;
+import com.tmax.cm.superstore.reservation.entity.ReservationItemImage;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -32,9 +33,10 @@ public class FindReservationItemsDto {
 			private String reservationInterval;
 			private LocalTime startTime;
 			private LocalTime endTime;
+			private String reservationItemImageFileId;
 
 			public static ReservationItemList.ReservationItemListBuilder builder(
-				ReservationItem reservationItem) {
+				ReservationItem reservationItem, ReservationItemImage reservationItemImage) {
 				return ReservationItemListBuilder()
 					.reservationItemId(reservationItem.getReservationItemId())
 					.reservationItemName(reservationItem.getReservationItemName())
@@ -44,7 +46,8 @@ public class FindReservationItemsDto {
 					.allowReservationNumberPerInterval(reservationItem.getAllowReservationNumberPerInterval())
 					.reservationInterval(reservationItem.getReservationInterval())
 					.startTime(reservationItem.getStartTime())
-					.endTime(reservationItem.getEndTime());
+					.endTime(reservationItem.getEndTime())
+					.reservationItemImageFileId(reservationItemImage.getFileId());
 			}
 		}
 	}
