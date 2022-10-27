@@ -36,7 +36,7 @@ INSERT INTO item_send_type(id, send_type, item_id) VALUES (18, 'SHIPPING', UUID_
 
 INSERT INTO option_group(id, name, is_necessary, is_deleted, item_id) VALUES (UUID_TO_BIN('62cfa7ab-26f5-46cf-af80-f9dedfda5693'), 'color', 1, 0, UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb27'));
 INSERT INTO option_group(id, name, is_necessary, is_deleted, item_id) VALUES (UUID_TO_BIN('d1cb3733-da60-413e-9574-8085372bbce7'), '굽 선택', 0, 0, UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb27'));
-INSERT INTO option_group(id, name, is_necessary, is_deleted, item_id) VALUES (UUID_TO_BIN('d1cb3733-da60-413e-9574-8085372bbce8'), 'color', 1, 0, UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb31'));
+INSERT INTO option_group(id, name, is_necessary, is_deleted, item_id) VALUES (UUID_TO_BIN('d1cb3733-da60-413e-9574-8085372bbce8'), 'color', 0, 0, UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb31'));
 INSERT INTO option_group(id, name, is_necessary, is_deleted, item_id) VALUES (UUID_TO_BIN('d1cb3733-da60-413e-9574-8085372bbce6'), '사이즈', 1, 0, UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb31'));
 INSERT INTO option_group(id, name, is_necessary, is_deleted, item_id) VALUES (UUID_TO_BIN('d1cb3733-da60-413e-9574-8085372bbce9'), '사이즈', 1, 0, UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb32'));
 INSERT INTO option_group(id, name, is_necessary, is_deleted, item_id) VALUES (UUID_TO_BIN('d1cb3733-da60-413e-9574-8085372bbc10'), '수량', 1, 0, UUID_TO_BIN('169f84f8-8862-477c-ad27-0b79871deb33'));
@@ -68,7 +68,7 @@ INSERT INTO item_option(id, name, price, description, is_deleted, option_group_i
 INSERT INTO item_option(id, name, price, description, is_deleted, option_group_id) VALUES (UUID_TO_BIN('af8cab71-4be5-4948-b21f-7b621d29dc15'), 'FREE', 0, 'FREE 사이즈', 0, UUID_TO_BIN('d1cb3733-da60-413e-9574-8085372bbc14'));
 INSERT INTO item_option(id, name, price, description, is_deleted, option_group_id) VALUES (UUID_TO_BIN('af8cab71-4be5-4948-b21f-7b621d29dc16'), 'FREE', 0, 'FREE 사이즈', 0, UUID_TO_BIN('d1cb3733-da60-413e-9574-8085372bbc15'));
 INSERT INTO item_option(id, name, price, description, is_deleted, option_group_id) VALUES (UUID_TO_BIN('af8cab71-4be5-4948-b21f-7b621d29dc17'), 'S', 0, 'small 사이즈', 0, UUID_TO_BIN('d1cb3733-da60-413e-9574-8085372bbce6'));
-INSERT INTO item_option(id, name, price, description, is_deleted, option_group_id) VALUES (UUID_TO_BIN('af8cab71-4be5-4948-b21f-7b621d29dc18'), 'M', 0, 'midium 사이즈', 0, UUID_TO_BIN('d1cb3733-da60-413e-9574-8085372bbce6'));
+INSERT INTO item_option(id, name, price, description, is_deleted, option_group_id) VALUES (UUID_TO_BIN('af8cab71-4be5-4948-b21f-7b621d29dc18'), 'M', 0, 'medium 사이즈', 0, UUID_TO_BIN('d1cb3733-da60-413e-9574-8085372bbce6'));
 INSERT INTO item_option(id, name, price, description, is_deleted, option_group_id) VALUES (UUID_TO_BIN('af8cab71-4be5-4948-b21f-7b621d29dc19'), 'L', 0, 'large 사이즈', 0, UUID_TO_BIN('d1cb3733-da60-413e-9574-8085372bbce6'));
 INSERT INTO item_option(id, name, price, description, is_deleted, option_group_id) VALUES (UUID_TO_BIN('af8cab71-4be5-4948-b21f-7b621d29dc20'), '250', 0, '250cm', 0, UUID_TO_BIN('d1cb3733-da60-413e-9574-8085372bbce9'));
 INSERT INTO item_option(id, name, price, description, is_deleted, option_group_id) VALUES (UUID_TO_BIN('af8cab71-4be5-4948-b21f-7b621d29dc21'), '255', 0, '255cm', 0, UUID_TO_BIN('d1cb3733-da60-413e-9574-8085372bbce9'));
