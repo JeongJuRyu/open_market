@@ -27,6 +27,9 @@ public class ReservationItemImage {
 	private UUID reservationItemImageId;
 
 	@Column
+	private String fileId;
+
+	@Column
 	private String imageName;
 
 	@CreatedDate
