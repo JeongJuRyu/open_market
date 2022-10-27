@@ -159,7 +159,11 @@ public class OrderInquiryService {
 		if (orderInquiry.getOrderType() == OrderType.SHIPPINGANDDELIVERY) {
 			ShippingOrderSelectedOption shippingOrderSelectedOption = orderInquiry.getShippingOrderSelectedOption();
 			Order order = orderRepository.findByShippingSelectedOption(shippingOrderSelectedOption.getId())
-				.orElseThrow(() -> new RuntimeException("주문이 없습니다."));
+				.orElse(null);
+			if(order == null){
+				order = orderRepository.findBySelectedOptionWIthDelivery(shippingOrderSelectedOption.getId())
+					.orElseThrow(() -> new RuntimeException("주문이 없습니다."));
+			}
 			return ResponseDto.<GetOrderInquiryForSellerResponseDto>builder()
 				.responseCode(ResponseCode.ORDER_ITEM_INQUIRY_READ)
 				.data(GetOrderInquiryForSellerResponseDto.builder()

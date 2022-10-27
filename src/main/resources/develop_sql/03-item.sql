@@ -55,8 +55,8 @@ INSERT INTO item_option(id, name, price, description, is_deleted, option_group_i
 
 INSERT INTO item(id, name, price, is_deleted, seller_seller_id, shipping_charge_type, shipping_charge, return_charge, return_address, description, category_id, created_at) VALUES (UUID_TO_BIN('1523bc68-e8f7-4140-b7dd-cbfe622e068a'), '뿌린클 순살치킨 세트', 20000, 0, UUID_TO_BIN('8d41c42a-011b-4525-9864-b24481f985c5'), 'FREE_SHIPPING', 3000, 2500, '경기 성남시 분당구 정자일로 45','맛잇는 상품', 5, '2019-08-25 12:36:08');
 
-INSERT INTO item_send_type(id, send_type, item_id) VALUES (3, 'DELIVERY', UUID_TO_BIN('1523bc68-e8f7-4140-b7dd-cbfe622e068a'));
-INSERT INTO item_send_type(id, send_type, item_id) VALUES (4, 'PICKUP', UUID_TO_BIN('1523bc68-e8f7-4140-b7dd-cbfe622e068a'));
+INSERT INTO item_send_type(id, send_type, item_id) VALUES (19, 'DELIVERY', UUID_TO_BIN('1523bc68-e8f7-4140-b7dd-cbfe622e068a'));
+INSERT INTO item_send_type(id, send_type, item_id) VALUES (20, 'PICKUP', UUID_TO_BIN('1523bc68-e8f7-4140-b7dd-cbfe622e068a'));
 
 INSERT INTO option_group(id, name, is_necessary, is_deleted, item_id) VALUES (UUID_TO_BIN('53d4caac-64e9-45aa-b606-73b8b51192a7'), '종류', 1, 0, UUID_TO_BIN('1523bc68-e8f7-4140-b7dd-cbfe622e068a'));
 INSERT INTO option_group(id, name, is_necessary, is_deleted, item_id) VALUES (UUID_TO_BIN('ebe5c005-9241-4149-844a-c0ee1eabb29c'), '소스', 0, 0, UUID_TO_BIN('1523bc68-e8f7-4140-b7dd-cbfe622e068a'));
@@ -66,16 +66,17 @@ INSERT INTO item_option(id, name, price, description, is_deleted, option_group_i
 INSERT INTO item_option(id, name, price, description, is_deleted, option_group_id) VALUES (UUID_TO_BIN('434a6e11-edb0-4dea-80df-90c495bd4c86'), '살사소스', 500, '참을 수 없는 옵션의 유혹', 0, UUID_TO_BIN('ebe5c005-9241-4149-844a-c0ee1eabb29c'));
 INSERT INTO item_option(id, name, price, description, is_deleted, option_group_id) VALUES (UUID_TO_BIN('37233135-e75e-4549-8217-939d756199f9'), '마요소스', 500, '참을 수 없는 옵션의 유혹', 0, UUID_TO_BIN('ebe5c005-9241-4149-844a-c0ee1eabb29c'));
 
--- 예약 상품 등록
+INSERT INTO item(id, name, price, is_deleted, seller_seller_id, shipping_charge_type, shipping_charge, return_charge, return_address, description, category_id, created_at) VALUES (UUID_TO_BIN('a103af33-3eb0-4efd-a885-bf7cab7644b8'), '킹 신발', 20000, 0, UUID_TO_BIN('2d68d1d0-ed27-46d2-b858-da3f0aa2e430'), 'FREE_SHIPPING', 3000, 2500, '경기 성남시 분당구 정자일로 45','2022 겨울 신상 신발', 39, '2019-08-25 12:36:08');
 
-INSERT INTO item(id, name, price, is_deleted, seller_seller_id, shipping_charge_type, shipping_charge, return_charge, return_address, description, category_id, created_at) VALUES (UUID_TO_BIN('82cdc2eb-5ee8-4bde-8e32-654054b7fc16'), '디너코스', 0, 0, UUID_TO_BIN('54717bb2-2850-40e5-9889-d17d227f1606'), 'FREE_SHIPPING', 3000, 2500, '경기 성남시 분당구 정자일로 45', 5, '2019-08-25 12:36:09');
+INSERT INTO item_send_type(id, send_type, item_id) VALUES (21, 'SHIPPING', UUID_TO_BIN('a103af33-3eb0-4efd-a885-bf7cab7644b8'));
+INSERT INTO item_send_type(id, send_type, item_id) VALUES (22, 'VISIT', UUID_TO_BIN('a103af33-3eb0-4efd-a885-bf7cab7644b8'));
+INSERT INTO item_send_type(id, send_type, item_id) VALUES (23, 'DELIVERY', UUID_TO_BIN('a103af33-3eb0-4efd-a885-bf7cab7644b8'));
+INSERT INTO item_send_type(id, send_type, item_id) VALUES (24, 'PICKUP', UUID_TO_BIN('a103af33-3eb0-4efd-a885-bf7cab7644b8'));
 
-INSERT INTO item_send_type(id, send_type, item_id) VALUES (5, 'RESERVATION', UUID_TO_BIN('82cdc2eb-5ee8-4bde-8e32-654054b7fc16'));
+INSERT INTO option_group(id, name, is_necessary, is_deleted, item_id) VALUES (UUID_TO_BIN('94d51259-cd75-4a2f-be73-13d7f798fb51'), '색상', 1, 0, UUID_TO_BIN('a103af33-3eb0-4efd-a885-bf7cab7644b8'));
+INSERT INTO option_group(id, name, is_necessary, is_deleted, item_id) VALUES (UUID_TO_BIN('86a74cdf-cf9c-4346-9100-9d2096b9e535'), '추가 크기', 0, 0, UUID_TO_BIN('a103af33-3eb0-4efd-a885-bf7cab7644b8'));
 
-INSERT INTO option_group(id, name, is_necessary, is_deleted, item_id) VALUES (UUID_TO_BIN('8b41baa5-6118-4949-886f-abe34ca69cfe'), '추가정보', 1, 0, UUID_TO_BIN('82cdc2eb-5ee8-4bde-8e32-654054b7fc16'));
-
-INSERT INTO item_option(id, name, price, description, is_deleted, option_group_id) VALUES (UUID_TO_BIN('08a1f664-c17c-4ff3-bb26-6519b7b2bff1'), 'A코스', 8000, '육회 냉면, 된장찌개, 한우 불고기 런치정식 육회 냉면, 된장찌개, 한우 불괴 런치 정식', 0, UUID_TO_BIN('8b41baa5-6118-4949-886f-abe34ca69cfe'));
-INSERT INTO item_option(id, name, price, description, is_deleted, option_group_id) VALUES (UUID_TO_BIN('47360b10-6542-488c-8e59-9ccb324797a8'), 'B코스', 42000, '한우+육회+디너코스', 0, UUID_TO_BIN('8b41baa5-6118-4949-886f-abe34ca69cfe'));
-INSERT INTO item_option(id, name, price, description, is_deleted, option_group_id) VALUES (UUID_TO_BIN('c46d564c-1e08-4413-be59-9fbc0a1b344c'), 'C코스', 150000, '1등급 한우 코스 요리 1등급 한우 코스 요리 1등급 한우 코스 요리', 0, UUID_TO_BIN('8b41baa5-6118-4949-886f-abe34ca69cfe'));
-INSERT INTO item_option(id, name, price, description, is_deleted, option_group_id) VALUES (UUID_TO_BIN('eefe8c5c-15b4-4d5c-9864-5e2e1d47888b'), 'D코스', 150000, '1등급 한우 코스 요리 1등급 한우 코스 요리 1등급 한우 코스 요리', 0, UUID_TO_BIN('8b41baa5-6118-4949-886f-abe34ca69cfe'));
-INSERT INTO item_option(id, name, price, description, is_deleted, option_group_id) VALUES (UUID_TO_BIN('75bd49ea-63e4-4641-a58d-4c24e481a3df'), 'E코스', 150000, '1등급 한우 코스 요리 1등급 한우 코스 요리 1등급 한우 코스 요리', 0, UUID_TO_BIN('8b41baa5-6118-4949-886f-abe34ca69cfe'));
+INSERT INTO item_option(id, name, price, description, is_deleted, option_group_id) VALUES (UUID_TO_BIN('b54ee7af-0c10-4c2f-bce2-2fb62e42269b'), '레드', 0, '색상 선택', 0, UUID_TO_BIN('94d51259-cd75-4a2f-be73-13d7f798fb51'));
+INSERT INTO item_option(id, name, price, description, is_deleted, option_group_id) VALUES (UUID_TO_BIN('5e4f1976-ca58-4bf7-871c-da0642987317'), '블루', 0, '색상 선택', 0, UUID_TO_BIN('94d51259-cd75-4a2f-be73-13d7f798fb51'));
+INSERT INTO item_option(id, name, price, description, is_deleted, option_group_id) VALUES (UUID_TO_BIN('85c50bd9-ee4d-40cf-a67e-ffd1acf36599'), 'L', 5000, '추가 사이즈 (기본 M)', 0, UUID_TO_BIN('86a74cdf-cf9c-4346-9100-9d2096b9e535'));
+INSERT INTO item_option(id, name, price, description, is_deleted, option_group_id) VALUES (UUID_TO_BIN('4395b166-133f-4adc-8f02-56226dc221f9'), 'XL', 5000, '추가 사이즈 (기본 M)', 0, UUID_TO_BIN('86a74cdf-cf9c-4346-9100-9d2096b9e535'));
