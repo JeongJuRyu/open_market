@@ -2,6 +2,9 @@ package com.tmax.cm.superstore.reservation.service;
 
 import com.tmax.cm.superstore.code.ResponseCode;
 import com.tmax.cm.superstore.common.ResponseDto;
+import com.tmax.cm.superstore.item.dto.FileInfo;
+import com.tmax.cm.superstore.item.dto.MediaResponse;
+import com.tmax.cm.superstore.item.error.exception.InternalServerErrorException;
 import com.tmax.cm.superstore.reservation.dto.*;
 import com.tmax.cm.superstore.reservation.entity.Reservation;
 import com.tmax.cm.superstore.reservation.entity.ReservationItem;
@@ -19,17 +22,19 @@ import com.tmax.cm.superstore.seller.repository.SellerRepository;
 import com.tmax.cm.superstore.user.entities.User;
 import com.tmax.cm.superstore.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -41,6 +46,10 @@ public class ReservationService {
 	private final ReservationRepository reservationRepository;
 	private final SellerRepository sellerRepository;
 	private final UserRepository userRepository;
+
+	private final String uploadPath = "http://192.168.159.42:8888/images/upload";
+	private final String uploadManyPath = "http://192.168.159.42:8888/images/upload_many";
+	private final RestTemplate restTemplate;
 
 	/**
 	 * 예약 상품
@@ -175,7 +184,7 @@ public class ReservationService {
 	 */
 	@Transactional(rollbackFor = Exception.class)
 	public ResponseDto<CreateReservationItemImageDto.Response> createReservationItemImage(UUID reservationItemId,
-		CreateReservationItemImageDto.Request createReservationItemImageRequestDto) throws Exception {
+		List<MultipartFile> attachment) throws Exception {
 		try {
 			ReservationItem findReservationItem = reservationItemRepository.findReservationItemByReservationItemId(
 				reservationItemId);
@@ -184,8 +193,11 @@ public class ReservationService {
 				reservationItemImageRepository.delete(
 					reservationItemImageRepository.findReservationItemImageByReservationItemId(findReservationItem));
 			}
-			ReservationItemImage newReservationItemImage = ReservationItemImage.builder(
-				createReservationItemImageRequestDto, findReservationItem).build();
+			List<FileInfo> fileInfos = uploadImages(attachment);
+			ReservationItemImage newReservationItemImage = new ReservationItemImage();
+			for(FileInfo fileInfo : fileInfos){
+				newReservationItemImage = ReservationItemImage.builder(fileInfo, findReservationItem).build();
+			}
 			reservationItemImageRepository.save(newReservationItemImage);
 
 			return ResponseDto.<CreateReservationItemImageDto.Response>builder()
@@ -569,6 +581,34 @@ public class ReservationService {
 			throw new ReservationNotFoundException();
 		} else if (reservation.get().getReservationTime().isBefore(LocalDateTime.now())) {
 			throw new ReservationExpiredException();
+		}
+	}
+
+	private List<FileInfo> uploadImages(List<MultipartFile> images){
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+		MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+
+		for (MultipartFile attachedImage : images) {
+			body.add("file", attachedImage.getResource());
+		}
+		HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+
+		if (images.size() == 1) {
+			ResponseEntity<MediaResponse.Single> response = restTemplate.postForEntity(uploadPath,
+				requestEntity, MediaResponse.Single.class);
+			if (response.getStatusCode() != HttpStatus.OK || response.getBody().getCode() != HttpStatus.OK.value()) {
+				throw new InternalServerErrorException(ResponseCode.ERROR_INTERNAL_SERVER_ERROR);
+			}
+			return Collections.singletonList(response.getBody().getData());
+		} else {
+			ResponseEntity<MediaResponse.Multi> response = restTemplate.postForEntity(
+				uploadManyPath, requestEntity, MediaResponse.Multi.class);
+			if (response.getStatusCode() != HttpStatus.OK || response.getBody().getCode() != HttpStatus.OK.value()) {
+				throw new InternalServerErrorException(ResponseCode.ERROR_INTERNAL_SERVER_ERROR);
+			}
+			return response.getBody().getData();
 		}
 	}
 }
