@@ -122,9 +122,11 @@ public class ReservationService {
 			List<ReservationItem> findReservationItemList = reservationItemRepository.findAll();
 			findReservationItemValidation(findReservationItemList);
 			List<FindReservationItemsDto.Response.ReservationItemList> reservationItemList = new ArrayList<>();
+			ReservationItemImage findReservationItemImage = new ReservationItemImage();
 			for (ReservationItem reservationItem : findReservationItemList) {
+				findReservationItemImage = reservationItemImageRepository.findReservationItemImageByReservationItemId(reservationItem);
 				reservationItemList.add(
-					FindReservationItemsDto.Response.ReservationItemList.builder(reservationItem).build());
+					FindReservationItemsDto.Response.ReservationItemList.builder(reservationItem, findReservationItemImage).build());
 			}
 
 			return ResponseDto.<FindReservationItemsDto.Response>builder()
