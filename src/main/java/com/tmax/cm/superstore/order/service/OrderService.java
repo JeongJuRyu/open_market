@@ -11,6 +11,7 @@ import com.tmax.cm.superstore.code.PickupType;
 import com.tmax.cm.superstore.code.SendType;
 import com.tmax.cm.superstore.code.ShippingType;
 import com.tmax.cm.superstore.error.exception.EntityNotFoundException;
+import com.tmax.cm.superstore.mypage.repository.OrderInquiryRepository;
 import com.tmax.cm.superstore.order.controller.dto.PostOrderDto;
 import com.tmax.cm.superstore.order.entity.DeliveryOrder;
 import com.tmax.cm.superstore.order.entity.Order;
@@ -59,6 +60,7 @@ public class OrderService {
     private final PickupOrderItemRepository pickupOrderItemRepository;
     private final ShippingOrderSelectedOptionRepository shippingOrderSelectedOptionRepository;
     private final PickupOrderSelectedOptionRepository pickupOrderSelectedOptionRepository;
+    private final OrderInquiryRepository orderInquiryRepository;
 
     private final OrderMapper orderMapper;
 
@@ -161,7 +163,8 @@ public class OrderService {
         }
 
         boolean isReviewExist = true;
-        if (shippingOrderItem.getItem().getReviews().isEmpty()) {
+        if (this.orderInquiryRepository.findByShippingOrderSelectedOption(shippingOrderSelectedOption)
+                .orElse(null) == null) {
             isReviewExist = false;
         }
 
@@ -210,7 +213,8 @@ public class OrderService {
         }
 
         boolean isReviewExist = true;
-        if (pickupOrderItem.getItem().getReviews().isEmpty()) {
+        if (this.orderInquiryRepository.findByPickupOrderSelectedOption(pickupOrderSelectedOption)
+                .orElse(null) == null) {
             isReviewExist = false;
         }
 
