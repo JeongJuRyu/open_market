@@ -1,4 +1,4 @@
-# superstore-backend
+# superstore-prototype
 
 CM2실 open market prototype 프로젝트
 
