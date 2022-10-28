@@ -1,18 +1,6 @@
 # superstore-backend
 
-CM2실 SuperStore ProtoType BackEnd 프로젝트
-
-## Server Address
-
-### 서버실 서버
-
-Spring: http://192.168.159.41:18080/
-
-Swagger: http://192.168.159.41:28080/
-
-DB: 192.168.159.41:13306
-
-Jenkins: http://192.168.159.41:9312/job/SuperStore%20deploy%20to%20192.168.159.41/
+CM2실 open market prototype 프로젝트
 
 ## Development
 
